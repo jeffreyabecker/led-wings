@@ -27,12 +27,15 @@ Pin maps are the shared [connector pinout](../../docs/connector-pinout.md); exac
 
 ## Parameterization
 
-- Varies per board: board geometry (unique shape) + LED count/positions (unique set).
-- Fixed: injection points at the "top".
+- Flexible PCB (target); bends realized as arcs (curved), not sharp corners.
+- Fixed width 10 mm; "top" = 0 mm (start of length).
+- Per board: overall length (mm) + bend points `(offset, deg)`.
+- LEDs: offset (mm) from top to chip center.
+- Injection points at the top.
 
 ## Open questions
 
 - Power injection interval
-- Define "top" convention
+- Bend sign/radius conventions
 
 See [design readiness](design-readiness.md) · [parts](selected-parts.md) · [connector pinout](../../docs/connector-pinout.md).

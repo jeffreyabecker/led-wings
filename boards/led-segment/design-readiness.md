@@ -3,16 +3,23 @@
 > Decision tracker for the LED segment board family (~70 unique boards, parameterized).
 >
 > **Toolchain:** KiCad 10 · `pcbnew` Python scripting.
-> **Varies per board:** board geometry (unique shape) · LED count & positions (unique set).
-> **Fixed per board:** power-injection points always at the board's "top".
+> **Board type:** flexible PCB (FPC) — target · bends realized as arcs.
+> **Varies per board:** geometry (length mm + bend points) · LED offsets from top.
+> **Fixed per board:** width 10 mm · top = 0 mm · injection at top.
 
 ## Locked
 
 | Decision | Value |
 |----------|-------|
 | Tool | KiCad 10 + `pcbnew` Python |
-| Varies per board | geometry (unique shape), LED count & positions |
-| Fixed per board | injection at "top" |
+| Board type | flexible PCB (FPC) — target |
+| Varies per board | geometry (length + bend points), LED offsets from top |
+| Fixed per board | injection at top (0 mm) |
+| Board width | 10 mm (fixed) |
+| "Top" | 0 mm = start of board length |
+| Geometry spec | overall length (mm) + bend points `(offset, deg)` |
+| Bend realization | arcs (curved), not sharp corners — goal |
+| LED placement | offset (mm) from top to chip center |
 | LED | SK9822-EC20 (C2909059), 5 V, ~40 mA/LED @ full white, 2020 |
 | Connectors (SMD side-entry) | `J_IN` 4-pin JST `S4B-PH-SM4-TB` · `J_OUT` 4-pin hanxia `HX PH2.0-4PWT` · `J_PWR` 2-pin JST `S2B-PH-SM4-TB` |
 | Pinout | shared [contract](../../docs/connector-pinout.md): data 4-pin GND/DATA/CLK/+5V, power 2-pin GND/+5V |
@@ -25,9 +32,12 @@
 ## Open decisions
 
 ### Parameterization (block scripting)
-- [ ] How is each board's **geometry** specified? (DXF / SVG / polygon / coordinate list)
-- [ ] How are each board's **LED positions** specified? (per-board coordinate list / spacing rules)
-- [ ] Define the **"top"** convention for injection points (relative to data direction / board origin)
+- [ ] Bend **sign convention** for `deg` (clockwise vs counterclockwise)
+- [ ] Bend **radius**: sharp polyline vs radiused bends (flex minimum bend radius)
+- [ ] LED **lateral** position across the 10 mm width (centered? fixed offset?)
+- [ ] Connector placement: `J_IN` + `J_PWR` at top, `J_OUT` at bottom — confirm
+- [ ] One injection point at top, or additional along length for long boards?
+- [ ] LED orientation follows local strip direction (DI toward top)?
 - [ ] Schematic approach: one parameterized schematic vs PCB-only generation
 
 ### Power (highest risk — uncalculated)
