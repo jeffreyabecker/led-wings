@@ -41,6 +41,11 @@
 | `C*` | Decoupling, per LED (or 1–4 LEDs) | 100 nF | TBD | ⬜ |
 | `D*`/`Q*` | Reverse-polarity protection (**required**) | Schottky / P-MOSFET | TBD | ⬜ |
 
+## Footprints / symbols
+
+- LED `SK9822-EC20`: JLCPCB EasyEDA footprint — [OPSCO SK9822-EC20 / C2909059](https://jlcpcb.com/partdetail/OPSCOOptoelectronics-SK9822EC20/C2909059)
+- Connectors: TBD (JST `S4B-PH-SM4-TB` / `S2B-PH-SM4-TB`, hanxia `HX PH2.0-4PWT`)
+
 ## To confirm
 
 - [ ] Confirm SMD side-entry footprints match between JST (white) and the hanxia `J_OUT` header.
