@@ -11,14 +11,17 @@
 |-----|------|-----|-----|------|-----|--------|
 | `LED*` | SK9822 addressable RGB, 5 V, 2020 | OPSCO | `SK9822-EC20` | [C2909059](https://www.lcsc.com/product-detail/C2909059.html) | TBD | ✅ |
 
-## Board headers (Boomele PH 2.0 mm, top-entry TH)
+## Board headers (SMD, side-entry — parallel to board, flex-compatible)
 
-| Ref | Port | Color | MPN | LCSC | Qty | Status |
-|-----|------|-------|-----|------|-----|--------|
-| `J_IN` | input, 4-pin | white | `PH-4A` | [C2321](https://www.lcsc.com/product-detail/C2321.html) | 1 | ✅ |
-| `J_OUT` | output, 4-pin | black | TBD | ⚠️ find C# | 1 | ⚠️ |
-| `J_PWR` | power, 2-pin | white | `PH-2A` | [C2319](https://www.lcsc.com/product-detail/C2319.html) | 1+ | ✅ |
-| (alt) | 4-pin SMD | — | `PH-4AWD` | [C49994](https://www.lcsc.com/product-detail/PH-Connectors_PH-4AWD_C49994.html) | — | ⚠️ orientation |
+| Ref | Port | Color | Mfr | MPN | LCSC | Qty | Status |
+|-----|------|-------|-----|-----|------|-----|--------|
+| `J_IN` | input, 4-pin | white | JST | `S4B-PH-SM4-TB` | [C265102](https://www.lcsc.com/product-detail/C265102.html) | 1 | ✅ |
+| `J_OUT` | output, 4-pin | distinct (≠ white) | hanxia | `HX PH2.0-4PWT` | [C22461287](https://www.lcsc.com/product-detail/C22461287.html) | 1 | ✅ |
+| `J_PWR` | power, 2-pin | white | JST | `S2B-PH-SM4-TB` | [C295747](https://www.lcsc.com/product-detail/C295747.html) | 1+ | ✅ |
+| (alt) | 4-pin white | white | Boomele | `2.0-4P卧贴` | [C53041](https://www.lcsc.com/product-detail/C53041.html) | — | ✅ |
+
+> Side-entry SMD so the cable exits **parallel** to the board (flex PCB: no through-hole).
+> `J_OUT` uses a distinct (non-white) color so it stays visually separate from the white input.
 
 ## Cables (off-the-shelf)
 
@@ -47,5 +50,4 @@ External — level-shifted to 5 V; drives DATA + CLK into `J_IN`.
 
 ## To confirm
 
-- [ ] Black 4-pin PH header C# for `J_OUT`.
-- [ ] `PH-4AWD` orientation (if SMD).
+- [ ] Confirm SMD side-entry footprints match between JST (white) and the hanxia `J_OUT` header.

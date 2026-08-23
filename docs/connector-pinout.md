@@ -16,6 +16,8 @@
 4. **JST-PH = 2 A per circuit.** Power is a 2-pin connector (≤2 A per injection point); add more injection points rather than bigger connectors.
 5. **Unambiguous silkscreen.** Pin 1 marker, signal names, and `IN` / `OUT` data direction on
    every board.
+6. **SMD, side-entry (parallel to board).** All headers are surface-mount with the cable
+   entering parallel to the board — required for flex PCB (no through-hole parts).
 
 ## Wire color standard
 
@@ -31,7 +33,7 @@
 | Port | Header color |
 |------|--------------|
 | `J_IN` (input) | White / natural |
-| `J_OUT` (output) | Black |
+| `J_OUT` (output) | Distinct (≠ white) |
 | `J_PWR` (power injection) | 2-pin, white/natural — distinct by pin count |
 
 ## Input connector — `J_IN` (4-pin JST-PH, white)
@@ -46,7 +48,7 @@ on downstream boards it is the previous board's output.
 | 3 | CLK (`CI`) | Green | Clock in |
 | 4 | +5V (VCC) | Red | Power in |
 
-## Output connector — `J_OUT` (4-pin JST-PH, black)
+## Output connector — `J_OUT` (4-pin JST-PH, distinct color)
 
 Carries power pass-through + regenerated data/clock **out** of the board, to the next board's
 input. Identical pin order to `J_IN`, so a straight 1:1 off-the-shelf cable chains them.
@@ -80,7 +82,7 @@ Power only — **no data**, always 2-pin. Being 2-pin makes it physically incomp
 | Connector | Pins | Pin 1 | Pin 2 | Pin 3 | Pin 4 | Max current |
 |-----------|------|-------|-------|-------|-------|-------------|
 | `J_IN` (input, white) | 4 | GND | DATA (DI) | CLK (CI) | +5V | 2 A |
-| `J_OUT` (output, black) | 4 | GND | DATA (DO) | CLK (CO) | +5V | 2 A |
+| `J_OUT` (output, distinct) | 4 | GND | DATA (DO) | CLK (CO) | +5V | 2 A |
 | `J_PWR` (injection, 2-pin white) | 2 | GND | +5V | — | — | 2 A |
 
 ## Cabling rules
