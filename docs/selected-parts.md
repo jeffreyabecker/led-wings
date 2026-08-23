@@ -33,20 +33,22 @@
 
 > Off-the-shelf wire colors may differ — verify pin-1 → color per vendor before wiring.
 
-## Passives & protection
+## On-board passives & protection (per segment)
 
 | Ref | Part | Value | Qty | Status |
 |-----|------|-------|-----|--------|
 | `C*` | Bulk cap, per injection point | 100–470 µF | TBD | ⬜ |
 | `C*` | Decoupling, per LED (or 1–4 LEDs) | 100 nF | TBD | ⬜ |
-| `R*` | Series R, DATA + CLK input | 33–100 Ω | TBD | ⬜ |
 | `D*`/`Q*` | Reverse-polarity protection (**required**) | Schottky / P-MOSFET | TBD | ⬜ |
-| `F*` | Input fuse / polyfuse | TBD | TBD | ⬜ |
-| `TVS*` | ESD/TVS on DATA, CLK, VCC | TBD | TBD | ⬜ |
 
-## Controller
+## Controller board (external — one per strand)
 
-External — level-shifted to 5 V; drives DATA + CLK into `J_IN`.
+| Ref | Part | Value | Notes |
+|-----|------|-------|-------|
+| `R*` | Series R on DATA + CLK output | 33–100 Ω | Damp controller → first board |
+| `F*` | Fuse / polyfuse | TBD | One per strand / injection feed |
+| `TVS*` | ESD/TVS on DATA, CLK, VCC | TBD | Segments rely on LED internal ESD |
+| — | Level shifter | 3.3 V → 5 V | Drives DATA + CLK into `J_IN` |
 
 ## To confirm
 

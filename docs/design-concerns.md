@@ -50,8 +50,8 @@ References:
 
 - Separate `CLK` + `DATA`, regenerated on each device's `DO`/`CO` outputs → far more robust
   than 1-wire WS2812. Still:
-  - **Series resistor (33–100 Ω)** on DATA and CLK input at the board edge to damp reflections
-    from connector/wire stubs.
+  - **Series resistor (33–100 Ω)** on DATA and CLK — lives on the controller board (external),
+    damping the controller→first-board cable.
   - Keep clock and data paired and reasonably matched; avoid large loop areas.
   - Expect **5 V logic** on data/clock. Level shifting from the controller is handled
     **externally** — not a board-level concern.
@@ -84,10 +84,9 @@ References:
 
 ## 7. Protections & robustness
 
-- **Fuse** (or polyfuse) on input power.
-- **ESD/TVS** on DATA and CLK (and VCC) at each board-edge connector — connector mating and
-  long cables are where ESD damage happens.
-- Reverse-polarity protection as noted in §2.
+- **Fuse** (or polyfuse) — on the controller/distribution board (one per strand).
+- **ESD/TVS** — on the controller board; segments rely on the SK9822's internal ESD protection.
+- Reverse-polarity protection as noted in §2 (stays per board).
 
 ---
 
