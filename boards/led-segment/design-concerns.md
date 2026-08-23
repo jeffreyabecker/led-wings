@@ -1,4 +1,4 @@
-# LED Lighting PCB — Design Concerns
+# LED Segment — Design Concerns
 
 > Project: Addressable LED lighting PCBs
 > LED part: [SK9822-EC20](https://www.lcsc.com/product-detail/C2909059.html) (LCSC `C2909059`)
@@ -103,7 +103,7 @@ Followed by signal integrity on `CLK`/`DATA` and bypassing. Everything else is r
 
 - [ ] Calculate LEDs per injection point and per PH connector at target brightness (trace width,
       copper weight).
-- [x] Define canonical connector pinout — see [connector-pinout.md](connector-pinout.md).
-- [x] Input/output both 4-pin for off-the-shelf cables; direction marked by silkscreen — see [connector-pinout.md](connector-pinout.md).
-- [x] Source connector part numbers (Boomele/JST-PH on LCSC) — see [selected-parts.md](selected-parts.md).
+- [x] Define canonical connector pinout — see [connector pinout](../../docs/connector-pinout.md).
+- [x] Input/output both 4-pin for off-the-shelf cables; direction marked by silkscreen — see [connector pinout](../../docs/connector-pinout.md).
+- [x] Source connector part numbers (Boomele/JST-PH on LCSC) — see [parts](selected-parts.md).
 - [ ] Schematic symbol/footprint spec (connectors + SK9822-EC20).

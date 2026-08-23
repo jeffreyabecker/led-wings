@@ -1,7 +1,7 @@
-# Selected Parts — Master BOM
+# Selected Parts — LED Segment
 
-> Single source of truth. Brief on purpose — rationale in [design-concerns.md](design-concerns.md),
-> pinout in [connector-pinout.md](connector-pinout.md).
+> Brief on purpose — rationale in [design-concerns.md](design-concerns.md),
+> pinout in [../../docs/connector-pinout.md](../../docs/connector-pinout.md).
 >
 > Status: ✅ selected · ⚠️ to confirm · ⬜ TBD
 
@@ -40,15 +40,6 @@
 | `C*` | Bulk cap, per injection point | 100–470 µF | TBD | ⬜ |
 | `C*` | Decoupling, per LED (or 1–4 LEDs) | 100 nF | TBD | ⬜ |
 | `D*`/`Q*` | Reverse-polarity protection (**required**) | Schottky / P-MOSFET | TBD | ⬜ |
-
-## Controller board (external — one per strand)
-
-| Ref | Part | Value | Notes |
-|-----|------|-------|-------|
-| `R*` | Series R on DATA + CLK output | 33–100 Ω | Damp controller → first board |
-| `F*` | Fuse / polyfuse | TBD | One per strand / injection feed |
-| `TVS*` | ESD/TVS on DATA, CLK, VCC | TBD | Segments rely on LED internal ESD |
-| — | Level shifter | 3.3 V → 5 V | Drives DATA + CLK into `J_IN` |
 
 ## To confirm
 
