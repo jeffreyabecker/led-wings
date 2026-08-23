@@ -1,25 +1,32 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Convert a pair of EasyEDA library exports (symbol.svg + footprint.svg) into a
-Fritzing part (one .fzp + four view SVGs, packaged as an importable .fzpz).
+Build a Fritzing part (.fzpz) from an EasyEDA/LCSC part.
+
+Two input modes
+---------------
+1. Fetch from the EasyEDA API using an LCSC part number (recommended):
+       python easyeda_to_fritzing.py --lcsc C8678
+       python easyeda_to_fritzing.py C8678.html      # id is read from the filename
+   The JSON response is used directly: the schematic symbol is parsed from the
+   "svg" string, and the footprint pads are read straight from the dataStr
+   "shape" list (no intermediate SVG files, no footprint SVG rendering).
+
+2. From local EasyEDA SVG exports:
+       python easyeda_to_fritzing.py symbol.svg footprint.svg
 
 Coordinate mapping
 ------------------
-EasyEDA SVG exports use 1 unit = 10 mil (0.254 mm); Fritzing part views use
-mils (1 unit = 0.001 inch). All EasyEDA coordinates are therefore scaled by 10.
-
-What it reads
--------------
-* symbol.svg    -> pin names/numbers/positions + body rectangle -> schematic view
-* footprint.svg -> pad numbers/centres/sizes + silkscreen shapes -> pcb view
-The breadboard + icon views are synthesised (SMD parts are not breadboard parts).
+EasyEDA SVG exports use 1 unit = 10 mil (0.254 mm); Fritzing views use mils,
+so SVG coordinates are scaled by 10. The API dataStr coordinates are assumed
+to be mils already (verify with --dump: a 0.8 mm pad pitch reads ~31.5).
+Breadboard + icon views are synthesised (SMD parts are not breadboard parts).
 
 Output
 ------
-Writes <dir-of-symbol>/fritzing/<name>.fzpz  (ready to File -> Import in Fritzing).
-The loose files below are built in <dir-of-symbol>/fritzing/<name>/ and then
-cleaned up by default; pass --keep-exploded to retain them:
+Writes <dir-of-source>/fritzing/<name>.fzpz (File -> Import in Fritzing).
+Loose files are built in <dir-of-source>/fritzing/<name>/ then removed by
+default; pass --keep-exploded to keep them:
 
     part.<name>.fzp
     svg.<name>.breadboard_breadboard.svg
@@ -27,20 +34,26 @@ cleaned up by default; pass --keep-exploded to retain them:
     svg.<name>.pcb_pcb.svg
     svg.<name>.icon_icon.svg
 
-Usage (run from anywhere)
--------------------------
-    python scripts/easyeda_to_fritzing.py boards/<part>/symbol.svg boards/<part>/footprint.svg
-    python easyeda_to_fritzing.py symbol.svg footprint.svg [--name SK9822-EC20] [--out DIR] [--keep-exploded]
+Options
+-------
+    --lcsc ID        LCSC part number to fetch (e.g. C8678)
+    --name NAME      override the part name
+    --out DIR        override the output directory
+    --keep-exploded  keep the loose .fzp + view SVGs
+    --dump PATH      save the raw EasyEDA API JSON response (for debugging)
 """
 
 import argparse
+import json
 import os
 import re
 import sys
+import urllib.request
 import zipfile
 import xml.etree.ElementTree as ET
 
-SCALE = 10.0  # EasyEDA units -> Fritzing mils
+SCALE = 10.0  # EasyEDA SVG-export units -> Fritzing mils
+DATASTR_UNIT_TO_MIL = 1.0  # API dataStr unit -> mil (assumed; verify via --dump)
 
 
 # --------------------------------------------------------------------------- #
@@ -89,23 +102,23 @@ def scale_d(d):
 # --------------------------------------------------------------------------- #
 # parsing
 # --------------------------------------------------------------------------- #
-def parse_symbol(path):
-    """Return (name, pins, body_shapes) from an EasyEDA symbol.svg."""
-    tree = ET.parse(path)
-    root = tree.getroot()
-
+def _symbol_from_root(root):
+    """Return (name, pins, body_shapes, meta) from an EasyEDA symbol <svg> root."""
     name = None
     pins = []
     body = []
+    meta = {}
 
     for g in root.iter():
         if local(g.tag) != "g":
             continue
         a = g.attrib
 
-        para = parse_c_para(a.get("c_para", ""))
-        if "name" in para:
-            name = para["name"]
+        if "c_para" in a:
+            para = parse_c_para(a["c_para"])
+            meta.update(para)
+            if "name" in para:
+                name = para["name"]
 
         if a.get("c_partid") == "part_pin":
             num = int(a.get("c_spicepin", "0"))
@@ -137,7 +150,17 @@ def parse_symbol(path):
             body.append(("rect", a))
 
     pins.sort(key=lambda p: p["num"])
-    return name, pins, body
+    return name, pins, body, meta
+
+
+def parse_symbol(path):
+    """Return (name, pins, body_shapes, meta) from an EasyEDA symbol.svg file."""
+    return _symbol_from_root(ET.parse(path).getroot())
+
+
+def parse_symbol_str(svg_string):
+    """Return (name, pins, body_shapes, meta) from an EasyEDA symbol SVG string."""
+    return _symbol_from_root(ET.fromstring(svg_string))
 
 
 def parse_footprint(path):
@@ -166,6 +189,89 @@ def parse_footprint(path):
 
     pads.sort(key=lambda p: p["num"])
     return pads, silk
+
+
+def _find_shape_list(obj):
+    """Recursively find the first list stored under a 'shape' key."""
+    if isinstance(obj, dict):
+        if isinstance(obj.get("shape"), list):
+            return obj["shape"]
+        for v in obj.values():
+            found = _find_shape_list(v)
+            if found is not None:
+                return found
+    elif isinstance(obj, list):
+        for v in obj:
+            found = _find_shape_list(v)
+            if found is not None:
+                return found
+    return None
+
+
+def _collect_c_para(obj, out):
+    """Merge every EasyEDA 'c_para' (string or list of 'key`value' items) into out."""
+    if isinstance(obj, dict):
+        cp = obj.get("c_para")
+        if isinstance(cp, str):
+            out.update(parse_c_para(cp))
+        elif isinstance(cp, list):
+            for item in cp:
+                if isinstance(item, str):
+                    out.update(parse_c_para(item))
+        for v in obj.values():
+            _collect_c_para(v, out)
+    elif isinstance(obj, list):
+        for v in obj:
+            _collect_c_para(v, out)
+
+
+def parse_footprint_data_str(result):
+    """Return pads from an EasyEDA /api/products/{lcsc}/svgs JSON 'result'.
+
+    The footprint is stored as dataStr shape strings:
+        PAD~x~y~width~height~layer~net~number~holeR~points~rotation~shape~...
+    We read only the PAD entries (silkscreen is skipped here). Coordinates are
+    assumed to be in mils (DATASTR_UNIT_TO_MIL) and are converted to the same
+    EasyEDA SVG-export units that build_pcb() expects (1 unit = 10 mil).
+    """
+    shapes = _find_shape_list(result) or []
+    pads = []
+    for line in shapes:
+        if not isinstance(line, str) or not line.startswith("PAD~"):
+            continue
+        f = line.split("~")
+        if len(f) < 8:
+            continue
+        try:
+            x = float(f[1])
+            y = float(f[2])
+            w = float(f[3])
+            h = float(f[4])
+            num = int(float(f[7]))
+            shape = f[11] if len(f) > 11 else "RECT"
+        except (ValueError, IndexError):
+            continue
+        pads.append(dict(
+            num=num,
+            x=x * DATASTR_UNIT_TO_MIL / SCALE,
+            y=y * DATASTR_UNIT_TO_MIL / SCALE,
+            w=w * DATASTR_UNIT_TO_MIL / SCALE,
+            h=h * DATASTR_UNIT_TO_MIL / SCALE,
+            shape=shape,
+        ))
+    pads.sort(key=lambda p: p["num"])
+    return pads
+
+
+def fetch_easyeda(lcsc):
+    """Download the EasyEDA symbol+footprint JSON for an LCSC part number."""
+    url = f"https://easyeda.com/api/products/{lcsc}/svgs"
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            return json.loads(resp.read().decode("utf-8"))
+    except Exception as e:  # noqa: BLE001 - report any network/HTTP/JSON error
+        sys.exit(f"failed to fetch {url}: {e}")
 
 
 # --------------------------------------------------------------------------- #

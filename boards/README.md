@@ -2,7 +2,7 @@
 
 One folder per board concept. Each board keeps:
 - `README.md` — idea/requirements
-- `design-concerns.md` — board-specific concerns
+- `design-readiness.md` — board-specific decisions/readiness
 - `selected-parts.md` — board-specific BOM
 
 Shared cross-cutting stuff (e.g. the connector pinout) lives in [`docs/`](../docs/).

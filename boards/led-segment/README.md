@@ -25,9 +25,14 @@ Pin maps are the shared [connector pinout](../../docs/connector-pinout.md); exac
 
 - Series R (DATA/CLK), fuse, ESD/TVS, level shifter
 
+## Parameterization
+
+- Varies per board: board geometry (unique shape) + LED count/positions (unique set).
+- Fixed: injection points at the "top".
+
 ## Open questions
 
-- LEDs per segment
 - Power injection interval
+- Define "top" convention
 
-See [design concerns](design-concerns.md) · [parts](selected-parts.md) · [connector pinout](../../docs/connector-pinout.md).
+See [design readiness](design-readiness.md) · [parts](selected-parts.md) · [connector pinout](../../docs/connector-pinout.md).

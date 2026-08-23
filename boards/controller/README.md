@@ -23,4 +23,4 @@ External, one per strand.
 - Controller MCU choice
 - Number of strands / outputs per controller
 
-See [design concerns](design-concerns.md) · [parts](selected-parts.md) · [connector pinout](../../docs/connector-pinout.md).
+See [design readiness](design-readiness.md) · [parts](selected-parts.md) · [connector pinout](../../docs/connector-pinout.md).

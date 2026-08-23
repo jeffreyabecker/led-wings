@@ -1,6 +1,6 @@
 # Selected Parts — Controller Board
 
-> Brief on purpose — rationale in [design-concerns.md](design-concerns.md),
+> Brief on purpose — rationale in [design-readiness.md](design-readiness.md),
 > pinout in [../../docs/connector-pinout.md](../../docs/connector-pinout.md).
 >
 > Status: ✅ selected · ⚠️ to confirm · ⬜ TBD
