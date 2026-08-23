@@ -7,11 +7,13 @@ Daisy-chainable addressable LED segment (SK9822-EC20).
 - SK9822-EC20 LEDs on a (possibly flex) PCB.
 - Chain many segments together; each LED regenerates DATA + CLK.
 
-## Connectors (all SMD side-entry, flex-compatible)
+## Connectors (SMD side-entry, flex-compatible)
 
-- `J_IN` — 4-pin white (GND / DATA / CLK / +5V)
-- `J_OUT` — 4-pin distinct color (GND / DATA / CLK / +5V)
-- `J_PWR` — 2-pin white (GND / +5V), power injection
+- `J_IN` — IN role, 4-pin, white — JST `S4B-PH-SM4-TB`
+- `J_OUT` — OUT role, 4-pin, distinct color — hanxia `HX PH2.0-4PWT`
+- `J_PWR` — PWR role, 2-pin, white — JST `S2B-PH-SM4-TB`
+
+Pin maps are the shared [connector pinout](../../docs/connector-pinout.md); exact part numbers in [selected-parts](selected-parts.md).
 
 ## On-board
 

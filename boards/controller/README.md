@@ -13,6 +13,11 @@ External, one per strand.
 - Fuse / polyfuse (one per strand / injection feed)
 - ESD/TVS on DATA, CLK, VCC
 
+## Connectors
+
+- `J_OUT` — OUT role, 4-pin data port (matches the segment's `J_IN`), SMD side-entry. One per
+  strand output.
+
 ## Open questions
 
 - Controller MCU choice
