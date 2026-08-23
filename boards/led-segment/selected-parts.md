@@ -37,9 +37,9 @@
 
 | Ref | Part | Value | Qty | Status |
 |-----|------|-------|-----|--------|
-| `C*` | Bulk cap, per injection point | 100–470 µF | TBD | ⬜ |
-| `C*` | Decoupling, per LED (or 1–4 LEDs) | 100 nF | TBD | ⬜ |
-| `D*`/`Q*` | Reverse-polarity protection (**required**) | Schottky / P-MOSFET | TBD | ⬜ |
+| `C*` | Bulk — Samsung `CL31A476MPHNNNE` ([C96123](https://www.lcsc.com/product-detail/C96123.html)) | 47 µF, 1206 X5R 10V | 1 per injection point | ✅ |
+| `C*` | Decoupling — Yageo `CC0603KRX7R9BB104` ([C14663](https://www.lcsc.com/product-detail/C14663.html)) | 100 nF, 0603 X7R 50V | 1 per LED (or 1–4) | ✅ |
+| `D*` | Reverse-polarity — MDD `SS34` ([C8678](https://www.lcsc.com/product-detail/C8678.html)) | 3A, 40V, SMA | 1 | ✅ |
 
 ## Footprints / symbols
 
