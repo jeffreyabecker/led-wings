@@ -12,7 +12,8 @@ not a pixel-string voltage floor.
 
 - [Battery options](options.md) — lead-acid vs 3S/4S Li-ion vs LiFePO4: voltage range,
   energy density, cycle life, cost, safety, and an 8 h @ 20 % sizing at the 2800-px ceiling.
-- Next: **off-the-shelf pack survey** (RC 3S LiPo vs "12 V" Li-ion/LiFePO4 vs e-bike packs).
+- [Build vs buy](build-vs-buy.md) — buying a pack vs assembling cells + a bought BMS: cost,
+  constructability (LiPo pouch vs 18650), and the backpack-worn weight ceiling.
 
 ## Status
 
