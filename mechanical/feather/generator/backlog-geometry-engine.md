@@ -1,6 +1,6 @@
 # Backlog — Feather Geometry Engine (Python)
 
-> **Overall status: 🚧 in progress** — G1–G8 done; G9 not started.
+> **Overall status: ✅ done** — G1–G9 all complete (geometry engine).
 > Spec source: §7 (vector recipe) + §8 (data layer) of
 > [outline-templates.md](../outline-templates.md).
 > This document is the *plan*; each task's status lives in the table below and in its own
@@ -20,7 +20,7 @@ Legend: ✅ done · 🚧 in progress · ⬜ not started
 | G6 | Emargination | ✅ | G4 |
 | G7 | `feather_outline` entry point | ✅ | G2–G6 |
 | G8 | Serializers (DXF/SVG) | ✅ | G7 |
-| G9 | Markdown sync / lint | ⬜ | G7 |
+| G9 | Markdown sync / lint | ✅ | G7 |
 
 ## Goal
 
@@ -209,14 +209,23 @@ Tests use a workspace `.test-out/` scratch dir (sandbox denies tempfile dirs). A
 
 ---
 
-## G9 — Markdown sync / lint (optional first cut) — ⬜ not started
+## G9 — Markdown sync / lint (optional first cut) — ✅ done
 
 **What:** a generator/lint that checks the §7 tables in outline-templates.md match
 `feathers.json` (per §8's never-hand-maintained rule).
 
+**Where:** `feathergen/markdown_sync.py` — `parse_flight_rows` (extracts the §7 flight-feathers
+table), `lint_flight_rows` / `lint_markdown` (compare Total, Vane, Rachis out:in, Curve against
+`feathers.json`), plus a CLI (`python -m feathergen.markdown_sync OUTLINE_MD FEATHERS_JSON`).
+Max width is skipped (explicitly superseded in §7) and Tip is skipped (free-form wording in the
+doc vs the canonical enum).
+
 **Depends on:** G7
 
-**Tests:** lint passes on the current file; a deliberately drifted §7 row is flagged.
+**Tests:** `tests/test_markdown_sync.py` — 15 cases: parser finds all 26 flight rows + handles
+`≈50:50`, lint clean on the current file, drifted Total/Vane/Rachis/Curve each flagged, max
+width + tip drifts ignored, missing table + missing feather flagged, CLI ok/drifted/bad-args.
+All green.
 
 ---
 

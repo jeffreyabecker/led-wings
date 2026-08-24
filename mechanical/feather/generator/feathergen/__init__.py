@@ -24,6 +24,7 @@ from .geometry import (
     translate,
     unit_tangent_at_arc,
 )
+from .markdown_sync import lint_flight_rows, lint_markdown, main as markdown_sync_main
 from .outline import DEFAULT_LIT_VANE_FLOOR_CM, feather_outline
 from .rachis import (
     CURVATURE_BOW_FRACTION,
@@ -61,6 +62,9 @@ __all__ = [
     "distance",
     "feather_outline",
     "is_simple_polygon",
+    "lint_flight_rows",
+    "lint_markdown",
+    "markdown_sync_main",
     "max_lateral_offset",
     "point_at_arc",
     "polyline_length",
