@@ -34,7 +34,9 @@
   - **6-LED** — 62 × 12 mm, 6 × SK9822-EC20 at 10.4 mm pitch
   - 4-pin JST-GH SMD on **each end**; chained tip-to-tail with 4-wire jumpers.
   - **Designs:** [module design core](modules/README.md) · [4-LED](modules/4-led-module.md) ·
-    [6-LED](modules/6-led-module.md) (shared architecture + per-variant specs).
+    [6-LED](modules/6-led-module.md) (shared architecture + per-variant specs) ·
+    [4-LED schematic](modules/4-led-schematic.md) · [6-LED schematic](modules/6-led-schematic.md)
+    (netlist sources of truth).
 - **Signal contract (settled ✅, "option b"):** power + data combined on the 4-pin —
   **IN:** `+5V`/`GND`/`DI`/`CI` · **OUT:** `+5V`/`GND`/`DO`/`CO`. Power rides the chain;
   injection via harness pigtails (below). Pin maps:

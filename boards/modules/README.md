@@ -90,10 +90,20 @@ IN (JST-GH 4)                                  OUT (JST-GH 4)
   export decided at handoff.
 - Silkscreen: module ID (`4LED` / `6LED`), `IN`/`OUT` marks, pin numbers, LED indices.
 
+### Panel plan (mixed, ×5 minimum order)
+
+- **One mixed panel** of both module types, ordered **5×** (JLCPCB flex min. order).
+- **Per panel:** 37 × 4-LED + 20 × 6-LED (57 modules) → totals **185 × 4-LED + 100 × 6-LED**
+  vs. 176 / 92 required (~5 % spares as assembly-loss + repair stock).
+- **Layout:** both boards share the 12 mm width → stacked in 12 mm-wide columns along the
+  490 mm panel length. 7 columns hold everything (worst column ≈ 438 mm of 490 mm); total
+  width ≈ 84 mm of 234 mm.
+- **Panel max:** 234 × 490 mm (JLCPCB flex).
+
 ## Open decisions (shared)
 
 - Mounting: **adhesive-only** (VHB/tape) to the feather substrate — no holes.
-- Panel layout (modules per panel) against JLCPCB flex constraints.
+- Final column/rail placement + edge keep-out against JLCPCB flex panel rules (at layout).
 
 ## References
 

@@ -87,4 +87,4 @@ It maximizes the lit run per connector pair on the long flight feathers (10.4 mm
 
 ## 6. Open items (this variant)
 
-- Panel placement/quantity math once the full module count (~92) is frozen.
+- Final panel placement — 20 per mixed panel (see [core panel plan](README.md#panel-plan-mixed-%C3%975-minimum-order)).
