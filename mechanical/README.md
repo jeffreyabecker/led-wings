@@ -13,9 +13,9 @@ that carries and diffuses the light. Kept separate from `boards/` (electrical) a
 
 - One folder per area, each with a `README.md` (scope + open questions).
 - Mechanical parts reference the electrical build — e.g. the ~76 physical feather shapes
-  match the strip-chunk cut lengths in [boards/README.md](../../boards/README.md).
+  match the module-chain lengths in [boards/README.md](../../boards/README.md).
 - "Feather" here means the *physical* feather geometry, distinct from the electrical
-  strip chunk in [boards/README.md](../../boards/README.md).
+  strip module in [boards/README.md](../../boards/README.md).
 - Status mirrors the [boards doc](../../boards/README.md): `ideation` · `design` · `ready` ·
   `blocked`.
 - CAD/geometry artifacts (STEP, FreeCAD, DXF, STL) live in their area folder alongside
