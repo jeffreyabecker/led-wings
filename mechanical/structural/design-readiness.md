@@ -76,4 +76,5 @@
 - [ ] Backplate material + how it integrates with the wing frame and shoulder straps.
 - [ ] Bay sealing vs access: dust/sweat protection against a hinge/latch/magnet lid.
 - [ ] Does the back-coverts lid carry any electronics, or is it purely a cover?
-- [ ] Feather width at ~1 m length: slender streamers (~6–8 cm) vs broad plumes (~12–16 cm).
+- [ ] Feather width: **keep per-feather vane ratios**, adjusted globally by the generator's
+  `--vane-ratio-adjustment` (no hand-editing) — see [feather outline-templates §6/§8](../feather/outline-templates.md).

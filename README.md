@@ -1,17 +1,19 @@
-# Wings PCBs
+# Wings
 
-LED lighting PCB project — addressable RGB (SK9822) "feather" boards: data daisy-chained
-feather-to-feather, power fed from local power-hubs.
+One-off LED-lit wing costume — off-the-shelf SK9822 strips cut into per-feather chunks, data
+daisy-chained chunk-to-chunk, power fed from buck-module power-hubs, driven by a Pixelblaze.
 
-## Toolchain
+## Build strategy
 
-- KiCad 10, parameterized via `pcbnew` Python scripting (~76 unique LED board shapes).
-- Varies per board: geometry + LED count/positions. Fixed: connectors at "top".
+- **Off-the-shelf electrical system** — no custom PCBs for this build. SK9822 96 LED/m strips
+  cut to per-feather LED counts; Pixelblaze V3 controller; buck-module + fuse power-hubs.
+- Custom boards (KiCad 10 + `pcbnew` parameterized feathers) are deferred to "if we build
+  more than one".
 
 ## Boards
 
-- [Boards](boards/README.md) — one consolidated doc: core ideas + settled part numbers for the
-  LED segment (feather), shared strip, controller, and power-hub boards
+- [Boards](boards/README.md) — the build plan: strip-chunk cut table, covert rows, controller,
+  power hubs, settled COTS parts
 
 ## Mechanical
 
@@ -19,15 +21,13 @@ feather-to-feather, power fed from local power-hubs.
 
 ## Shared docs
 
-- [Connector pinout](docs/connector-pinout.md) — canonical split power/data pinout for all boards
-
-Board core ideas and settled part numbers live in [boards/README.md](boards/README.md).
+- [Connector pinout](docs/connector-pinout.md) — pigtail wiring legend (PWR / DATA-IN / DATA-OUT wire pairs + colors)
 
 ## Investigations
 
 - [Battery](investigations/battery/) — 12 V chemistry + sizing for 8 h @ 20 % mobility
 
-## Adding a board
+## Changing the plan
 
-Add the new board's core idea to [boards/README.md](boards/README.md) and move parts into its
-settled-parts table once they are locked.
+Update [boards/README.md](boards/README.md) — it is the single source of truth for the
+electrical build.
