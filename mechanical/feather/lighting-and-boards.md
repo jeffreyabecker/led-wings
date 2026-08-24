@@ -29,7 +29,7 @@ board vs shared strip vs unlit structural), and the board count / LED budget.
 | Secondaries S1–S12 | lit | individual board each |
 | Tertials T1–T4 | lit | individual board each |
 | Greater coverts GC1–GC12 | **lit** | individual board each — incl. inner GC10–GC12 |
-| Alula A1–A4 | optional ⚠️ | individual boards, or folded into the leading-edge strip |
+| Alula A-B + A-T (bottom + top) | lit | individual board each — 2 per wing |
 | Median coverts | lit | shared strip |
 | Lesser coverts | lit | shared strip |
 | Marginal coverts | lit | shared strip |
@@ -43,19 +43,45 @@ instead of folding into a shared covert strip. **All 12 greater coverts are ther
 individually** (one per secondary). This drops the `inner-greater-covert-strip` from the shared
 strips (§4).
 
-## 4. Shared strip templates (not individual feathers)
+## 4. Shared strips — chains of short boards
 
-| Template | Covers | Notes |
-|----------|--------|-------|
-| `median-covert-strip` | 1 row above the greater coverts | scalloped edge, graduated toward leading edge |
-| `lesser-covert-strip` | 2–3 rows toward the leading edge | shorter scallops each row |
-| `marginal-covert-strip` | leading edge | smallest scallops; wraps the leading edge |
+The dense covert rows (median / lesser / marginal) are **not** one long ribbon: each row is a
+**chain of short 3–4 cm boards**, so the whole row keeps one common LED orientation for the
+animation.
+
+### Strip board ("scallop segment")
+
+- **Size:** 40 × 10 mm (working; a 30 × 10 mm / 3-LED variant for tighter rows).
+- **LEDs:** 4 × SK9822-EC20 at 10 mm pitch.
+- **Connectors:** same contract as the feather boards — `J_PWR` + `J_IN`/`J_OUT`
+  ([pinout](../../docs/connector-pinout.md)) — chained tip-to-tail.
+- **Common orientation:** every board is identical and faces the same way along the chain:
+  `DI` in at one end → LEDs in order → `DO` out the far end. The chain then behaves as one
+  logical strip (N × 4 LEDs in chain order), so animations map 1:1 to chain position.
+- **Scallop edge:** one board = one covert scallop. Keep the board rectangular (orientation
+  stays trivial) and put the scallop silhouette in the mechanical overlay/diffuser above it;
+  a scalloped board outline is optional.
+
+### Rows (per wing, working ⚠️)
+
+| Row | Boards (4 cm) | LEDs |
+|-----|--------------:|-----:|
+| Median coverts | 7 | 28 |
+| Lesser coverts ×2 rows | 7 + 7 | 56 |
+| Marginal coverts (leading edge) | 7 | 28 |
+| **Per wing** | **28** | **112** |
+
+- Both wings: **~56 boards, ~224 LEDs**.
+- ⚠️ Row spans (~28 cm) are placeholders until the wing layout is drawn — boards per row =
+  span ÷ 4 cm, rounded up.
+- Power: 4 LEDs ≈ 0.16 A full-white per board — each board takes the standard `J_PWR` feed;
+  one power-hub feed can carry several strip boards.
 
 ## 5. Count reconciliation
 
 `boards/led-segment/design-readiness.md` carried a **~70 unique LED board shapes** placeholder.
-Lighting all 12 greater coverts shifts it to **~76 individual board shapes** (per-feather LED
-counts are derived in §6):
+Lighting all 12 greater coverts + the bottom/top alula shifts it to **~80 individual board
+shapes** (per-feather LED counts are derived in §6):
 
 | Group | Per wing | Both wings |
 |-------|---------:|-----------:|
@@ -63,14 +89,14 @@ counts are derived in §6):
 | Secondaries (S1–S12) | 12 | 24 |
 | Tertials (T1–T4) | 4 | 8 |
 | Greater coverts (GC1–GC12) | 12 | 24 |
-| **Individual lit boards** | **38** | **76** |
+| Alula (A-B + A-T) | 2 | 4 |
+| **Individual lit boards** | **40** | **80** |
 
-- **76 individual lit feathers = 52 flight feathers (P+S+T) + 24 greater coverts** ✅
-- **Alula (A1–A4)** is optional — 8 more boards if individual, else folded into the
-  leading-edge strip. ⚠️
-- **Shared strips (median/lesser/marginal)** are separate boards, not part of the 76.
+- **80 individual lit feathers = 52 flight (P+S+T) + 24 greater coverts + 4 alula** ✅
+- **Alula:** the bottom + top alula are lit individually — 2 per wing, 4 total. ✅
+- **Shared strips (median/lesser/marginal)** are chains of short boards (§4), not part of the 80.
 - **Scapulars + back coverts** default to unlit structural covers; if lit they add boards on
-  top of the 76. ⚠️
+  top of the 80. ⚠️
 
 ## 6. LED map per feather (first-principles rough pass)
 
@@ -121,31 +147,28 @@ counts are derived in §6):
 
 ### Totals
 
-| Group | Per wing | Both wings |
-|-------|---------:|-----------:|
-| Primaries | 170 | 340 |
-| Secondaries | 168 | 336 |
-| Tertials | 48 | 96 |
-| Greater coverts | 120 | 240 |
-| **Individual boards total** | **506** | **~1010** |
-
-- Optional alula: ~2–3 LEDs × 4 per wing ≈ **20** if lit individually.
-- Shared strips (median/lesser/marginal): TBD, ≈ **100–200** total once strip geometry is set —
-  not part of the 1010.
+| Group | Boards | LEDs (both wings) |
+|-------|-------:|------------------:|
+| Individual feathers (P/S/T/GC) | 76 | ~1010 |
+| Alula — bottom + top (2 per wing) | 4 | ~32 |
+| Shared covert strips (4 rows/wing) | ~56 | ~224 |
+| **Total** | **~136** | **~1270** |
 
 ### What this costs (power → battery → weight)
 
-- Full white: 1010 × 40 mA ≈ **40 A @ 5 V** — never run full white.
-- 20 % brightness: ≈ 8.1 A @ 5 V = 40 W → ÷ 90 % buck ≈ **45 W** from the battery.
-- 8 h @ 20 %: ≈ **360 Wh** → ≈ **2.1 kg** LiPo (~170 Wh/kg).
-- Total: frame ~0.9 + feathers ~0.6 + electronics ~0.6 + battery ~2.1 ≈ **~4.2 kg** — fits the
-  5 kg cap with ~0.8 kg margin for strips + alula.
+- Full white: 1270 × 40 mA ≈ **51 A @ 5 V** — never run full white.
+- 20 % brightness: ≈ 10.2 A @ 5 V = 51 W → ÷ 90 % buck ≈ **56 W** from the battery.
+- 8 h @ 20 %: ≈ **450 Wh** → ≈ **2.65 kg** LiPo (~170 Wh/kg).
+- Total: frame ~0.9 + feathers ~0.6 + electronics ~0.6 + battery ~2.65 ≈ **~4.75 kg** — inside
+  the 5 kg cap with a slim margin; the 3-LED strip variant saves ~0.1 kg.
 
 ### Knobs (tunable ⚠️)
 
 - **Tip stagger per group** — take the real values from the draft mockups (primaries 10–20 cm);
   each ±1 cm of stagger ≈ ±1 LED per feather (±76 total).
-- **Pitch** — 10 mm is now affordable; 15 mm cuts to ~700 LEDs and saves ~0.7 kg of battery.
+- **Strip board** 4 cm/4 LEDs vs 3 cm/3 LEDs (~±0.1 kg of battery).
+- **Row spans** — boards per row = span ÷ board length, once the layout is drawn.
+- **Pitch** — 10 mm is affordable; 15 mm on the flight feathers cuts ~0.7 kg of battery.
 - **Tip-dense 8 mm** option (+~10 %).
 - **Runtime/brightness** (battery sizing).
 
@@ -153,10 +176,11 @@ counts are derived in §6):
 
 - [ ] Confirm the per-group tip stagger from the draft mockups (primaries 10–20 cm; S/T/GC
       working 12/10/8 cm).
-- [ ] Pitch + runtime: 10 mm @ 8 h 20 % → ~2.1 kg battery fits the 5 kg cap; 15 mm saves ~0.7 kg.
-- [ ] Alula as individual boards vs part of the leading-edge strip.
+- [ ] Pitch + runtime: 10 mm @ 8 h 20 % → ~2.65 kg battery fits the 5 kg cap (slim margin);
+      15 mm saves ~0.7 kg.
+- [ ] Confirm alula sizes from the mockup (working ~11 cm total / ~8 cm vane).
 - [ ] Back feathers: unlit structural covers (default) vs accent-lit boards.
-- [ ] Shared-strip board type: its own `boards/` entry + how it joins the data chain.
+- [ ] Strip boards: 4 cm/4-LED vs 3 cm/3-LED; own `boards/` entry (`covert-strip`).
 - [ ] Chain segmentation (N) + power-hub placement (see [topology](../../investigations/topology/)).
 
 ## References

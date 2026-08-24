@@ -122,10 +122,11 @@ Innermost, elongated and very rounded; these cover the wing when it folds.
 One per secondary; each `GCn` mirrors `Sn` at ≈ 50 % length, ≈ 24 % vane width, rounded,
 slightly curved. Enumerate as GC1–GC12 (outer → inner).
 
-### 3.5 Alula — A1…A4 (4)
+### 3.5 Alula — A-B (bottom) + A-T (top) (2, per side)
 
-Tiny, stiff, slightly asymmetric, mounted at the wrist. Length ≈ 14–16 % of P4, vane width
-≈ 22 %. Enumerate as A1–A4.
+Two tiny, stiff, slightly asymmetric thumb feathers at the wrist: the **bottom alula** and the
+**top alula**. Both are lit individually. Length ≈ 14–16 % of P4 (≈ 11 cm total, ~8 cm vane),
+vane width ≈ 22 % (≈ 2.5 cm).
 
 ### 3.6 Scapulars — SC1…SC6 (6, per side)
 
@@ -173,7 +174,7 @@ bottommost** (as viewed from above).
 | Median coverts | (1 row) | one row above the greater coverts |
 | Lesser coverts | (2–4 rows) | graduate toward the leading edge |
 | Marginal coverts | (1 row) | leading-edge row; wraps the leading edge |
-| Alula | A1–A4 | at the wrist (thumb / digit I), leading-edge slot |
+| Alula | A-B (bottom) + A-T (top) | at the wrist (thumb / digit I), leading-edge slot |
 
 - **Flight-feather order (outer → inner):** P1…P10 → S1…S12 → T1…T4. P1 is the outermost
   primary; S1 sits adjacent to P10; T1…T4 are innermost, over the folded-wing area.
@@ -299,6 +300,7 @@ width** = vane width at the widest point (≥ ~1.4 cm to carry the 10 mm LED rib
 | Group | Total | Vane | Max width | Tip |
 |-------|------:|-----:|----------:|-----|
 | Greater coverts GC1–GC12 | 23–30 (half its secondary) | 17–23 | 6 | rounded |
+| Alula A-B + A-T | 11 | 8 | 2.5 | rounded, slightly asymmetric |
 | Scapulars SC1–SC6 | 41–47 | 31–35 | 7 | rounded |
 | Back coverts BC1–BC8 | 32–40 | 24–30 | 8 | rounded |
 
