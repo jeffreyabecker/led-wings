@@ -1,6 +1,6 @@
 # Backlog — Feather Geometry Engine (Python)
 
-> **Overall status: 🚧 in progress** — G1–G4 done; G5+ not started.
+> **Overall status: 🚧 in progress** — G1–G5 done; G6+ not started.
 > Spec source: §7 (vector recipe) + §8 (data layer) of
 > [outline-templates.md](../outline-templates.md).
 > This document is the *plan*; each task's status lives in the table below and in its own
@@ -16,7 +16,7 @@ Legend: ✅ done · 🚧 in progress · ⬜ not started
 | G2 | Core listable geometry | ✅ | — |
 | G3 | `compute_rachis` | ✅ | G2 |
 | G4 | `compute_vane` (+ width scaling) | ✅ | G2, G3 |
-| G5 | Tip styles | ⬜ | G4 |
+| G5 | Tip styles | ✅ | G4 |
 | G6 | Emargination | ⬜ | G4 |
 | G7 | `feather_outline` entry point | ⬜ | G2–G6 |
 | G8 | Serializers (DXF/SVG) | ⬜ | G7 |
@@ -129,15 +129,25 @@ All green.
 
 ---
 
-## G5 — Tip styles — ⬜ not started
+## G5 — Tip styles — ✅ done
 
 **What:** `pointed`, `hooked`, `rounded-point`, `rounded`, `very-rounded` as a tip profile tweak
 on the closed outline.
 
+**Where:** `feathergen/tips.py` — `apply_tip(vane, tip)` trims both rails back to the vane
+fraction where the local width equals the cap diameter (2 × radius =
+`TIP_RADIUS_FRACTION × effective_max_width`), then caps with a semicircular arc bulging toward
+the original tip (rounded family) or a quadratic Bézier curled outward (hooked). `pointed` is
+the untouched sharp taper. `tip_cap_width` measures bluntness (cap diameter in the top 5 % of
+the vane). New geometry helpers: `is_simple_polygon`, `segments_intersect`.
+
 **Depends on:** G4
 
-**Tests:** each tip style produces a distinct, valid (non-self-intersecting) tip profile; hooked
-has a directional hook; very-rounded is blunter than rounded.
+**Tests:** `tests/test_tips.py` — 18 cases: five distinct styles, pointed unchanged, all styles
+simple (no self-intersection) across S6/P1/T2/GC1/MG1 + full 114-row sweep per style + native
+tips, sharp-pointed check, bluntness ordering (pointed < rounded-point < rounded <
+very-rounded), cap scales with feather size, hooked tip leans toward the outer vane (+x),
+unknown-tip error. All green.
 
 ---
 

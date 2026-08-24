@@ -170,3 +170,59 @@ def unit_tangent_at_arc(pts: Polyline, target: float) -> Point:
     if d == 0:
         return (0.0, 1.0)
     return ((b[0] - a[0]) / d, (b[1] - a[1]) / d)
+
+
+def _orient(a: Point, b: Point, c: Point) -> int:
+    """Cross-product sign of (b-a) x (c-a): +1 CCW, -1 CW, 0 collinear."""
+    val = (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])
+    if abs(val) < 1e-12:
+        return 0
+    return 1 if val > 0 else -1
+
+
+def _on_segment(a: Point, b: Point, p: Point) -> bool:
+    """True if p lies on segment a-b (inclusive)."""
+    return (
+        min(a[0], b[0]) - 1e-12 <= p[0] <= max(a[0], b[0]) + 1e-12
+        and min(a[1], b[1]) - 1e-12 <= p[1] <= max(a[1], b[1]) + 1e-12
+    )
+
+
+def segments_intersect(a: Point, b: Point, c: Point, d: Point) -> bool:
+    """True if segments a-b and c-d intersect (including touching)."""
+    o1, o2 = _orient(a, b, c), _orient(a, b, d)
+    o3, o4 = _orient(c, d, a), _orient(c, d, b)
+    if o1 != o2 and o3 != o4:
+        return True
+    if o1 == 0 and _on_segment(a, b, c):
+        return True
+    if o2 == 0 and _on_segment(a, b, d):
+        return True
+    if o3 == 0 and _on_segment(c, d, a):
+        return True
+    if o4 == 0 and _on_segment(c, d, b):
+        return True
+    return False
+
+
+def is_simple_polygon(pts: Polyline) -> bool:
+    """True if the closed polyline has no self-intersections.
+
+    Zero-length segments (duplicate vertices) are skipped. Adjacent segments
+    share their endpoint by construction and are not checked.
+    """
+    n = len(pts)
+    if n < 3:
+        return False
+    # skip zero-length segments
+    segs = [(a, b) for a, b in zip(pts, pts[1:] + pts[:1]) if distance(a, b) > 1e-12]
+    m = len(segs)
+    for i in range(m):
+        a, b = segs[i]
+        for j in range(i + 1, m):
+            c, d = segs[j]
+            if (i + 1) % m == j or (j + 1) % m == i:
+                continue  # adjacent segments share an endpoint
+            if segments_intersect(a, b, c, d):
+                return False
+    return True
