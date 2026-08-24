@@ -29,7 +29,9 @@ places/layers all feather templates into a wing.
 Before this engine is meaningful we need the source of truth:
 `mechanical/feather/generator/feathers.json` (§8 of outline-templates.md) — one entry per
 feather: `{id, group, total, vane, max_width, rachis_split, tip, curvature, emargination,
-z_order, ...}`. Until it exists, the engine can be built and tested against inline dicts
+z_order, ...}`. `max_width` is stored **per-feather at its §3 vane ratio**; any global width
+scaling is the separate `vane_ratio_adjustment` generator flag, not a data change. Until the file
+exists, the engine can be built and tested against inline dicts
 matching that shape. **First task: author the data file** (schema + all rows from §3/§7).
 
 ## Tasks (in suggested order)
@@ -48,10 +50,12 @@ matching that shape. **First task: author the data file** (schema + all rows fro
      the bowed rachis; low vs high curvature change the max lateral offset; straight ≈ no bend.
 4. **`compute_vane(params, rachis)`** — the closed vane outline: sweep to `max_width` at ~40–50 %
    of `vane` length from the base, tapering to the tip and to the quill root. Two Bézier rails
-   (outer + inner) partitioned by the rachis split (`out:inn`).
-   - Tests: p1/outline is **closed**; max width ≈ `max_width` (± tolerance) at ~40–50 % of vane;
-     width → ~0 at tip and at quill root; symmetric feathers (50:50) have symmetric rails;
-     asymmetric (e.g. P1 30:70) partition the width per the split.
+   (outer + inner) partitioned by the rachis split (`out:inn`). **Width scaling:** effective width
+   = `max_width × (1 + vane_ratio_adjustment)`, applied here (default `0 %` = pure §3 ratios).
+   - Tests: p1/outline is **closed**; max width ≈ effective `max_width` (± tolerance) at ~40–50 %
+     of vane; width → ~0 at tip and at quill root; symmetric feathers (50:50) have symmetric rails;
+     asymmetric (e.g. P1 30:70) partition the width per the split; `vane_ratio_adjustment=-5%`
+     scales the outline width to ~95 % and `0 %` leaves it unchanged.
 5. **Tip styles** — `pointed`, `hooked`, `rounded-point`, `rounded`, `very-rounded` as a tip
    profile tweak on the closed outline.
    - Tests: each tip style produces a distinct, valid (non-self-intersecting) tip profile; hooked
@@ -59,10 +63,13 @@ matching that shape. **First task: author the data file** (schema + all rows fro
 6. **Emargination** — boolean param; cuts the outer-vane notch near the tip (P1–P5 only).
    - Tests: absent by default; present when true; notch sits on the **outer** vane near the tip;
      profile remains a single closed loop (not fragmented).
-7. **`feather_outline(params) → {outline, rachis}`** — the public entry point composing step 2–6.
+7. **`feather_outline(params, vane_ratio_adjustment=0.0) → {outline, rachis}`** — the public
+   entry point composing step 2–6; threads the width flag into `compute_vane`.
    - Tests: golden samples — P4 and S6 render to known-nominal outlines (snapshot test); no
      self-intersections across the whole §3 data set (sweep all rows); lit feathers respect the
-     **vane ≥ ~14 mm** floor at the ribbon (warn/fail per §2 of lighting-and-boards.md).
+     **vane ≥ ~14 mm** floor at the ribbon — and `vane_ratio_adjustment` is **refused/clamped**
+     if it would take any lit feather below that floor (warn/fail per §2 of
+     lighting-and-boards.md).
 8. **Serializers** — DXF (via `ezdxf`) and SVG (stdlib) per feather in `generator/out/{dxf,svg}/`.
    - Tests: artifact emitted for every feather; SVG is well-formed; DXF contains a single closed
      polyline on the expected layer.
@@ -76,7 +83,8 @@ matching that shape. **First task: author the data file** (schema + all rows fro
 | `group` | family (P/S/T/GC/A/SC/BC/cover-strip) | §1, §3 |
 | `total` | quill-to-tip length, cm | §7 |
 | `vane` | barbed-outline length, cm | §7 |
-| `max_width` | widest vane width, cm | §7 |
+| `max_width` | widest vane width, cm = `chord_ratio × vane` (per-feather §3 ratio default) | §3, §7 |
+| `vane_ratio_adjustment` | global % on every `max_width` (generator flag, default `0 %`; e.g. `-5 %`) | §6, §8 |
 | `rachis_split` | outer:inner width partition | §3.1/§3.2 |
 | `tip` | pointed/hooked/rounded-point/rounded/very-rounded | §7 |
 | `curvature` | high/med/med-low/low (~straight) | §7 |
@@ -102,5 +110,6 @@ The full §3 data set must sweep without self-intersections and respect the lit 
   ("pointed, hooked" for P1) and iterate on the preview sheet.
 - Whether `feather_outline` should also return the diffuser region per feather (currently out of
   scope; re-check with the diffuser investigation).
-- Confirm the §5 width decision before locking golden snapshot tests (slender vs broad plumes
-  change `max_width` broadly).
+- Width at default `vane_ratio_adjustment=0 %` = the pure §3 vane ratios (wide for ~76 feathers);
+  pick the actual flag value (e.g. `-5 %`) from the preview sheet, and lock golden snapshot tests
+  at that chosen value.

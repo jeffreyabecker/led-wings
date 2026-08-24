@@ -227,7 +227,9 @@ bottommost** (as viewed from above).
 
 ## 5. Open decisions
 
-- [ ] Feather width: slender streamers (~6–8 cm) vs broad plumes (~10–16 cm) at ~75 cm length.
+- [x] Feather width: **keep per-feather vane ratios** as the default; scale globally in the
+  generator with `--vane-ratio-adjustment` (see §6 Width, §8) — don't hand-edit every width.
+- [ ] Confirm the resulting width from a chosen `--vane-ratio-adjustment` on the preview sheet.
 - [ ] Confirm hem clearance + panel height (working: field ≈ longest primary P4 = 75 cm).
 - [ ] Layout: left/right wing columns + center back covers, vs one continuous feather field.
 - [ ] Diffuser geometry per template family (primary notch vs secondary round vs covert).
@@ -277,12 +279,21 @@ Vane length ≈ **0.75 × total** (from P4: 56/75). Coverts & back (cm, total): 
 GC1–GC12 ≈ **22–29** (half their secondary); scapulars SC1–SC6 ≈ **41–47**; back coverts BC1–BC8
 ≈ **32–40**.
 
-### Width (⚠️ design decision)
+### Width (decision: keep per-feather vane ratios, adjustable in the generator)
 
-Feather widths must be chosen, not taken from real-bird vane ratios (13–22 % of length → 10–16 cm
-at this scale — too fat for ~76 in a 50 cm panel). Recommended: **long-narrow feathers**, ~6–8 cm
-wide for the flight feathers (still ≥ ~14 mm to carry the 10 mm LED ribbon). Choose slender
-streamers vs broad plumes.
+Feather widths are **kept at the per-feather vane-ratio (chord-ratio) values from §3** — each
+`max_width` = `chord ratio × vane`. These are the anatomically natural proportions, kept for now;
+**none are locked**, and the wide range (which at this scale is too fat for ~76 feathers in a
+50 cm panel if taken literally) is resolved by *generation-time scaling*, not by hand-editing
+every width:
+
+- The generator reads the ratio-based widths straight from the data and applies a global
+  **`--vane-ratio-adjustment`** percentage to every `max_width` (e.g. `--vane-ratio-adjustment=-5%`
+  shrinks all feather widths by 5 %). See §8.
+- A 0 % default keeps the pure §3 ratios; negative values give the long-narrow look (≈ **6–9 cm**
+  flight feathers), positive values go broader — without touching the data file.
+- Absolute floor unchanged: every *lit* feather still needs `max_width ≥ ~14 mm` to carry the
+  10 mm LED ribbon (`--vane-ratio-adjustment` must not undercut this).
 
 > Width vs lighting is resolved: a single 10 mm ribbon lights a ~2–3 cm band, so vane edges glow
 > dimmer than the rachis — the **bright-rachis gradient is accepted** (no dual boards). See
@@ -298,8 +309,10 @@ streamers vs broad plumes.
 ## 7. Drafting dimensions (cm)
 
 > Working absolute dims to draw each outline as a vector. Scale from §6: **1 unit = 0.75 cm**,
-> **vane ≈ 0.75 × total** (P4: 75 total / 56 vane). Widths below are the **working "slender"
-> values** (⚠️ — confirm the §6 Width decision before locking).
+> **vane ≈ 0.75 × total** (P4: 75 total / 56 vane). **Widths below are the per-feather
+> vane-ratio (chord-ratio) widths from §3** — i.e. each `max_width` = `chord ratio × vane`. Those
+> are the *default*; the generator can scale them with a global
+> `--vane-ratio-adjustment` flag (see §8).
 
 ### Flight feathers
 
@@ -365,8 +378,13 @@ width** = vane width at the widest point (≥ ~1.4 cm to carry the 10 mm LED rib
 - **Source of truth.** One data file, e.g. `mechanical/feather/generator/feathers.json`, with one
   entry per feather: `{id, group, total, vane, max_width, rachis_split, tip, curvature,
   emargination, z_order, ...}`, plus per-wing/placement and shared-strip entries
-  (median/lesser/marginal coverts). Lengths in cm, everything else ratio-based so the §5 width
-  decision (slender vs broad plumes) is a data change, not a code change.
+  (median/lesser/marginal coverts). Lengths in cm; `max_width` is stored **per-feather at its
+  §3 vane-ratio** so any feather's width is `chord_ratio × vane` (see §6 Width).
+- **`--vane-ratio-adjustment` (generator flag, not data).** A global percent applied to every
+  `max_width` at draw time — e.g. `--vane-ratio-adjustment=-5%` shrinks all feather widths by
+  5 %, `0%` (default) keeps the pure §3 ratios, positive values go broader. It must not take any
+  *lit* feather below the **~14 mm** floor. This keeps the width look (§5) adjustable without
+  editing the data file or the code — it's a CLI knob on the generator.
 - **The markdown tables are generated or linted from the data file**, never hand-maintained, so
   the §2 scale and §3/§7 values can't drift. Until the generator exists, note any manual cast in
   the "last synced" header here.
