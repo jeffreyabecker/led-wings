@@ -24,7 +24,8 @@ It maximizes the lit run per connector pair on the long flight feathers (10.4 mm
 
 - **Board:** 62.0 × 12.0 mm, **1-layer flex PCB**, 1 oz copper, LEDs + connectors on one side.
 - **LED row:** 6× SK9822-EC20 (2020 pkg, 2.0 × 2.0 mm), **10.4 mm pitch**, centered on the strip.
-- **End margins:** 5.0 mm each end — fits the JST-GH footprint short axis (~5 mm) ⚠️ confirm at layout.
+- **End margins:** 5.0 mm each end — fits the JST-GH footprint short axis (4.13 mm) with
+  0.87 mm clearance ✅ (long axis 8.25 mm across the width).
 - **Connectors:** JST-GH 4-pin SMD (top-entry) at each end — `IN` at one end, `OUT` at the other.
 - **Mounting:** **adhesive-only** (VHB/tape) to the feather substrate; no holes.
 
@@ -85,5 +86,4 @@ It maximizes the lit run per connector pair on the long flight feathers (10.4 mm
 
 ## 6. Open items (this variant)
 
-- Confirm 5.0 mm end margin clears the GH footprint at layout.
 - Panel placement/quantity math once the full module count (~92) is frozen.

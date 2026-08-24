@@ -41,7 +41,7 @@ IN (JST-GH 4)                                  OUT (JST-GH 4)
 | LED | SK9822-EC20, 2020 pkg (2.0 × 2.0 mm) — [C2909059](https://www.lcsc.com/product-detail/C2909059.html) | ✅ |
 | Pitch | 10.4 mm center-to-center, single row | ✅ |
 | Board | **1-layer flex PCB, 12 mm wide** | ✅ |
-| Connector | JST-GH 4-pin SMD `SM04B-GHS-TB`, **top-entry** — [C189895](https://www.lcsc.com/product-detail/C189895.html) | ✅ |
+| Connector | JST-GH 4-pin SMD `SM04B-GHS-TB`, **top-entry**, footprint 8.25 × 4.13 mm — [C189895](https://www.lcsc.com/product-detail/C189895.html) | ✅ |
 | Signal contract | IN: `+5V`/`GND`/`DI`/`CI` · OUT: `+5V`/`GND`/`DO`/`CO` | ✅ |
 | Decoupling | 100 nF 0603 **per LED** — [C14663](https://www.lcsc.com/product-detail/C14663.html) | ✅ |
 | Fab | EasyEDA Pro → JLCPCB flex + PCBA | ✅ |
@@ -58,10 +58,11 @@ IN (JST-GH 4)                                  OUT (JST-GH 4)
   per-LED re-buffering → no termination needed on the module.
 - **Decoupling:** one 100 nF 0603 per LED, placed directly beside its pixel between `+5V` and
   `GND`, for the per-LED current spikes.
-- **Placement:** connector **short axis along the strip** at each end; LED row centered. The
-  end-margin math fits exactly:
-  - 4-LED: 42 mm = 2 × 5.4 + 3 × 10.4
-  - 6-LED: 62 mm = 2 × 5.0 + 5 × 10.4
+- **Placement:** connector footprint is **8.25 × 4.13 mm**. Orient the **8.25 mm axis across
+  the 12 mm board width** (1.875 mm margin each side) and the **4.13 mm axis along the strip**
+  into the end margin. LED row centered. The end-margin math fits exactly:
+  - 4-LED: 42 mm = 2 × 5.4 + 3 × 10.4 → 5.4 − 4.13 = 1.27 mm clearance ✅
+  - 6-LED: 62 mm = 2 × 5.0 + 5 × 10.4 → 5.0 − 4.13 = 0.87 mm clearance ✅
 - **Direction:** modules are directional. Chain head at the feather base → `IN`; tail toward the
   tip → `OUT`; the last module's OUT is unused. (JST-GH here is the top-entry type — jumpers
   plug in from above and fold flat along the feather.)
@@ -86,7 +87,6 @@ IN (JST-GH 4)                                  OUT (JST-GH 4)
 ## Open decisions (shared)
 
 - Mounting: **adhesive-only** (VHB/tape) to the feather substrate — no holes.
-- Confirm the GH footprint short axis (~5 mm) really fits the 5.0–5.4 mm end margins at layout.
 - Panel layout (modules per panel) against JLCPCB flex constraints.
 
 ## References
