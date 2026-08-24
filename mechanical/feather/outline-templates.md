@@ -4,9 +4,10 @@
 > Legend: ✅ = anatomy fact (sourced) · ⚠️ = design estimate (to be locked later).
 
 This lists every individual feather outline template the piece needs — the wing surface plus
-the back/shoulder cover over the electronics — grounded in how a real bird wing is built. It
-is the *mechanical* envelope list; each lit feather maps 1:1 to a `boards/led-segment/` board
-(the 10 mm LED ribbon) that runs along its rachis.
+the back/shoulder cover over the electronics — grounded in how a real bird wing is built. It is
+the *mechanical* envelope only: **outlines (geometry) and how the feathers arrange/layer**.
+Lighting (which feathers are lit, individual boards vs shared strips) and board mapping live
+separately in [lighting-and-boards.md](lighting-and-boards.md).
 
 ## 1. Grounding — what a wing actually has
 
@@ -47,26 +48,21 @@ Sources: [Wing coverts — Wikipedia](https://en.wikipedia.org/wiki/Wing-Coverts
 - **Back (mantle) covert** — broad, rounded, near-symmetric; overlaps like shingles (top
   feathers over bottom), covering the upper back. ✅
 
-## 2. Model decisions (first principles)
+## 2. Outline model decisions
 
 - **Two wings, mirrored.** A right-wing template is a left-wing template flipped about the
-  body axis. The list below is **per wing**; multiply by 2 for the pair.
-- **Individual vs shared.** Flight feathers + alula get one board each (individual templates).
-  The dense, small coverts (median/lesser/marginal, and optionally the inner greater coverts)
-  are better served by **shared under-lit strips**, not one board each — this matches the
-  "shared under-lit strip (lesser coverts / leading edge)" board already noted in
-  [`boards/README.md`](../../boards/README.md).
-- **The 10 mm ribbon.** Each individual feather carries one `led-segment` board (fixed 10 mm
-  wide) along its rachis. So every template needs a **vane ≥ ~14 mm wide** at the ribbon's
-  widest point (10 mm board + diffuser margin). Feather widths below are chord ratios that
-  respect this floor.
+  body axis. The lists below are **per wing**; multiply by 2 for the pair. The back coverts
+  (§3.7) are a single center-back set.
 - **Reference scale.** Lengths are relative to the longest primary (P4 = 100). Absolute size
   is one parameter (wing-span decision) and scales the whole list uniformly.
+- **Chord ratios.** "Vane width" is a % of feather length (chord ratio) and sets each
+  template's silhouette. The absolute mm floor a *lit* feather must meet is a board constraint
+  — see [lighting-and-boards.md](lighting-and-boards.md).
 - **Back & shoulder cover layer.** The scapulars + back coverts are a *cover* over the harness
-  and electronics bay (battery, power-hubs, controller), not a flight surface. They default to
-  unlit structural covers and mount to the harness/backplate, not the wing frame.
+  and electronics bay (battery, power-hubs, controller), not a flight surface. They mount to the
+  harness/backplate, not the wing frame.
 
-## 3. Individual feather templates — enumerated
+## 3. Individual feather outlines — enumerated
 
 > Per wing unless noted; the back coverts (§3.7) are a single shared center-back set.
 
@@ -126,9 +122,6 @@ Innermost, elongated and very rounded; these cover the wing when it folds.
 One per secondary; each `GCn` mirrors `Sn` at ≈ 50 % length, ≈ 24 % vane width, rounded,
 slightly curved. Enumerate as GC1–GC12 (outer → inner).
 
-> ⚠️ See §5: only the outer 9 (GC1–GC9) are recommended as **individual** boards; GC10–GC12
-> fold into the shared covert strip.
-
 ### 3.5 Alula — A1…A4 (4)
 
 Tiny, stiff, slightly asymmetric, mounted at the wrist. Length ≈ 14–16 % of P4, vane width
@@ -165,52 +158,43 @@ below. Together they form a removable lid for service access.
 | BC7 | 48 | 31 % | rounded |
 | BC8 | 44 | 30 % | rounded |
 
-> ⚠️ Back feathers default to **unlit structural covers** (they hide the electronics, not light
-> them). If lit, they become additional `led-segment` boards and add to the §5 totals.
+## 4. Arrangement & layering
 
-## 4. Shared strip templates (not individual feathers)
+The wing is a shingled stack: each feather overlaps the one behind/inside it — bases covered,
+tips free — so the surface reads as one continuous silhouette. Order below is **topmost →
+bottommost** (as viewed from above).
 
-These cover the dense covert rows. They are under-lit ribbons with a repeating feather-scallop
-edge, not discrete board-per-feather outlines.
+| Layer | Templates | Position / overlap |
+|-------|-----------|--------------------|
+| Back coverts | BC1–BC8 | center-back shingles over the electronics bay; BC1 highest (near neck) → BC8 lowest (lumbar); each overlaps the one below |
+| Scapulars | SC1–SC6 (per side) | shoulder rows bridging wing → body; layered, each over the one below |
+| Flight feathers | P1–P10, S1–S12, T1–T4 | the wing surface; primaries outermost → tertials innermost; each outer feather overlaps the inner one's base |
+| Greater coverts | GC1–GC12 | one over each secondary's base at ≈ 50 % of its length; cover the flight-feather bases |
+| Median coverts | (1 row) | one row above the greater coverts |
+| Lesser coverts | (2–4 rows) | graduate toward the leading edge |
+| Marginal coverts | (1 row) | leading-edge row; wraps the leading edge |
+| Alula | A1–A4 | at the wrist (thumb / digit I), leading-edge slot |
 
-| Template | Covers | Notes |
-|----------|--------|-------|
-| `median-covert-strip` | 1 row above the greater coverts | scalloped edge, graduated toward leading edge |
-| `lesser-covert-strip` | 2–3 rows toward the leading edge | shorter scallops each row |
-| `marginal-covert-strip` | leading edge | smallest scallops; wraps the leading edge |
-| `inner-greater-covert-strip` | GC10–GC12 | optional; carries the innermost covert scallops |
+- **Flight-feather order (outer → inner):** P1…P10 → S1…S12 → T1…T4. P1 is the outermost
+  primary; S1 sits adjacent to P10; T1…T4 are innermost, over the folded-wing area.
+- **Covert stacking:** the covert rows sit *over* the flight-feather bases and shorten row by
+  row as they approach the leading edge (greater → median → lesser → marginal).
+- **Greater-covert pairing:** `GCn` mirrors `Sn` at ≈ 50 % length — one greater covert per
+  secondary.
+- **Shingle direction:** every feather points toward the wing tip and overlaps the feather
+  behind it (the more-distal feather lies on top).
+- **Mirroring:** the right wing is the left wing flipped about the body axis. Back coverts are
+  a single center-back set (not mirrored); scapulars are per-side.
+- **Cover layer:** scapulars + back coverts sit over the harness/electronics bay and mount to
+  the harness/backplate, not the wing frame.
 
-## 5. Count reconciliation vs the ~70 board shapes
-
-`boards/led-segment/design-readiness.md` carries a **~70 unique LED board shapes** placeholder
-for ~1400 LEDs. This anatomy-derived list reconciles cleanly:
-
-| Group | Per wing | Both wings |
-|-------|---------:|-----------:|
-| Primaries (P1–P10) | 10 | 20 |
-| Secondaries (S1–S12) | 12 | 24 |
-| Tertials (T1–T4) | 4 | 8 |
-| Greater coverts as boards (GC1–GC9) | 9 | 18 |
-| **Individual board total** | **35** | **70** |
-
-- **70 individual feathers = 52 flight feathers (P+S+T) + 18 individual greater coverts** ✅
-- Alula (A1–A4, 8 both wings) is **optional** as individual boards — small enough (1–2 LEDs)
-  to fold into the marginal/leading-edge strip instead. ⚠️
-- Everything else (median/lesser/marginal coverts, GC10–GC12) is served by the shared strips
-  in §4.
-- **Back & shoulder feathers (§3.6–§3.7) are additional mechanical templates, not part of the
-  70.** They cover the electronics and default to unlit covers; if lit they add boards on top
-  of the 70. ⚠️
-
-## 6. Open decisions
+## 5. Open decisions
 
 - [ ] Absolute scale: wing span → sets the mm behind every relative length above.
-- [ ] LED budget per feather → confirms 20-LED average, or redistributes primaries vs coverts.
-- [ ] Alula as individual boards vs part of the leading-edge strip.
-- [ ] Back feathers: unlit structural covers (default) vs accent-lit boards.
-- [ ] Electronics-bay access: removable/hinged lid layout over battery + hubs + controller.
 - [ ] Diffuser geometry per template family (primary notch vs secondary round vs covert).
 - [ ] Left/right: confirm a single mirrored master is sufficient (vs hand-tuned pairs).
+- [ ] Shingle overlap: exact % each feather's base is covered by the feather over it.
+- [ ] Electronics-bay access: removable/hinged lid layout over battery + hubs + controller.
 
 ## References
 

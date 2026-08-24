@@ -5,7 +5,7 @@ feather-to-feather, power fed from local power-hubs.
 
 ## Toolchain
 
-- KiCad 10, parameterized via `pcbnew` Python scripting (~70 unique LED board shapes).
+- KiCad 10, parameterized via `pcbnew` Python scripting (~76 unique LED board shapes).
 - Varies per board: geometry + LED count/positions. Fixed: connectors at "top".
 
 ## Boards

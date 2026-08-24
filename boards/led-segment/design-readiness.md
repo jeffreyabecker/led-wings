@@ -1,6 +1,6 @@
 # LED Segment — Design Readiness
 
-> Decision tracker for the LED segment board family (~70 unique boards, parameterized).
+> Decision tracker for the LED segment board family (~76 unique boards, parameterized).
 >
 > **Toolchain:** KiCad 10 · `pcbnew` Python scripting.
 > **Board type:** flexible PCB (FPC) — target · bends realized as arcs.

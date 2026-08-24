@@ -46,7 +46,7 @@
 | Battery (3S Li-ion) | 2.5–2.9 kg | 1400 px @ 8 h @ 20 % — dominant lever |
 | Frame (cardboard + foam) | ~0.9 kg | both wings, ribs + spars |
 | Feathers / diffusers | ~0.6 kg | substrate TBD (feather README) |
-| LEDs + flex boards + connectors | ~0.3 kg | ~1400 px, ~70 boards |
+| LEDs + flex boards + connectors | ~0.3 kg | ~1400 px, ~76 boards |
 | Power-hubs + controller + wiring | ~0.6 kg | bucks + MCU + cabling |
 | **Total** | **~4.9–5.3 kg** | tight against the 5 kg cap |
 

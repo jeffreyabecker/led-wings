@@ -12,7 +12,7 @@ that carries and diffuses the light. Kept separate from `boards/` (electrical) a
 ## Conventions
 
 - One folder per area, each with a `README.md` (scope + open questions).
-- Mechanical parts reference the boards they host — e.g. the ~70 physical feather shapes
+- Mechanical parts reference the boards they host — e.g. the ~76 physical feather shapes
   match the `boards/led-segment/` parameterization (length + bend points).
 - "Feather" here means the *physical* feather geometry, distinct from the electrical
   `boards/led-segment/` feather *board*.
