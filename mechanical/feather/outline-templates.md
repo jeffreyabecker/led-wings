@@ -141,27 +141,103 @@ slightly curved. Enumerate as GC1–GC12 (outer → inner). `GCn` total = `0.5 �
 | GC11 | 24 | S11 (48) | 18 | rounded |
 | GC12 | 22.5 | S12 (45) | 17 | rounded |
 
-### 3.4b Shared covert rows — median / lesser / marginal (placeholder, per wing)
+### 3.4b Median coverts — MD1…MD12 (12, one row)
 
-The dense leading-edge rows are **not** enumerated feather-by-feather here; they're chains of
-short boards (see [lighting-and-boards.md](lighting-and-boards.md)) that follow the wing
-silhouette toward the leading edge. Parameterized placeholder rows, values ⚠️ (to be locked):
-each is a **shared strip** rather than individual templates.
+One row sitting just above the greater coverts; smaller and rounder than the greater covert,
+one per secondary. `MDn` total ≈ **0.4 × Sn** (⚠️ — exact taper to be locked with the
+generator). Vane ≈ 0.75 × total (§6); vane width (chord) 26 % of length; rounded; ≈50:50
+rachis, low curve.
 
-| Group | Rows | Feathers/row | Length (cm) | Vane width* | Tip | Lit? |
-|-------|------|-------------:|------------:|------------:|-----|------|
-| Median coverts | 1 | several | ≈ 15–25 | 26 % | rounded | lit (shared) |
-| Lesser coverts | 2–4 | several | ≈ 10–18 | 28 % | round | lit (shared) |
-| Marginal coverts | 1 | several | ≈ 6–12 | 30 % | round | lit (shared) |
+| ID | Total (cm) | Vane (cm) | Tip |
+|----|-----------:|----------:|-----|
+| MD1 | 23.5 | 17.5 | rounded |
+| MD2 | 23.5 | 17.5 | rounded |
+| MD3 | 23.5 | 17.5 | rounded |
+| MD4 | 23.5 | 17.5 | rounded |
+| MD5 | 23 | 17 | rounded |
+| MD6 | 23 | 17 | rounded |
+| MD7 | 22.5 | 17 | rounded |
+| MD8 | 21.5 | 16 | rounded |
+| MD9 | 21 | 16 | rounded |
+| MD10 | 20 | 15 | rounded |
+| MD11 | 19 | 14 | rounded |
+| MD12 | 18 | 13.5 | rounded |
 
-\* vane width as % of feather length. Counts/lengths are estimates derived from the §4 layering
-model; the programmatic generator (see §8) will derive exact per-row feather counts from the
-leading-edge run length and overlap.
+### 3.4c Lesser coverts — LS1-1…LS3-12 (36, three rows)
+
+Three graduated rows (⚠️ row count is a knob, 2–4; **3 working**) shrinking toward the leading
+edge; 12 per row, one per secondary. Each row is a fixed fraction of `Sn`: row 1 ≈ **0.30 × Sn**,
+row 2 ≈ **0.24 × Sn**, row 3 ≈ **0.18 × Sn**. Vane ≈ 0.75 × total (§6); vane width (chord)
+28 % of length; rounded; ≈50:50 rachis, low curve.
+
+| ID | Total (cm) | Vane (cm) | Tip |
+|----|-----------:|----------:|-----|
+| LS1-1 | 17.5 | 13 | rounded |
+| LS1-2 | 17.5 | 13 | rounded |
+| LS1-3 | 17.5 | 13 | rounded |
+| LS1-4 | 17.5 | 13 | rounded |
+| LS1-5 | 17.5 | 13 | rounded |
+| LS1-6 | 17 | 13 | rounded |
+| LS1-7 | 17 | 13 | rounded |
+| LS1-8 | 16 | 12 | rounded |
+| LS1-9 | 16 | 12 | rounded |
+| LS1-10 | 15 | 11 | rounded |
+| LS1-11 | 14.5 | 11 | rounded |
+| LS1-12 | 13.5 | 10 | rounded |
+| LS2-1 | 14 | 10.5 | rounded |
+| LS2-2 | 14 | 10.5 | rounded |
+| LS2-3 | 14 | 10.5 | rounded |
+| LS2-4 | 14 | 10.5 | rounded |
+| LS2-5 | 14 | 10.5 | rounded |
+| LS2-6 | 13.5 | 10 | rounded |
+| LS2-7 | 13.5 | 10 | rounded |
+| LS2-8 | 13 | 10 | rounded |
+| LS2-9 | 12.5 | 9.5 | rounded |
+| LS2-10 | 12 | 9 | rounded |
+| LS2-11 | 11.5 | 8.5 | rounded |
+| LS2-12 | 11 | 8 | rounded |
+| LS3-1 | 10.5 | 8 | rounded |
+| LS3-2 | 10.5 | 8 | rounded |
+| LS3-3 | 10.5 | 8 | rounded |
+| LS3-4 | 10.5 | 8 | rounded |
+| LS3-5 | 10.5 | 8 | rounded |
+| LS3-6 | 10 | 7.5 | rounded |
+| LS3-7 | 10 | 7.5 | rounded |
+| LS3-8 | 9.5 | 7 | rounded |
+| LS3-9 | 9.5 | 7 | rounded |
+| LS3-10 | 9 | 7 | rounded |
+| LS3-11 | 8.5 | 6.5 | rounded |
+| LS3-12 | 8 | 6 | rounded |
+
+### 3.4d Marginal coverts — MG1…MG12 (12, one row)
+
+The leading-edge row; smallest and roundest, hugging the leading edge. `MGn` total ≈
+**0.14 × Sn** (⚠️). Vane ≈ 0.75 × total (§6); vane width (chord) 30 % of length; rounded;
+≈50:50 rachis, low curve.
+
+| ID | Total (cm) | Vane (cm) | Tip |
+|----|-----------:|----------:|-----|
+| MG1 | 8 | 6 | rounded |
+| MG2 | 8 | 6 | rounded |
+| MG3 | 8 | 6 | rounded |
+| MG4 | 8 | 6 | rounded |
+| MG5 | 8 | 6 | rounded |
+| MG6 | 8 | 6 | rounded |
+| MG7 | 8 | 6 | rounded |
+| MG8 | 7.5 | 5.5 | rounded |
+| MG9 | 7.5 | 5.5 | rounded |
+| MG10 | 7 | 5 | rounded |
+| MG11 | 6.5 | 5 | rounded |
+| MG12 | 6.5 | 5 | rounded |
+
+\* All covert-row totals above are **⚠️ design estimates** (0.4 / 0.30 / 0.24 / 0.18 / 0.14 × Sn
+respectively); the per-feather `feathers.json` values are the source of truth (§8) and the
+generator re-derives these from `Sn`.
 
 ### 3.5 Alula — A-B (bottom) + A-T (top) (2, per side)
 
 Two tiny, stiff, slightly asymmetric thumb feathers at the wrist: the **bottom alula** and the
-**top alula**. Both are lit individually. Length ≈ 14–16 % of P4 (≈ 11 cm total, ~8 cm vane),
+**top alula**. Length ≈ 14–16 % of P4 (≈ 11 cm total, ~8 cm vane),
 vane width ≈ 22 % (≈ 2.5 cm).
 
 ### 3.6 Scapulars — SC1…SC6 (6, per side)
@@ -207,9 +283,9 @@ bottommost** (as viewed from above).
 | Scapulars | SC1–SC6 (per side) | shoulder rows bridging wing → body; layered, each over the one below |
 | Flight feathers | P1–P10, S1–S12, T1–T4 | the wing surface; primaries outermost → tertials innermost; each outer feather overlaps the inner one's base |
 | Greater coverts | GC1–GC12 | one over each secondary's base at ≈ 50 % of its length; cover the flight-feather bases |
-| Median coverts | (1 row) | one row above the greater coverts |
-| Lesser coverts | (2–4 rows) | graduate toward the leading edge |
-| Marginal coverts | (1 row) | leading-edge row; wraps the leading edge |
+| Median coverts | MD1–MD12 (1 row) | one row above the greater coverts |
+| Lesser coverts | LS1-1…LS3-12 (3 rows) | graduate toward the leading edge |
+| Marginal coverts | MG1–MG12 (1 row) | leading-edge row; wraps the leading edge |
 | Alula | A-B (bottom) + A-T (top) | at the wrist (thumb / digit I), leading-edge slot |
 
 - **Flight-feather order (outer → inner):** P1…P10 → S1…S12 → T1…T4. P1 is the outermost
@@ -377,9 +453,11 @@ width** = vane width at the widest point (≥ ~1.4 cm to carry the 10 mm LED rib
 
 - **Source of truth.** One data file, e.g. `mechanical/feather/generator/feathers.json`, with one
   entry per feather: `{id, group, total, vane, max_width, rachis_split, tip, curvature,
-  emargination, z_order, ...}`, plus per-wing/placement and shared-strip entries
-  (median/lesser/marginal coverts). Lengths in cm; `max_width` is stored **per-feather at its
-  §3 vane-ratio** so any feather's width is `chord_ratio × vane` (see §6 Width).
+  emargination, z_order, ...}`, plus per-wing/placement entries. Lengths in cm; `max_width` is
+  stored **per-feather at its §3 vane-ratio** so any feather's width is `chord_ratio × vane`
+  (see §6 Width). The covert rows MD/LS/MG are enumerated per-feather (§3.4b–§3.4d) exactly
+  like every other group — this file is geometry only; how those covert feathers are lit (e.g.
+  grouped as shared strips) lives in [lighting-and-boards.md](lighting-and-boards.md).
 - **`--vane-ratio-adjustment` (generator flag, not data).** A global percent applied to every
   `max_width` at draw time — e.g. `--vane-ratio-adjustment=-5%` shrinks all feather widths by
   5 %, `0%` (default) keeps the pure §3 ratios, positive values go broader. It must not take any

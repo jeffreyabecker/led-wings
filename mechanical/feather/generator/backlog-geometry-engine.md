@@ -37,10 +37,11 @@ matching that shape. **First task: author the data file** (schema + all rows fro
 ## Tasks (in suggested order)
 
 1. **Author `feathers.json`** — schema + every feather row from §3.1–§3.7 and the §7 cm tables.
-   Include shared-strip placeholder rows (median/lesser/marginal coverts) per §3.4b. Validate:
+   Include the fully-enumerated covert rows (median MD1–MD12, lesser LS1-1…LS3-12, marginal
+   MG1–MG12) per §3.4b–§3.4d. Validate:
    `total = vane + quill`, `quill ≥ 0`, `0 < max_width`, `out + inn = 100` for rachis split.
    - Tests: `feathers.json` loads; every entry passes schema/range validation; fixture covers a
-     representative set (P1, P4, P6, S6, T4, GC1, GC12, SC4, BC4, A-B, A-T, median-strip).
+     representative set (P1, P4, P6, S6, T4, GC1, GC12, MD1, LS1-1, MG1, SC4, BC4, A-B, A-T).
 2. **Core listable geometry** — represent points/segments/polylines without a hard CAD dep
    (plain tuple/`dataclass` geometry first; swap in a viewer/serializer later). Unit: cm.
 3. **`compute_rachis(params)`** — straight polyline of `total` length along the feather axis,
