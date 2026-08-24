@@ -57,11 +57,11 @@ row**, so each row keeps one common LED orientation for the animation.
 
 - **LEDs:** 7 × 4-LED modules = 28 per ~29 cm row (10.4 mm pitch). ⚠️ Row spans are
   placeholders until the wing layout is drawn.
-- **Wiring:** standard 4-pin chain — `DI`/`CI` in at the row head, `DO`/`CO` out the tail →
+- **Wiring:** standard 4-pin chain — `SDI`/`CLK` in at the row head, `SDO`/`CKO` out the tail →
   next row's head; power injected via pigtails every 4–6 modules (wiring legend:
   [pinout](../../docs/connector-pinout.md)).
-- **Common orientation:** the chain keeps one orientation by construction: `DI` in at the
-  head → LEDs in order → `DO` out the tail. The row then behaves as one logical strip, so
+- **Common orientation:** the chain keeps one orientation by construction: `SDI` in at the
+  head → LEDs in order → `SDO` out the tail. The row then behaves as one logical strip, so
   animations map 1:1 to row position.
 - **Scallop edge:** the scallop silhouette lives in the mechanical overlay/diffuser above the
   modules; the chain itself stays straight.

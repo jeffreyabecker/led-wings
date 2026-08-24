@@ -38,7 +38,7 @@
     [4-LED schematic](modules/4-led-schematic.md) · [6-LED schematic](modules/6-led-schematic.md)
     (netlist sources of truth).
 - **Signal contract (settled ✅, "option b"):** power + data combined on the 4-pin —
-  **IN:** `+5V`/`GND`/`DI`/`CI` · **OUT:** `+5V`/`GND`/`DO`/`CO`. Power rides the chain;
+  **IN:** `GND`/`SDI`/`CLK`/`+5V` · **OUT:** `+5V`/`CKO`/`SDO`/`GND`. Power rides the chain;
   injection via harness pigtails (below). Pin maps:
   [wiring legend](../docs/connector-pinout.md).
 - **Power injection:** harness pigtails tap `+5V`/`GND` **every 4–6 modules**, fed from the

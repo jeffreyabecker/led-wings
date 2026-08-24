@@ -47,11 +47,12 @@ It maximizes the lit run per connector pair on the long flight feathers (10.4 mm
 
 ## 3. Electrical design
 
-- **Signal contract:** IN = `+5V`/`GND`/`DI`/`CI`, OUT = `+5V`/`GND`/`DO`/`CO`
+- **Signal contract:** IN = `GND`/`SDI`/`CLK`/`+5V`, OUT = `+5V`/`CKO`/`SDO`/`GND`
   ([canonical pinout](../../docs/connector-pinout.md)).
-- **Power:** +5V and GND rails run full-length, pass straight through both connectors (1:1).
-  Sized for the inter-injection budget ≤ ~0.8 A.
-- **Data:** `DI`/`CI` → LED1 → … → LED6 → `DO`/`CO`. Each SK9822 re-buffers its outputs;
+- **Power:** +5V and GND rails run full-length, through both connectors with **crossed pin
+  order** (IN pin 4 `+5V` ↔ OUT pin 1; IN pin 1 `GND` ↔ OUT pin 4). Sized for the
+  inter-injection budget ≤ ~0.8 A.
+- **Data:** `SDI`/`CLK` → LED1 → … → LED6 → `SDO`/`CKO`. Each SK9822 re-buffers its outputs;
   5 short hops (10.4 mm each) — no termination, no series R on the module.
 - **Decoupling:** 1× 100 nF 0603 **per LED** (settled) — C1–C6, one beside each pixel.
 

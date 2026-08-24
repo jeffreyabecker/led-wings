@@ -33,52 +33,53 @@
 
 | Pin | J1 (IN) | J2 (OUT) |
 |-----|---------|----------|
-| 1 | +5V | +5V |
-| 2 | GND | GND |
-| 3 | DI | DO |
-| 4 | CI | CO |
+| 1 | GND | +5V |
+| 2 | SDI | CKO |
+| 3 | CLK | SDO |
+| 4 | +5V | GND |
 
 ## Nets
 
 ```
-+5V   J1.1  J2.1  L1.5  L2.5  L3.5  L4.5  C1.1  C2.1  C3.1  C4.1
-GND   J1.2  J2.2  L1.2  L2.2  L3.2  L4.2  C1.2  C2.2  C3.2  C4.2
++5V   J1.4  J2.1  L1.5  L2.5  L3.5  L4.5  C1.1  C2.1  C3.1  C4.1
+GND   J1.1  J2.4  L1.2  L2.2  L3.2  L4.2  C1.2  C2.2  C3.2  C4.2
 
-DI    J1.3 ─ L1.3          (data in → LED1)
-CI    J1.4 ─ L1.4          (clock in → LED1)
+SDI   J1.2 ─ L1.3          (data in → LED1)
+CLK   J1.3 ─ L1.4          (clock in → LED1)
 
 D1    L1.1 ─ L2.3          (SDO LED1 → SDI LED2)
 D2    L2.1 ─ L3.3
 D3    L3.1 ─ L4.3
-DO    L4.1 ─ J2.3          (SDO LED4 → data out)
+SDO   L4.1 ─ J2.3          (SDO LED4 → data out)
 
 CLK1  L1.6 ─ L2.4          (CKO LED1 → CKI LED2)
 CLK2  L2.6 ─ L3.4
 CLK3  L3.6 ─ L4.4
-CO    L4.6 ─ J2.4          (CKO LED4 → clock out)
+CKO   L4.6 ─ J2.2          (CKO LED4 → clock out)
 ```
 
 ## Connections to draw
 
 | Net | From | To |
 |-----|------|----|
-| +5V | J1.1, J2.1, L1.5, L2.5, L3.5, L4.5, C1.1, C2.1, C3.1, C4.1 | (single rail) |
-| GND | J1.2, J2.2, L1.2, L2.2, L3.2, L4.2, C1.2, C2.2, C3.2, C4.2 | (single rail) |
-| DI | J1.3 | L1.3 |
-| CI | J1.4 | L1.4 |
+| +5V | J1.4, J2.1, L1.5, L2.5, L3.5, L4.5, C1.1, C2.1, C3.1, C4.1 | (single rail) |
+| GND | J1.1, J2.4, L1.2, L2.2, L3.2, L4.2, C1.2, C2.2, C3.2, C4.2 | (single rail) |
+| SDI | J1.2 | L1.3 |
+| CLK | J1.3 | L1.4 |
 | D1 | L1.1 | L2.3 |
 | D2 | L2.1 | L3.3 |
 | D3 | L3.1 | L4.3 |
-| DO | L4.1 | J2.3 |
+| SDO | L4.1 | J2.3 |
 | CLK1 | L1.6 | L2.4 |
 | CLK2 | L2.6 | L3.4 |
 | CLK3 | L3.6 | L4.4 |
-| CO | L4.6 | J2.4 |
+| CKO | L4.6 | J2.2 |
 
 - **Decoupling:** C1 sits at L1, C2 at L2, C3 at L3, C4 at L4 — each cap's pin 1 on `+5V`,
   pin 2 on `GND`.
-- **Signal flow:** DI/CI enter L1; each LED re-buffers and passes DO/CO to the next; L4 drives
-  the OUT connector. Power and ground are shared rails across all four LEDs + both connectors.
+- **Signal flow:** SDI/CLK enter L1; each LED re-buffers and passes SDO/CKO to the next; L4
+  drives the OUT connector. Power and ground are shared rails across all four LEDs + both
+  connectors.
 
 ## Design rules carried into layout
 
