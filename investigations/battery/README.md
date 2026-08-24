@@ -11,9 +11,10 @@ not a pixel-string voltage floor.
 ## What's under investigation
 
 - [Battery options](options.md) — lead-acid vs 3S/4S Li-ion vs LiFePO4: voltage range,
-  energy density, cycle life, cost, safety, and an 8 h @ 20 % sizing.
+  energy density, cycle life, cost, safety, and an 8 h @ 20 % sizing at the 2800-px ceiling.
+- Next: **off-the-shelf pack survey** (RC 3S LiPo vs "12 V" Li-ion/LiFePO4 vs e-bike packs).
 
 ## Status
 
-`investigation` — default recommendation is **4S LiFePO4 (12.8 V nominal)**; see
-[options.md](options.md) for the bottom line and open items.
+`investigation` — default is **3S Li-ion (LiPo/18650)**, ~1 kWh / ~90 Ah at the 2800-px
+ceiling; LiFePO4 rejected for wearable weight. See [options.md](options.md).

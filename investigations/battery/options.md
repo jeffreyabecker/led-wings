@@ -1,8 +1,9 @@
-# Battery Options — 12 V Mobility Power
+# Battery Options — Wearable Mobility Power
 
 > Pick the battery that feeds the fixed 12 V rail (wall supply for dev, battery for
 > mobility). The pixel is locked to the SK9822-EC20 (5 V), powered through a 12 V→5 V buck,
-> so the battery only has to stay above the buck's input dropout (~6–7 V).
+> so the battery only has to stay above the buck's input dropout (~6–7 V). **Wearable →
+> weight is a first-class constraint.**
 >
 > Legend: ✅ = sourced · ⚠️ = estimate, to confirm.
 
@@ -11,7 +12,9 @@
 - Fixed **12 V** system; battery must hold the rail above the 12 V→5 V buck's input dropout
   across its full discharge.
 - Runtime target: **8 h at 20 % brightness** (typical animated look, not full-white).
-- Energy needed: SK9822 @ 5 V (via 12 V→5 V buck, ~85 % end-to-end): **~500 Wh**.
+- Pixel ceiling: **2800 px** (assumed upper bound; scale down once the design proves it can
+  make do with less — pixel count is the dominant weight lever).
+- Energy needed: SK9822 @ 5 V via a 12 V→5 V buck (~90 %): **~1000 Wh (1 kWh)**.
 
 ## Chemistry comparison ("12 V")
 
@@ -28,14 +31,13 @@
 
 Key points:
 
-- **Lead-acid** is the cheapest and needs no BMS, but is heavy and dies fast when deeply
-  cycled (keep above ~50 % DoD → effectively ~10.5 V floor).
-- **Li-ion (NMC/LiPo)** is the lightest, but it *must* have a BMS and is the fire-risk
-  option; 3S and 4S differ only in voltage (4S is what "12 V automotive replacement" packs
-  actually are).
-- **LiFePO4** trades ~1.5–2× the weight of Li-ion for the longest cycle life, the safest
-  chemistry, and a famously flat discharge curve.
+- **Weight is the wearable's hard constraint → Li-ion/LiPo wins.** LiFePO4 is the safest and
+  longest-lived but ~1.5–2× heavier per Wh — it is *rejected* here despite being the best
+  cycle-life/safety choice.
+- **Li-ion (NMC/LiPo) is the lightest**, but it *must* have a BMS and is the fire-risk option;
+  3S and 4S differ only in voltage (4S is what "12 V automotive replacement" packs are).
 - **3S LiFePO4 is too low** (9.6 V nominal) — rejects itself as a "12 V" rail.
+- Lead-acid is cheapest but ~4–5× heavier — static installs only, not wearable.
 
 Sources: [LiFePO4 vs Li-ion vs lead-acid](https://walkingsolar.com/lifepo4-vs-lithium-ion-vs-lead-acid-which-battery-is-best-for-solar/),
 [lead-acid vs lithium energy density](https://eszoneo.com/info-detail/lead-acid-vs-lithium-battery-energy-density-a-comprehensive-comparison-for-modern-power-systems),
@@ -46,8 +48,9 @@ Sources: [LiFePO4 vs Li-ion vs lead-acid](https://walkingsolar.com/lifepo4-vs-li
 ## Voltage-floor fit vs the buck's input dropout
 
 With the SK9822 (5 V) fed by a 12 V→5 V buck, the rail only needs to stay above the buck's
-minimum input — ~6–7 V for a typical buck (5 V out + ~1–2 V dropout). Every "12 V"
-chemistry clears this comfortably:
+minimum input — ~6–7 V for a typical buck (5 V out + ~1–2 V dropout). Every "12 V" chemistry
+clears this comfortably, which is what **frees us to use 3S Li-ion** (the lightest option)
+rather than being forced to 4S:
 
 | Chemistry | Empty voltage | Clears ~6–7 V floor? |
 |---|---|---|
@@ -57,53 +60,64 @@ chemistry clears this comfortably:
 | 4S LiFePO4 | 10.0 V | ✅ |
 | 3S LiFePO4 | 7.5 V | ✅ (tight) |
 
-- The buck absorbs the sag, so the LED color stays flat down to the buck's dropout.
+- The buck absorbs the sag, so LED color stays flat down to the buck's dropout.
 - Practical guardrail: set the low-voltage disconnect above the dropout with margin
   (~9–10 V) to avoid brown-out at end of charge.
 
-## Sizing (8 h @ 20 %)
+## Sizing (2800 px ceiling)
 
-| Brightness | Rail power (5 V baseline) | Battery |
+| | Full white | 20 % brightness |
 |---|---|---|
-| 10 % | 28 W | ~250 Wh |
-| **20 %** | 56 W | **~500 Wh** |
-| 50 % | 140 W | ~1250 Wh |
-| 100 % | 280 W | ~2500 Wh |
+| Rail power (2800 × 0.2 W) | 560 W (112 A @ 5 V) | **112 W** |
+| Battery draw (÷ 90 % buck) | ~622 W | **~124 W** |
+| 8 h energy | ~5 kWh | **~1000 Wh** |
 
-Ah at nominal and weight for the target energy:
+Scaling (linear in pixel count — the main lever):
 
-| Chemistry | Nominal | Ah for 500 Wh | Weight (500 Wh) |
-|---|---|---|---|
-| Lead-acid (35 Wh/kg) | 12.0 V | ~42 Ah | ~14 kg |
-| 4S LiFePO4 (125 Wh/kg) | 12.8 V | ~39 Ah | ~4 kg |
-| 3S Li-ion (200 Wh/kg) | 11.1 V | ~45 Ah | ~2.5 kg |
+> **Battery Wh ≈ pixels × 0.356** (8 h @ 20 %, battery-side) · **LiPo weight ≈ Wh ÷ 170 kg**
 
-> ⚠️ Weights are cell-level (≈ energy ÷ density); add pack enclosure, BMS, and derating for
-> a real number. Li-ion/LiFePO4 cells are usually rated at C/5–C/10; a high-C load or cold
-> weather shaves usable capacity, so pad 20–30 % above the table for the build.
+| Pixels | Battery energy | LiPo weight (~170 Wh/kg) |
+|---|---|---|
+| 2800 | ~1000 Wh | ~5.9 kg |
+| 2100 | ~750 Wh | ~4.4 kg |
+| 1400 | ~500 Wh | ~2.9 kg |
+| 700 | ~250 Wh | ~1.5 kg |
+| 350 | ~125 Wh | ~0.73 kg |
+
+> ⚠️ Weights are pack-level (≈ energy ÷ ~170 Wh/kg for LiPo with enclosure + BMS). Cells are
+> usually rated at C/5–C/10; a high-C load or cold weather shaves usable capacity, so pad
+> 20–30 % above the table for a real build.
 
 ## Recommendation
 
-- **Default for mobility: 4S LiFePO4 (12.8 V nominal, 10.0–14.6 V).** Safest chemistry,
-  2000+ cycles, flat discharge. For the 8 h/20 % target, ~39 Ah / ~4 kg. Slightly heavier and
-  pricier than Li-ion, but the lowest lifecycle cost and zero thermal-runaway risk for a
-  wearable/costume-scale light.
-- **If weight is the hard constraint: 3S Li-ion (~2.5 kg).** Its empty voltage (9.0 V) sits
-  comfortably above the buck's dropout, so there is no floor penalty.
-- **Lead-acid only** if cost is the sole driver and weight/cycle-life don't matter (static
-  installs, not mobility): ~14 kg for the same energy.
+- **Default: 3S Li-ion — LiPo pouch or 18650 — ~11.1 V nominal, ~90 Ah / ~1000 Wh for the
+  2800-px ceiling.** This is the weight-optimal chemistry for a wearable, and 3S (not 4S) is
+  now usable because the 12 V→5 V buck absorbs the voltage sag.
+- **LiPo pouch** is the lightest and most formable, but needs a hard enclosure + BMS (puncture
+  → fire, and this sits near the body). **18650 (3S ~26P)** is slightly heavier but inherently
+  robust — safer for a bumpable wearable. Pick on form-factor/safety, not chemistry.
+- **LiFePO4 is rejected for wearable** (1.5–2× heavier); lead-acid is rejected (4–5× heavier).
+- Reality check: ~1 kWh ≈ **5–6 kg** — small-e-bike/large-drone territory, not a phone power
+  bank. Weight will very likely drive the "can we make do with fewer pixels" decision, and
+  charging + thermal management at this scale are non-trivial.
+
+## Next step — off-the-shelf pack (before specifying cells)
+
+Do **not** spec a custom cell configuration yet. First investigate buying an off-the-shelf
+pack — RC/hobby 3S LiPo packs, "12 V" Li-ion/LiFePO4 power-station/e-bike packs, and 12 V
+replacement packs — for availability, included BMS, capacity, weight, and cost. A purchased
+pack with an integrated BMS and enclosure is strongly preferred over a DIY cell build at
+~1 kWh (safety + certification).
 
 ## Open questions
 
-- [ ] Confirm the actual average brightness the show runs at — "20 %" is an assumption and
-      scales the battery linearly.
-- [ ] Confirm discharge rate (C-rate) and cold-weather operation → derating factor.
-- [ ] Pick the 12 V→5 V buck (input range, dropout, efficiency) — its minimum input sets the
-      real battery floor.
-- [ ] Set the low-voltage disconnect: a ~9–10 V cut protects the cells and keeps the rail
-      above the buck's dropout with margin.
-- [ ] Choose pack form factor (prismatic vs 18650/21700 vs pouch) and a BMS with the right
-      per-cell cut-offs for the chosen chemistry.
+- [ ] **Off-the-shelf pack survey (next).** RC 3S LiPo vs "12 V" Li-ion/LiFePO4 packs vs
+      e-bike packs: capacity, weight, BMS included, discharge rating, cost.
+- [ ] Confirm the actual average brightness — "20 %" is an assumption and scales linearly.
+- [ ] Confirm 2800 px as the ceiling; every halving removes ~2.5–3 kg.
+- [ ] Set the low-voltage disconnect (~9–10 V) above the buck's dropout.
+- [ ] Charging: a ~1 kWh pack needs a real charger (~0.5 C ≈ 500 W) and thermal management.
+- [ ] Safety: enclosure, BMS, fusing, and thermal monitoring are non-negotiable at ~1 kWh.
 
 ## References
 
@@ -114,4 +128,5 @@ Ah at nominal and weight for the target energy:
 - 12 V voltage/SOC charts: https://jetraybattery.com/battery-voltage-soc-complete-chart-guide-12v-24v-48v/
 - 3S LiPo guide: https://www.ufinebattery.com/blog/an-ultimate-guide-about-3s-lipo-batteries/
 - Lead-acid (flooded/AGM/gel) deep-cycle: https://howtostoreelectricity.com/lead-acid-batteries-for-solar/
-- Project context: [controller design readiness](../../boards/controller/design-readiness.md)
+- Project context: [power delivery](../power-delivery/conversion-options.md) ·
+  [controller design readiness](../../boards/controller/design-readiness.md)
