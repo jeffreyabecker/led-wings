@@ -17,7 +17,7 @@ power-hub's job). One per wing.
 
 ## Connectors
 
-- N data outputs (DATA + CLK + GND), plus MCU + power input.
+- N data outputs (DATA + CLK, 2-pin JST-GH), plus MCU + power input.
 
 ## Open questions
 

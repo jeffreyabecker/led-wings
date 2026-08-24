@@ -12,6 +12,7 @@ feather-to-feather, power fed from local power-hubs.
 
 - [LED segment](boards/led-segment/) — SK9822 feather board (daisy-chain data + power connector)
 - [Controller](boards/controller/) — data source: MCU + level shifter, N chain outputs
+- [Power-hub](boards/power-hub/) — 12 V→5 V buck, feeds a feather cluster
 
 ## Shared docs
 

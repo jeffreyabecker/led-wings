@@ -25,14 +25,14 @@
 | LED placement | offset (mm) from top to chip center |
 | Topology | data daisy-chain feather→feather; power from local power-hub |
 | LED | SK9822-EC20 (C2909059), 5 V, ~40 mA/LED @ full white, 2020 |
-| Connectors (SMD side-entry) | `J_PWR` 2-pin + `J_IN` 3-pin + `J_OUT` 3-pin (part numbers TBD) |
-| Pinout | shared [contract](../../docs/connector-pinout.md): PWR GND/+5V · DATA-IN GND/DI/CI · DATA-OUT GND/DO/CO |
+| Connectors (SMD side-entry) | `J_PWR` 2-pin (JST-PH) + `J_IN`/`J_OUT` 2-pin (JST-GH 1.25 mm) |
+| Pinout | shared [contract](../../docs/connector-pinout.md): PWR GND/+5V · DATA-IN DI/CI · DATA-OUT DO/CO |
 | Data path | `DI`/`CI` → first LED; last LED's `DO`/`CO` → `DATA OUT` → next feather |
 | Reverse polarity | MDD `SS34` (C8678) in series with VCC — required |
 | Decoupling | Yageo `CC0603KRX7R9BB104` (C14663), 100 nF |
 | Bulk | Samsung `CL31A476MPHNNNE` (C96123), 47 µF 10V, per board |
 | Deferred | series R + ESD/TVS + level shifter → controller; fuse + buck → power-hub |
-| Current limit | 2 A per JST-PH circuit (per-feather power run is far under) |
+| Current limit | 2 A per JST-PH circuit (power) · 1 A per JST-GH circuit (data) |
 
 ## Open decisions
 
@@ -64,11 +64,11 @@
 
 ### KiCad libraries
 - [ ] SK9822-EC20 `.kicad_sym` + `.kicad_mod` (convert from EasyEDA JSON/SVG)
-- [ ] 2-pin + 3-pin JST-PH footprints (`S2B`/`S3B`-PH-SM4-TB) — confirm in stock lib or create
+- [ ] JST-PH 2-pin + JST-GH 2-pin footprints (`S2B-PH-SM4-TB`, `SM02B-GHS-TB`) — confirm in stock lib or create
 
 ### Controller / power-hub (parallel)
 - [ ] Controller: MCU, level shifter (one pair), series R, ESD/TVS; N chain outputs
-- [ ] Power-hub: fuse per feed, 12 V→5 V buck (if 12 V bus), fan-out count
+- [ ] Power-hub: fuse per feed, 12 V→5 V buck, fan-out count
 - [ ] Chain segmentation (N) + power-hub placement
 - [ ] Chain timing / clock budget (~1400 LEDs cumulative regen delay)
 
@@ -77,7 +77,7 @@
 - 5 V has almost no headroom: 0.5 V drop = 10% = color shift/flicker (blue dies first). Each
   power run carries only its own board's current, so per-board drop is small; the power-hub
   owns distribution.
-- 2 A per JST-PH circuit; one feather per power feed, so per-feed current is far below the limit.
+- Power: 2 A per JST-PH circuit; one feather per power feed, so per-feed current is far below the limit. Data: 1 A per JST-GH circuit — signal current is negligible.
 - X5R/X7R derate ~40–60% under DC bias → think effective µF, not nominal.
 - 2020 package: fine pads, pick-and-place + reflow only.
 - Side-entry SMD connector on flex needs a stiffener for solder reliability + mating.

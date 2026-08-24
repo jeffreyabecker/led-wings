@@ -12,9 +12,9 @@ feather-to-feather; power comes from a local power-hub.
 
 ## Connectors (SMD side-entry, flex-compatible)
 
-- `J_PWR` — 2-pin power in — GND / +5V
-- `J_IN` — 3-pin data in — GND / DI / CI
-- `J_OUT` — 3-pin data out — GND / DO / CO
+- `J_PWR` — 2-pin power in (JST-PH 2.0 mm) — GND / +5V
+- `J_IN` — 2-pin data in (JST-GH 1.25 mm) — DI / CI
+- `J_OUT` — 2-pin data out (JST-GH 1.25 mm) — DO / CO
 
 Pin maps are the shared [connector pinout](../../docs/connector-pinout.md); exact part
 numbers in [selected-parts](selected-parts.md).
@@ -28,7 +28,7 @@ numbers in [selected-parts](selected-parts.md).
 ## Deferred to controller / power-hub
 
 - Series R (DATA/CLK), ESD/TVS, level shifter → controller
-- Fuse (per feed), 12 V→5 V buck (if 12 V bus) → power-hub
+- Fuse (per feed), 12 V→5 V buck → power-hub
 
 ## Parameterization
 

@@ -17,7 +17,7 @@
 
 | Signal | Meaning |
 |--------|---------|
-| GND | Power ground + signal return |
+| GND | Power ground (also the data signal return path) |
 | +5V (VCC) | LED power (from power-hub) |
 | DI | Serial data in (from controller, or previous feather's `DO`) |
 | CI | Serial clock in (from controller, or previous feather's `CO`) |
@@ -44,34 +44,33 @@
 | 1 | GND |
 | 2 | +5V (VCC) |
 
-**Data IN — 3-pin (controller / previous feather → this feather)**
+**Data IN — 2-pin (controller / previous feather → this feather)**
 
 | Pin | Signal |
 |-----|--------|
-| 1 | GND |
-| 2 | DI |
-| 3 | CI |
+| 1 | DI |
+| 2 | CI |
 
-**Data OUT — 3-pin (this feather → next feather)**
+**Data OUT — 2-pin (this feather → next feather)**
 
 | Pin | Signal |
 |-----|--------|
-| 1 | GND |
-| 2 | DO |
-| 3 | CO |
+| 1 | DO |
+| 2 | CO |
 
 ## Cabling rules
 
 - **Inter-feather data:** feather N's `DATA OUT` → feather N+1's `DATA IN`, straight 1:1
-  (pin 1↔1, 2↔2, 3↔3). Pin 2 carries `DO` at the source and `DI` at the sink; pin 3 is
+  (pin 1↔1, 2↔2). Pin 1 carries `DO` at the source and `DI` at the sink; pin 2 is
   `CO`→`CI`. The roles cross at the connector, not in the wire.
 - **Controller → first feather:** level-shifted (3.3 V → 5 V) `DI`/`CI` into the first
   feather's `DATA IN`; series R + ESD/TVS at the controller.
 - **Power:** 2-wire (red/black) from power-hub to each feather.
-- **GND** appears on all three connectors — the data cable carries its own return so the
-  high-speed signals have a local reference path.
-- **Wire gauge:** JST-PH contacts accept 30–24 AWG; each power run carries only its own
-  feather's current, so per-run current is far below the 2 A limit.
+- **GND** lives only on the 2-pin `PWR` connector. The data cable is a 2-wire `DI`/`CI` (or
+  `DO`/`CO`) pair with no dedicated return — its return current flows back through the shared
+  power `GND`. Hops are short regenerated SPI, so the extra loop area is negligible.
+- **Wire gauge:** power stays JST-PH (30–24 AWG, 2 A rating); data is JST-GH 1.25 mm
+  (30–26 AWG, 1 A rating). Signal current is far below either limit.
 
 ## Rationale
 
@@ -81,3 +80,7 @@
   unused.
 - One data wire + one clock wire per hop keeps cables minimal; the clocked SK9822 protocol
   tolerates hop-to-hop runs better than single-wire NRZ.
+- Data is **2-wire** (`DI`/`CI`, `DO`/`CO`) with no `GND` pin, so it uses a small 1.25 mm
+  JST-GH connector and off-the-shelf 2-conductor cables. `GND` is already shared via the power
+  connector, and each LED re-buffers the signals, so the return path through power `GND` is a
+  non-issue at these short runs and clock rates.

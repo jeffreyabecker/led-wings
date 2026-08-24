@@ -8,7 +8,7 @@
 - **Data** — daisy-chained feather-to-feather. The controller drives one (or a few) `DI`/`CI`
   pair into the first feather; each feather's `DO`/`CO` feeds the next feather's `DI`/`CI`.
 - **Power** — separate **power-hubs** (distribution nodes) feed `+5V`/`GND` to nearby feathers
-  over short 2-wire runs. Bus voltage into the hubs is TBD (5 V vs 12 V + local buck).
+  over short 2-wire runs. Hubs are **12 V in → 5 V out** with an integrated buck.
 - **Per feather** — a power connector plus data-IN and data-OUT connectors, instead of one
   combined 6-pin home-run connector.
 
@@ -45,22 +45,21 @@
 |-------|------|
 | Feather (primaries/secondaries/greater coverts) | existing `led-segment` concept, now with 3 connectors: PWR + DATA-IN + DATA-OUT |
 | Shared strip (lesser coverts / leading edge) | **new** — continuous under-lit strip |
-| Power-hub | **new** — fuse/junction (5 V bus) or 12 V→5 V buck (12 V bus) |
+| Power-hub | **new** — 12 V in → 5 V out buck + fused 5 V fan-out to a feather cluster |
 | Controller | simplified — MCU + level shifter + N data outputs, no port array |
 
 ## Open sub-decisions
 
-- [ ] Power-hub bus voltage: 5 V (hub = fuse/junction only) vs 12 V (hub = 12 V→5 V buck).
+- [x] Power-hub bus voltage: **12 V in → 5 V out** (integrated buck).
 - [ ] Number of data chains / segmentation; how feathers are grouped.
-- [ ] Connector scheme + pinouts: PWR (2-pin) · DATA-IN (GND/DI/CI) · DATA-OUT (GND/DO/CO).
+- [x] Connector scheme + pinouts: PWR (2-pin JST-PH) · DATA-IN (DI/CI) · DATA-OUT (DO/CO), 2-pin JST-GH.
 - [ ] Failure handling: per-feather `DI`→`DO` bypass vs accept a segment going dark on one
       dead feather.
 - [ ] Shared-strip board: its own `boards/` entry and how it joins the chain.
-- [ ] Rewrite `docs/connector-pinout.md` for the split power/data contract (replaces the
-      6-pin home-run contract).
+- [x] Rewrite `docs/connector-pinout.md` for the split power/data contract (done — replaced
+      the 6-pin home-run contract).
 
 ## References
 
 - [Battery](../battery/) — 12 V source, ~710 Wh @ 8 h / 20 % (2000 px).
-- [Connector pinout](../../docs/connector-pinout.md) — current 6-pin home-run contract (to be
-  replaced).
+- [Connector pinout](../../docs/connector-pinout.md) — split power/data contract.

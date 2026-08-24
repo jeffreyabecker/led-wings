@@ -11,6 +11,6 @@ Shared cross-cutting stuff (e.g. the connector pinout) lives in [`docs/`](../doc
 |-------|--------|-------|
 | [led-segment](led-segment/) | ideation | SK9822 feather board — daisy-chain data + power connector |
 | [controller](controller/) | ideation | data source: MCU + level shifter, N chain outputs |
+| [power-hub](power-hub/) | ideation | 12 V→5 V buck + fused 5 V fan-out to a feather cluster |
 
-Possible future boards: power-hub (fuse / 12 V→5 V buck + 5 V fan-out), shared under-lit strip
-(lesser coverts / leading edge).
+Possible future boards: shared under-lit strip (lesser coverts / leading edge).
