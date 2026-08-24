@@ -2,6 +2,9 @@
 
 Physical wing structure — the frame the feather boards and power-hubs attach to.
 
+> Locked decisions — frame material, transport, weight budget — are tracked in
+> [design-readiness.md](design-readiness.md).
+
 ## Scope
 
 - Wing frame/skeleton: spars, ribs, load path from wing tip to body.
@@ -25,9 +28,11 @@ form a removable feathered lid over them.
 
 ## Open questions
 
-- Frame material — carbon/glass-fibre rod vs 3D-printed skeleton vs hybrid?
-- Fold/transport — do the wings need to collapse, fold, or disassemble for storage?
-- Weight budget and centre of mass vs battery/hub placement.
+- Wingspan vs door clearance (fixed, non-disassemblable unit) — confirm max span.
+- Frame lamination + seal: cardboard layup, adhesive, and a moisture/flame barrier.
 - Backplate material + how it integrates with the wing frame and shoulder straps.
 - Bay sealing vs access: dust/sweat protection against a hinge/latch/magnet lid.
 - Does the back-coverts lid carry any electronics, or is it purely a cover?
+
+Full open-decision list (including the pixel-count vs 5 kg trade) is in
+[design-readiness.md](design-readiness.md).
