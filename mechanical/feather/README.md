@@ -7,10 +7,22 @@ shape/diffuse the light.
 
 - [outline-templates.md](outline-templates.md) — the feather **outlines + arrangement**:
   every individual feather template (geometry), physical size/scaling, and how they layer/stack.
-  Includes per-feather **drafting dimensions (cm)** in §7.
+  Includes per-feather **drafting dimensions (cm)** in §7 and the programmatic **data layer**
+  proposal in §8.
 - [lighting-and-boards.md](lighting-and-boards.md) — **lighting & board concerns**: which
   feathers are lit, individual boards vs shared strips vs unlit covers, and the board count /
   LED budget.
+
+### Generator (programmatic drafting — backlog)
+
+Plans for turning §7/§8 into Python with unit tests. Not yet implemented:
+
+- [backlog-geometry-engine.md](generator/backlog-geometry-engine.md) — the single parametric
+  `feather_outline(params)` that draws any feather, plus the `feathers.json` source-of-truth data
+  file it reads.
+- [backlog-arrangement-engine.md](generator/backlog-arrangement-engine.md) — the separate stage
+  that places/layers all feathers into the folded wing assembly (mirroring, covert anchoring,
+  shingle overlap) and emits an assembled DXF + annotated preview.
 
 ## Scope
 
