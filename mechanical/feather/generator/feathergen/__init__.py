@@ -4,6 +4,11 @@ Tasks: geometry engine (G2-G9) + arrangement engine (A1-A8) per
 backlog-geometry-engine.md / backlog-arrangement-engine.md.
 """
 
+from .emargination import (
+    DEFAULT_EMARGINATION_DEPTH,
+    DEFAULT_EMARGINATION_SPAN,
+    apply_emargination,
+)
 from .geometry import (
     Point,
     Polyline,
@@ -37,6 +42,8 @@ from .vane import Vane, compute_vane, vane_width_at, width_profile
 
 __all__ = [
     "CURVATURE_BOW_FRACTION",
+    "DEFAULT_EMARGINATION_DEPTH",
+    "DEFAULT_EMARGINATION_SPAN",
     "DEFAULT_LED_PITCH_CM",
     "Point",
     "Polyline",
@@ -44,6 +51,7 @@ __all__ = [
     "TIP_RADIUS_FRACTION",
     "TIP_STYLES",
     "Vane",
+    "apply_emargination",
     "apply_tip",
     "bbox",
     "compute_rachis",

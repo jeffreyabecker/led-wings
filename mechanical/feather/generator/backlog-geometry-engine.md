@@ -1,6 +1,6 @@
 # Backlog — Feather Geometry Engine (Python)
 
-> **Overall status: 🚧 in progress** — G1–G5 done; G6+ not started.
+> **Overall status: 🚧 in progress** — G1–G6 done; G7+ not started.
 > Spec source: §7 (vector recipe) + §8 (data layer) of
 > [outline-templates.md](../outline-templates.md).
 > This document is the *plan*; each task's status lives in the table below and in its own
@@ -17,7 +17,7 @@ Legend: ✅ done · 🚧 in progress · ⬜ not started
 | G3 | `compute_rachis` | ✅ | G2 |
 | G4 | `compute_vane` (+ width scaling) | ✅ | G2, G3 |
 | G5 | Tip styles | ✅ | G4 |
-| G6 | Emargination | ⬜ | G4 |
+| G6 | Emargination | ✅ | G4 |
 | G7 | `feather_outline` entry point | ⬜ | G2–G6 |
 | G8 | Serializers (DXF/SVG) | ⬜ | G7 |
 | G9 | Markdown sync / lint | ⬜ | G7 |
@@ -151,14 +151,22 @@ unknown-tip error. All green.
 
 ---
 
-## G6 — Emargination — ⬜ not started
+## G6 — Emargination — ✅ done
 
 **What:** boolean param; cuts the outer-vane notch near the tip (P1–P5 only).
 
+**Where:** `feathergen/emargination.py` — `apply_emargination(vane, emargination=True,
+span=(0.62, 0.95), depth=0.4)` replaces the outer-rail span near the tip with a quadratic
+Bézier whose control is pulled inward toward the inner rail (depth × local half-width),
+producing a clean V-notch. Inner rail untouched → single closed loop preserved.
+
 **Depends on:** G4
 
-**Tests:** absent by default; present when true; notch sits on the **outer** vane near the tip;
-profile remains a single closed loop (not fragmented).
+**Tests:** `tests/test_emargination.py` — 16 cases: flag off = unchanged; on = outline changes,
+outer rail only; notch narrows the vane (min notched point-to-inner-rail distance < plain width
+at the notch midpoint), notch near tip not base; closed + simple (no self-intersection) for
+P1–P5; custom span/depth + errors; data-set checks — exactly P1–P5 flagged emarginated, all
+flagged feathers stay simple, unflagged unchanged with flag off. All green.
 
 ---
 
