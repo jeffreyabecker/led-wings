@@ -8,6 +8,7 @@ decision context) plus one or more analysis notes.
 |---------------|--------|----------|
 | [Battery](battery/) | investigation | Which 12 V battery (chemistry + size) powers 8 h @ 20 % for mobility? |
 | [Topology](topology/) | target | How are data and power distributed across the wing? (split: daisy-chain data + power-hubs) |
+| [Diffuser halo](diffuser-halo/) | investigation | How to make a thin, directional, resin-free diffuser bent into a halo ring? |
 
 ## Conventions
 
