@@ -1,29 +1,30 @@
 # LED Segment Board
 
-Daisy-chainable addressable LED segment (SK9822-EC20).
+Single-connector addressable LED board (SK9822-EC20) — one "feather" of a wing. Home-runs
+one 6-pin cable to the central hub; no board-to-board chaining.
 
 ## Idea
 
-- SK9822-EC20 LEDs on a (possibly flex) PCB.
-- Chain many segments together; each LED regenerates DATA + CLK.
+- SK9822-EC20 LEDs on a flexible PCB; each LED regenerates DATA + CLK.
+- Every board has **one 6-pin port** carrying power + data/clock in + data/clock out back
+  to the hub. The hub owns the serial chain (see [controller](../controller/)).
 
-## Connectors (SMD side-entry, flex-compatible)
+## Connector (SMD side-entry, flex-compatible)
 
-- `J_IN` — IN role, 4-pin, white — JST `S4B-PH-SM4-TB`
-- `J_OUT` — OUT role, 4-pin, distinct color — hanxia `HX PH2.0-4PWT`
-- `J_PWR` — PWR role, 2-pin, white — JST `S2B-PH-SM4-TB`
+- `J1` — single 6-pin port to hub — JST `S6B-PH-SM4-TB` ([C54582918](https://www.lcsc.com/product-detail/C54582918.html))
 
-Pin maps are the shared [connector pinout](../../docs/connector-pinout.md); exact part numbers in [selected-parts](selected-parts.md).
+Pin map is the shared [connector pinout](../../docs/connector-pinout.md); exact part numbers
+in [selected-parts](selected-parts.md).
 
 ## On-board
 
-- SK9822-EC20 LEDs
-- Bulk cap per injection point + 100 nF decoupling
+- SK9822-EC20 LEDs (`DI`/`CI` → first LED; last LED's `DO`/`CO` → connector return)
+- Bulk cap + 100 nF decoupling (per-board power)
 - Reverse-polarity protection (required)
 
-## Deferred to controller board
+## Deferred to hub (controller board)
 
-- Series R (DATA/CLK), fuse, ESD/TVS, level shifter
+- Series R (DATA/CLK), fuse (per port), ESD/TVS, level shifter (one DATA+CLK pair)
 
 ## Parameterization
 
@@ -31,11 +32,11 @@ Pin maps are the shared [connector pinout](../../docs/connector-pinout.md); exac
 - Fixed width 10 mm; "top" = 0 mm (start of length).
 - Per board: overall length (mm) + bend points `(offset, deg)`.
 - LEDs: offset (mm) from top to chip center.
-- Injection points at the top.
+- Single 6-pin port at the top.
 
 ## Open questions
 
-- Power injection interval
 - Bend sign/radius conventions
+- Max LEDs per board at target brightness (per-board power budget)
 
 See [design readiness](design-readiness.md) · [parts](selected-parts.md) · [connector pinout](../../docs/connector-pinout.md).

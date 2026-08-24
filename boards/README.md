@@ -9,7 +9,7 @@ Shared cross-cutting stuff (e.g. the connector pinout) lives in [`docs/`](../doc
 
 | Board | Status | Notes |
 |-------|--------|-------|
-| [led-segment](led-segment/) | ideation | SK9822 daisy-chain segment |
-| [controller](controller/) | ideation | external per-strand driver |
+| [led-segment](led-segment/) | ideation | SK9822 single-connector feather board |
+| [controller](controller/) | ideation | central hub: chaining + power distribution |
 
-Possible future boards: power distribution / injection hub.
+Possible future boards: modular hub spine / power-distribution backplane.
