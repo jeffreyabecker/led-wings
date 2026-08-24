@@ -76,9 +76,9 @@ row segment).
 
 ## 5. Fab & panel notes
 
-- EasyEDA Pro → JLCPCB flex + PCBA; **1-layer flex, 1 oz copper, black coverlay** (recommended).
-- Panelized at JLCPCB; 4-LED boards are the short units that fill the leftover panel area around
-  the 6-LED runs (panel layout ⬜).
+- EasyEDA Pro → JLCPCB flex + PCBA; **1-layer flex, 1 oz / 4 mil, default coverlay**, stiffener
+  under the two connectors only.
+- **Schematic first**, then layout; panelized file (tab-routed) supplied by us (panel layout ⬜).
 - Silk: `4LED`, `IN`/`OUT`, pin numbers, L1–L4 indices.
 
 ## 6. Open items (this variant)

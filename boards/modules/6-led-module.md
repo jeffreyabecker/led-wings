@@ -80,8 +80,9 @@ It maximizes the lit run per connector pair on the long flight feathers (10.4 mm
 
 ## 5. Fab & panel notes
 
-- EasyEDA Pro → JLCPCB flex + PCBA; **1-layer flex, 1 oz copper, black coverlay** (recommended).
-- Panelized at JLCPCB; 6-LED boards are the long units that define panel rows (panel layout ⬜).
+- EasyEDA Pro → JLCPCB flex + PCBA; **1-layer flex, 1 oz / 4 mil, default coverlay**, stiffener
+  under the two connectors only.
+- **Schematic first**, then layout; panelized file (tab-routed) supplied by us (panel layout ⬜).
 - Silk: `6LED`, `IN`/`OUT`, pin numbers, L1–L6 indices.
 
 ## 6. Open items (this variant)

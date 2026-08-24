@@ -45,15 +45,17 @@ IN (JST-GH 4)                                  OUT (JST-GH 4)
 | Signal contract | IN: `+5V`/`GND`/`DI`/`CI` · OUT: `+5V`/`GND`/`DO`/`CO` | ✅ |
 | Decoupling | 100 nF 0603 **per LED** — [C14663](https://www.lcsc.com/product-detail/C14663.html) | ✅ |
 | Fab | EasyEDA Pro → JLCPCB flex + PCBA | ✅ |
-| Coverlay | Black recommended (module hides behind diffuser) | ⚠️ |
+| Stackup | 1-layer flex, **1 oz copper, 4 mil**; coverlay **default** (amber) | ✅ |
+| Stiffener | **Under the two connectors only** (rest stays flexible) | ✅ |
+| Panelization | **We supply a panelized file** (tab-routed, not V-scored) | ✅ |
 
 ## Routing topology
 
 - **Single layer:** everything — power rails, data/clock, pads, decoupling — lives on one
   copper layer (flex base, 1 oz copper). No vias, no back side.
-- **Power:** +5V / GND rails run the strip's full length, sized for the inter-injection budget
-  (≤ ~0.8 A, see current math). At 12 mm wide there is room for wide rails. Both connectors
-  pass the rails straight through.
+- **Power:** +5V / GND rails run the strip's full length and **fill the available width** (wide
+  edge traces/pours), sized for the inter-injection budget (≤ ~0.8 A, see current math). Both
+  connectors pass the rails straight through.
 - **Data:** `DI`/`CI` enter at IN, hop LED→LED, exit as `DO`/`CO` at OUT. Clocked protocol +
   per-LED re-buffering → no termination needed on the module.
 - **Decoupling:** one 100 nF 0603 per LED, placed directly beside its pixel between `+5V` and
@@ -80,8 +82,12 @@ IN (JST-GH 4)                                  OUT (JST-GH 4)
 
 ## Panelization & fab notes
 
-- Two fixed designs (no scripting), 1-layer flex, 1 oz copper, black coverlay (recommended).
-- Panelize at JLCPCB flex; PCBA assembles panelized.
+- Two fixed designs (no scripting), 1-layer flex, 1 oz copper, 4 mil, **default coverlay**.
+- **Stiffener under the two connectors only** (FR-4/PI stiffener pads at each end; the LED span
+  stays flexible).
+- **We supply a panelized file** — tab-routed (mouse-bites) between boards, not V-scored.
+- **Workflow: schematic first** in EasyEDA Pro (clean BOM/CPL), then PCB layout; Gerber/BOM/CPL
+  export decided at handoff.
 - Silkscreen: module ID (`4LED` / `6LED`), `IN`/`OUT` marks, pin numbers, LED indices.
 
 ## Open decisions (shared)

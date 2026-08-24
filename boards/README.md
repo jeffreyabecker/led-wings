@@ -119,7 +119,7 @@ Physical pad layout (top view, 2×3 grid, 0.8 mm row pitch):
 |------|--------|-----|--------|--------|
 | LED (module BOM) | SK9822-EC20, 2020 | ~1260 | ✅ | [LCSC C2909059](https://www.lcsc.com/product-detail/C2909059.html) |
 | Decoupling (module BOM) | Yageo `CC0603KRX7R9BB104`, 100 nF | ~1260 (1/LED) | ✅ | [LCSC C14663](https://www.lcsc.com/product-detail/C14663.html) |
-| Connector (module BOM) | JST-GH 4-pin SMD `SM04B-GHS-TB(LF)(SN)` | ~540 | ⚠️ confirm LCSC code | — |
+| Connector (module BOM) | JST-GH 4-pin SMD `SM04B-GHS-TB(LF)(SN)` | ~540 | ✅ | [LCSC C189895](https://www.lcsc.com/product-detail/C189895.html) |
 | Module PCBs | 4-LED 42×12 mm + 6-LED 62×12 mm, 1-layer flex, panelized | ~270 | ✅ | JLCPCB flex + PCBA |
 | Controller | Pixelblaze V3 Standard | 1 | ✅ | [Tindie](https://www.tindie.com/products/electromage/pixelblaze-v3-standard-wifi-led-controller/) |
 | Level shifter | 74AHCT125-class module (2 channels) | 1 | ⚠️ | TBD |
@@ -131,7 +131,6 @@ Physical pad layout (top view, 2×3 grid, 0.8 mm row pitch):
 ## Open decisions (compact)
 
 - EasyEDA layout + panel sign-off (two module designs) — specs in [modules/](modules/)
-- JST-GH 4-pin LCSC part code confirm (`SM04B-GHS-TB`)
 - Injection cadence (4 vs 6 modules) after bench test
 - Brightness cap value (20 % vs 25 %), tied to the battery budget
 - Level-shifter module brand; buck module brand + bench test; fuse rating per feed
