@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "wings-led-6")(type "KiCad")(uri "${KIPRJMOD}/libs/wings-led-6.pretty")(options "")(descr "6-LED strip module footprints: LED-APA102-2020, JST-GH SM04B-GHS-TB 4-pin, C_0603_1608Metric"))
+)

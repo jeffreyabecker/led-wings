@@ -12,3 +12,6 @@ mechanical/feather/generator/.test-out/
 
 # Local scratch (bootstrap/temp)
 .tmp-pip/
+
+# KiCad local history (auto-generated per-project snapshots)
+**/.history/
