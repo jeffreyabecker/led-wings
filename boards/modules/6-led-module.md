@@ -1,0 +1,92 @@
+# 6-LED Strip Module — High-Level Design (62 × 10 mm)
+
+> Variant of the [shared design core](README.md). This file adds the 6-LED-specific numbers;
+> everything common (block diagram, routing topology, signal contract, fab) lives in the core.
+> Status legend: ✅ settled · ⚠️ to confirm at layout · ⬜ TBD.
+
+## 1. Purpose
+
+The chain-head/long-run module. Used **92×** per build — the leading module of every individual
+feather chain (head + the long mid section):
+
+| Chain | Modules | 6-LED count |
+|-------|---------|------------:|
+| P1–P10 (6+6+4) | 2× 6-LED | 2 |
+| S1–S12 (6+4+4) | 1× 6-LED | 1 |
+| T1–T4 (4+4+4) | — | 0 |
+| GC1–GC12 (6+4) | 1× 6-LED | 1 |
+| Alula A-B/A-T (6+4) | 1× 6-LED | 1 |
+
+It maximizes the lit run per connector pair on the long flight feathers (10.4 mm pitch over a
+52 mm span).
+
+## 2. Mechanical envelope
+
+- **Board:** 62.0 × 10.0 mm, 2-layer FR-4, 1.6 mm thick (default), LEDs + connectors on one side.
+- **LED row:** 6× SK9822-EC20 (2020 pkg, 2.0 × 2.0 mm), **10.4 mm pitch**, centered on the strip.
+- **End margins:** 5.0 mm each end — fits the JST-GH footprint short axis (~5 mm) ⚠️ confirm at layout.
+- **Connectors:** JST-GH 4-pin SMD (top-entry) at each end — `IN` at one end, `OUT` at the other.
+- **Mounting:** adhesive (VHB/tape) to the feather substrate; no holes by default ⬜ (2 small
+  holes at the ends optional, for ties/screws).
+
+### Placement sketch (top view, not to scale)
+
+```
+<── 62.0 mm ─────────────────────────────────────────────>
+┌──────┐   ●────●────●────●────●────●   ┌──────┐
+│  IN  │   │    │    │    │    │    │   │ OUT  │
+│ GH4  │   L1   L2   L3   L4   L5   L6  │ GH4  │
+└──────┘                                └──────┘
+ 5.0 mm  10.4 10.4 10.4 10.4 10.4        5.0 mm
+ (IN)    ◄────── 52.0 mm span ──────►    (OUT)
+```
+
+- LED centers: x = 5.0 / 15.4 / 25.8 / 36.2 / 46.6 / 57.0 mm from the IN end.
+- Connectors sit at the ends; their pads point inward toward the LED row.
+- `IN` on the chain-head side, `OUT` on the tail side — never reversed (silk `IN`/`OUT` marks).
+
+## 3. Electrical design
+
+- **Signal contract:** IN = `+5V`/`GND`/`DI`/`CI`, OUT = `+5V`/`GND`/`DO`/`CO`
+  ([canonical pinout](../../docs/connector-pinout.md)).
+- **Power:** +5V and GND rails run full-length, pass straight through both connectors (1:1).
+  Sized for the inter-injection budget ≤ ~0.8 A.
+- **Data:** `DI`/`CI` → LED1 → … → LED6 → `DO`/`CO`. Each SK9822 re-buffers its outputs;
+  5 short hops (10.4 mm each) — no termination, no series R on the module.
+- **Decoupling:** 1× 100 nF 0603 **per LED** (settled) — C1–C6, one beside each pixel.
+
+### Netlist (per module)
+
+| Ref | Part | Qty | Designators |
+|-----|------|----:|-------------|
+| LED | SK9822-EC20 (C2909059) | 6 | L1–L6 |
+| Decoupling | 100 nF 0603 (C14663) | 6 | C1–C6 |
+| Connector | JST-GH 4-pin SMD (C189895) | 2 | J1 (IN), J2 (OUT) |
+
+## 4. Electrical behavior in the system
+
+| Parameter | Value |
+|-----------|-------|
+| LEDs | 6 |
+| Full-white draw | 0.24 A @ 5 V (6 × 40 mA) |
+| @ 20 % brightness | ~0.05 A |
+| Segment impact | 3× 6-LED between injections = 18 LEDs ≈ 0.72 A full white — inside the 0.8 A budget ✓ (4× 6-LED = 0.96 A ✗ — keep ≤ 3× 6-LED or ≤ 4× 4-LED per injection span) |
+| Data throughput | 1 frame hop per LED, trivial at 8 MHz SPI |
+
+> ⚠️ **Injection cadence note:** the 6-LED module is the current-heavy unit. At full white the
+> inter-injection budget (≤ 0.8 A) allows **at most 3× 6-LED modules** (or 4× 4-LED) between
+> injection pigtails — the plan's "4–6 modules" cadence only holds at the ≤ 20–25 % brightness
+> cap. Flagged for the injection-pacing open decision in [boards/README](../README.md).
+
+## 5. Fab & panel notes
+
+- EasyEDA Pro → JLCPCB PCBA; 2-layer, 1.6 mm, 1 oz, black mask (recommended).
+- Panelized with V-score along the module edges; 6-LED boards are the long units that define
+  panel rows (panel layout ⬜).
+- Silk: `6LED`, `IN`/`OUT`, pin numbers, L1–L6 indices.
+
+## 6. Open items (this variant)
+
+- Confirm 5.0 mm end margin clears the GH footprint at layout.
+- Optional mounting holes (2× ~1.6 mm) if mechanical mounting is chosen over adhesive.
+- Panel placement/quantity math once the full module count (~92) is frozen.

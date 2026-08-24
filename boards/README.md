@@ -33,6 +33,8 @@
   - **4-LED** — 42 × 10 mm, 4 × SK9822-EC20 at 10.4 mm pitch
   - **6-LED** — 62 × 10 mm, 6 × SK9822-EC20 at 10.4 mm pitch
   - 4-pin JST-GH SMD on **each end**; chained tip-to-tail with 4-wire jumpers.
+  - **Designs:** [module design core](modules/README.md) · [4-LED](modules/4-led-module.md) ·
+    [6-LED](modules/6-led-module.md) (shared architecture + per-variant specs).
 - **Signal contract (settled ✅, "option b"):** power + data combined on the 4-pin —
   **IN:** `+5V`/`GND`/`DI`/`CI` · **OUT:** `+5V`/`GND`/`DO`/`CO`. Power rides the chain;
   injection via harness pigtails (below). Pin maps:
@@ -58,6 +60,34 @@
 - **Fab:** EasyEDA Pro (JLCPCB-native — their part lib already carries the SK9822-EC20
   footprint, C2909059, and JST-GH SMD parts). Two fixed designs — no script needed. Panelize
   with V-score along the module edges; JLCPCB PCBA assembles panelized.
+
+### SK9822-EC20 pin arrangement (LCSC C2909059, package `LED-SMD_6P-L2.0-W2.0-P0.80-TL`)
+
+Pin map from the datasheet + EasyEDA footprint:
+
+| Pin | Signal | Function |
+|-----|--------|----------|
+| 1 | SDO | Data output |
+| 2 | GND | Ground |
+| 3 | SDI | Data input |
+| 4 | CKI | Clock input |
+| 5 | VDD | Power (+5 V) |
+| 6 | CKO | Clock output |
+
+Physical pad layout (top view, 2×3 grid, 0.8 mm row pitch):
+
+```
+          TOP
+  [1 SDO]   [6 CKO]    ← outputs
+  [2 GND]   [5 VDD]    ← power
+  [3 SDI]   [4 CKI]    ← inputs
+        BOTTOM
+```
+
+- Left column (top→bottom): 1 SDO · 2 GND · 3 SDI
+- Right column (top→bottom): 6 CKO · 5 VDD · 4 CKI
+- Inputs (SDI/CKI) sit on the bottom edge, outputs (SDO/CKO) on the top edge — data/clock
+  flow straight through the package, which suits daisy-chain routing.
 
 ## Controller — Pixelblaze (COTS)
 
@@ -88,7 +118,7 @@
 | Item | Choice | Qty | Status | Source |
 |------|--------|-----|--------|--------|
 | LED (module BOM) | SK9822-EC20, 2020 | ~1260 | ✅ | [LCSC C2909059](https://www.lcsc.com/product-detail/C2909059.html) |
-| Decoupling (module BOM) | Yageo `CC0603KRX7R9BB104`, 100 nF | ~270 (1/module) | ✅ | [LCSC C14663](https://www.lcsc.com/product-detail/C14663.html) |
+| Decoupling (module BOM) | Yageo `CC0603KRX7R9BB104`, 100 nF | ~1260 (1/LED) | ✅ | [LCSC C14663](https://www.lcsc.com/product-detail/C14663.html) |
 | Connector (module BOM) | JST-GH 4-pin SMD `SM04B-GHS-TB(LF)(SN)` | ~540 | ⚠️ confirm LCSC code | — |
 | Module PCBs | 4-LED 42×10 mm + 6-LED 62×10 mm, V-score panelized | ~270 | ✅ | JLCPCB PCBA |
 | Controller | Pixelblaze V3 Standard | 1 | ✅ | [Tindie](https://www.tindie.com/products/electromage/pixelblaze-v3-standard-wifi-led-controller/) |
@@ -100,7 +130,7 @@
 
 ## Open decisions (compact)
 
-- EasyEDA layout + panel sign-off (two module designs)
+- EasyEDA layout + panel sign-off (two module designs) — specs in [modules/](modules/)
 - JST-GH 4-pin LCSC part code confirm (`SM04B-GHS-TB`)
 - Injection cadence (4 vs 6 modules) after bench test
 - Brightness cap value (20 % vs 25 %), tied to the battery budget
@@ -116,6 +146,7 @@
 
 ## References
 
+- [Module designs](modules/) — shared design core + per-variant specs (4-LED / 6-LED)
 - [Connector pinout / wiring legend](../docs/connector-pinout.md) — 4-pin module chain maps + injection rules
 - [Battery](../investigations/battery/) — 12 V source sizing
 - [Feather lighting](../mechanical/feather/lighting-and-boards.md) — LED map + chain layout
