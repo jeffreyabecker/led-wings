@@ -14,6 +14,10 @@ feather-to-feather, power fed from local power-hubs.
 - [Controller](boards/controller/) — data source: MCU + level shifter, N chain outputs
 - [Power-hub](boards/power-hub/) — 12 V→5 V buck, feeds a feather cluster
 
+## Mechanical
+
+- [Mechanical](mechanical/) — physical wing design: [structural](mechanical/structural/) frame + [feather](mechanical/feather/) geometry
+
 ## Shared docs
 
 - [Connector pinout](docs/connector-pinout.md) — canonical split power/data pinout for all boards
