@@ -105,6 +105,35 @@ IN (JST-GH 4)                                  OUT (JST-GH 4)
 - Mounting: **adhesive-only** (VHB/tape) to the feather substrate — no holes.
 - Final column/rail placement + edge keep-out against JLCPCB flex panel rules (at layout).
 
+## KiCad library references
+
+Symbols + footprints (official [KiCad libraries](https://gitlab.com/kicad/libraries), v8/v9):
+
+| Part | Symbol (lib:name) | Footprint (lib:name) | Notes |
+|------|--------------------|----------------------|-------|
+| Decoupling cap | `Device:C` | `Capacitor_SMD:C_0603_1608Metric` | standard 0603 |
+| Connector (IN/OUT) | `Connector_Generic:Conn_01x04` | `Connector_JST:JST_GH_SM04B-GHS-TB_1x04-1MP_P1.25mm_Horizontal` | GH top-entry SMD, 4-pin + 2 mount pads |
+| LED | `LED:APA102-2020` | `LED_SMD:LED-APA102-2020` | APA102-2020 = SK9822-EC20 package/pin-compatible |
+
+### LED pin-map caveat ⚠️
+
+The KiCad `LED:APA102-2020` symbol uses **APA102 pin numbers**, which do **not** match the
+SK9822-EC20 datasheet numbering — same six signals, different pin numbers:
+
+| Signal | APA102-2020 (KiCad) | SK9822-EC20 (datasheet) |
+|--------|:---:|:---:|
+| VDD | 1 | 5 |
+| CKO | 2 | 6 |
+| SDO | 3 | 1 |
+| SDI | 4 | 3 |
+| CKI | 5 | 4 |
+| GND | 6 | 2 |
+
+**Consequence:** when drawing the schematic with `LED:APA102-2020`, map wires by **signal name**
+(SDI/SDO/CKI/CKO/VDD/GND), not by pin number. The footprint `LED_SMD:LED-APA102-2020` lands
+the signals on the physically-correct pads; only the symbol's pin *numbers* differ from the
+datasheet. Flagged for the schematic step.
+
 ## References
 
 - [Connector pinout / wiring legend](../../docs/connector-pinout.md) — canonical 4-pin maps
