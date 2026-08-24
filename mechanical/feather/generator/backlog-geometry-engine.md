@@ -1,6 +1,6 @@
 # Backlog — Feather Geometry Engine (Python)
 
-> **Overall status: 🚧 in progress** — G1–G2 done; G3+ not started.
+> **Overall status: 🚧 in progress** — G1–G3 done; G4+ not started.
 > Spec source: §7 (vector recipe) + §8 (data layer) of
 > [outline-templates.md](../outline-templates.md).
 > This document is the *plan*; each task's status lives in the table below and in its own
@@ -14,7 +14,7 @@ Legend: ✅ done · 🚧 in progress · ⬜ not started
 |----|------|--------|-----------|
 | G1 | `feathers.json` data file | ✅ | — |
 | G2 | Core listable geometry | ✅ | — |
-| G3 | `compute_rachis` | ⬜ | G2 |
+| G3 | `compute_rachis` | ✅ | G2 |
 | G4 | `compute_vane` (+ width scaling) | ⬜ | G2, G3 |
 | G5 | Tip styles | ⬜ | G4 |
 | G6 | Emargination | ⬜ | G4 |
@@ -84,16 +84,24 @@ control counts, and resample spacing/across-vertices/edge cases. All green.
 
 ---
 
-## G3 — `compute_rachis(params)` — ⬜ not started
+## G3 — `compute_rachis(params)` — ✅ done
 
 **What:** straight polyline of `total` length along the feather axis, bowed per `curvature`
 (control-point offset; `high` for P1 → ~`straight` for coverts). Returns the rachis polyline +
 its bend points (offset points used by the LED segment).
 
+**Where:** `feathergen/rachis.py` — rachis is a quadratic Bézier (base → control → tip along
++y); `CURVATURE_BOW_FRACTION` maps the 6 curvature levels (high/med-high/med/med-low/low/
+straight) to a control offset as a fraction of `total`. `Rachis` dataclass holds `total`,
+`curvature`, `bow_cm`, `polyline` (64 samples), `bend_points` (resampled at 1.04 cm LED pitch).
+`max_lateral_offset` helper. Exported from `feathergen/__init__.py`.
+
 **Depends on:** G2
 
-**Tests:** length equals `total`; endpoint-to-endpoint = `total` straight; bend points fall on
-the bowed rachis; low vs high curvature change the max lateral offset; straight ≈ no bend.
+**Tests:** `tests/test_rachis.py` — 20 cases: length ≈ total, endpoints, straight = no bend,
+curvature ordering + max-lateral-offset, bow scales with total, bend points on the rachis
+(segment distance), even spacing at LED pitch (+custom), errors, and a full feathers.json sweep
+(all 114 rows compute). All green.
 
 ---
 

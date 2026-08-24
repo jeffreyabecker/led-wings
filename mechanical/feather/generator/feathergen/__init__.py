@@ -14,12 +14,24 @@ from .geometry import (
     rotate,
     translate,
 )
+from .rachis import (
+    CURVATURE_BOW_FRACTION,
+    DEFAULT_LED_PITCH_CM,
+    Rachis,
+    compute_rachis,
+    max_lateral_offset,
+)
 
 __all__ = [
+    "CURVATURE_BOW_FRACTION",
+    "DEFAULT_LED_PITCH_CM",
     "Point",
     "Polyline",
+    "Rachis",
     "bbox",
+    "compute_rachis",
     "distance",
+    "max_lateral_offset",
     "polyline_length",
     "reflect_vertical",
     "rotate",
