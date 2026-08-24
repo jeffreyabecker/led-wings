@@ -24,6 +24,7 @@ from .geometry import (
     translate,
     unit_tangent_at_arc,
 )
+from .outline import DEFAULT_LIT_VANE_FLOOR_CM, feather_outline
 from .rachis import (
     CURVATURE_BOW_FRACTION,
     DEFAULT_LED_PITCH_CM,
@@ -45,6 +46,7 @@ __all__ = [
     "DEFAULT_EMARGINATION_DEPTH",
     "DEFAULT_EMARGINATION_SPAN",
     "DEFAULT_LED_PITCH_CM",
+    "DEFAULT_LIT_VANE_FLOOR_CM",
     "Point",
     "Polyline",
     "Rachis",
@@ -57,6 +59,7 @@ __all__ = [
     "compute_rachis",
     "compute_vane",
     "distance",
+    "feather_outline",
     "is_simple_polygon",
     "max_lateral_offset",
     "point_at_arc",

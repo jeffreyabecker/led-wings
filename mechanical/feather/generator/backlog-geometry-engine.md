@@ -1,6 +1,6 @@
 # Backlog — Feather Geometry Engine (Python)
 
-> **Overall status: 🚧 in progress** — G1–G6 done; G7+ not started.
+> **Overall status: 🚧 in progress** — G1–G7 done; G8+ not started.
 > Spec source: §7 (vector recipe) + §8 (data layer) of
 > [outline-templates.md](../outline-templates.md).
 > This document is the *plan*; each task's status lives in the table below and in its own
@@ -18,7 +18,7 @@ Legend: ✅ done · 🚧 in progress · ⬜ not started
 | G4 | `compute_vane` (+ width scaling) | ✅ | G2, G3 |
 | G5 | Tip styles | ✅ | G4 |
 | G6 | Emargination | ✅ | G4 |
-| G7 | `feather_outline` entry point | ⬜ | G2–G6 |
+| G7 | `feather_outline` entry point | ✅ | G2–G6 |
 | G8 | Serializers (DXF/SVG) | ⬜ | G7 |
 | G9 | Markdown sync / lint | ⬜ | G7 |
 
@@ -170,16 +170,23 @@ flagged feathers stay simple, unflagged unchanged with flag off. All green.
 
 ---
 
-## G7 — `feather_outline(params, vane_ratio_adjustment=0.0) → {outline, rachis}` — ⬜ not started
+## G7 — `feather_outline(params, vane_ratio_adjustment=0.0) → {outline, rachis}` — ✅ done
 
 **What:** the public entry point composing G2–G6; threads the width flag into `compute_vane`.
 
+**Where:** `feathergen/outline.py` — `feather_outline(params, vane_ratio_adjustment=0.0,
+lit_vane_floor_cm=1.4, floor_policy="clamp")` runs compute_rachis → compute_vane →
+apply_tip → apply_emargination and returns `{"outline", "rachis"}`. Lit-feather floor
+enforcement: adjustment that would drive a lit vane below the 1.4 cm floor is clamped to the
+floor (default) or raises (`floor_policy="raise"`); unlit feathers ignore the floor.
+
 **Depends on:** G2–G6
 
-**Tests:** golden samples — P4 and S6 render to known-nominal outlines (snapshot test); no
-self-intersections across the whole data set (sweep all rows); lit feathers respect the
-**vane ≥ ~14 mm** floor — and `vane_ratio_adjustment` is **refused/clamped** if it would take
-any lit feather below that floor (warn/fail per §2 of lighting-and-boards.md).
+**Tests:** `tests/test_outline.py` — 18 cases: return shape, closed outline, **golden
+snapshots** (sha256 of P4 + S6 outlines), full 114-row sweep (no self-intersection, closed,
+positive bbox, bend points), lit floor at default & 0 % adjustment, clamp-not-raise, raise
+policy, unknown policy, unlit ignores floor, adjustment scales width, emargination + tip
+integration for P4/P1. All green.
 
 ---
 
