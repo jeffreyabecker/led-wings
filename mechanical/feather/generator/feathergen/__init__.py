@@ -9,10 +9,13 @@ from .geometry import (
     Polyline,
     bbox,
     distance,
+    point_at_arc,
     polyline_length,
     reflect_vertical,
+    resample,
     rotate,
     translate,
+    unit_tangent_at_arc,
 )
 from .rachis import (
     CURVATURE_BOW_FRACTION,
@@ -21,6 +24,7 @@ from .rachis import (
     compute_rachis,
     max_lateral_offset,
 )
+from .vane import Vane, compute_vane, vane_width_at, width_profile
 
 __all__ = [
     "CURVATURE_BOW_FRACTION",
@@ -28,12 +32,19 @@ __all__ = [
     "Point",
     "Polyline",
     "Rachis",
+    "Vane",
     "bbox",
     "compute_rachis",
+    "compute_vane",
     "distance",
     "max_lateral_offset",
+    "point_at_arc",
     "polyline_length",
     "reflect_vertical",
+    "resample",
     "rotate",
     "translate",
+    "unit_tangent_at_arc",
+    "vane_width_at",
+    "width_profile",
 ]

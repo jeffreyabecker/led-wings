@@ -1,6 +1,6 @@
 # Backlog — Feather Geometry Engine (Python)
 
-> **Overall status: 🚧 in progress** — G1–G3 done; G4+ not started.
+> **Overall status: 🚧 in progress** — G1–G4 done; G5+ not started.
 > Spec source: §7 (vector recipe) + §8 (data layer) of
 > [outline-templates.md](../outline-templates.md).
 > This document is the *plan*; each task's status lives in the table below and in its own
@@ -15,7 +15,7 @@ Legend: ✅ done · 🚧 in progress · ⬜ not started
 | G1 | `feathers.json` data file | ✅ | — |
 | G2 | Core listable geometry | ✅ | — |
 | G3 | `compute_rachis` | ✅ | G2 |
-| G4 | `compute_vane` (+ width scaling) | ⬜ | G2, G3 |
+| G4 | `compute_vane` (+ width scaling) | ✅ | G2, G3 |
 | G5 | Tip styles | ⬜ | G4 |
 | G6 | Emargination | ⬜ | G4 |
 | G7 | `feather_outline` entry point | ⬜ | G2–G6 |
@@ -105,19 +105,27 @@ curvature ordering + max-lateral-offset, bow scales with total, bend points on t
 
 ---
 
-## G4 — `compute_vane(params, rachis)` — ⬜ not started
+## G4 — `compute_vane(params, rachis)` — ✅ done
 
 **What:** the closed vane outline: sweep to `max_width` at ~40–50 % of `vane` length from the
 base, tapering to the tip and to the quill root. Two Bézier rails (outer + inner) partitioned by
 the rachis split (`out:inn`). **Width scaling:** effective width = `max_width × (1 +
 vane_ratio_adjustment)`, applied here (default `0 %` = pure §3 ratios).
 
+**Where:** `feathergen/vane.py` — `width_profile(s, max_width, peak_s=0.45)` (piecewise
+quadratic, exact max at peak, 0 at both ends); `compute_vane(params, rachis, n=64,
+vane_ratio_adjustment=0.0, peak_s=0.45)` offsets the rachis along its unit normal by
+`split × width` per rail, closed as outer base→tip + inner tip→base. `Vane` dataclass
+(`outline`, `outer_rail`, `inner_rail`, `effective_max_width`, `quill_cm`) + `vane_width_at`.
+New geometry helpers: `point_at_arc`, `unit_tangent_at_arc`.
+
 **Depends on:** G2, G3
 
-**Tests:** outline is **closed**; max width ≈ effective `max_width` (± tolerance) at ~40–50 % of
-vane; width → ~0 at tip and at quill root; symmetric feathers (50:50) have symmetric rails;
-asymmetric (e.g. P1 30:70) partition the width per the split; `vane_ratio_adjustment=-5 %`
-scales the outline width to ~95 % and `0 %` leaves it unchanged.
+**Tests:** `tests/test_vane.py` (25) + 11 new geometry-helper tests: closed outline, max width at
+peak ±5 %, width → 0 at tip & quill root, 50:50 rails symmetric about the *bowed* rachis, P1
+30:70 split partitions the width (perpendicular offsets, not x-offsets), `vane_ratio_adjustment`
+± scales effective + actual width, errors, full 114-row sweep + lit floor at 0 %.
+All green.
 
 ---
 

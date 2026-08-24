@@ -118,3 +118,55 @@ def resample(pts: Polyline, spacing: float) -> list[Point]:
     if distance(out[-1], pts[-1]) > 1e-9:
         out.append(pts[-1])
     return out
+
+
+def point_at_arc(pts: Polyline, target: float) -> Point:
+    """Point at arc distance ``target`` along the polyline (clamped to ends).
+
+    ``target <= 0`` returns the first point, ``target >= length`` the last;
+    otherwise the point is interpolated along the containing segment.
+    """
+    if not pts:
+        raise ValueError("point_at_arc() of an empty polyline")
+    if target <= 0:
+        return pts[0]
+    total = polyline_length(pts)
+    if target >= total:
+        return pts[-1]
+    walked = 0.0
+    for a, b in zip(pts, pts[1:]):
+        seg = distance(a, b)
+        if walked + seg >= target:
+            t = (target - walked) / seg if seg else 0.0
+            return (a[0] + t * (b[0] - a[0]), a[1] + t * (b[1] - a[1]))
+        walked += seg
+    return pts[-1]
+
+
+def unit_tangent_at_arc(pts: Polyline, target: float) -> Point:
+    """Unit tangent of the polyline at arc distance ``target`` (clamped).
+
+    Returns the direction of the segment containing ``target``; falls back to
+    (0, 1) for a degenerate (zero-length) polyline.
+    """
+    if not pts:
+        raise ValueError("unit_tangent_at_arc() of an empty polyline")
+    if len(pts) < 2:
+        return (0.0, 1.0)
+    if target <= 0:
+        a, b = pts[0], pts[1]
+    elif target >= polyline_length(pts):
+        a, b = pts[-2], pts[-1]
+    else:
+        walked = 0.0
+        a, b = pts[0], pts[1]
+        for x, y in zip(pts, pts[1:]):
+            seg = distance(x, y)
+            if walked + seg >= target:
+                a, b = x, y
+                break
+            walked += seg
+    d = distance(a, b)
+    if d == 0:
+        return (0.0, 1.0)
+    return ((b[0] - a[0]) / d, (b[1] - a[1]) / d)

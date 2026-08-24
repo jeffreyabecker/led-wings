@@ -7,12 +7,14 @@ import pytest
 from feathergen.geometry import (
     bbox,
     distance,
+    point_at_arc,
     polyline_length,
     reflect_vertical,
     resample,
     rotate,
     sample_bezier,
     translate,
+    unit_tangent_at_arc,
 )
 
 
@@ -173,3 +175,64 @@ def test_resample_invalid_spacing():
 
 def test_resample_single_point():
     assert resample([(3.0, 4.0)], 1.0) == [(3.0, 4.0)]
+
+
+# --- point_at_arc / unit_tangent_at_arc ------------------------------------
+
+
+def test_point_at_arc_start():
+    pts = [(0.0, 0.0), (10.0, 0.0), (10.0, 5.0)]
+    assert point_at_arc(pts, 0.0) == (0.0, 0.0)
+
+
+def test_point_at_arc_end():
+    pts = [(0.0, 0.0), (10.0, 0.0), (10.0, 5.0)]
+    assert point_at_arc(pts, 15.0) == (10.0, 5.0)
+
+
+def test_point_at_arc_mid_segment():
+    pts = [(0.0, 0.0), (10.0, 0.0), (10.0, 5.0)]
+    assert point_at_arc(pts, 5.0) == (5.0, 0.0)
+
+
+def test_point_at_arc_across_vertex():
+    pts = [(0.0, 0.0), (10.0, 0.0), (10.0, 5.0)]
+    # 12 cm along: 10 on first segment + 2 up the second
+    assert point_at_arc(pts, 12.0) == (10.0, 2.0)
+
+
+def test_point_at_arc_clamps():
+    pts = [(0.0, 0.0), (10.0, 0.0)]
+    assert point_at_arc(pts, -5.0) == (0.0, 0.0)
+    assert point_at_arc(pts, 999.0) == (10.0, 0.0)
+
+
+def test_point_at_arc_empty_raises():
+    with pytest.raises(ValueError):
+        point_at_arc([], 1.0)
+
+
+def test_unit_tangent_along_y():
+    pts = [(0.0, 0.0), (0.0, 10.0)]
+    tx, ty = unit_tangent_at_arc(pts, 5.0)
+    assert (tx, ty) == (0.0, 1.0)
+
+
+def test_unit_tangent_along_x():
+    pts = [(0.0, 0.0), (10.0, 0.0)]
+    tx, ty = unit_tangent_at_arc(pts, 5.0)
+    assert (tx, ty) == (1.0, 0.0)
+
+
+def test_unit_tangent_at_start():
+    pts = [(0.0, 0.0), (0.0, 10.0)]
+    assert unit_tangent_at_arc(pts, 0.0) == (0.0, 1.0)
+
+
+def test_unit_tangent_at_end():
+    pts = [(0.0, 0.0), (0.0, 10.0)]
+    assert unit_tangent_at_arc(pts, 10.0) == (0.0, 1.0)
+
+
+def test_unit_tangent_degenerate():
+    assert unit_tangent_at_arc([(1.0, 1.0)], 0.0) == (0.0, 1.0)
