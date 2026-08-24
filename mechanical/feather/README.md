@@ -15,7 +15,9 @@ shape/diffuse the light.
 
 ### Generator (programmatic drafting — backlog)
 
-Plans for turning §7/§8 into Python with unit tests. Not yet implemented:
+Plans for turning §7/§8 into Python with unit tests. Tasks are numbered (`G1…G9` geometry,
+`A1…A8` arrangement) with per-task status in each backlog. In progress: G1 ✅ (`feathers.json`
+authored + validated); the rest not started:
 
 - [backlog-geometry-engine.md](generator/backlog-geometry-engine.md) — the single parametric
   `feather_outline(params)` that draws any feather, plus the `feathers.json` source-of-truth data
