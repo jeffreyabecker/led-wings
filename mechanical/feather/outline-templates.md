@@ -370,7 +370,8 @@ GC1–GC12 ≈ **22–29** (half their secondary); scapulars SC1–SC6 ≈ **41�
 ### Width (decision: keep per-feather vane ratios, adjustable in the generator)
 
 Feather widths are **kept at the per-feather vane-ratio (chord-ratio) values from §3** — each
-`max_width` = `chord ratio × vane`. These are the anatomically natural proportions, kept for now;
+`max_width` = `chord ratio × total` (chord ratio is % of feather *length*, per §3). These are
+the anatomically natural proportions, kept for now;
 **none are locked**, and the wide range (which at this scale is too fat for ~76 feathers in a
 50 cm panel if taken literally) is resolved by *generation-time scaling*, not by hand-editing
 every width:
@@ -398,9 +399,12 @@ every width:
 
 > Working absolute dims to draw each outline as a vector. Scale from §6: **1 unit = 0.75 cm**,
 > **vane ≈ 0.75 × total** (P4: 75 total / 56 vane). **Widths below are the per-feather
-> vane-ratio (chord-ratio) widths from §3** — i.e. each `max_width` = `chord ratio × vane`. Those
-> are the *default*; the generator can scale them with a global
-> `--vane-ratio-adjustment` flag (see §8).
+> vane-ratio (chord-ratio) widths from §3** — i.e. each `max_width` = `chord ratio × total`
+> (chord ratio is % of feather *length*, per §3). Those are the *default*; the generator can
+> scale them with a global `--vane-ratio-adjustment` flag (see §8).
+>
+> > ⚠️ The **Max width column below holds pre-decision working values and is superseded** by the
+> > chord-ratio-derived widths in `generator/feathers.json` (§8, source of truth).
 
 ### Flight feathers
 
@@ -464,12 +468,15 @@ width** = vane width at the widest point (≥ ~1.4 cm to carry the 10 mm LED rib
 > data, never in code).
 
 - **Source of truth.** One data file, e.g. `mechanical/feather/generator/feathers.json`, with one
-  entry per feather: `{id, group, total, vane, max_width, rachis_split, tip, curvature,
-  emargination, z_order, ...}`, plus per-wing/placement entries. Lengths in cm; `max_width` is
-  stored **per-feather at its §3 vane-ratio** so any feather's width is `chord_ratio × vane`
-  (see §6 Width). The covert rows MD/LS/MG are enumerated per-feather (§3.4b–§3.4d) exactly
+  entry per feather: `{id, group, side, total, vane, chord_ratio_pct, max_width, rachis_split,
+  tip, curvature, emargination, z_order, lit, ...}`, plus per-wing/placement entries. Lengths in
+  cm; `max_width` is stored **per-feather at its §3 vane-ratio** so any feather's width is
+  `chord_ratio_pct × total` (see §6 Width). The covert rows MD/LS/MG are enumerated per-feather
+  (§3.4b–§3.4d) exactly
   like every other group — this file is geometry only; how those covert feathers are lit (e.g.
   grouped as shared strips) lives in [lighting-and-boards.md](lighting-and-boards.md).
+- **Last synced:** `feathers.json` authored 2026-08-24 (114 feathers) — manual cast of §3/§7;
+  regenerate the §7 tables from the file before locking anything else.
 - **`--vane-ratio-adjustment` (generator flag, not data).** A global percent applied to every
   `max_width` at draw time — e.g. `--vane-ratio-adjustment=-5%` shrinks all feather widths by
   5 %, `0%` (default) keeps the pure §3 ratios, positive values go broader. It must not take any

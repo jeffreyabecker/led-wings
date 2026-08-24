@@ -1,8 +1,7 @@
 # Backlog — Feather Geometry Engine (Python)
 
-> Status: **backlog** · not started. Spec source: §7 (vector recipe) + §8 (data layer) of
-> [outline-templates.md](../outline-templates.md). Depends on the data file
-> ([backlog data layer](#data-layer-prereq)) existing first.
+> Status: **backlog** · not started (task 1 ✅ done — `feathers.json` authored). Spec source: §7
+> (vector recipe) + §8 (data layer) of [outline-templates.md](../outline-templates.md).
 > This document is the *plan* — it is not yet implemented.
 
 ## Goal
@@ -26,21 +25,23 @@ places/layers all feather templates into a wing.
 
 ## Data-layer prereq
 
-Before this engine is meaningful we need the source of truth:
-`mechanical/feather/generator/feathers.json` (§8 of outline-templates.md) — one entry per
-feather: `{id, group, total, vane, max_width, rachis_split, tip, curvature, emargination,
-z_order, ...}`. `max_width` is stored **per-feather at its §3 vane ratio**; any global width
-scaling is the separate `vane_ratio_adjustment` generator flag, not a data change. Until the file
-exists, the engine can be built and tested against inline dicts
-matching that shape. **First task: author the data file** (schema + all rows from §3/§7).
+**Done ✅** — `mechanical/feather/generator/feathers.json` (§8 of outline-templates.md) exists:
+114 feathers (P/S/T/GC/MD/LS/MG/A/SC/BC) with `{id, group, side, total_cm, vane_cm,
+chord_ratio_pct, max_width_cm, rachis_split, tip, curvature, emargination, z_order, lit}`.
+`max_width_cm` is stored **per-feather at its §3 vane ratio** (`chord_ratio_pct × total_cm`,
+half-up to 0.1); any global width scaling is the separate `vane_ratio_adjustment` generator
+flag, not a data change. `_validate_feathers.py` checks the invariants (unique ids, rachis
+sums to 100, vane ≤ total, max_width = chord×total, lit ≥ 1.4 cm floor). The engine is built
+against this file's shape.
 
 ## Tasks (in suggested order)
 
-1. **Author `feathers.json`** — schema + every feather row from §3.1–§3.7 and the §7 cm tables.
-   Include the fully-enumerated covert rows (median MD1–MD12, lesser LS1-1…LS3-12, marginal
-   MG1–MG12) per §3.4b–§3.4d. Validate:
+1. **Author `feathers.json`** ✅ done — schema + every feather row from §3.1–§3.7 and the §7 cm
+   tables, incl. the fully-enumerated covert rows (median MD1–MD12, lesser LS1-1…LS3-12, marginal
+   MG1–MG12) per §3.4b–§3.4d. Validated by `_validate_feathers.py`:
    `total = vane + quill`, `quill ≥ 0`, `0 < max_width`, `out + inn = 100` for rachis split.
-   - Tests: `feathers.json` loads; every entry passes schema/range validation; fixture covers a
+   - Tests (pending the pytest harness): `feathers.json` loads; every entry passes
+     schema/range validation; fixture covers a
      representative set (P1, P4, P6, S6, T4, GC1, GC12, MD1, LS1-1, MG1, SC4, BC4, A-B, A-T).
 2. **Core listable geometry** — represent points/segments/polylines without a hard CAD dep
    (plain tuple/`dataclass` geometry first; swap in a viewer/serializer later). Unit: cm.
