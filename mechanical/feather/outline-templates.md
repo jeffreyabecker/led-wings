@@ -254,6 +254,65 @@ streamers vs broad plumes.
   electronics bay.
 - Feathers hang downward, overlapping top-over-bottom; longest (primaries) at the hem.
 
+## 7. Drafting dimensions (cm)
+
+> Working absolute dims to draw each outline as a vector. Scale from §6: **1 unit = 0.75 cm**,
+> **vane ≈ 0.75 × total** (P4: 75 total / 56 vane). Widths below are the **working "slender"
+> values** (⚠️ — confirm the §6 Width decision before locking).
+
+### Flight feathers
+
+| ID | Total | Vane | Max width | Tip | Rachis (out:in) | Curve |
+|----|------:|-----:|----------:|-----|-----------------|-------|
+| P1 | 56 | 42 | 4.5 | pointed, hooked | 30:70 | high |
+| P2 | 65 | 48 | 5 | pointed | 31:69 | high |
+| P3 | 71 | 53 | 5 | pointed | 33:67 | high |
+| P4 | 75 | 56 | 5.5 | pointed | 34:66 | med-high |
+| P5 | 74 | 55 | 5.5 | pointed | 35:65 | med |
+| P6 | 70 | 52 | 5.5 | pointed | 37:63 | med |
+| P7 | 66 | 50 | 6 | pointed | 40:60 | med-low |
+| P8 | 62 | 46 | 6 | rounded-point | 43:57 | low |
+| P9 | 58 | 43 | 6 | rounded | 46:54 | low |
+| P10 | 54 | 41 | 6.5 | rounded | 48:52 | low |
+| S1 | 59 | 44 | 7 | rounded | 46:54 | low |
+| S2 | 59 | 44 | 7 | rounded | 47:53 | low |
+| S3 | 59 | 44 | 7 | rounded | 48:52 | low |
+| S4 | 59 | 44 | 7 | rounded | 49:51 | low |
+| S5 | 58 | 43 | 7 | rounded | 49:51 | low |
+| S6 | 57 | 43 | 7 | rounded | 50:50 | low |
+| S7 | 56 | 42 | 7 | rounded | 50:50 | low |
+| S8 | 54 | 41 | 7 | rounded | 50:50 | low |
+| S9 | 53 | 39 | 7 | rounded | 50:50 | low |
+| S10 | 50 | 38 | 6.5 | rounded | 50:50 | low |
+| S11 | 48 | 36 | 6.5 | rounded | 50:50 | low |
+| S12 | 45 | 34 | 6.5 | rounded | 50:50 | low |
+| T1 | 56 | 42 | 8 | very rounded | ≈50:50 | low |
+| T2 | 59 | 44 | 8 | very rounded | ≈50:50 | low |
+| T3 | 60 | 45 | 8 | very rounded | ≈50:50 | low |
+| T4 | 62 | 46 | 8 | very rounded | ≈50:50 | low |
+
+All cm. **Total** = quill-to-tip · **Vane** = barbed outline (quill ≈ total − vane) · **Max
+width** = vane width at the widest point (≥ ~1.4 cm to carry the 10 mm LED ribbon).
+
+### Coverts & back (cm)
+
+| Group | Total | Vane | Max width | Tip |
+|-------|------:|-----:|----------:|-----|
+| Greater coverts GC1–GC12 | 23–30 (half its secondary) | 17–23 | 6 | rounded |
+| Scapulars SC1–SC6 | 41–47 | 31–35 | 7 | rounded |
+| Back coverts BC1–BC8 | 32–40 | 24–30 | 8 | rounded |
+
+### How to draw one feather (vector recipe)
+
+1. Draw the **rachis** as a straight line of length **Total**.
+2. Mark the **vane** over the top **Vane** length (the bare quill is the lower `Total − Vane`).
+3. Sweep the outline to **Max width** at ~40–50 % of vane length from the base, tapering to the tip.
+4. Offset the shaft by the **rachis** split (outer:inner) across that width — asymmetric for
+   primaries (shaft near the leading edge), ≈ centered (50:50) for the rounded feathers.
+5. Finish the tip per the **Tip** column; add the **emargination** notch to the outer vane near
+   the tip of the outer primaries (P1–P5).
+6. Apply **Curve** by bowing the rachis (high for outer primaries, ~straight for coverts).
+
 ## References
 
 - [Wing coverts — Wikipedia](https://en.wikipedia.org/wiki/Wing-Coverts)

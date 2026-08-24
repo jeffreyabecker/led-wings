@@ -5,8 +5,9 @@ shape/diffuse the light.
 
 ## Documents
 
-- [outline-templates.md](outline-templates.md) — the feather **outlines + arrangement** only:
-  every individual feather template (geometry) and how they layer/stack.
+- [outline-templates.md](outline-templates.md) — the feather **outlines + arrangement**:
+  every individual feather template (geometry), physical size/scaling, and how they layer/stack.
+  Includes per-feather **drafting dimensions (cm)** in §7.
 - [lighting-and-boards.md](lighting-and-boards.md) — **lighting & board concerns**: which
   feathers are lit, individual boards vs shared strips vs unlit covers, and the board count /
   LED budget.
