@@ -1,6 +1,6 @@
 # Backlog — Feather Geometry Engine (Python)
 
-> **Overall status: 🚧 in progress** — G1 done; G2+ not started.
+> **Overall status: 🚧 in progress** — G1–G2 done; G3+ not started.
 > Spec source: §7 (vector recipe) + §8 (data layer) of
 > [outline-templates.md](../outline-templates.md).
 > This document is the *plan*; each task's status lives in the table below and in its own
@@ -13,7 +13,7 @@ Legend: ✅ done · 🚧 in progress · ⬜ not started
 | ID | Task | Status | Depends on |
 |----|------|--------|-----------|
 | G1 | `feathers.json` data file | ✅ | — |
-| G2 | Core listable geometry | ⬜ | — |
+| G2 | Core listable geometry | ✅ | — |
 | G3 | `compute_rachis` | ⬜ | G2 |
 | G4 | `compute_vane` (+ width scaling) | ⬜ | G2, G3 |
 | G5 | Tip styles | ⬜ | G4 |
@@ -63,15 +63,24 @@ MD1, LS1-1, MG1, SC4, BC4, A-B, A-T).
 
 ---
 
-## G2 — Core listable geometry — ⬜ not started
+## G2 — Core listable geometry — ✅ done
 
 **What:** represent points/segments/polylines without a hard CAD dep (plain tuple/`dataclass`
 geometry first; swap in a viewer/serializer later). Unit: cm. Provides the primitives G3+ build
 on.
 
+**Where:** `feathergen/geometry.py` — `Point = (x, y)` tuple, `Polyline = Sequence[Point]`, plus
+`distance`, `polyline_length`, `bbox`, `translate`, `rotate`, `reflect_vertical`,
+`sample_bezier` (quadratic/cubic via de Casteljau), `resample`. Test infra: `pytest.ini`
+(`pythonpath = .`, cache disabled), `requirements-dev.txt` (`pytest`, `ezdxf`),
+`bootstrap_pytest.py` (sandbox workaround — downloads pytest wheels directly because pip's
+tempfile usage is denied under the DSH sandbox).
+
 **Depends on:** —
 
-**Tests:** no standalone tests — the primitives are exercised via G3+.
+**Tests:** `tests/test_geometry.py` — 25 cases covering distance/length, bbox, transforms
+(translate/rotate/reflect, length-preservation, involution), Bézier endpoints/midpoint/bad
+control counts, and resample spacing/across-vertices/edge cases. All green.
 
 ---
 

@@ -1,0 +1,10 @@
+# Python test artifacts
+__pycache__/
+*.pyc
+.pytest_cache/
+.pytest-deps/
+.pytest-deps/**/
+pytest-cache-files-*/
+
+# Local scratch (bootstrap/temp)
+.tmp-pip/
