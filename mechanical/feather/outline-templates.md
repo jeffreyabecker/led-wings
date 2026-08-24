@@ -2,6 +2,7 @@
 
 > Status: **ideation** · derived from first principles (bird-wing anatomy) · nothing locked.
 > Legend: ✅ = anatomy fact (sourced) · ⚠️ = design estimate (to be locked later).
+> Data: per-feather numbers here are the human view; a machine source of truth is proposed in §8.
 
 This lists every individual feather outline template the piece needs — the wing surface plus
 the back/shoulder cover over the electronics — grounded in how a real bird wing is built. It is
@@ -53,8 +54,10 @@ Sources: [Wing coverts — Wikipedia](https://en.wikipedia.org/wiki/Wing-Coverts
 - **Two wings, mirrored.** A right-wing template is a left-wing template flipped about the
   body axis. The lists below are **per wing**; multiply by 2 for the pair. The back coverts
   (§3.7) are a single center-back set.
-- **Reference scale.** Lengths are relative to the longest primary (P4 = 100). Now locked to
-  **P4 = 100 cm** (1 unit = 1 cm) from the physical envelope — see §6.
+- **Reference scale.** Lengths are relative to the longest primary (P4 = 100 relative units).
+  **Locked scale: 1 unit = 0.75 cm, so P4 = 100 units = 75 cm** (from the physical P4 mockup,
+  §6). The §7 cm tables are drawn from this scale. (The authoritative per-feather cm values
+  live in the programmatic data layer — see §8 — not hand-computed here.)
 - **Chord ratios.** "Vane width" is a % of feather length (chord ratio) and sets each
   template's silhouette. The absolute mm floor a *lit* feather must meet is a board constraint
   — see [lighting-and-boards.md](lighting-and-boards.md).
@@ -120,7 +123,40 @@ Innermost, elongated and very rounded; these cover the wing when it folds.
 ### 3.4 Greater coverts — GC1…GC12 (12)
 
 One per secondary; each `GCn` mirrors `Sn` at ≈ 50 % length, ≈ 24 % vane width, rounded,
-slightly curved. Enumerate as GC1–GC12 (outer → inner).
+slightly curved. Enumerate as GC1–GC12 (outer → inner). `GCn` total = `0.5 × Sn` total
+(cf. §7).
+
+| ID | Total (cm) | ≈ pairs with | Vane (cm) | Tip |
+|----|-----------:|--------------|----------:|-----|
+| GC1 | 29.5 | S1 (59) | 22 | rounded |
+| GC2 | 29.5 | S2 (59) | 22 | rounded |
+| GC3 | 29.5 | S3 (59) | 22 | rounded |
+| GC4 | 29.5 | S4 (59) | 22 | rounded |
+| GC5 | 29 | S5 (58) | 21.5 | rounded |
+| GC6 | 28.5 | S6 (57) | 21.5 | rounded |
+| GC7 | 28 | S7 (56) | 21 | rounded |
+| GC8 | 27 | S8 (54) | 20.5 | rounded |
+| GC9 | 26.5 | S9 (53) | 19.5 | rounded |
+| GC10 | 25 | S10 (50) | 19 | rounded |
+| GC11 | 24 | S11 (48) | 18 | rounded |
+| GC12 | 22.5 | S12 (45) | 17 | rounded |
+
+### 3.4b Shared covert rows — median / lesser / marginal (placeholder, per wing)
+
+The dense leading-edge rows are **not** enumerated feather-by-feather here; they're chains of
+short boards (see [lighting-and-boards.md](lighting-and-boards.md)) that follow the wing
+silhouette toward the leading edge. Parameterized placeholder rows, values ⚠️ (to be locked):
+each is a **shared strip** rather than individual templates.
+
+| Group | Rows | Feathers/row | Length (cm) | Vane width* | Tip | Lit? |
+|-------|------|-------------:|------------:|------------:|-----|------|
+| Median coverts | 1 | several | ≈ 15–25 | 26 % | rounded | lit (shared) |
+| Lesser coverts | 2–4 | several | ≈ 10–18 | 28 % | round | lit (shared) |
+| Marginal coverts | 1 | several | ≈ 6–12 | 30 % | round | lit (shared) |
+
+\* vane width as % of feather length. Counts/lengths are estimates derived from the §4 layering
+model; the programmatic generator (see §8) will derive exact per-row feather counts from the
+leading-edge run length and overlap.
 
 ### 3.5 Alula — A-B (bottom) + A-T (top) (2, per side)
 
@@ -303,7 +339,7 @@ width** = vane width at the widest point (≥ ~1.4 cm to carry the 10 mm LED rib
 
 | Group | Total | Vane | Max width | Tip |
 |-------|------:|-----:|----------:|-----|
-| Greater coverts GC1–GC12 | 23–30 (half its secondary) | 17–23 | 6 | rounded |
+| Greater coverts GC1–GC12 | per-feather, = 0.5 × its secondary (22.5–29.5, §3.4) | 17–22 | 6 | rounded |
 | Alula A-B + A-T | 11 | 8 | 2.5 | rounded, slightly asymmetric |
 | Scapulars SC1–SC6 | 41–47 | 31–35 | 7 | rounded |
 | Back coverts BC1–BC8 | 32–40 | 24–30 | 8 | rounded |
@@ -318,6 +354,30 @@ width** = vane width at the widest point (≥ ~1.4 cm to carry the 10 mm LED rib
 5. Finish the tip per the **Tip** column; add the **emargination** notch to the outer vane near
    the tip of the outer primaries (P1–P5).
 6. Apply **Curve** by bowing the rachis (high for outer primaries, ~straight for coverts).
+
+## 8. Programmatic data layer
+
+> Status: **proposed** · the per-feather numbers in this doc are the human-readable view; the
+> machine source of truth is a single structured data file the generator reads from. This keeps
+> one code path able to draw every feather (primaries vs secondaries vs coverts differ only in
+> data, never in code).
+
+- **Source of truth.** One data file, e.g. `mechanical/feather/generator/feathers.json`, with one
+  entry per feather: `{id, group, total, vane, max_width, rachis_split, tip, curvature,
+  emargination, z_order, ...}`, plus per-wing/placement and shared-strip entries
+  (median/lesser/marginal coverts). Lengths in cm, everything else ratio-based so the §5 width
+  decision (slender vs broad plumes) is a data change, not a code change.
+- **The markdown tables are generated or linted from the data file**, never hand-maintained, so
+  the §2 scale and §3/§7 values can't drift. Until the generator exists, note any manual cast in
+  the "last synced" header here.
+- **The §7 "How to draw one feather" recipe (§7.1–7.6) is the spec for the single parametric
+  function** `feather_outline(params) → {outline, rachis}`. It emits two artifacts per feather:
+  the closed vane outline (the template) and the rachis polyline with bend points — the latter is
+  the "length + bend points" input the LED segment boards need
+  ([lighting-and-boards.md](lighting-and-boards.md)).
+- **Arrangement is a separate stage** (per §4/§6): placement, mirroring (right wing = left wing
+  flipped about the body axis), covert anchoring (`GCn` over `Sn` at 50 % length), and shingle
+  overlap are transforms applied after the outline is drawn — not baked geometry.
 
 ## References
 
