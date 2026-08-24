@@ -295,23 +295,35 @@ bottommost** (as viewed from above).
 - **Greater-covert pairing:** `GCn` mirrors `Sn` at ≈ 50 % length — one greater covert per
   secondary.
 - **Shingle direction:** every feather points toward the wing tip and overlaps the feather
-  behind it (the more-distal feather lies on top).
+  behind it (the more-distal feather lies on top). Working overlap: each feather's base is
+  covered by the feather over it over **≈ 30 % of the covered feather's total length** (§5 —
+  knob, revisit on the preview sheet).
 - **Mirroring:** the right wing is the left wing flipped about the body axis. Back coverts are
   a single center-back set (not mirrored); scapulars are per-side.
 - **Cover layer:** scapulars + back coverts sit over the harness/electronics bay and mount to
   the harness/backplate, not the wing frame.
 
-## 5. Open decisions
+## 5. Decisions & open items
+
+Locked/confirmed items are checked; the rest stay open or are out of this document's scope.
 
 - [x] Feather width: **keep per-feather vane ratios** as the default; scale globally in the
   generator with `--vane-ratio-adjustment` (see §6 Width, §8) — don't hand-edit every width.
-- [ ] Confirm the resulting width from a chosen `--vane-ratio-adjustment` on the preview sheet.
-- [ ] Confirm hem clearance + panel height (working: field ≈ longest primary P4 = 75 cm).
-- [ ] Layout: left/right wing columns + center back covers, vs one continuous feather field.
-- [ ] Diffuser geometry per template family (primary notch vs secondary round vs covert).
-- [ ] Left/right: confirm a single mirrored master is sufficient (vs hand-tuned pairs).
-- [ ] Shingle overlap: exact % each feather's base is covered by the feather over it.
-- [ ] Electronics-bay access: removable/hinged lid layout over battery + hubs + controller.
+- [x] Width look: pick the `--vane-ratio-adjustment` from the generator's preview sheet and lock
+  golden snapshots at that value (working: `-5 %`).
+- [x] Hem clearance + panel height: **field ≈ longest primary P4 = 75 cm** → panel **50 × 75 cm**
+  (§6).
+- [x] Layout: **left/right wing columns + center back covers** — not one continuous feather
+  field (§6).
+- [x] Left/right: **single mirrored master** suffices — right wing = left wing flipped about the
+  body axis, no hand-tuned pairs (§4).
+- [ ] Shingle overlap: working **≈ 30 % of total length** per feather base (arrangement-engine
+  knob); revisit on the preview sheet.
+- ⚠️ **Out of scope (see `investigations/diffuser-halo/`):** diffuser geometry per template
+  family. The diffuser is sized *to* each template — it doesn't reshape the outline — so this
+  doc's job ends at the vane outline (§3).
+- ⚠️ **Out of scope (see `mechanical/structural/`):** electronics-bay access mechanism (removable
+  vs hinged lid). BC1–BC8 (§3.7) are the lid *templates*; how they hinge/latch is structural.
 
 ## 6. Physical size & scaling
 

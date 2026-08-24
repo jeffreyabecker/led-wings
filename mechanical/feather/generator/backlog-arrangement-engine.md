@@ -41,7 +41,7 @@ feather's outline. Layout decisions (§5 open items) become knobs here, not code
    - Tests: transform preserves shape (lengths/areas invariant); rotation by hang angle behaves as
      expected; inverse transform round-trips to the original local frame.
 4. **Mirroring** — right wing = left wing flipped about the body axis (§4). A single mirrored
-   master (per §5 "confirm a single mirrored master is sufficient"). Scapulars per side; back
+   master (per §5 — confirmed). Scapulars per side; back
    coverts are one center-back set (not mirrored).
    - Tests: mirrored feather is the mirror image (vertices reflect about the body axis, order
      preserved); flipping is an involution (flip twice = identity); back coverts emit once
@@ -50,7 +50,7 @@ feather's outline. Layout decisions (§5 open items) become knobs here, not code
    covert placement from flight-feather placement so the wing re-flows when one knob changes.
    - Tests: GCn lies over its `Sn`'s base at ≈ 50 % length; shoulder/back coverts (SC/BC) anchor
      per §6 outer-center rule; alula anchored at the wrist point (§3.5).
-6. **Shingle overlap** — apply the overlap % knob (the §5 open decision) so each feather
+6. **Shingle overlap** — apply the overlap % knob (working ≈ 30 %, §5) so each feather
    overlaps the one behind/inside: each feather's base is covered by the feather over it;
    tip remains free. Z-order drives draw order.
    - Tests: for pairs in §4's layering, the top feather covers the lower's base by the overlap %;
@@ -79,7 +79,7 @@ feather's outline. Layout decisions (§5 open items) become knobs here, not code
 | `panel_w` / `panel_h` | 50 / 75 cm | assembly envelope (§6) |
 | `wing_band` | ~20–22 cm | half-width each wing column (§6) |
 | `hang_angle` | per group | feather tilt from vertical (§6) |
-| `overlap` | ⚠️ TBD | % of base covered by the feather over it (§5) |
+| `overlap` | ≈ 30 % (working) | % of base covered by the feather over it (§5, revisit on preview) |
 | `mirror` | right = flip(left) | left/right strategy (§4, §5) |
 | `anchor_points` | per feather ✓ | root + hang origin on the panel |
 
@@ -101,10 +101,10 @@ covert to their flight feathers, and apply a configurable shingle overlap.
 
 ## Open items to confirm while building
 
-- §5: exact **overlap %** per shingle direction — the key visual/physical knob; needs an
-  aesthetic pass on the preview sheet.
-- §5: **single mirrored master** vs hand-tuned pairs — this doc assumes the single-master,
-  mirrored-right approach; revisit if it fails the preview.
-- §5: left/right wing columns **+ center back** vs one continuous feather field — this doc follows
-  the column layout; flag if the continuous field wins.
-- Electronics-bay removable-lid mechanism is separate (out of scope here).
+- **Overlap %** (working ≈ 30 %): the key visual/physical knob; tune it on the preview sheet —
+  §5 marked this for revisit after the first render.
+- Mirroring (confirmed, §5): single mirrored master; hand-tuned pairs only if the preview
+  exposes an asymmetry problem.
+- Layout (confirmed, §5): wing columns + center back; continuous feather field is dropped.
+- Electronics-bay removable-lid mechanism is separate (out of scope here — see
+  [structural](../../structural/)).
