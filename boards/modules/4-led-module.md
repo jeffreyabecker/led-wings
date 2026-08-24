@@ -1,4 +1,4 @@
-# 4-LED Strip Module — High-Level Design (42 × 10 mm)
+# 4-LED Strip Module — High-Level Design (42 × 12 mm)
 
 > Variant of the [shared design core](README.md). This file adds the 4-LED-specific numbers;
 > everything common (block diagram, routing topology, signal contract, fab) lives in the core.
@@ -23,12 +23,11 @@ row segment).
 
 ## 2. Mechanical envelope
 
-- **Board:** 42.0 × 10.0 mm, 2-layer FR-4, 1.6 mm thick (default), LEDs + connectors on one side.
+- **Board:** 42.0 × 12.0 mm, **1-layer flex PCB**, 1 oz copper, LEDs + connectors on one side.
 - **LED row:** 4× SK9822-EC20 (2020 pkg, 2.0 × 2.0 mm), **10.4 mm pitch**, centered on the strip.
 - **End margins:** 5.4 mm each end — fits the JST-GH footprint short axis (~5 mm) ⚠️ confirm at layout.
 - **Connectors:** JST-GH 4-pin SMD (top-entry) at each end — `IN` at one end, `OUT` at the other.
-- **Mounting:** adhesive (VHB/tape) to the feather substrate; no holes by default ⬜ (2 small
-  holes at the ends optional, for ties/screws).
+- **Mounting:** **adhesive-only** (VHB/tape) to the feather substrate; no holes.
 
 ### Placement sketch (top view, not to scale)
 
@@ -76,13 +75,12 @@ row segment).
 
 ## 5. Fab & panel notes
 
-- EasyEDA Pro → JLCPCB PCBA; 2-layer, 1.6 mm, 1 oz, black mask (recommended).
-- Panelized with V-score along the module edges; 4-LED boards are the short units that fill the
-  leftover panel area around the 6-LED runs (panel layout ⬜).
+- EasyEDA Pro → JLCPCB flex + PCBA; **1-layer flex, 1 oz copper, black coverlay** (recommended).
+- Panelized at JLCPCB; 4-LED boards are the short units that fill the leftover panel area around
+  the 6-LED runs (panel layout ⬜).
 - Silk: `4LED`, `IN`/`OUT`, pin numbers, L1–L4 indices.
 
 ## 6. Open items (this variant)
 
 - Confirm 5.4 mm end margin clears the GH footprint at layout.
-- Optional mounting holes (2× ~1.6 mm) if mechanical mounting is chosen over adhesive.
 - Panel placement/quantity math once the full module count (~176) is frozen.

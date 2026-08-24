@@ -30,8 +30,8 @@
 ## LED medium — standard strip modules
 
 - **Two module designs (custom PCBs, panelized):**
-  - **4-LED** — 42 × 10 mm, 4 × SK9822-EC20 at 10.4 mm pitch
-  - **6-LED** — 62 × 10 mm, 6 × SK9822-EC20 at 10.4 mm pitch
+  - **4-LED** — 42 × 12 mm, 4 × SK9822-EC20 at 10.4 mm pitch
+  - **6-LED** — 62 × 12 mm, 6 × SK9822-EC20 at 10.4 mm pitch
   - 4-pin JST-GH SMD on **each end**; chained tip-to-tail with 4-wire jumpers.
   - **Designs:** [module design core](modules/README.md) · [4-LED](modules/4-led-module.md) ·
     [6-LED](modules/6-led-module.md) (shared architecture + per-variant specs).
@@ -58,8 +58,8 @@
   SK9822-EC20. Total ~1260 LEDs both wings — battery math effectively unchanged (~50 A full
   white, ~10 A @ 20 %).
 - **Fab:** EasyEDA Pro (JLCPCB-native — their part lib already carries the SK9822-EC20
-  footprint, C2909059, and JST-GH SMD parts). Two fixed designs — no script needed. Panelize
-  with V-score along the module edges; JLCPCB PCBA assembles panelized.
+  footprint, C2909059, and JST-GH SMD parts). Two fixed designs — no script needed. **1-layer
+  flex PCBs**, panelized + PCBA at JLCPCB flex.
 
 ### SK9822-EC20 pin arrangement (LCSC C2909059, package `LED-SMD_6P-L2.0-W2.0-P0.80-TL`)
 
@@ -120,7 +120,7 @@ Physical pad layout (top view, 2×3 grid, 0.8 mm row pitch):
 | LED (module BOM) | SK9822-EC20, 2020 | ~1260 | ✅ | [LCSC C2909059](https://www.lcsc.com/product-detail/C2909059.html) |
 | Decoupling (module BOM) | Yageo `CC0603KRX7R9BB104`, 100 nF | ~1260 (1/LED) | ✅ | [LCSC C14663](https://www.lcsc.com/product-detail/C14663.html) |
 | Connector (module BOM) | JST-GH 4-pin SMD `SM04B-GHS-TB(LF)(SN)` | ~540 | ⚠️ confirm LCSC code | — |
-| Module PCBs | 4-LED 42×10 mm + 6-LED 62×10 mm, V-score panelized | ~270 | ✅ | JLCPCB PCBA |
+| Module PCBs | 4-LED 42×12 mm + 6-LED 62×12 mm, 1-layer flex, panelized | ~270 | ✅ | JLCPCB flex + PCBA |
 | Controller | Pixelblaze V3 Standard | 1 | ✅ | [Tindie](https://www.tindie.com/products/electromage/pixelblaze-v3-standard-wifi-led-controller/) |
 | Level shifter | 74AHCT125-class module (2 channels) | 1 | ⚠️ | TBD |
 | Buck | MP1584/LM2596-class module | ~6–8 | ⚠️ | TBD (reputable vendor) |

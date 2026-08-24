@@ -4,13 +4,14 @@
 >
 > This file is the **common architecture** both module variants share. Variant-specific numbers
 > live in the two design files:
-> - [4-LED module](4-led-module.md) — 42 × 10 mm
-> - [6-LED module](6-led-module.md) — 62 × 10 mm
+> - [4-LED module](4-led-module.md) — 42 × 12 mm
+> - [6-LED module](6-led-module.md) — 62 × 12 mm
 
 ## What a module is
 
-A single-row LED strip module: SK9822-EC20 pixels at **10.4 mm pitch** on a **10 mm-wide FR-4
-strip**, with a **4-pin JST-GH SMD connector on each end**. Power + data both ride the 4-pin;
+A single-row LED strip module: SK9822-EC20 pixels at **10.4 mm pitch** on a **12 mm-wide,
+1-layer flex PCB**, with a **4-pin JST-GH SMD connector on each end**. Power + data both ride
+the 4-pin;
 modules chain tip-to-tail, and power is injected every 4–6 modules from the power-hubs.
 (System plan: [boards/README](../README.md) · pinout legend:
 [connector-pinout](../../docs/connector-pinout.md).)
@@ -39,17 +40,20 @@ IN (JST-GH 4)                                  OUT (JST-GH 4)
 |------|--------|--------|
 | LED | SK9822-EC20, 2020 pkg (2.0 × 2.0 mm) — [C2909059](https://www.lcsc.com/product-detail/C2909059.html) | ✅ |
 | Pitch | 10.4 mm center-to-center, single row | ✅ |
-| Board | FR-4, 2-layer, **10 mm wide** | ✅ |
+| Board | **1-layer flex PCB, 12 mm wide** | ✅ |
 | Connector | JST-GH 4-pin SMD `SM04B-GHS-TB`, **top-entry** — [C189895](https://www.lcsc.com/product-detail/C189895.html) | ✅ |
 | Signal contract | IN: `+5V`/`GND`/`DI`/`CI` · OUT: `+5V`/`GND`/`DO`/`CO` | ✅ |
 | Decoupling | 100 nF 0603 **per LED** — [C14663](https://www.lcsc.com/product-detail/C14663.html) | ✅ |
-| Fab | EasyEDA Pro → JLCPCB PCBA, panelized, V-score along module edges | ✅ |
-| Solder mask | Black recommended (module hides behind diffuser) | ⚠️ |
+| Fab | EasyEDA Pro → JLCPCB flex + PCBA | ✅ |
+| Coverlay | Black recommended (module hides behind diffuser) | ⚠️ |
 
 ## Routing topology
 
-- **Power:** +5V / GND rails on the strip's outer edges, sized for the inter-injection budget
-  (≤ ~0.8 A, see current math). Both connectors pass the rails straight through.
+- **Single layer:** everything — power rails, data/clock, pads, decoupling — lives on one
+  copper layer (flex base, 1 oz copper). No vias, no back side.
+- **Power:** +5V / GND rails run the strip's full length, sized for the inter-injection budget
+  (≤ ~0.8 A, see current math). At 12 mm wide there is room for wide rails. Both connectors
+  pass the rails straight through.
 - **Data:** `DI`/`CI` enter at IN, hop LED→LED, exit as `DO`/`CO` at OUT. Clocked protocol +
   per-LED re-buffering → no termination needed on the module.
 - **Decoupling:** one 100 nF 0603 per LED, placed directly beside its pixel between `+5V` and
@@ -75,16 +79,15 @@ IN (JST-GH 4)                                  OUT (JST-GH 4)
 
 ## Panelization & fab notes
 
-- Two fixed designs (no scripting), panelized with V-score along the module edges (settled).
-- 2-layer, 1.6 mm FR-4, 1 oz copper (default; ENIG optional if fine-pitch yield worries).
+- Two fixed designs (no scripting), 1-layer flex, 1 oz copper, black coverlay (recommended).
+- Panelize at JLCPCB flex; PCBA assembles panelized.
 - Silkscreen: module ID (`4LED` / `6LED`), `IN`/`OUT` marks, pin numbers, LED indices.
 
 ## Open decisions (shared)
 
-- Board thickness 1.6 vs 1.0 mm (feather curvature conformity) — default 1.6.
-- Mounting: adhesive only (no holes) vs 2 small holes at the ends for ties/screws.
+- Mounting: **adhesive-only** (VHB/tape) to the feather substrate — no holes.
 - Confirm the GH footprint short axis (~5 mm) really fits the 5.0–5.4 mm end margins at layout.
-- Panel layout (modules per panel, V-score rails) against JLCPCB constraints.
+- Panel layout (modules per panel) against JLCPCB flex constraints.
 
 ## References
 
