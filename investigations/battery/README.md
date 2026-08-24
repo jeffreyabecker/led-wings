@@ -17,5 +17,5 @@ not a pixel-string voltage floor.
 
 ## Status
 
-`investigation` — default is **3S Li-ion (LiPo/18650)**, ~1 kWh / ~90 Ah at the 2800-px
-ceiling; LiFePO4 rejected for wearable weight. See [options.md](options.md).
+`investigation` — default is **3S Li-ion (LiPo/18650)**, ~710 Wh / ~64 Ah at the 2000-px
+target; LiFePO4 rejected for wearable weight. See [options.md](options.md).

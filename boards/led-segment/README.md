@@ -1,30 +1,34 @@
-# LED Segment Board
+# LED Segment (Feather) Board
 
-Single-connector addressable LED board (SK9822-EC20) — one "feather" of a wing. Home-runs
-one 6-pin cable to the central hub; no board-to-board chaining.
+Addressable LED feather board (SK9822-EC20) — one "feather" of a wing. Data daisy-chains
+feather-to-feather; power comes from a local power-hub.
 
 ## Idea
 
 - SK9822-EC20 LEDs on a flexible PCB; each LED regenerates DATA + CLK.
-- Every board has **one 6-pin port** carrying power + data/clock in + data/clock out back
-  to the hub. The hub owns the serial chain (see [controller](../controller/)).
+- **Data**: `DI`/`CI` in → first LED; last LED's `DO`/`CO` → `DATA OUT` connector to the next
+  feather.
+- **Power**: separate 2-pin `PWR` connector fed from a nearby power-hub (`+5V`/`GND`).
 
-## Connector (SMD side-entry, flex-compatible)
+## Connectors (SMD side-entry, flex-compatible)
 
-- `J1` — single 6-pin port to hub — JST `S6B-PH-SM4-TB` ([C54582918](https://www.lcsc.com/product-detail/C54582918.html))
+- `J_PWR` — 2-pin power in — GND / +5V
+- `J_IN` — 3-pin data in — GND / DI / CI
+- `J_OUT` — 3-pin data out — GND / DO / CO
 
-Pin map is the shared [connector pinout](../../docs/connector-pinout.md); exact part numbers
-in [selected-parts](selected-parts.md).
+Pin maps are the shared [connector pinout](../../docs/connector-pinout.md); exact part
+numbers in [selected-parts](selected-parts.md).
 
 ## On-board
 
-- SK9822-EC20 LEDs (`DI`/`CI` → first LED; last LED's `DO`/`CO` → connector return)
+- SK9822-EC20 LEDs
 - Bulk cap + 100 nF decoupling (per-board power)
 - Reverse-polarity protection (required)
 
-## Deferred to hub (controller board)
+## Deferred to controller / power-hub
 
-- Series R (DATA/CLK), fuse (per port), ESD/TVS, level shifter (one DATA+CLK pair)
+- Series R (DATA/CLK), ESD/TVS, level shifter → controller
+- Fuse (per feed), 12 V→5 V buck (if 12 V bus) → power-hub
 
 ## Parameterization
 
@@ -32,7 +36,7 @@ in [selected-parts](selected-parts.md).
 - Fixed width 10 mm; "top" = 0 mm (start of length).
 - Per board: overall length (mm) + bend points `(offset, deg)`.
 - LEDs: offset (mm) from top to chip center.
-- Single 6-pin port at the top.
+- Connectors at the top (the feather base — the only entrance).
 
 ## Open questions
 

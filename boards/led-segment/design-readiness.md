@@ -5,11 +5,10 @@
 > **Toolchain:** KiCad 10 · `pcbnew` Python scripting.
 > **Board type:** flexible PCB (FPC) — target · bends realized as arcs.
 > **Varies per board:** geometry (length mm + bend points) · LED offsets from top.
-> **Fixed per board:** width 10 mm · top = 0 mm · 6-pin port at top.
+> **Fixed per board:** width 10 mm · top = 0 mm · connectors at top.
 >
-> Topology: every board home-runs one 6-pin cable to the central hub (no board-to-board
-> chaining). See [connector pinout](../../docs/connector-pinout.md) and
-> [controller](../controller/).
+> Topology: data daisy-chains feather-to-feather; power fans out from local power-hubs. See
+> [topology](../../investigations/topology/) and [connector pinout](../../docs/connector-pinout.md).
 
 ## Locked
 
@@ -18,22 +17,22 @@
 | Tool | KiCad 10 + `pcbnew` Python |
 | Board type | flexible PCB (FPC) — target |
 | Varies per board | geometry (length + bend points), LED offsets from top |
-| Fixed per board | 6-pin port at top (0 mm) |
+| Fixed per board | connectors at top (0 mm) |
 | Board width | 10 mm (fixed) |
 | "Top" | 0 mm = start of board length |
 | Geometry spec | overall length (mm) + bend points `(offset, deg)` |
 | Bend realization | arcs (curved), not sharp corners — goal |
 | LED placement | offset (mm) from top to chip center |
-| Topology | one 6-pin port per board → central hub; hub chains in copper (140+ boards) |
+| Topology | data daisy-chain feather→feather; power from local power-hub |
 | LED | SK9822-EC20 (C2909059), 5 V, ~40 mA/LED @ full white, 2020 |
-| Connector (SMD side-entry) | `J1` 6-pin JST `S6B-PH-SM4-TB` ([C54582918](https://www.lcsc.com/product-detail/C54582918.html)) |
-| Pinout | shared [contract](../../docs/connector-pinout.md): 6-pin GND/DI/CI/DO/CO/+5V |
-| Data path | `DI`/`CI` → first LED; last LED's `DO`/`CO` → connector (return to hub) |
+| Connectors (SMD side-entry) | `J_PWR` 2-pin + `J_IN` 3-pin + `J_OUT` 3-pin (part numbers TBD) |
+| Pinout | shared [contract](../../docs/connector-pinout.md): PWR GND/+5V · DATA-IN GND/DI/CI · DATA-OUT GND/DO/CO |
+| Data path | `DI`/`CI` → first LED; last LED's `DO`/`CO` → `DATA OUT` → next feather |
 | Reverse polarity | MDD `SS34` (C8678) in series with VCC — required |
 | Decoupling | Yageo `CC0603KRX7R9BB104` (C14663), 100 nF |
 | Bulk | Samsung `CL31A476MPHNNNE` (C96123), 47 µF 10V, per board |
-| Deferred to hub | series R, fuse (per port), ESD/TVS, level shifter (one DATA+CLK pair) |
-| Current limit | 2 A per 6-pin circuit (one board per port — well under) |
+| Deferred | series R + ESD/TVS + level shifter → controller; fuse + buck → power-hub |
+| Current limit | 2 A per JST-PH circuit (per-feather power run is far under) |
 
 ## Open decisions
 
@@ -41,20 +40,20 @@
 - [ ] Bend **sign convention** for `deg` (clockwise vs counterclockwise)
 - [ ] Bend **radius**: sharp polyline vs radiused bends (flex minimum bend radius)
 - [ ] LED **lateral** position across the 10 mm width (centered? fixed offset?)
-- [ ] Connector placement: single `J1` at top — confirm orientation
+- [ ] Connector placement: `J_PWR`/`J_IN`/`J_OUT` at top (feather base) — confirm orientation
 - [ ] LED orientation follows local strip direction (DI toward top)?
 - [ ] Schematic approach: one parameterized schematic vs PCB-only generation
 
-### Power (per-board, no injection)
+### Power (per-board, from power-hub)
 - [ ] Trace width / copper weight for the per-board 5 V path (single board's current)
 - [ ] Max LEDs per board at target brightness (per-board power budget)
 - [ ] Decoupling density: 1×100 nF per LED vs per 2–4
 
 ### Layout / mechanical
 - [ ] LED orientation (DI toward input) + silkscreen data-direction arrow
-- [ ] Connector orientation + cable-exit direction (toward hub)
+- [ ] Connector orientation + cable-exit direction (`DATA OUT` toward next feather, `PWR` toward power-hub)
 - [ ] Keep DI/CI and DO/CO pairs matched; avoid loop area
-- [ ] Termination: hub terminates final port's `DO`/`CO` (optional)
+- [ ] Termination: last feather's `DATA OUT` is unused (end of chain)
 - [ ] Flex specifics: stiffener under SMD connector, bend radius, coverlay vs soldermask
 - [ ] Thermal: copper pours as heat spreaders
 
@@ -65,26 +64,26 @@
 
 ### KiCad libraries
 - [ ] SK9822-EC20 `.kicad_sym` + `.kicad_mod` (convert from EasyEDA JSON/SVG)
-- [ ] 6-pin JST `S6B-PH-SM4-TB` footprint — confirm in stock `Connector_JST` lib or create
+- [ ] 2-pin + 3-pin JST-PH footprints (`S2B`/`S3B`-PH-SM4-TB) — confirm in stock lib or create
 
-### Controller / hub (parallel)
-- [ ] MCU, level shifter (one pair), series R, per-port fuse, ESD/TVS
-- [ ] Hub port count (140+ boards → modular spine / multiple hubs)
-- [ ] Power distribution sizing (total current × boards)
+### Controller / power-hub (parallel)
+- [ ] Controller: MCU, level shifter (one pair), series R, ESD/TVS; N chain outputs
+- [ ] Power-hub: fuse per feed, 12 V→5 V buck (if 12 V bus), fan-out count
+- [ ] Chain segmentation (N) + power-hub placement
 - [ ] Chain timing / clock budget (~1400 LEDs cumulative regen delay)
 
 ## Constraints (why)
 
 - 5 V has almost no headroom: 0.5 V drop = 10% = color shift/flicker (blue dies first). Each
-  home-run carries only its own board's current, so per-board drop is small; the hub owns
-  distribution.
-- 2 A per 6-pin circuit; one board per port, so per-port current is far below the limit.
+  power run carries only its own board's current, so per-board drop is small; the power-hub
+  owns distribution.
+- 2 A per JST-PH circuit; one feather per power feed, so per-feed current is far below the limit.
 - X5R/X7R derate ~40–60% under DC bias → think effective µF, not nominal.
 - 2020 package: fine pads, pick-and-place + reflow only.
 - Side-entry SMD connector on flex needs a stiffener for solder reliability + mating.
-- SK9822 regenerates DATA+CLK per LED; the chain is serial and driven from the hub (one
-  DATA + one CLK), so `DO`/`CO` must return to the hub.
-- ~1400 LEDs of cumulative regen delay across the chain → keep the hub's SPI clock
+- SK9822 regenerates DATA+CLK per LED; the chain is serial, so `DO`/`CO` feed the next
+  feather (daisy chain), and the last feather's `DATA OUT` is unused.
+- ~1400 LEDs of cumulative regen delay → segment into several chains and keep the SPI clock
   conservative.
 
 ## References

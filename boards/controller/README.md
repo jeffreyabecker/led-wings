@@ -1,33 +1,28 @@
-# Controller / Hub Board
+# Controller Board
 
-Central hub — one per wing (or a modular spine across many). Every LED board home-runs a
-single 6-pin cable here; the hub owns routing, chaining, power distribution, and protection.
+The wing's brain — drives the data chains. It does **not** distribute power (that's the
+power-hub's job). One per wing.
 
 ## Idea
 
-- One 6-pin port per LED board. Chains port N's `DO`/`CO` → port N+1's `DI`/`CI` in copper,
-  so one `DATA` + one `CLK` (level-shifted 3.3 → 5 V) drives the whole chain (140+ boards).
-- Distributes 5 V to every port through a per-port fuse.
+- MCU + level shifter (3.3 V → 5 V) drives N `DATA` + `CLK` pairs, each into the first
+  feather of a chain segment.
+- Feathers daisy-chain data between themselves; the controller only feeds the chain heads.
 
-## Holds (deferred from boards)
+## Holds (deferred from feathers)
 
-- Level shifter (3.3 V → 5 V) on the single DATA + CLK pair into port 1
-- Series R (33–100 Ω) on the DATA + CLK output
-- Fuse / polyfuse per port
-- ESD/TVS per port (DI, CI, DO, CO, VCC)
-- Per-hop bypass jumper (port N `DO` → port N+1 `DI`) for field repair
+- Level shifter (3.3 V → 5 V) per data output
+- Series R (33–100 Ω) per data output
+- ESD/TVS per data output
 
 ## Connectors
 
-- One 6-pin port per board (matches the board's `J1`), plus MCU + power inputs.
+- N data outputs (DATA + CLK + GND), plus MCU + power input.
 
 ## Open questions
 
 - MCU choice
-- Port count per hub (140+ boards → modular spine / multiple hubs?)
-- Connector density + topology: 6-pin JST-PH home-run vs RJ45/Cat5e snowflake (48 V + buck) — undecided
-- Power distribution sizing (total current, heavy copper, multiple 5 V inputs)
-- Chain order: fixed in copper vs reconfigurable; bypass jumper scheme
-- Chain timing / clock budget (~1400 LEDs cumulative regen delay)
+- Number of chain segments (N) and how feathers are grouped
+- Chain timing / clock budget (~1400 LEDs total, ~1400/N per chain)
 
 See [design readiness](design-readiness.md) · [parts](selected-parts.md) · [connector pinout](../../docs/connector-pinout.md).

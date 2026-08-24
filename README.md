@@ -1,29 +1,28 @@
 # Wings PCBs
 
-LED lighting PCB project — addressable RGB (SK9822) "feather" boards that home-run a single
-6-pin cable to a central hub.
+LED lighting PCB project — addressable RGB (SK9822) "feather" boards: data daisy-chained
+feather-to-feather, power fed from local power-hubs.
 
 ## Toolchain
 
 - KiCad 10, parameterized via `pcbnew` Python scripting (~70 unique LED board shapes).
-- Varies per board: geometry + LED count/positions. Fixed: single 6-pin port at "top".
+- Varies per board: geometry + LED count/positions. Fixed: connectors at "top".
 
 ## Boards
 
-- [LED segment](boards/led-segment/) — single-connector SK9822 feather board
-- [Controller](boards/controller/) — central hub: chaining, power distribution, protection
+- [LED segment](boards/led-segment/) — SK9822 feather board (daisy-chain data + power connector)
+- [Controller](boards/controller/) — data source: MCU + level shifter, N chain outputs
 
 ## Shared docs
 
-- [Connector pinout](docs/connector-pinout.md) — canonical 6-pin home-run pinout for all boards
+- [Connector pinout](docs/connector-pinout.md) — canonical split power/data pinout for all boards
 
 Per-board design readiness + part lists live in each board folder.
 
 ## Investigations
 
 - [Battery](investigations/battery/) — 12 V chemistry + sizing for 8 h @ 20 % mobility
-- [Power delivery](investigations/power-delivery/) — 12 V→5 V conversion and distribution to
-  ~140 SK9822-EC20 feathers
+- [Topology](investigations/topology/) — target: split power (hubs) and data (daisy-chain)
 
 ## Adding a board
 

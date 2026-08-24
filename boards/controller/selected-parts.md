@@ -1,4 +1,4 @@
-# Selected Parts — Controller / Hub Board
+# Selected Parts — Controller Board
 
 > Brief on purpose — rationale in [design-readiness.md](design-readiness.md),
 > pinout in [../../docs/connector-pinout.md](../../docs/connector-pinout.md).
@@ -8,17 +8,14 @@
 | Ref | Part | Value | Qty | Status |
 |-----|------|-------|-----|--------|
 | `U*` | MCU | TBD | 1 | ⬜ |
-| `U*` | Level shifter (3.3 V → 5 V), one DATA + CLK pair | TBD | 1 | ⬜ |
-| `R*` | Series R on DATA + CLK output | 33–100 Ω | 2 | ⬜ |
-| `F*` | Fuse / polyfuse (per port) | TBD | 1/port | ⬜ |
-| `TVS*` | ESD/TVS per port (DI, CI, DO, CO, VCC) | TBD | TBD | ⬜ |
-| `J*` | 6-pin port per board (matches board `J1`) | TBD | 1/board | ⬜ |
-| `JP*` | Bypass jumper (port N `DO` → port N+1 `DI`) | TBD | 1/hop | ⬜ |
+| `U*` | Level shifter (3.3 V → 5 V), one per data output | TBD | N | ⬜ |
+| `R*` | Series R on DATA + CLK output | 33–100 Ω | 2N | ⬜ |
+| `TVS*` | ESD/TVS per data output | TBD | TBD | ⬜ |
+| `J*` | Data output (DATA + CLK + GND) | TBD | N | ⬜ |
 
 ## To confirm
 
 - [ ] MCU choice.
-- [ ] Port count per hub; modular spine vs single board.
-- [ ] Connector family for density (JST-PH 6-pin vs RJ45/Cat5e).
-- [ ] Power distribution sizing (total current, number of 5 V inputs).
+- [ ] Number of chain segments (N).
+- [ ] Data output connector family.
 - [ ] Chain timing / clock budget.

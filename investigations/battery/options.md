@@ -12,9 +12,9 @@
 - Fixed **12 V** system; battery must hold the rail above the 12 V→5 V buck's input dropout
   across its full discharge.
 - Runtime target: **8 h at 20 % brightness** (typical animated look, not full-white).
-- Pixel ceiling: **2800 px** (assumed upper bound; scale down once the design proves it can
-  make do with less — pixel count is the dominant weight lever).
-- Energy needed: SK9822 @ 5 V via a 12 V→5 V buck (~90 %): **~1000 Wh (1 kWh)**.
+- Pixel target: **2000 px** (set after the weight analysis; pixel count is the dominant
+  weight lever).
+- Energy needed: SK9822 @ 5 V via a 12 V→5 V buck (~90 %): **~710 Wh**.
 
 ## Chemistry comparison ("12 V")
 
@@ -64,13 +64,13 @@ rather than being forced to 4S:
 - Practical guardrail: set the low-voltage disconnect above the dropout with margin
   (~9–10 V) to avoid brown-out at end of charge.
 
-## Sizing (2800 px ceiling)
+## Sizing (2000 px target)
 
 | | Full white | 20 % brightness |
 |---|---|---|
-| Rail power (2800 × 0.2 W) | 560 W (112 A @ 5 V) | **112 W** |
-| Battery draw (÷ 90 % buck) | ~622 W | **~124 W** |
-| 8 h energy | ~5 kWh | **~1000 Wh** |
+| Rail power (2000 × 0.2 W) | 400 W (80 A @ 5 V) | **80 W** |
+| Battery draw (÷ 90 % buck) | ~444 W | **~89 W** |
+| 8 h energy | ~3.6 kWh | **~710 Wh** |
 
 Scaling (linear in pixel count — the main lever):
 
@@ -79,7 +79,7 @@ Scaling (linear in pixel count — the main lever):
 | Pixels | Battery energy | LiPo weight (~170 Wh/kg) |
 |---|---|---|
 | 2800 | ~1000 Wh | ~5.9 kg |
-| 2100 | ~750 Wh | ~4.4 kg |
+| **2000 (target)** | **~710 Wh** | **~4.2 kg** |
 | 1400 | ~500 Wh | ~2.9 kg |
 | 700 | ~250 Wh | ~1.5 kg |
 | 350 | ~125 Wh | ~0.73 kg |
@@ -90,16 +90,16 @@ Scaling (linear in pixel count — the main lever):
 
 ## Recommendation
 
-- **Default: 3S Li-ion — LiPo pouch or 18650 — ~11.1 V nominal, ~90 Ah / ~1000 Wh for the
-  2800-px ceiling.** This is the weight-optimal chemistry for a wearable, and 3S (not 4S) is
+- **Default: 3S Li-ion — LiPo pouch or 18650 — ~11.1 V nominal, ~64 Ah / ~710 Wh for the
+  2000-px target.** This is the weight-optimal chemistry for a wearable, and 3S (not 4S) is
   now usable because the 12 V→5 V buck absorbs the voltage sag.
 - **LiPo pouch** is the lightest and most formable, but needs a hard enclosure + BMS (puncture
-  → fire, and this sits near the body). **18650 (3S ~26P)** is slightly heavier but inherently
+  → fire, and this sits near the body). **18650 (3S ~18P)** is slightly heavier but inherently
   robust — safer for a bumpable wearable. Pick on form-factor/safety, not chemistry.
 - **LiFePO4 is rejected for wearable** (1.5–2× heavier); lead-acid is rejected (4–5× heavier).
-- Reality check: ~1 kWh ≈ **5–6 kg** — small-e-bike/large-drone territory, not a phone power
-  bank. Weight will very likely drive the "can we make do with fewer pixels" decision, and
-  charging + thermal management at this scale are non-trivial.
+- Reality check: ~710 Wh ≈ **~4 kg** — right at the comfortable backpack ceiling (LiPo
+  ~4.2 kg, 18650 ~3.6 kg). Charging + thermal management are real but manageable at this
+  scale.
 
 ## Next step — off-the-shelf pack (before specifying cells)
 
@@ -107,17 +107,17 @@ Do **not** spec a custom cell configuration yet. First investigate buying an off
 pack — RC/hobby 3S LiPo packs, "12 V" Li-ion/LiFePO4 power-station/e-bike packs, and 12 V
 replacement packs — for availability, included BMS, capacity, weight, and cost. A purchased
 pack with an integrated BMS and enclosure is strongly preferred over a DIY cell build at
-~1 kWh (safety + certification).
+~710 Wh (safety + certification).
 
 ## Open questions
 
 - [ ] **Off-the-shelf pack survey (next).** RC 3S LiPo vs "12 V" Li-ion/LiFePO4 packs vs
       e-bike packs: capacity, weight, BMS included, discharge rating, cost.
 - [ ] Confirm the actual average brightness — "20 %" is an assumption and scales linearly.
-- [ ] Confirm 2800 px as the ceiling; every halving removes ~2.5–3 kg.
+- [ ] Pixel target is **2000 px** (locked); the scaling table gives the cost of any change.
 - [ ] Set the low-voltage disconnect (~9–10 V) above the buck's dropout.
-- [ ] Charging: a ~1 kWh pack needs a real charger (~0.5 C ≈ 500 W) and thermal management.
-- [ ] Safety: enclosure, BMS, fusing, and thermal monitoring are non-negotiable at ~1 kWh.
+- [ ] Charging: a ~710 Wh pack needs a real charger (~0.5 C ≈ 350 W) and thermal management.
+- [ ] Safety: enclosure, BMS, fusing, and thermal monitoring are non-negotiable at ~710 Wh.
 
 ## References
 
@@ -128,5 +128,4 @@ pack with an integrated BMS and enclosure is strongly preferred over a DIY cell 
 - 12 V voltage/SOC charts: https://jetraybattery.com/battery-voltage-soc-complete-chart-guide-12v-24v-48v/
 - 3S LiPo guide: https://www.ufinebattery.com/blog/an-ultimate-guide-about-3s-lipo-batteries/
 - Lead-acid (flooded/AGM/gel) deep-cycle: https://howtostoreelectricity.com/lead-acid-batteries-for-solar/
-- Project context: [power delivery](../power-delivery/conversion-options.md) ·
-  [controller design readiness](../../boards/controller/design-readiness.md)
+- Project context: [controller design readiness](../../boards/controller/design-readiness.md)

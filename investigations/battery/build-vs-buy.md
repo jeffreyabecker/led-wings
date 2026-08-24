@@ -57,8 +57,8 @@ For 8 h of wear, keep **total** (structure + battery) ≤ ~6 kg comfortable / ~7
 
 (Wh ≈ pixels × 0.356; LiPo ~170 Wh/kg gives ~1910 px @ 4 kg.)
 
-**Consequence: the 2800-px ceiling needs ~5 kg+ — at the tiring hard ceiling, not comfortable.**
-The backpack-comfortable pixel ceiling is **~2000–2200 px**.
+**Consequence: the target is now 2000 px → ~710 Wh → ~4 kg (LiPo ~4.2 kg / 18650 ~3.6 kg) —**
+right at the comfortable ceiling. 2800 px would have needed ~5 kg+ (hard/tiring).
 
 ## Synthesis
 
@@ -68,13 +68,13 @@ The backpack-comfortable pixel ceiling is **~2000–2200 px**.
 - **Build (18650 holders + bought BMS)** is the lightest *sensible* DIY and needs no welding,
   but ~2× the $/Wh of buying and still ~3.2–3.5 kg.
 - Bottom line: **"no DIY BMS + cheap" → buy NMC portable; "lightest, willing to assemble but
-  not design a BMS" → RC LiPo + bought BMS, or 18650 holders.** Neither the comfortable-weight
-  nor the cheap path reaches 2800 px at 8 h/20 %.
+  not design a BMS" → RC LiPo + bought BMS, or 18650 holders.** All paths reach the 2000-px
+  target (~710 Wh / ~4 kg); the choice is then cost vs weight vs assembly effort.
 
 ## Open questions
 
 - [ ] Confirm actual brightness — the pixel ceiling is a direct function of it.
-- [ ] Confirm 2800 px vs the ~2000–2200 px backpack-comfortable ceiling.
+- [ ] Pixel target set to **2000 px** (~710 Wh / ~4 kg) — fits the comfortable ceiling.
 - [ ] Confirm a hard weight budget in kg (4 kg comfortable vs 5 kg hard).
 - [ ] Verify NMC 12 V portable packs at ~50–60 Ah retail (the ~4 kg sweet spot).
 - [ ] If building: 18650 holders (no welding) vs spot-weld vs pre-built RC LiPo + BMS.
