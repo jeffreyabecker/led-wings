@@ -1,6 +1,6 @@
 # Backlog — Feather Geometry Engine (Python)
 
-> **Overall status: 🚧 in progress** — G1–G7 done; G8+ not started.
+> **Overall status: 🚧 in progress** — G1–G8 done; G9 not started.
 > Spec source: §7 (vector recipe) + §8 (data layer) of
 > [outline-templates.md](../outline-templates.md).
 > This document is the *plan*; each task's status lives in the table below and in its own
@@ -19,7 +19,7 @@ Legend: ✅ done · 🚧 in progress · ⬜ not started
 | G5 | Tip styles | ✅ | G4 |
 | G6 | Emargination | ✅ | G4 |
 | G7 | `feather_outline` entry point | ✅ | G2–G6 |
-| G8 | Serializers (DXF/SVG) | ⬜ | G7 |
+| G8 | Serializers (DXF/SVG) | ✅ | G7 |
 | G9 | Markdown sync / lint | ⬜ | G7 |
 
 ## Goal
@@ -190,14 +190,22 @@ integration for P4/P1. All green.
 
 ---
 
-## G8 — Serializers (DXF/SVG) — ⬜ not started
+## G8 — Serializers (DXF/SVG) — ✅ done
 
 **What:** DXF (via `ezdxf`) and SVG (stdlib) per feather in `generator/out/{dxf,svg}/`.
 
+**Where:** `feathergen/serialize.py` — `write_dxf` (one closed LWPOLYLINE per feather, layer =
+group, R2010), `write_svg` (stdlib: single `<path>` with title, viewBox fit to bbox),
+`serialize_feather(params, out_dir, vane_ratio_adjustment)` and `serialize_all(rows, out_dir)`.
+`bootstrap_pytest.py` extended with ezdxf + fonttools + pyparsing (pure-python wheels).
+
 **Depends on:** G7
 
-**Tests:** artifact emitted for every feather; SVG is well-formed; DXF contains a single closed
-polyline on the expected layer.
+**Tests:** `tests/test_serialize.py` — 12 cases: DXF emitted + single closed polyline on the
+expected layer + layer created; SVG well-formed (parses), has path with closing `Z` + title,
+degenerate bbox raises; serialize_feather returns both paths; serialize_all covers all 114
+feathers and every artifact parses with the right layer; adjustment changes DXF content.
+Tests use a workspace `.test-out/` scratch dir (sandbox denies tempfile dirs). All green.
 
 ---
 

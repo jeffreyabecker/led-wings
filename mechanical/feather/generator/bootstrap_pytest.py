@@ -14,12 +14,13 @@ import sys
 import urllib.request
 import zipfile
 
-TARGET = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "mechanical", "feather", "generator", ".pytest-deps")
-)
+TARGET = os.path.abspath(os.path.join(os.path.dirname(__file__), ".pytest-deps"))
 
-# pytest + its runtime deps (pytest 9.x). No extras needed.
-PACKAGES = ["pytest", "pluggy", "iniconfig", "packaging", "pygments"]
+# pytest + ezdxf and their pure-python runtime deps. No extras needed.
+PACKAGES = [
+    "pytest", "pluggy", "iniconfig", "packaging", "pygments",
+    "ezdxf", "fonttools", "pyparsing",
+]
 
 
 def latest_wheel_url(name: str) -> str:
