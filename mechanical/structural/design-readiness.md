@@ -11,6 +11,7 @@
 | Fold / transport | fixed closed; **not** disassemblable |
 | Total weight budget | **5 kg** (whole piece: frame + feathers + electronics + battery) |
 | Electronics mounting | backplate/harness carries battery, power-hubs, controller (see [README](README.md#electronics-bay--backplate)) |
+| Physical envelope | 50 cm wide × ~75 cm tall (set by longest primary P4 = 75 cm), folded flat on the back |
 
 ## Constraints (why)
 
@@ -31,6 +32,18 @@
   (a standard door ≈ 0.8–0.9 m).
 - All service happens in place: removable electronics-bay lid (back coverts) + feather-level
   access, never frame disassembly.
+
+### Physical envelope (measured)
+
+- **Width:** 50 cm — shoulder-to-shoulder, measured with a tailor's tape. Hard limit: both wings
+  + center back covers must sit inside it.
+- **Height:** ~75 cm, folded flat on the back — set by the longest primary (P4 = **75 cm**
+  quill-to-tip, **56 cm** vane) from the mockup; hangs from the shoulders down the back (past the
+  butt, clear of the floor).
+- **Form:** a **folded** wing laid flat on the back (not an extended, outspread wing) — feathers
+  point down/back and overlap shingle-style; primaries reach the hem, coverts stack up toward the
+  shoulders.
+- Feather scaling lives with the template list: [`feather/outline-templates.md`](../feather/outline-templates.md).
 
 ### 5 kg total budget
 
@@ -63,3 +76,4 @@
 - [ ] Backplate material + how it integrates with the wing frame and shoulder straps.
 - [ ] Bay sealing vs access: dust/sweat protection against a hinge/latch/magnet lid.
 - [ ] Does the back-coverts lid carry any electronics, or is it purely a cover?
+- [ ] Feather width at ~1 m length: slender streamers (~6–8 cm) vs broad plumes (~12–16 cm).

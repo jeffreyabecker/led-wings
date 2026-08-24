@@ -53,8 +53,8 @@ Sources: [Wing coverts — Wikipedia](https://en.wikipedia.org/wiki/Wing-Coverts
 - **Two wings, mirrored.** A right-wing template is a left-wing template flipped about the
   body axis. The lists below are **per wing**; multiply by 2 for the pair. The back coverts
   (§3.7) are a single center-back set.
-- **Reference scale.** Lengths are relative to the longest primary (P4 = 100). Absolute size
-  is one parameter (wing-span decision) and scales the whole list uniformly.
+- **Reference scale.** Lengths are relative to the longest primary (P4 = 100). Now locked to
+  **P4 = 100 cm** (1 unit = 1 cm) from the physical envelope — see §6.
 - **Chord ratios.** "Vane width" is a % of feather length (chord ratio) and sets each
   template's silhouette. The absolute mm floor a *lit* feather must meet is a board constraint
   — see [lighting-and-boards.md](lighting-and-boards.md).
@@ -190,11 +190,69 @@ bottommost** (as viewed from above).
 
 ## 5. Open decisions
 
-- [ ] Absolute scale: wing span → sets the mm behind every relative length above.
+- [ ] Feather width: slender streamers (~6–8 cm) vs broad plumes (~10–16 cm) at ~75 cm length.
+- [ ] Confirm hem clearance + panel height (working: field ≈ longest primary P4 = 75 cm).
+- [ ] Layout: left/right wing columns + center back covers, vs one continuous feather field.
 - [ ] Diffuser geometry per template family (primary notch vs secondary round vs covert).
 - [ ] Left/right: confirm a single mirrored master is sufficient (vs hand-tuned pairs).
 - [ ] Shingle overlap: exact % each feather's base is covered by the feather over it.
 - [ ] Electronics-bay access: removable/hinged lid layout over battery + hubs + controller.
+
+## 6. Physical size & scaling
+
+Envelope from the P4 mockup + shoulder measurement: **50 cm wide × ~75 cm tall**, folded flat on
+the back.
+
+- **Width:** 50 cm (shoulder-to-shoulder, measured) — the hard limit for the whole assembly.
+- **Height:** set by the longest feather. The P4 mockup is **75 cm quill-to-tip** with a **56 cm
+  vane** — that's the longest primary, so the folded wing field is ~75 cm tall, hanging from the
+  shoulders down the back (past the butt, clear of the floor).
+- **Form:** a **folded** wing laid flat on the back — feathers point down/back and overlap
+  shingle-style, **not** an extended, outspread wing. Longest feathers (primaries) reach the hem;
+  coverts stack up toward the shoulders. This is what §4's layering model fills.
+
+### Scale factor (from the P4 mockup)
+
+| Reference | Value |
+|-----------|-------|
+| Longest primary (P4) | 100 relative units |
+| Mockup | **75 cm** quill-to-tip, **56 cm** vane |
+| Scale | **1 unit = 0.75 cm** (P4 = 75 cm) |
+
+### Re-scaled flight-feather lengths (cm, quill-to-tip) — × 0.75
+
+| Primary | cm | Secondary | cm | Tertial | cm |
+|---------|---:|-----------|---:|---------|---:|
+| P1 | 56 | S1 | 59 | T1 | 56 |
+| P2 | 65 | S2 | 59 | T2 | 59 |
+| P3 | 71 | S3 | 59 | T3 | 60 |
+| P4 | 75 | S4 | 59 | T4 | 62 |
+| P5 | 74 | S5 | 58 | | |
+| P6 | 70 | S6 | 57 | | |
+| P7 | 66 | S7 | 56 | | |
+| P8 | 62 | S8 | 54 | | |
+| P9 | 58 | S9 | 53 | | |
+| P10 | 54 | S10 | 50 | | |
+| | | S11 | 48 | | |
+| | | S12 | 45 | | |
+
+Vane length ≈ **0.75 × total** (from P4: 56/75). Coverts & back (cm, total): greater coverts
+GC1–GC12 ≈ **22–29** (half their secondary); scapulars SC1–SC6 ≈ **41–47**; back coverts BC1–BC8
+≈ **32–40**.
+
+### Width (⚠️ design decision)
+
+Feather widths must be chosen, not taken from real-bird vane ratios (13–22 % of length → 10–16 cm
+at this scale — too fat for ~76 in a 50 cm panel). Recommended: **long-narrow feathers**, ~6–8 cm
+wide for the flight feathers (still ≥ ~14 mm to carry the 10 mm LED ribbon). Choose slender
+streamers vs broad plumes.
+
+### Layout (folded wing, flat on back)
+
+- One 50 cm panel centered on the spine, mounted at the shoulders.
+- Left/right wings occupy the outer ~20–22 cm; back coverts sit in the center over the
+  electronics bay.
+- Feathers hang downward, overlapping top-over-bottom; longest (primaries) at the hem.
 
 ## References
 
