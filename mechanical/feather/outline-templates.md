@@ -248,6 +248,10 @@ at this scale — too fat for ~76 in a 50 cm panel). Recommended: **long-narrow 
 wide for the flight feathers (still ≥ ~14 mm to carry the 10 mm LED ribbon). Choose slender
 streamers vs broad plumes.
 
+> Width vs lighting is resolved: a single 10 mm ribbon lights a ~2–3 cm band, so vane edges glow
+> dimmer than the rachis — the **bright-rachis gradient is accepted** (no dual boards). See
+> [lighting-and-boards.md](lighting-and-boards.md).
+
 ### Layout (folded wing, flat on back)
 
 - One 50 cm panel centered on the spine, mounted at the shoulders.

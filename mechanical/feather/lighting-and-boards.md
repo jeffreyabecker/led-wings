@@ -9,17 +9,22 @@ board vs shared strip vs unlit structural), and the board count / LED budget.
 
 ## 1. Board model
 
-- **One lit feather = one `boards/led-segment/` board.** A fixed 10 mm flexible ribbon that runs
+- **One lit feather = one LED segment (feather) board** — see
+  [boards/README.md](../../boards/README.md). A fixed 10 mm flexible ribbon that runs
   along the feather's rachis; its geometry comes from the outline template (length + bend points).
+- **Single LED line per feather (locked).** One ribbon along the rachis lights the whole vane;
+  brightness falls off toward the vane edges. The **bright-rachis → dim-edge gradient is the
+  accepted aesthetic** — the alternatives were analyzed and rejected: two staggered lines (2×
+  boards + connectors) and edge-lit PETG guides (rigid + too heavy for the feather weight
+  budget).
 - **Vane floor.** Every *lit individual* feather needs a **vane ≥ ~14 mm wide** at the ribbon's
   widest point (10 mm board + diffuser margin). The chord ratios in the outline tables already
   respect this floor.
 - **Connectors enter at the feather base (top)** — the only cable entrance. Data daisy-chains
   feather→feather; power fans out from local power-hubs. See
-  [`boards/led-segment/`](../../boards/led-segment/) and
-  [topology](../../investigations/topology/).
-- **Shared strips are a different board type** — continuous under-lit ribbons with a scalloped
-  feather edge, not one board per feather.
+  [boards/README.md](../../boards/README.md).
+- **Shared strips are a different board type** — chains of short 3–4 cm boards with a scalloped
+  overlay (§4), not one board per covert feather.
 
 ## 2. Lighting map
 
@@ -53,7 +58,8 @@ animation.
 
 - **Size:** 40 × 10 mm (working; a 30 × 10 mm / 3-LED variant for tighter rows).
 - **LEDs:** 4 × SK9822-EC20 at 10 mm pitch.
-- **Connectors:** same contract as the feather boards — `J_PWR` + `J_IN`/`J_OUT`
+- **Connectors:** **4-pin, power + data combined** (`+5V`/`GND`/`DI`/`CI` in,
+  `+5V`/`GND`/`DO`/`CO` out) — not the feather's separate `J_PWR` + `J_IN`/`J_OUT`
   ([pinout](../../docs/connector-pinout.md)) — chained tip-to-tail.
 - **Common orientation:** every board is identical and faces the same way along the chain:
   `DI` in at one end → LEDs in order → `DO` out the far end. The chain then behaves as one
@@ -74,12 +80,12 @@ animation.
 - Both wings: **~56 boards, ~224 LEDs**.
 - ⚠️ Row spans (~28 cm) are placeholders until the wing layout is drawn — boards per row =
   span ÷ 4 cm, rounded up.
-- Power: 4 LEDs ≈ 0.16 A full-white per board — each board takes the standard `J_PWR` feed;
-  one power-hub feed can carry several strip boards.
+- Power: 4 LEDs ≈ 0.16 A full-white per board — power rides the 4-pin chain, fed at the chain
+  head from a power-hub feed (one feed can carry several strip boards).
 
 ## 5. Count reconciliation
 
-`boards/led-segment/design-readiness.md` carried a **~70 unique LED board shapes** placeholder.
+Earlier board notes carried a **~70 unique LED board shapes** placeholder.
 Lighting all 12 greater coverts + the bottom/top alula shifts it to **~80 individual board
 shapes** (per-feather LED counts are derived in §6):
 
@@ -180,13 +186,12 @@ shapes** (per-feather LED counts are derived in §6):
       15 mm saves ~0.7 kg.
 - [ ] Confirm alula sizes from the mockup (working ~11 cm total / ~8 cm vane).
 - [ ] Back feathers: unlit structural covers (default) vs accent-lit boards.
-- [ ] Strip boards: 4 cm/4-LED vs 3 cm/3-LED; own `boards/` entry (`covert-strip`).
-- [ ] Chain segmentation (N) + power-hub placement (see [topology](../../investigations/topology/)).
+- [ ] Strip boards: 4 cm/4-LED vs 3 cm/3-LED; entry in [boards/README.md](../../boards/README.md) (`covert-strip`).
+- [ ] Chain segmentation (N) + power-hub placement (see [boards/README.md](../../boards/README.md)).
 
 ## References
 
-- [LED segment board](../../boards/led-segment/) — the individual feather board (10 mm ribbon).
-- [Topology](../../investigations/topology/) — split power/data, chain segmentation.
+- [Boards](../../boards/README.md) — core ideas + settled parts, incl. the individual feather board (10 mm ribbon).
 - [Diffuser halo](../../investigations/diffuser-halo/) — light shaping/diffusion.
 - [Connector pinout](../../docs/connector-pinout.md) — PWR / DATA-IN / DATA-OUT contract.
 - [Feather outlines](outline-templates.md) — geometry + arrangement this file maps from.
