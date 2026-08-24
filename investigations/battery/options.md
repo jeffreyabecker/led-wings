@@ -128,4 +128,4 @@ pack with an integrated BMS and enclosure is strongly preferred over a DIY cell 
 - 12 V voltage/SOC charts: https://jetraybattery.com/battery-voltage-soc-complete-chart-guide-12v-24v-48v/
 - 3S LiPo guide: https://www.ufinebattery.com/blog/an-ultimate-guide-about-3s-lipo-batteries/
 - Lead-acid (flooded/AGM/gel) deep-cycle: https://howtostoreelectricity.com/lead-acid-batteries-for-solar/
-- Project context: [controller design readiness](../../boards/controller/design-readiness.md)
+- Project context: [boards](../../boards/README.md)

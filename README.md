@@ -10,9 +10,8 @@ feather-to-feather, power fed from local power-hubs.
 
 ## Boards
 
-- [LED segment](boards/led-segment/) — SK9822 feather board (daisy-chain data + power connector)
-- [Controller](boards/controller/) — data source: MCU + level shifter, N chain outputs
-- [Power-hub](boards/power-hub/) — 12 V→5 V buck, feeds a feather cluster
+- [Boards](boards/README.md) — one consolidated doc: core ideas + settled part numbers for the
+  LED segment (feather), shared strip, controller, and power-hub boards
 
 ## Mechanical
 
@@ -22,13 +21,13 @@ feather-to-feather, power fed from local power-hubs.
 
 - [Connector pinout](docs/connector-pinout.md) — canonical split power/data pinout for all boards
 
-Per-board design readiness + part lists live in each board folder.
+Board core ideas and settled part numbers live in [boards/README.md](boards/README.md).
 
 ## Investigations
 
 - [Battery](investigations/battery/) — 12 V chemistry + sizing for 8 h @ 20 % mobility
-- [Topology](investigations/topology/) — target: split power (hubs) and data (daisy-chain)
 
 ## Adding a board
 
-Create `boards/<name>/` with a `README.md` — see [boards/README.md](boards/README.md).
+Add the new board's core idea to [boards/README.md](boards/README.md) and move parts into its
+settled-parts table once they are locked.

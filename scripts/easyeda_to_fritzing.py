@@ -631,7 +631,7 @@ def main():
         print(f"warning: symbol pins without pads: {sorted(pin_nums - pad_nums)}")
 
     # default: write next to the source symbol.svg, so a part's Fritzing files
-    # live beside that part (e.g. boards/<part>/fritzing/<name>/)
+    # live beside that part (e.g. docs/<part>/fritzing/<name>/)
     outdir = args.out or os.path.join(
         os.path.dirname(os.path.abspath(args.symbol)), "fritzing", name
     )

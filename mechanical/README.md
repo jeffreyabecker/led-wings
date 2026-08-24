@@ -13,10 +13,12 @@ that carries and diffuses the light. Kept separate from `boards/` (electrical) a
 
 - One folder per area, each with a `README.md` (scope + open questions).
 - Mechanical parts reference the boards they host — e.g. the ~76 physical feather shapes
-  match the `boards/led-segment/` parameterization (length + bend points).
+  match the LED segment parameterization in [boards/README.md](../../boards/README.md)
+  (length + bend points).
 - "Feather" here means the *physical* feather geometry, distinct from the electrical
-  `boards/led-segment/` feather *board*.
-- Status mirrors `boards/`: `ideation` · `design` · `ready` · `blocked`.
+  LED segment feather *board* in [boards/README.md](../../boards/README.md).
+- Status mirrors the [boards doc](../../boards/README.md): `ideation` · `design` · `ready` ·
+  `blocked`.
 - CAD/geometry artifacts (STEP, FreeCAD, DXF, STL) live in their area folder alongside
   the notes.
 

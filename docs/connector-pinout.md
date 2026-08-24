@@ -12,6 +12,9 @@
 - **Power fans out** from local power-hubs: each feather gets `+5V`/`GND` over a short 2-wire
   run from a nearby power-hub.
 - Power and data use **separate connectors and cables**.
+- **Covert strip chains are the exception:** each strip board links to its neighbors with a
+  **4-pin connector carrying power + data** (`+5V`/`GND`/`DI`/`CI` in,
+  `+5V`/`GND`/`DO`/`CO` out) — pin map + part TBD.
 
 ## Signals
 
@@ -66,9 +69,10 @@
 - **Controller → first feather:** level-shifted (3.3 V → 5 V) `DI`/`CI` into the first
   feather's `DATA IN`; series R + ESD/TVS at the controller.
 - **Power:** 2-wire (red/black) from power-hub to each feather.
-- **GND** lives only on the 2-pin `PWR` connector. The data cable is a 2-wire `DI`/`CI` (or
-  `DO`/`CO`) pair with no dedicated return — its return current flows back through the shared
-  power `GND`. Hops are short regenerated SPI, so the extra loop area is negligible.
+- **GND** (feathers) lives only on the 2-pin `PWR` connector. The data cable is a 2-wire
+  `DI`/`CI` (or `DO`/`CO`) pair with no dedicated return — its return current flows back
+  through the shared power `GND`. Hops are short regenerated SPI, so the extra loop area is
+  negligible. (Strip-chain 4-pin links carry `GND` alongside data.)
 - **Wire gauge:** power stays JST-PH (30–24 AWG, 2 A rating); data is JST-GH 1.25 mm
   (30–26 AWG, 1 A rating). Signal current is far below either limit.
 

@@ -14,8 +14,9 @@ shape/diffuse the light.
 
 ## Scope
 
-- Feather outline + curvature for the ~76 unique lit feather shapes, mirroring the
-  `boards/led-segment/` parameterization (overall length + bend points).
+- Feather outline + curvature for the ~76 unique lit feather shapes, mirroring the LED
+  segment parameterization in [boards/README.md](../../boards/README.md) (overall length +
+  bend points).
 - The enumerated, first-principles template list lives in
   [outline-templates.md](outline-templates.md) — 76 individual wing feathers (52 flight + 24
   greater coverts), shared covert strips, plus scapular + back-cover templates over the
