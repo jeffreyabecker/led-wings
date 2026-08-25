@@ -32,10 +32,11 @@
 
 ## LED medium — SK9822 strip
 
-- **Strip:** SK9822 **96 LED/m** (≈10.4 mm pitch), **10 mm wide**, 5050 — the near-exact
-  match to the 10 mm-pitch map. ⚠️ Source TBD (AliExpress/Alibaba 96/m listings; validate one
-  reel before ordering the rest). **Fallback:** 144/m with a ~7 mm diffuser gap (spacing ≤ 2×
-  gap keeps the glow smooth).
+- **Strip (96/m only, settled ✅):** SK9822 **96 LED/m** (≈10.4 mm pitch), **10 mm wide**,
+  5050 — the near-exact match to the 10 mm-pitch map. ⚠️ Vendor shortlist (96/m only):
+  [Alibaba multi-density listing](https://www.alibaba.com/product-detail/Individually-Addressable-APA102-SK9822-30-60_1601370513576.html)
+  (96/m option) or [JAD-LEDS 96/m](https://jad-leds.com/dc5v-ic-external-led-strip/467.html) —
+  see settled parts; validate one reel before ordering the rest.
 - **Feather = cut chunk.** One chunk per lit feather, cut per-LED (every LED carries its own
   chip). LED count = exposed-tip map + 2-LED bleed, at 10.4 mm pitch — same counts as the
   10 mm-pitch map:
@@ -98,23 +99,24 @@
 
 | Item | Choice | Qty | Status | Source |
 |------|--------|-----|--------|--------|
-| LED strip | SK9822 96 LED/m, 10 mm wide, 5050 | ~15 m (3×5 m reels) | ⚠️ | [Alibaba 30/60/96/144 listing](https://www.alibaba.com/product-detail/Individually-Addressable-APA102-SK9822-30-60_1601370513576.html) |
+| LED strip | SK9822 96 LED/m, 10 mm wide, 5050 | ~15 m (3×5 m reels) | ⚠️ | [Alibaba 30/60/96/144 listing](https://www.alibaba.com/product-detail/Individually-Addressable-APA102-SK9822-30-60_1601370513576.html) · [JAD-LEDS 96/m](https://jad-leds.com/dc5v-ic-external-led-strip/467.html) |
 | Controller | Pixelblaze V3 Standard | 1 | ✅ | [Tindie](https://www.tindie.com/products/electromage/pixelblaze-v3-standard-wifi-led-controller/) |
-| Level shifter | 74AHCT125-class module (3.3 V → 5 V, 2 channels) | 1 | ⚠️ | TBD |
-| Buck | MP1584/LM2596-class module | ~6–8 | ⚠️ | TBD (reputable vendor) |
-| Fuse | ATO inline / polyfuse per 5 V feed | ~10 | ⬜ | TBD |
+| Level shifter | Adafruit 74AHCT125 Quad Level-Shifter breakout (2 of 4 gates) | 1 | ✅ | [Adafruit 1787](https://www.adafruit.com/product/1787) |
+| Buck | MP1584EN module (3 A) — DollaTek 5-pack; alt. XL4015 5 A | ~6–8 | ⚠️ | [Amazon MP1584EN 5-pk](https://www.amazon.co.uk/DollaTek-MP1584EN-Step-Down-Adjustable-Converter/dp/B07DJ5HZ7G) — test each (counterfeits common) |
+| Fuse | ATO inline holder per 5 V feed (alt. polyfuse e.g. Littelfuse 30R) | ~10 | ⚠️ | [Youngneer ATO kit](https://www.amazon.sg/Youngneer-Holders-Standard-Harness-Waterproof/dp/B07YY6KWSY) |
 | Reverse polarity | MDD `SS34`, 3A 40V SMA | 1/hub | ✅ | [LCSC C8678](https://www.lcsc.com/product-detail/C8678.html) |
-| PH contact (pigtails) | JST `SPH-002T-P0.5`, 24–28 AWG | ~550 | ⬜ | DigiKey / Mouser / AliExpress |
-| PH housing (pigtails) | JST `PHR-2`, 2-pin | ~280 | ⬜ | same |
-| PH header (pigtails) | JST `B2B-PH-K-S`, 2-pin | ~120 | ⬜ | same |
-| Crimp tool | IWISS/iCrimp SN-28B (JST PH/XH/VH) | 1 | ⬜ | Amazon |
-| Wire | Silicone — 24 AWG red/black (power), 26–28 AWG yellow/green/orange/blue (data) | ~15 m each | ⬜ | TBD |
+| PH contact (pigtails) | JST `SPH-002T-P0.5`, 24–28 AWG | ~550 | ⬜ | [DigiKey SPH-002T-P0.5L](https://www.digikey.sg/en/products/detail/jst-sales-america-inc/SPH-002T-P0-5L/26218852) / AliExpress bulk |
+| PH housing (pigtails) | JST `PHR-2`, 2-pin | ~280 | ⬜ | DigiKey / [PH2.0 kits](https://www.amazon.com/dp/B09DP9FZTX) / AliExpress |
+| PH header (pigtails) | JST `B2B-PH-K-S`, 2-pin | ~120 | ⬜ | DigiKey / PH2.0 kits / AliExpress |
+| Crimp tool | IWISS/iCrimp SN-28B (JST PH/XH/VH) | 1 | ⬜ | [Amazon](https://www.amazon.com/dp/B00OMM4YUY) (~$20–30) |
+| Wire | Silicone — 24 AWG red/black (power), 26–28 AWG yellow/green/orange/blue (data) | ~15 m each | ⬜ | [24 AWG spool set](https://www.amazon.com/dp/B07TJXRGXM) / silicone kit spools |
 
 ## Open decisions (compact)
 
-- Strip vendor + 96/m sourcing; fallback 144/m + 7 mm gap
+- Strip vendor: pick between the [Alibaba multi-density listing](https://www.alibaba.com/product-detail/Individually-Addressable-APA102-SK9822-30-60_1601370513576.html)
+  and [JAD-LEDS](https://jad-leds.com/dc5v-ic-external-led-strip/467.html); confirm 10 mm
+  width + open (non-waterproof) PCB, validate one reel before bulk
 - Diffuser gap validation on 5050 emitters (prototype with the first reel)
-- Level-shifter module brand (74AHCT125-class)
 - Buck module brand + bench test; fuse rating per feed
 - Alula chunk size (confirm mockup); covert row spans once the layout is drawn
 
