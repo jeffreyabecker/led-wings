@@ -26,14 +26,15 @@ from typing import Mapping
 from .geometry import Point, Polyline, polyline_length, resample, sample_bezier
 
 # Curvature level -> lateral control-point offset as a fraction of total.
-# "high" for outer primaries (P1-P3) → strong forward bow; "low" ≈ straight
-# (coverts); "straight" is the explicit no-bend option.
+# "high" for outer primaries (P1-P3) → gentle forward bow; "low" ≈ straight
+# (coverts); "straight" is the explicit no-bend option. Tuned to the feather
+# reference (≈3-5 % bow at high; the old 8 % read as a dramatic banana curve).
 CURVATURE_BOW_FRACTION: dict[str, float] = {
-    "high": 0.08,
-    "med-high": 0.06,
-    "med": 0.04,
-    "med-low": 0.025,
-    "low": 0.01,
+    "high": 0.05,
+    "med-high": 0.038,
+    "med": 0.028,
+    "med-low": 0.018,
+    "low": 0.008,
     "straight": 0.0,
 }
 

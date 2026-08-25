@@ -27,16 +27,16 @@ TIP_STYLES = ("pointed", "hooked", "rounded-point", "rounded", "very-rounded")
 # cap radius as a fraction of the effective max width
 TIP_RADIUS_FRACTION: dict[str, float] = {
     "pointed": 0.0,
-    "rounded-point": 0.05,
-    "rounded": 0.10,
-    "very-rounded": 0.16,
-    "hooked": 0.08,
+    "rounded-point": 0.04,
+    "rounded": 0.08,
+    "very-rounded": 0.12,
+    "hooked": 0.05,
 }
 
 # hooked tip: displacement of the Bézier control as multiples of the cap
 # radius — outward (toward the outer vane) and along the tip direction
-HOOK_X_FRACTION = 0.6
-HOOK_Y_FRACTION = 1.0
+HOOK_X_FRACTION = 0.45
+HOOK_Y_FRACTION = 0.8
 
 DEFAULT_PEAK_S = 0.45
 

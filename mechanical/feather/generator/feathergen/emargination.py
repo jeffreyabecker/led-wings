@@ -21,10 +21,11 @@ from dataclasses import replace
 from .geometry import Point, distance, sample_bezier
 from .vane import Vane
 
-# notch spans from 62 % to 95 % of the vane (near the tip), on the outer rail
-DEFAULT_EMARGINATION_SPAN = (0.62, 0.95)
-# control pulled inward by 40 % of the local half-width at the notch midpoint
-DEFAULT_EMARGINATION_DEPTH = 0.4
+# a long, shallow leading-edge taper on the outer vane (real primaries narrow
+# the outer vane over a long span near the tip, not a small notch)
+DEFAULT_EMARGINATION_SPAN = (0.55, 0.96)
+# control pulled inward by 30 % of the local half-width (shallow, not a notch)
+DEFAULT_EMARGINATION_DEPTH = 0.3
 
 
 def apply_emargination(

@@ -20,8 +20,8 @@ FEATHERS = json.loads(
 
 # golden snapshots (sha256 of repr(outline)) — regenerate only on intent
 GOLDEN = {
-    "P4": "d6bf9c4fca92706f7ffa982564b614d6a5d7f03dbcbb7838115031f386d1ff39",
-    "S6": "466e3b0880b03a317e157b5301ad2a959a3030f5dddfdce17cae0215cb872b57",
+    "P4": "f329f6e943bd00a6ee0a166313f8441cea3116e133d4a37531a6c42598893080",
+    "S6": "1065afea6d918c9e51fb55e26e0a249ba246aeaaed42046e9d6d10daaa013e22",
 }
 
 

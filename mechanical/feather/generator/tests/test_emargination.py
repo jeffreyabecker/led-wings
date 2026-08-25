@@ -71,10 +71,10 @@ def _dist_point_polyline(p, pts):
     return min(_seg(a, b) for a, b in zip(pts, pts[1:]))
 
 
-def _notch_outer_points(v2):
-    """The Bézier points that form the notch (they are not on the original rail)."""
-    n_orig = 65  # original rail had 65 points (n=64); notch inserts its own
-    return [p for p in v2.outer_rail if p not in v2.inner_rail]
+def _notch_outer_points(v2, fid="P4"):
+    """The Bézier points that form the notch (points not on the original rail)."""
+    orig = compute_vane(row(fid), compute_rachis(row(fid))).outer_rail
+    return [p for p in v2.outer_rail if p not in orig]
 
 
 def test_notch_narrows_outer_vane():
@@ -83,7 +83,7 @@ def test_notch_narrows_outer_vane():
     # the deepest notch point is closer to the inner rail than the plain vane
     # width at the notch midpoint
     w_plain = vane_width_at(0.78, v)
-    w_notched = min(_dist_point_polyline(p, v2.inner_rail) for p in _notch_outer_points(v2))
+    w_notched = min(_dist_point_polyline(p, v2.inner_rail) for p in _notch_outer_points(v2, "P4"))
     assert w_notched < w_plain
 
 
@@ -98,7 +98,7 @@ def test_notch_outer_side_inward():
     v = build("P4")
     v2 = apply_emargination(v, emargination=True)
     d_plain = vane_width_at(0.78, v)
-    d_notched = min(_dist_point_polyline(p, v2.inner_rail) for p in _notch_outer_points(v2))
+    d_notched = min(_dist_point_polyline(p, v2.inner_rail) for p in _notch_outer_points(v2, "P4"))
     assert d_notched < d_plain
 
 
@@ -129,7 +129,10 @@ def test_custom_depth():
     v = build("P4")
     shallow = apply_emargination(v, emargination=True, depth=0.2)
     deep = apply_emargination(v, emargination=True, depth=0.6)
-    assert vane_width_at(0.78, deep) < vane_width_at(0.78, shallow)
+    # deeper notch pulls the outer rail farther inward → narrower vane
+    w_shallow = min(_dist_point_polyline(p, shallow.inner_rail) for p in _notch_outer_points(shallow, "P4"))
+    w_deep = min(_dist_point_polyline(p, deep.inner_rail) for p in _notch_outer_points(deep, "P4"))
+    assert w_deep < w_shallow
 
 
 def test_bad_span_raises():
