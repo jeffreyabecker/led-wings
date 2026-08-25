@@ -6,10 +6,6 @@ __pycache__/
 .pytest-deps/**/
 pytest-cache-files-*/
 
-# Generator outputs + test scratch
-feather/generator/out/
-feather/generator/.test-out/
-
 # Local scratch (bootstrap/temp)
 .tmp-pip/
 
