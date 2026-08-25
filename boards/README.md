@@ -41,6 +41,10 @@
   chip). LED count = exposed-tip map + 2-LED bleed, at 10.4 mm pitch — same counts as the
   10 mm-pitch map:
 
+  > ⚠️ Chunk lengths/LED counts below derive from **provisional** feather sizing — the
+  > authoritative sizing lives in [`feather/`](../feather/) (`outline-templates.md` +
+  > `source-images/`), **not yet finalized**; re-cut counts once it is locked.
+
   | Group | Exposed (cm) | Bleed | Chunk LEDs | Chunk length |
   |-------|-------------:|------:|-----------:|-------------:|
   | Primaries P1–P10 | 15 | +2 | 17 | ~17.7 cm |

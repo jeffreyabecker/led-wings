@@ -2,6 +2,11 @@
 
 > Decision tracker for the wing structure. Locked decisions live here; open items below.
 > Legend: ✅ = decided/locked · ⚠️ = estimate to confirm.
+>
+> ⚠️ **Feather sizing authority:** every feather size below (envelope height/vane, widths,
+> stagger) is a **provisional placeholder**. The authoritative sizing lives in
+> [`feather/`](../../feather/) (`outline-templates.md` + `source-images/`) and **has not yet
+> been finalized** — re-check these values once feather sizing is locked.
 
 ## Locked
 
@@ -11,7 +16,7 @@
 | Fold / transport | fixed closed; **not** disassemblable |
 | Total weight budget | **5 kg** (whole piece: frame + feathers + electronics + battery) |
 | Electronics mounting | backplate/harness carries battery, power-hubs, controller (see [README](README.md#electronics-bay--backplate)) |
-| Physical envelope | 50 cm wide × ~75 cm tall (set by longest primary P4 = 75 cm), folded flat on the back |
+| Physical envelope | 50 cm wide × ~75 cm tall (⚠️ height set by longest primary — sizing not finalized, see note above), folded flat on the back |
 
 ## Constraints (why)
 
@@ -43,7 +48,7 @@
 - **Form:** a **folded** wing laid flat on the back (not an extended, outspread wing) — feathers
   point down/back and overlap shingle-style; primaries reach the hem, coverts stack up toward the
   shoulders.
-- Feather scaling lives with the template list: [`feather/outline-templates.md`](../../feather/outline-templates.md).
+- Feather scaling lives with the template list: [`feather/outline-templates.md`](../../feather/outline-templates.md) — ⚠️ sizing not yet finalized (see note above).
 
 ### 5 kg total budget
 

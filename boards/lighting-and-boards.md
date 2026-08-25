@@ -2,6 +2,12 @@
 
 > Status: **ideation** · nothing locked · pairs with [outline-templates.md](../feather/outline-templates.md).
 > Legend: ✅ = anatomy/selected fact · ⚠️ = design estimate (to be locked later).
+>
+> ⚠️ **Feather sizing authority:** all feather sizes below (vane floor, per-feather
+> vane/exposed cm, row spans, and the LED counts derived from them) are **provisional
+> placeholders**. The authoritative sizing lives in
+> [`feather/outline-templates.md`](../feather/outline-templates.md) + `source-images/` and
+> **has not yet been finalized** — re-derive the LED map once it is locked.
 
 How the mechanical feather outlines map to LED strip chunks. [outline-templates.md](../feather/outline-templates.md)
 carries the geometry + arrangement; this file carries **which feathers are lit, how** (individual
