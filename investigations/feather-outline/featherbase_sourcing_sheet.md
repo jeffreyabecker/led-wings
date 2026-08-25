@@ -1,8 +1,15 @@
 # Featherbase Sourcing Sheet — regions the Atlas can't supply
 
-Use this to collect candidate images per feather region from
-[Featherbase](https://www.featherbase.info). One section per region. Paste the
-image (or its specimen URL) into the `Found images` slots.
+This sheet tracks **only** the feather regions the USFWS Feather Atlas does
+**not** provide (tertials, coverts, alula, scapulars, back/mantle coverts).
+Primaries, secondaries, and tail come from the Atlas and are **not** tracked here.
+
+Save each candidate image to `investigations/feather-outline/images/<region>/`
+and record its **relative path** in the `Local image` column (e.g.
+`images/tertial/tertial_01.jpg`). The per-region folders are
+`tertial/`, `greater_covert/`, `median_covert/`, `lesser_covert/`,
+`marginal_covert/`, `alula/`, `scapular/`, `back_mantle_covert/`. Keep the
+specimen id + source URL for attribution.
 
 > **License note (Featherbase):** non-commercial use, credit as
 > *"Scientific Feather Collection www.featherbase.info"* + **specimen id**, and
@@ -16,8 +23,9 @@ image (or its specimen URL) into the `Found images` slots.
 1. Open a species page from the ranked target list
    ([`featherbase_targetlist.md`](featherbase_targetlist.md)).
 2. Visually find a feather matching the region's **shape** below.
-3. Paste the image (or record the specimen + image URL) into that region's table.
-4. Note the specimen id + image number for attribution.
+3. Save the image to `images/<region>/` and put its relative path in the region's
+   table under `Local image`.
+4. Record the specimen id + source URL for attribution.
 
 Featherbase only groups scans as **primary vs secondary** publicly, so region
 assignment is by eye. The `Featherbase code` column is the region abbreviation
@@ -98,8 +106,8 @@ as the "tertials" of common usage and **humerals** as the "real" tertials.
 
 ### Found images
 
-| Candidate | Specimen id | Image | URL | Notes |
-|-----------|-------------|-------|-----|-------|
+| Candidate | Local image | Specimen id | Source URL | Notes |
+|-----------|-------------|-------------|------------|-------|
 | 1 | | | | |
 | 2 | | | | |
 | 3 | | | | |
@@ -113,8 +121,8 @@ as the "tertials" of common usage and **humerals** as the "real" tertials.
 
 ### Found images
 
-| Candidate | Specimen id | Image | URL | Notes |
-|-----------|-------------|-------|-----|-------|
+| Candidate | Local image | Specimen id | Source URL | Notes |
+|-----------|-------------|-------------|------------|-------|
 | 1 | | | | |
 | 2 | | | | |
 | 3 | | | | |
@@ -128,8 +136,8 @@ as the "tertials" of common usage and **humerals** as the "real" tertials.
 
 ### Found images
 
-| Candidate | Specimen id | Image | URL | Notes |
-|-----------|-------------|-------|-----|-------|
+| Candidate | Local image | Specimen id | Source URL | Notes |
+|-----------|-------------|-------------|------------|-------|
 | 1 | | | | |
 | 2 | | | | |
 | 3 | | | | |
@@ -143,8 +151,8 @@ as the "tertials" of common usage and **humerals** as the "real" tertials.
 
 ### Found images
 
-| Candidate | Specimen id | Image | URL | Notes |
-|-----------|-------------|-------|-----|-------|
+| Candidate | Local image | Specimen id | Source URL | Notes |
+|-----------|-------------|-------------|------------|-------|
 | 1 | | | | |
 | 2 | | | | |
 | 3 | | | | |
@@ -158,8 +166,8 @@ as the "tertials" of common usage and **humerals** as the "real" tertials.
 
 ### Found images
 
-| Candidate | Specimen id | Image | URL | Notes |
-|-----------|-------------|-------|-----|-------|
+| Candidate | Local image | Specimen id | Source URL | Notes |
+|-----------|-------------|-------------|------------|-------|
 | 1 | | | | |
 | 2 | | | | |
 | 3 | | | | |
@@ -173,8 +181,8 @@ as the "tertials" of common usage and **humerals** as the "real" tertials.
 
 ### Found images
 
-| Candidate | Specimen id | Image | URL | Notes |
-|-----------|-------------|-------|-----|-------|
+| Candidate | Local image | Specimen id | Source URL | Notes |
+|-----------|-------------|-------------|------------|-------|
 | 1 | | | | |
 | 2 | | | | |
 | 3 | | | | |
@@ -188,8 +196,8 @@ as the "tertials" of common usage and **humerals** as the "real" tertials.
 
 ### Found images
 
-| Candidate | Specimen id | Image | URL | Notes |
-|-----------|-------------|-------|-----|-------|
+| Candidate | Local image | Specimen id | Source URL | Notes |
+|-----------|-------------|-------------|------------|-------|
 | 1 | | | | |
 | 2 | | | | |
 | 3 | | | | |
@@ -203,18 +211,11 @@ as the "tertials" of common usage and **humerals** as the "real" tertials.
 
 ### Found images
 
-| Candidate | Specimen id | Image | URL | Notes |
-|-----------|-------------|-------|-----|-------|
+| Candidate | Local image | Specimen id | Source URL | Notes |
+|-----------|-------------|-------------|------------|-------|
 | 1 | | | | |
 | 2 | | | | |
 | 3 | | | | |
-
----
-
-## Primaries & secondaries (already covered by the Atlas)
-
-Not tracked here — the USFWS Feather Atlas provides these (public domain, no
-attribution burden). Keep them sourced from the Atlas.
 
 ---
 
