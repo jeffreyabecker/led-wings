@@ -93,8 +93,13 @@
   it stays inside the no-heatsink envelope.
 - **Protection:** fuse per 5 V feed (ATO inline holder or polyfuse), reverse-polarity MDD
   `SS34` ([C8678](https://www.lcsc.com/product-detail/C8678.html)) on the 12 V input.
-- **Form:** perfboard — buck module + fuses + screw terminals. **No data** on the hub.
-- **12 V bus:** daisy-chain hub-to-hub; drop-tolerant.
+- **Form:** perfboard — buck module + fuses + **push-in (spring-clamp) terminals**
+  (Wago 2060-class) on the perfboard — **no screw terminals** (vibration-proof, tool-less,
+  lower profile). **No data** on the hub.
+- **Hub wiring:** 12 V bus → (fused + `SS34`) → push-in terminal → MP1584EN `IN+/IN−`;
+  `OUT+/OUT−` → push-in 5 V terminals → PNI plug feeds to the chunks.
+- **12 V bus:** daisy-chain hub-to-hub with **Wago 221 lever nuts** (tool-less splices,
+  vibration-proof); drop-tolerant.
 - **Why 12 V (settled):** a 5 V bus can't scale — on a 2 m / 12 AWG reference bus, full-white
   drops ~33 % (color shift; blue dies first) vs ~6 % on 12 V (~1 % @ 20 % brightness). One
   MP1584EN covers a hub's cluster at ≤ ~2 A full-white (~0.4 A @ 20 %) — inside its

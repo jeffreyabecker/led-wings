@@ -20,6 +20,8 @@
 | 9 | PNI contacts | Socket `SPNI-001T-P0.5` + pin `BPNI-001T-P0.5` | ~650 + ~650 | TBD |
 | 10 | Crimp tool | JST PN-family tool or ratchet + PN dies (**SN-28B does NOT fit**) | 1 | TBD |
 | 11 | Wire | Silicone — 20–22 AWG red/black (power), 24 AWG yellow (data) + green (clock) | ~15 m each | TBD |
+| 12 | Hub terminals | Wago 2060-class push-in (spring-clamp) PCB terminals — 12 V in + 5 V outs per hub | ~24 | [Galco (Wago 2060)](https://www.galco.com/2060-472-998-404-wago.html) · RS · [low-profile 3.5 mm alt](https://www.rapidonline.com/camdenboss-ultra-low-profile-right-angled-pcb-terminal-block-3-5mm-124016) |
+| 13 | Bus splices | Wago 221 lever nuts — 12 V bus daisy-chain + fuse splices | ~15 | [Amazon / Wago](https://industrialmonitordirect.com/zh-hans/blogs/knowledgebase/selecting-wire-nut-replacements-for-motor-peckerhead-connections#1) |
 
 **Strip caveat:** 96/m SK9822 is niche — confirm **10 mm wide, open (non-waterproof) PCB, 96/m**
 with the vendor and validate one reel before bulk.

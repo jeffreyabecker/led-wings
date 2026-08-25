@@ -27,7 +27,7 @@ crimped):
 | Data-out | DO (yellow) / CO (green) | **receptacle** `PNIRR-02VF` | data jumper (plug–plug) → next chunk |
 
 - **Data jumpers** chunk→chunk: 2-pin **plug–plug** (`PNIRP-02V-S` both ends), crimped.
-- **Hub power feeds:** plug at the chunk end; bare/tinned wire into the perfboard screw
+- **Hub power feeds:** plug at the chunk end; bare/tinned wire into the perfboard push-in
   terminal.
 - **Controller chain-head feeds** (2 chains): plug into the first chunk's data-in; bare at the
   level-shifter/controller.
@@ -59,7 +59,7 @@ crimped):
 - **Power: 20–22 AWG** silicone (within the PNI contact range, which covers 22 AWG).
 - **Data: 24 AWG** silicone.
 - **Current:** plan the wiring so no single run exceeds **~2–3 A** (PNI class rating).
-- **12 V hub bus** (perfboard screw terminals — no connector): 14–16 AWG.
+- **12 V hub bus** (perfboard push-in terminals / lever nuts — no connector): 14–16 AWG.
 
 ## Counts + shopping list (88 terminations: 80 individual feathers + 8 covert rows)
 
