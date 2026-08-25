@@ -1,10 +1,18 @@
 # Python test artifacts
 __pycache__/
 *.pyc
+*.pyo
 .pytest_cache/
 .pytest-deps/
 .pytest-deps/**/
 pytest-cache-files-*/
+
+# Python virtualenvs + build artifacts
+.venv/
+venv/
+*.egg-info/
+pip-wheel-metadata/
+.ipynb_checkpoints/
 
 # Local scratch (bootstrap/temp)
 .tmp-pip/
