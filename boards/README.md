@@ -86,16 +86,19 @@
 
 ## Power hubs — modules, not boards
 
-- **Buck:** MP1584/LM2596-class buck module per cluster (⚠️ buy from a reputable vendor —
-  counterfeit MP1584s are common; test each module before install). One hub serves a feather
-  cluster: ~0.4 A/feather full white, ~0.08 A @ 20 %.
+- **Buck:** **MP1584EN** module per cluster — rated 3 A, **practical ~2–2.5 A** at 12→5 V
+  (**no heatsink needed**; ⚠️ buy from a reputable vendor — counterfeits common; bench-test
+  each before install). One hub serves a feather cluster: ~0.4 A/feather full white,
+  ~0.08 A @ 20 %. **Cluster sizing rule:** keep each hub ≤ ~2 A full-white (≈5 feathers), so
+  it stays inside the no-heatsink envelope.
 - **Protection:** fuse per 5 V feed (ATO inline holder or polyfuse), reverse-polarity MDD
   `SS34` ([C8678](https://www.lcsc.com/product-detail/C8678.html)) on the 12 V input.
 - **Form:** perfboard — buck module + fuses + screw terminals. **No data** on the hub.
 - **12 V bus:** daisy-chain hub-to-hub; drop-tolerant.
 - **Why 12 V (settled):** a 5 V bus can't scale — on a 2 m / 12 AWG reference bus, full-white
   drops ~33 % (color shift; blue dies first) vs ~6 % on 12 V (~1 % @ 20 % brightness). One
-  MP1584-class 3 A module covers a hub's cluster (~2–4 A full white).
+  MP1584EN covers a hub's cluster at ≤ ~2 A full-white (~0.4 A @ 20 %) — inside its
+  no-heatsink envelope.
 
 ## Settled parts (COTS)
 
@@ -104,7 +107,7 @@
 | LED strip | SK9822 96 LED/m, 10 mm wide, 5050 | ~15 m (3×5 m reels) | ⚠️ | [Alibaba 30/60/96/144 listing](https://www.alibaba.com/product-detail/Individually-Addressable-APA102-SK9822-30-60_1601370513576.html) · [JAD-LEDS 96/m](https://jad-leds.com/dc5v-ic-external-led-strip/467.html) |
 | Controller | Pixelblaze V3 Standard | 1 | ✅ | [Tindie](https://www.tindie.com/products/electromage/pixelblaze-v3-standard-wifi-led-controller/) |
 | Level shifter | Adafruit 74AHCT125 Quad Level-Shifter breakout (2 of 4 gates) | 1 | ✅ | [Adafruit 1787](https://www.adafruit.com/product/1787) |
-| Buck | MP1584EN module (3 A) — DollaTek 5-pack; alt. XL4015 5 A | ~6–8 | ⚠️ | [Amazon MP1584EN 5-pk](https://www.amazon.co.uk/DollaTek-MP1584EN-Step-Down-Adjustable-Converter/dp/B07DJ5HZ7G) — test each (counterfeits common) |
+| Buck | MP1584EN module (3 A; practical ~2–2.5 A, no heatsink) — cluster ≤ ~2 A full-white | ~6–8 | ⚠️ | [Amazon MP1584EN 5-pk](https://www.amazon.co.uk/DollaTek-MP1584EN-Step-Down-Adjustable-Converter/dp/B07DJ5HZ7G) — test each (counterfeits common) |
 | Fuse | ATO inline holder per 5 V feed (alt. polyfuse e.g. Littelfuse 30R) | ~10 | ⚠️ | [Youngneer ATO kit](https://www.amazon.sg/Youngneer-Holders-Standard-Harness-Waterproof/dp/B07YY6KWSY) |
 | Reverse polarity | MDD `SS34`, 3A 40V SMA | 1/hub | ✅ | [LCSC C8678](https://www.lcsc.com/product-detail/C8678.html) |
 | PNI receptacle (chunk ends) | JST `PNIRR-02VF`, 2-pin | ~300 | ⬜ | TBD |
