@@ -1,7 +1,8 @@
 # Parts List — COTS (battery excluded)
 
 > Brief sourcing summary. Full detail: [boards/README.md](README.md) (settled parts) and
-> [pigtail crimping](../docs/pigtail-crimping.md). Prices approximate — verify before ordering.
+> [pigtail crimping](../docs/pigtail-crimping.md). Connectors: **Molex Micro-Fit 3.0, 2-pin
+> per function** (1×2, 2-circuit) — vendors TBD (not yet researched).
 
 | # | Part | Spec | Qty | Potential vendors |
 |---|------|------|-----|-------------------|
@@ -11,11 +12,16 @@
 | 4 | Buck modules | MP1584EN 3 A (alt: XL4015 5 A) | ~6–8 | [DollaTek 5-pk](https://www.amazon.co.uk/DollaTek-MP1584EN-Step-Down-Adjustable-Converter/dp/B07DJ5HZ7G) — bench-test each |
 | 5 | Fuses | ATO inline holders (alt: polyfuse) | ~10 | [Youngneer ATO kit](https://www.amazon.sg/Youngneer-Holders-Standard-Harness-Waterproof/dp/B07YY6KWSY) |
 | 6 | Reverse polarity | MDD SS34, 3 A 40 V SMA | 1/hub | [LCSC C8678](https://www.lcsc.com/product-detail/C8678.html) |
-| 7 | PH contacts | JST `SPH-002T-P0.5` (24–28 AWG) | ~550 | [DigiKey](https://www.digikey.sg/en/products/detail/jst-sales-america-inc/SPH-002T-P0-5L/26218852) · AliExpress bulk |
-| 8 | PH housings | JST `PHR-2`, 2-pin | ~280 | DigiKey · [PH2.0 kits](https://www.amazon.com/dp/B09DP9FZTX) |
-| 9 | PH headers | JST `B2B-PH-K-S`, 2-pin | ~120 | DigiKey · PH2.0 kits |
-| 10 | Crimp tool | IWISS/iCrimp SN-28B | 1 | Amazon (~$20–30) |
-| 11 | Wire | Silicone — 24 AWG red/black + 26–28 AWG data colors | ~15 m each | Amazon spool kits (e.g. [24 AWG 7-color](https://www.amazon.com/dp/B07TJXRGXM)) |
+| 7 | Micro-Fit receptacle 2-pin | Molex `43025-0200`, 1×2 (2-circuit) | ~300 | TBD |
+| 8 | Micro-Fit plug 2-pin | Molex `43645-0200`, 1×2 (2-circuit) | ~300 | TBD |
+| 9 | Micro-Fit contacts | Socket `43031-xxxx` + pin `43030-xxxx` (20–24 AWG) | ~650 + ~650 | TBD |
+| 10 | Crimp tool | Molex 63811-1000 (or ratchet + Micro-Fit dies) | 1 | TBD |
+| 11 | Micro-Fit pigtails (pre-made) | 2-pin plug↔receptacle / female-to-pigtail, 10–30 cm | ~90 | [Molex OTS 214751-2022 (F-to-pigtail)](https://www.molex.com/ja-jp/products/series-chart/214751?sku=2147512022&description=Micro-Fit%203.0%20Female-to-Pigtail%20Off-the-Shelf%20(OTS)%20Cable%20Assembly,%20Single%20Row,%20300.00mm%20Length,%20Gold%20(Au)%20Plating,%202%20Circuits,%20Black&pageSize=25&page=0#1) · [RS 2-way F-to-pigtail](https://ph.rs-online.com/web/p/wire-to-board-cables/2044622) · [TME MX-214770-0220](https://www.tme.com/ph/en/details/mx-214770-0220/wire-to-board-cable-assemblies/molex/2147700220/) · [DigiKey](https://www.digikey.se/en/products/detail/molex/2147572023/12180315) |
+| 12 | Wire | Silicone — 20–22 AWG red/black (power), 24 AWG data colors | ~15 m each | TBD |
 
 **Strip caveat:** 96/m SK9822 is niche — confirm **10 mm wide, open (non-waterproof) PCB, 96/m**
 with the vendor and validate one reel before bulk.
+
+**Pigtails: pre-made vs hand-crimp.** Pre-made 2-pin pigtails (row 11) can replace hand
+crimping — rows 9–10 then shrink to repair spares. ⚠️ Micro-Fit contacts are 20–24 AWG: power
+20–22 AWG, data 24 AWG.
