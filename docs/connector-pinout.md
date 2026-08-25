@@ -1,8 +1,9 @@
 # Connector Pinout — Wiring Legend (Pigtails)
 
 > The shared signal interface for every strip chunk and covert row in this one-off build.
-> Implemented as **hand-soldered pigtails** — there are no board connectors. The wire-pair
-> maps and colors below are the canonical build legend; every termination follows them.
+> Terminated as **2-pin JST-PH pigtails** — crimped by hand (parts + procedure:
+> [pigtail-crimping.md](pigtail-crimping.md)). The wire-pair maps and colors below are the
+> canonical build legend; every termination follows them.
 
 ## Topology
 
@@ -75,8 +76,8 @@
 - **Strip pad layout:** cut chunks expose `+5V`/`GND`/`DI`/`CI` on the input end and
   `+5V`/`GND`/`DO`/`CO` on the output end — feed power at the input end so all six wires
   leave the chunk from one side.
-- **Wire gauge:** power 24–20 AWG silicone (2 A budget); data 26–28 AWG. Signal current is
-  negligible.
+- **Wire gauge:** power **24 AWG** silicone (2 A budget — top of the JST-PH contact range);
+  data 26–28 AWG. Signal current is negligible.
 - **Strain relief:** glue/epoxy over every soldered pad set; never leave bare strip pads at a
   flex point.
 
