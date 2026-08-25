@@ -15,3 +15,10 @@ mechanical/feather/generator/.test-out/
 
 # KiCad local history (auto-generated per-project snapshots)
 **/.history/
+
+# KiCad project-local UI settings (auto-generated)
+*.kicad_prl
+
+# KiCad auto-backup folders + lock files (auto-generated)
+*-backups/
+*.lck
