@@ -23,7 +23,7 @@
   **Segmentation (settled ✅): N = 2 chains — one per wing** (all feathers + covert rows of
   that wing). No Output Expander.
 - **Pixels:** ~1270 LEDs total both wings (see
-  [feather lighting](../feather/lighting-and-boards.md)). Chain budget ≈ 635
+  [feather lighting](lighting-and-boards.md)). Chain budget ≈ 635
   LEDs/channel on 2 channels — a full frame at 8 MHz SPI ≈ 2.5 ms, well inside any pattern
   frame rate.
 - **Routing:** the two chains (one per wing) run along the wing's **top edge** (the feather
@@ -132,5 +132,5 @@
 - [Connector pinout / wiring legend](../docs/connector-pinout.md) — PWR / DATA-IN / DATA-OUT wire pairs + colors
 - [Pigtail crimping](../docs/pigtail-crimping.md) — JST-PH parts, counts, crimp procedure
 - [Battery](../investigations/battery/) — 12 V source sizing
-- [Feather lighting](../feather/lighting-and-boards.md) — LED map + chunk counts
+- [Feather lighting](lighting-and-boards.md) — LED map + chunk counts
 - [SK9822 datasheet (Normand LED)](http://www.normandled.com/upload/202003/SK9822-EC20%20LED%20Datasheet.pdf)
