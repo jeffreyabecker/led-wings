@@ -16,7 +16,7 @@ Physical wing structure — the frame the strip chunks and power-hubs attach to.
 ## Electronics bay / backplate
 
 The battery, power-hubs, and controller mount to a **backplate** (or directly to the harness),
-and the back coverts ([BC1–BC8](../feather/outline-templates.md#37-back-coverts--bc1bc8-8-center-back))
+and the back coverts ([BC1–BC8](../../feather/outline-templates.md#37-back-coverts--bc1bc8-8-center-back))
 form a removable feathered lid over them.
 
 - Backplate/harness carries the battery (heaviest item), the power-hubs, and the controller.

@@ -13,11 +13,17 @@ daisy-chained chunk-to-chunk, power fed from buck-module power-hubs, driven by a
 ## Boards
 
 - [Boards](boards/README.md) — the build plan: strip-chunk cut table, covert rows, controller,
-  power hubs, settled COTS parts
+  power hubs, settled COTS parts. **Source of truth for the electrical build.**
+
+## Feather
+
+- [Feather](feather/) — **physical feather templating only**: outlines + geometry, the
+  generator, and shape sourcing. No electronics content — lighting lives in
+  [boards/lighting-and-boards.md](boards/lighting-and-boards.md).
 
 ## Mechanical
 
-- [Mechanical](mechanical/) — physical wing design: [structural](mechanical/structural/) frame + [feather](feather/) geometry
+- [Mechanical](mechanical/) — physical wing structure: [structural](mechanical/structural/) frame
 
 ## Shared docs
 
@@ -26,6 +32,16 @@ daisy-chained chunk-to-chunk, power fed from buck-module power-hubs, driven by a
 ## Investigations
 
 - [Battery](investigations/battery/) — 12 V chemistry + sizing for 8 h @ 20 % mobility
+
+## Repository layout
+
+- `boards/` — **electrical build**: strategy, feather lighting map, wiring legend, settled
+  parts. All electronics information lives here (or in `docs/`).
+- `feather/` — **physical feather templating only**: outlines, geometry, generator, shape
+  sourcing. No electronics/lighting content — that belongs in `boards/`.
+- `mechanical/` — wing structure (frame, backplate, harness mounts).
+- `docs/` — shared electrical references (connector pinout, pigtail crimp guide).
+- `investigations/` — one-off research (battery, diffuser halo).
 
 ## Changing the plan
 
