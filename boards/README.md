@@ -131,6 +131,7 @@
 
 - [Connector pinout / wiring legend](../docs/connector-pinout.md) — PWR / DATA-IN / DATA-OUT wire pairs + colors
 - [Pigtail crimping](../docs/pigtail-crimping.md) — JST-PH parts, counts, crimp procedure
+- [Parts list](parts-list.md) — summarized COTS parts + potential vendors (battery excluded)
 - [Battery](../investigations/battery/) — 12 V source sizing
 - [Feather lighting](lighting-and-boards.md) — LED map + chunk counts
 - [SK9822 datasheet (Normand LED)](http://www.normandled.com/upload/202003/SK9822-EC20%20LED%20Datasheet.pdf)
