@@ -17,7 +17,7 @@ daisy-chained chunk-to-chunk, power fed from buck-module power-hubs, driven by a
 
 ## Mechanical
 
-- [Mechanical](mechanical/) — physical wing design: [structural](mechanical/structural/) frame + [feather](mechanical/feather/) geometry
+- [Mechanical](mechanical/) — physical wing design: [structural](mechanical/structural/) frame + [feather](feather/) geometry
 
 ## Shared docs
 

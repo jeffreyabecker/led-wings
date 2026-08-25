@@ -23,7 +23,7 @@
   **Segmentation (settled ✅): N = 2 chains — one per wing** (all feathers + covert rows of
   that wing). No Output Expander.
 - **Pixels:** ~1270 LEDs total both wings (see
-  [feather lighting](../mechanical/feather/lighting-and-boards.md)). Chain budget ≈ 635
+  [feather lighting](../feather/lighting-and-boards.md)). Chain budget ≈ 635
   LEDs/channel on 2 channels — a full frame at 8 MHz SPI ≈ 2.5 ms, well inside any pattern
   frame rate.
 - **Routing:** the two chains (one per wing) run along the wing's **top edge** (the feather
@@ -48,10 +48,13 @@
   | Greater coverts GC1–GC12 | 8 | +2 | 10 | ~10.4 cm |
   | Alula A-B/A-T | ~8 ⚠️ | +2 | ~10 ⚠️ | ~10.4 cm |
 
-- **Chunk termination (hand-soldered):** 6 wires per chunk — `+5V`/`GND` (power, from a hub),
-  `DI`/`CI` (data in), `DO`/`CO` (data out to the next feather). Wire pairs + colors are the
-  [wiring legend](../docs/connector-pinout.md). Epoxy/glue strain relief over every pad set;
-  bench-test each chunk before mounting (a bad joint darkens the whole downstream chain).
+- **Chunk termination (settled ✅):** 6 stub wires soldered per chunk — `+5V`/`GND` (power,
+  from a hub), `DI`/`CI` (data in), `DO`/`CO` (data out to the next feather) — then
+  **2-pin JST-PH crimped pigtails**: female `PHR-2` on power-in and data-in, a male plug
+  (PH header) on data-out, so every jumper is female–female. Wire pairs + colors are the
+  [wiring legend](../docs/connector-pinout.md); parts + crimp procedure in
+  [pigtail crimping](../docs/pigtail-crimping.md). Epoxy/glue strain relief over every pad
+  set; bench-test each chunk before mounting (a bad joint darkens the whole downstream chain).
 - **Covered base:** no strip at all — only the exposed tip + bleed is lit, so there are no
   hidden LEDs (and no idle-current waste).
 - **Limits:** a 17-LED chunk ≈ 0.68 A full white — strip copper handles it easily; power
@@ -101,14 +104,17 @@
 | Buck | MP1584/LM2596-class module | ~6–8 | ⚠️ | TBD (reputable vendor) |
 | Fuse | ATO inline / polyfuse per 5 V feed | ~10 | ⬜ | TBD |
 | Reverse polarity | MDD `SS34`, 3A 40V SMA | 1/hub | ✅ | [LCSC C8678](https://www.lcsc.com/product-detail/C8678.html) |
-| Wire | Silicone, colors per wiring legend | — | ⬜ | TBD |
+| PH contact (pigtails) | JST `SPH-002T-P0.5`, 24–28 AWG | ~550 | ⬜ | DigiKey / Mouser / AliExpress |
+| PH housing (pigtails) | JST `PHR-2`, 2-pin | ~280 | ⬜ | same |
+| PH header (pigtails) | JST `B2B-PH-K-S`, 2-pin | ~120 | ⬜ | same |
+| Crimp tool | IWISS/iCrimp SN-28B (JST PH/XH/VH) | 1 | ⬜ | Amazon |
+| Wire | Silicone — 24 AWG red/black (power), 26–28 AWG yellow/green/orange/blue (data) | ~15 m each | ⬜ | TBD |
 
 ## Open decisions (compact)
 
 - Strip vendor + 96/m sourcing; fallback 144/m + 7 mm gap
 - Diffuser gap validation on 5050 emitters (prototype with the first reel)
 - Level-shifter module brand (74AHCT125-class)
-- Pigtail style: direct-solder vs JST pigtails (repair convenience)
 - Buck module brand + bench test; fuse rating per feed
 - Alula chunk size (confirm mockup); covert row spans once the layout is drawn
 
@@ -122,6 +128,7 @@
 ## References
 
 - [Connector pinout / wiring legend](../docs/connector-pinout.md) — PWR / DATA-IN / DATA-OUT wire pairs + colors
+- [Pigtail crimping](../docs/pigtail-crimping.md) — JST-PH parts, counts, crimp procedure
 - [Battery](../investigations/battery/) — 12 V source sizing
-- [Feather lighting](../mechanical/feather/lighting-and-boards.md) — LED map + chunk counts
+- [Feather lighting](../feather/lighting-and-boards.md) — LED map + chunk counts
 - [SK9822 datasheet (Normand LED)](http://www.normandled.com/upload/202003/SK9822-EC20%20LED%20Datasheet.pdf)

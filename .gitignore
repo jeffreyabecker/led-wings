@@ -7,8 +7,8 @@ __pycache__/
 pytest-cache-files-*/
 
 # Generator outputs + test scratch
-mechanical/feather/generator/out/
-mechanical/feather/generator/.test-out/
+feather/generator/out/
+feather/generator/.test-out/
 
 # Local scratch (bootstrap/temp)
 .tmp-pip/
