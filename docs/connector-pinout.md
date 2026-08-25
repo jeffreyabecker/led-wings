@@ -36,10 +36,12 @@
 |--------|------------|
 | +5V (VCC) | Red |
 | GND | Black |
-| DI | Yellow |
-| CI | Green |
-| DO | Orange |
-| CO | Blue |
+| DI / DO (data) | Yellow |
+| CI / CO (clock) | Green |
+
+Only **four colors** are used: red/black (power) and yellow/green (data vs clock). Data-in and
+data-out cables reuse the same yellow/green pair — the connector function (data-in vs data-out
+receptacle) sets the role, not the wire color.
 
 ## Wire-pair maps (canonical)
 
