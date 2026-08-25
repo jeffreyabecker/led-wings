@@ -109,7 +109,7 @@
 | Reverse polarity | MDD `SS34`, 3A 40V SMA | 1/hub | ✅ | [LCSC C8678](https://www.lcsc.com/product-detail/C8678.html) |
 | PNI receptacle (chunk ends) | JST `PNIRR-02VF`, 2-pin | ~300 | ⬜ | TBD |
 | PNI plug (jumpers/feeds) | JST `PNIRP-02V-S`, 2-pin | ~300 | ⬜ | TBD |
-| PNI contacts | Socket `SPND-001T-C0.5` + mating pin | ~650 + ~650 | ⬜ | TBD |
+| PNI contacts | Socket `SPNI-001T-P0.5` + pin `BPNI-001T-P0.5` | ~650 + ~650 | ⬜ | TBD |
 | Crimp tool | JST PN-family tool / ratchet + PN dies (SN-28B does NOT fit) | 1 | ⬜ | TBD |
 | Wire | Silicone — 20–22 AWG red/black (power), 24 AWG data colors | ~15 m each | ⬜ | TBD |
 

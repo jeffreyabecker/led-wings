@@ -13,8 +13,7 @@
 - **~2–3 A class** (confirm exact rating in the
   [ePNI-WW datasheet](http://www.jst-india.com/downloads/series/ePNI-WW_(21-08-25).pdf)) —
   the wiring is organized so no single run exceeds that.
-- **Pre-crimped leads + harnesses exist** (e.g. DigiKey `ASPNDSPNI22K51`, 22 AWG) if you'd
-  rather buy than crimp.
+- **All pigtails are hand-made** — no pre-made cables; every link is crimped in the build.
 
 ## The scheme
 
@@ -25,7 +24,7 @@ crimped):
 |---|---|---|---|
 | Power-in | +5V (red) / GND (black) | **receptacle** `PNIRR-02VF` | hub power feed (plug + bare) |
 | Data-in | DI (yellow) / CI (green) | **receptacle** `PNIRR-02VF` | previous chunk's data-out, or controller feed |
-| Data-out | DO (orange) / CO (blue) | **receptacle** `PNIRR-02VF` | data jumper (plug–plug) → next chunk |
+| Data-out | DO (yellow) / CO (green) | **receptacle** `PNIRR-02VF` | data jumper (plug–plug) → next chunk |
 
 - **Data jumpers** chunk→chunk: 2-pin **plug–plug** (`PNIRP-02V-S` both ends), crimped.
 - **Hub power feeds:** plug at the chunk end; bare/tinned wire into the perfboard screw
@@ -39,8 +38,8 @@ crimped):
 |---|---|---|
 | Receptacle housing, 2-pin | `PNIRR-02VF` | every chunk end (power-in / data-in / data-out) |
 | Plug housing, 2-pin | `PNIRP-02V-S` | every jumper / feed end |
-| Socket contact | `SPND-001T-C0.5` | crimp into receptacles |
-| Pin contact | mating pin (per [WW datasheet](http://www.jst-india.com/downloads/series/ePNI-WW_(21-08-25).pdf)) | crimp into plugs |
+| Socket contact | `SPNI-001T-P0.5` | crimp into receptacles |
+| Pin contact | `BPNI-001T-P0.5` | crimp into plugs |
 | Crimp tool | JST PN-family tool, or ratchet + PN dies | **SN-28B does NOT fit PNI contacts** |
 
 ## Crimp procedure
@@ -57,8 +56,7 @@ crimped):
 
 ## Wire gauge vs rating
 
-- **Power: 20–22 AWG** silicone (within PNI contact range; 22 AWG confirmed by JST's
-  pre-crimped leads).
+- **Power: 20–22 AWG** silicone (within the PNI contact range, which covers 22 AWG).
 - **Data: 24 AWG** silicone.
 - **Current:** plan the wiring so no single run exceeds **~2–3 A** (PNI class rating).
 - **12 V hub bus** (perfboard screw terminals — no connector): 14–16 AWG.
@@ -72,10 +70,9 @@ Per termination: 3 receptacles (chunk) + jumpers/feeds as plugs → ~264 recepta
 |---|---|---|---|
 | Receptacles | `PNIRR-02VF` | ~320 | DigiKey / Mouser / AliExpress |
 | Plugs | `PNIRP-02V-S` | ~320 | same |
-| Contacts | socket `SPND-001T-C0.5` + mating pin | ~650 + ~650 | same |
+| Contacts | socket `SPNI-001T-P0.5` + pin `BPNI-001T-P0.5` | ~650 + ~650 | same |
 | Crimp tool | JST PN tool / ratchet + PN dies | 1 | TBD |
-| Pre-made option | 2-pin pigtails / pre-crimped leads | ~90 | [DigiKey `ASPNDSPNI22K51`](https://www.digikey.gr/en/products/detail/jst-sales-america-inc/ASPNDSPNI22K51/7325655) · harness makers · AliExpress |
-| Wire | 20–22 AWG red/black + 24 AWG data colors | ~15 m each | spool kits |
+| Wire | 20–22 AWG red/black + 24 AWG yellow/green | ~15 m each | spool kits |
 | Heat shrink | 2:1, ~3 mm | 1 pack | any |
 | Strain relief | epoxy/glue over the soldered pad sets | — | any |
 

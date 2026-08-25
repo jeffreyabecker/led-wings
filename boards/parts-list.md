@@ -2,7 +2,8 @@
 
 > Brief sourcing summary. Full detail: [boards/README.md](README.md) (settled parts) and
 > [pigtail crimping](../docs/pigtail-crimping.md). Connectors: **JST PNI** (2.0 mm pitch,
-> wire-to-wire, crimp both ends) — vendors TBD (not yet researched).
+> wire-to-wire, crimp both ends) — vendors TBD (not yet researched). **All pigtails are
+> hand-made** (no pre-made).
 > **Current plan:** wiring organized so no single run exceeds ~2–3 A (PNI class rating —
 > confirm exact value in the [ePNI-WW datasheet](http://www.jst-india.com/downloads/series/ePNI-WW_(21-08-25).pdf)).
 
@@ -16,14 +17,12 @@
 | 6 | Reverse polarity | MDD SS34, 3 A 40 V SMA | 1/hub | [LCSC C8678](https://www.lcsc.com/product-detail/C8678.html) |
 | 7 | PNI receptacle 2-pin | JST `PNIRR-02VF` | ~300 | TBD |
 | 8 | PNI plug 2-pin | JST `PNIRP-02V-S` | ~300 | TBD |
-| 9 | PNI contacts | Socket `SPND-001T-C0.5` + mating pin (per [WW datasheet](http://www.jst-india.com/downloads/series/ePNI-WW_(21-08-25).pdf)) | ~650 + ~650 | TBD |
+| 9 | PNI contacts | Socket `SPNI-001T-P0.5` + pin `BPNI-001T-P0.5` | ~650 + ~650 | TBD |
 | 10 | Crimp tool | JST PN-family tool or ratchet + PN dies (**SN-28B does NOT fit**) | 1 | TBD |
-| 11 | PNI pigtails (pre-made) | 2-pin plug↔receptacle / pre-crimped leads, 22 AWG | ~90 | [DigiKey pre-crimped `ASPNDSPNI22K51`](https://www.digikey.gr/en/products/detail/jst-sales-america-inc/ASPNDSPNI22K51/7325655) · [harness makers (22 AWG)](https://fleconn-china.com/productinfo-291-JST-PNI-2.0mm-Pitch-Wire-to-Board-Connector-with-UL1061-22AWG-Wire-Harness.html) · AliExpress |
-| 12 | Wire | Silicone — 20–22 AWG red/black (power), 24 AWG data colors | ~15 m each | TBD |
+| 11 | Wire | Silicone — 20–22 AWG red/black (power), 24 AWG yellow (data) + green (clock) | ~15 m each | TBD |
 
 **Strip caveat:** 96/m SK9822 is niche — confirm **10 mm wide, open (non-waterproof) PCB, 96/m**
 with the vendor and validate one reel before bulk.
 
-**Pigtails: pre-made vs hand-crimp.** Pre-made 2-pin pigtails (row 11) can replace hand
-crimping — rows 9–10 then shrink to repair spares. ⚠️ PNI is 2.0 mm class: keep any single run
-≤ ~2–3 A (wiring plan), power 20–22 AWG, data 24 AWG.
+**Pigtails:** all hand-crimped (no pre-made) — rows 7–10 quantities assume the full hand-crimp.
+⚠️ PNI is 2.0 mm class: keep any single run ≤ ~2–3 A (wiring plan), power 20–22 AWG, data 24 AWG.
