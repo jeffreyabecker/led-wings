@@ -1,81 +1,81 @@
-# Pigtail Crimping — JST-PH Build Guide
+# Pigtail Crimping — JST-PNI Build Guide
 
-> Every wire termination in this build is a **2-pin JST-PH** (2.0 mm pitch, 2 A/circuit)
-> crimped by hand. Chunks unplug for service; dead chunks swap in seconds. The signal/color
-> legend is [connector-pinout.md](connector-pinout.md); this file is the *how to crimp* guide.
+> Every wire termination in this build is a **2-pin JST-PNI** (2.0 mm pitch, wire-to-wire)
+> crimped by hand — **both plug and receptacle crimp, so there are no soldered headers
+> anywhere**. Chunks unplug for service; dead chunks swap in seconds. The signal/color legend
+> is [connector-pinout.md](connector-pinout.md); this file is the *how to crimp* guide.
 
-## Why JST-PH
+## Why JST-PNI
 
-- **2 A/circuit rating** matches the plan's 2 A power-pigtail budget exactly; real max is
-  ~0.68 A full-white per 17-LED chunk (~0.15 A @ 20 % brightness) — comfortable margin.
-- **Small + light** (2.0 mm pitch) — 88 terminations × 3 connectors on a wearable.
-- **Contact range 24–28 AWG** covers power (24 AWG) and data (26–28 AWG) with **one contact
-  part** for the whole build.
-- Cheap and ubiquitous; crimped by the common **SN-28B** tool.
-- Alternatives: JST-XH (2.54 mm, 3 A — bulkier), JST-GH (1.25 mm, 1 A — undersized for power).
+- **Wire-to-wire** — both genders take crimp terminals (unlike PH/XH where the male side is a
+  solder header). Every chunk end is a receptacle; every jumper/feed is a plug.
+- **Compact (2.0 mm)** vs Molex Micro-Fit 3.0's 3.0 mm bulk — better for a wearable.
+- **~2–3 A class** (confirm exact rating in the
+  [ePNI-WW datasheet](http://www.jst-india.com/downloads/series/ePNI-WW_(21-08-25).pdf)) —
+  the wiring is organized so no single run exceeds that.
+- **Pre-crimped leads + harnesses exist** (e.g. DigiKey `ASPNDSPNI22K51`, 22 AWG) if you'd
+  rather buy than crimp.
 
-## The scheme (why headers aren't on the strip)
+## The scheme
 
-PH is a **wire-to-board** system: the male side is always a header, and the 2.0 mm pitch does
-**not** match SK9822 strip pads (~2.54 mm). So the strip end keeps **soldered stub leads**
-(6 wires per chunk, strain-relieved — unchanged from the plan), and every *connector* is a
-crimped PH. The single male plug lives on each chunk's **data-out**, which makes every jumper
-a pure female–female crimp.
+Each chunk gets **three 2-pin receptacles** (soldered stub wires to the strip pads, then
+crimped):
 
 | Connector | Pairs | Chunk end | Matches |
 |---|---|---|---|
-| Power-in | +5V (red) / GND (black) | **female** `PHR-2` | hub power feed (female + bare) |
-| Data-in | DI (yellow) / CI (green) | **female** `PHR-2` | previous chunk's data-out plug, or controller feed |
-| Data-out | DO (orange) / CO (blue) | **male plug** (PH header soldered to lead) | female–female jumper → next chunk's data-in |
+| Power-in | +5V (red) / GND (black) | **receptacle** `PNIRR-02VF` | hub power feed (plug + bare) |
+| Data-in | DI (yellow) / CI (green) | **receptacle** `PNIRR-02VF` | previous chunk's data-out, or controller feed |
+| Data-out | DO (orange) / CO (blue) | **receptacle** `PNIRR-02VF` | data jumper (plug–plug) → next chunk |
 
-- **Data jumpers** chunk→chunk: 2-pin **female–female**, crimped both ends.
-- **Hub power feeds:** female `PHR-2` at the chunk end; bare/tinned wire into the perfboard
-  screw terminal.
-- **Controller chain-head feeds** (2 chains): male plug at the chunk end (PH header soldered
-  to the lead), bare/tinned at the level-shifter/controller.
+- **Data jumpers** chunk→chunk: 2-pin **plug–plug** (`PNIRP-02V-S` both ends), crimped.
+- **Hub power feeds:** plug at the chunk end; bare/tinned wire into the perfboard screw
+  terminal.
+- **Controller chain-head feeds** (2 chains): plug into the first chunk's data-in; bare at the
+  level-shifter/controller.
 
 ## Parts
 
 | Part | JST number | Notes |
 |---|---|---|
-| Socket contact (crimp) | `SPH-002T-P0.5` | **24–28 AWG** — one part for power + data |
-| Housing, 2-pin female | `PHR-2` | the crimped side of every link |
-| Header, 2-pin | `B2B-PH-K-S` (top entry) · `S2B-PH-K-S` (right angle) | soldered to the data-out lead to make the male plug |
-| Crimp tool | IWISS/iCrimp **SN-28B** | also does XH/VH/Dupont; upgrade: ratcheting crimper (HT-225D class) for consistency |
+| Receptacle housing, 2-pin | `PNIRR-02VF` | every chunk end (power-in / data-in / data-out) |
+| Plug housing, 2-pin | `PNIRP-02V-S` | every jumper / feed end |
+| Socket contact | `SPND-001T-C0.5` | crimp into receptacles |
+| Pin contact | mating pin (per [WW datasheet](http://www.jst-india.com/downloads/series/ePNI-WW_(21-08-25).pdf)) | crimp into plugs |
+| Crimp tool | JST PN-family tool, or ratchet + PN dies | **SN-28B does NOT fit PNI contacts** |
 
-## Crimp procedure (SN-28B)
+## Crimp procedure
 
-1. Strip ~2 mm of insulation; slide the wire into the contact — strands fully inside the wire
-   barrel, insulation inside the insulation barrel.
-2. Seat the contact in the SN-28B **PH** die position (the notch sized for the contact's wire
+1. Strip ~2 mm; slide the wire into the contact — strands fully inside the wire barrel,
+   insulation in the insulation barrel.
+2. Seat the contact in the PN-family die position (the notch sized for the contact's wire
    barrel — not the pin barrel).
 3. Squeeze firmly — the wire barrel closes in a "B" over the strands.
-4. **Pull test:** the wire must not pull out; the insulation must not be trapped by the wire
+4. **Pull test:** the wire must not pull out; insulation must not be trapped by the wire
    barrel.
-5. Insert into the `PHR-2` housing until the latch clicks; tug to confirm.
-6. Heat-shrink each finished connector joint (2:1, ~3 mm).
+5. Insert into the housing until the latch clicks; tug to confirm.
+6. Heat-shrink each finished joint (2:1, ~3 mm).
 
-## Wire gauge vs contact
+## Wire gauge vs rating
 
-- **Power pigtails: 24 AWG** silicone (top of the `SPH-002T-P0.5` range; 24 AWG carries the
-  2 A budget with margin at these short runs).
-- **Data: 26–28 AWG** silicone.
+- **Power: 20–22 AWG** silicone (within PNI contact range; 22 AWG confirmed by JST's
+  pre-crimped leads).
+- **Data: 24 AWG** silicone.
+- **Current:** plan the wiring so no single run exceeds **~2–3 A** (PNI class rating).
 - **12 V hub bus** (perfboard screw terminals — no connector): 14–16 AWG.
 
 ## Counts + shopping list (88 terminations: 80 individual feathers + 8 covert rows)
 
-Per termination: power-in + data-in (2 female) + data-out (1 male plug) → ~220 female
-connectors / ~90 male plugs, ~440 crimped contacts, ~90 data jumpers + ~90 hub feeds.
-Buy with ~25 % margin.
+Per termination: 3 receptacles (chunk) + jumpers/feeds as plugs → ~264 receptacles,
+~260 plugs, ~1050 contacts total. Buy with ~20 % margin.
 
 | Item | Part | Qty (w/ margin) | Typical source |
 |---|---|---|---|
-| Contacts | `SPH-002T-P0.5` | ~550 | DigiKey / Mouser / AliExpress bulk |
-| Housings | `PHR-2` | ~280 | same |
-| Headers | `B2B-PH-K-S` (2-pin) | ~120 | same |
-| Kit option | PH2.0 connector kit (housings + contacts) | 1–2 | Amazon/eBay (~$15–25) |
-| Crimp tool | SN-28B | 1 | Amazon (~$20–30) |
-| Wire | 24 AWG silicone red + black (power); 26–28 AWG yellow/green/orange/blue (data) | ~15 m each color | Amazon spool kits |
+| Receptacles | `PNIRR-02VF` | ~320 | DigiKey / Mouser / AliExpress |
+| Plugs | `PNIRP-02V-S` | ~320 | same |
+| Contacts | socket `SPND-001T-C0.5` + mating pin | ~650 + ~650 | same |
+| Crimp tool | JST PN tool / ratchet + PN dies | 1 | TBD |
+| Pre-made option | 2-pin pigtails / pre-crimped leads | ~90 | [DigiKey `ASPNDSPNI22K51`](https://www.digikey.gr/en/products/detail/jst-sales-america-inc/ASPNDSPNI22K51/7325655) · harness makers · AliExpress |
+| Wire | 20–22 AWG red/black + 24 AWG data colors | ~15 m each | spool kits |
 | Heat shrink | 2:1, ~3 mm | 1 pack | any |
 | Strain relief | epoxy/glue over the soldered pad sets | — | any |
 

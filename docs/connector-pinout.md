@@ -1,9 +1,9 @@
 # Connector Pinout — Wiring Legend (Pigtails)
 
 > The shared signal interface for every strip chunk and covert row in this one-off build.
-> Terminated as **2-pin JST-PH pigtails** — crimped by hand (parts + procedure:
-> [pigtail-crimping.md](pigtail-crimping.md)). The wire-pair maps and colors below are the
-> canonical build legend; every termination follows them.
+> Terminated as **2-pin JST-PNI pigtails** (2.0 mm, wire-to-wire — **both ends crimped, no
+> headers**; parts + procedure: [pigtail-crimping.md](pigtail-crimping.md)). The wire-pair
+> maps and colors below are the canonical build legend; every termination follows them.
 
 ## Topology
 
@@ -14,6 +14,9 @@
   at the tail feeding the next row's head.
 - **Power fans out** from hub clusters: each chunk/row gets `+5V`/`GND` over a short 2-wire
   run from a nearby power-hub.
+- **Connector scheme:** every chunk end is a **receptacle** (`PNIRR-02VF`) — power-in,
+  data-in, data-out; all jumpers and feeds are **plugs** (`PNIRP-02V-S`). Both genders crimp
+  (wire-to-wire, no soldered headers).
 - Power and data use **separate wire pairs**.
 
 ## Signals
@@ -76,8 +79,8 @@
 - **Strip pad layout:** cut chunks expose `+5V`/`GND`/`DI`/`CI` on the input end and
   `+5V`/`GND`/`DO`/`CO` on the output end — feed power at the input end so all six wires
   leave the chunk from one side.
-- **Wire gauge:** power **24 AWG** silicone (2 A budget — top of the JST-PH contact range);
-  data 26–28 AWG. Signal current is negligible.
+- **Wire gauge:** power **20–22 AWG** silicone; data **24 AWG**. Keep any single run ≤
+  ~2–3 A (PNI class rating — wiring plan). Signal current is negligible.
 - **Strain relief:** glue/epoxy over every soldered pad set; never leave bare strip pads at a
   flex point.
 

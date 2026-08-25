@@ -51,15 +51,17 @@
 
 - **Chunk termination (settled ✅):** 6 stub wires soldered per chunk — `+5V`/`GND` (power,
   from a hub), `DI`/`CI` (data in), `DO`/`CO` (data out to the next feather) — then
-  **2-pin JST-PH crimped pigtails**: female `PHR-2` on power-in and data-in, a male plug
-  (PH header) on data-out, so every jumper is female–female. Wire pairs + colors are the
-  [wiring legend](../docs/connector-pinout.md); parts + crimp procedure in
-  [pigtail crimping](../docs/pigtail-crimping.md). Epoxy/glue strain relief over every pad
-  set; bench-test each chunk before mounting (a bad joint darkens the whole downstream chain).
+  **2-pin JST-PNI crimped pigtails** (2.0 mm, wire-to-wire — both ends crimped, no headers):
+  a receptacle `PNIRR-02VF` on each of power-in / data-in / data-out; all jumpers and feeds
+  are plugs `PNIRP-02V-S` (data jumpers plug–plug, hub/controller feeds plug + bare wire).
+  Wire pairs + colors are the [wiring legend](../docs/connector-pinout.md); parts + crimp
+  procedure in [pigtail crimping](../docs/pigtail-crimping.md). Epoxy/glue strain relief over
+  every pad set; bench-test each chunk before mounting (a bad joint darkens the whole
+  downstream chain).
 - **Covered base:** no strip at all — only the exposed tip + bleed is lit, so there are no
   hidden LEDs (and no idle-current waste).
-- **Limits:** a 17-LED chunk ≈ 0.68 A full white — strip copper handles it easily; power
-  pigtails budgeted at 2 A.
+- **Limits:** a 17-LED chunk ≈ 0.68 A full white — strip copper handles it easily; wiring
+  planned so no single run exceeds ~2–3 A (PNI class rating).
 
 ## Covert strip rows
 
@@ -105,11 +107,11 @@
 | Buck | MP1584EN module (3 A) — DollaTek 5-pack; alt. XL4015 5 A | ~6–8 | ⚠️ | [Amazon MP1584EN 5-pk](https://www.amazon.co.uk/DollaTek-MP1584EN-Step-Down-Adjustable-Converter/dp/B07DJ5HZ7G) — test each (counterfeits common) |
 | Fuse | ATO inline holder per 5 V feed (alt. polyfuse e.g. Littelfuse 30R) | ~10 | ⚠️ | [Youngneer ATO kit](https://www.amazon.sg/Youngneer-Holders-Standard-Harness-Waterproof/dp/B07YY6KWSY) |
 | Reverse polarity | MDD `SS34`, 3A 40V SMA | 1/hub | ✅ | [LCSC C8678](https://www.lcsc.com/product-detail/C8678.html) |
-| PH contact (pigtails) | JST `SPH-002T-P0.5`, 24–28 AWG | ~550 | ⬜ | [DigiKey SPH-002T-P0.5L](https://www.digikey.sg/en/products/detail/jst-sales-america-inc/SPH-002T-P0-5L/26218852) / AliExpress bulk |
-| PH housing (pigtails) | JST `PHR-2`, 2-pin | ~280 | ⬜ | DigiKey / [PH2.0 kits](https://www.amazon.com/dp/B09DP9FZTX) / AliExpress |
-| PH header (pigtails) | JST `B2B-PH-K-S`, 2-pin | ~120 | ⬜ | DigiKey / PH2.0 kits / AliExpress |
-| Crimp tool | IWISS/iCrimp SN-28B (JST PH/XH/VH) | 1 | ⬜ | [Amazon](https://www.amazon.com/dp/B00OMM4YUY) (~$20–30) |
-| Wire | Silicone — 24 AWG red/black (power), 26–28 AWG yellow/green/orange/blue (data) | ~15 m each | ⬜ | [24 AWG spool set](https://www.amazon.com/dp/B07TJXRGXM) / silicone kit spools |
+| PNI receptacle (chunk ends) | JST `PNIRR-02VF`, 2-pin | ~300 | ⬜ | TBD |
+| PNI plug (jumpers/feeds) | JST `PNIRP-02V-S`, 2-pin | ~300 | ⬜ | TBD |
+| PNI contacts | Socket `SPND-001T-C0.5` + mating pin | ~650 + ~650 | ⬜ | TBD |
+| Crimp tool | JST PN-family tool / ratchet + PN dies (SN-28B does NOT fit) | 1 | ⬜ | TBD |
+| Wire | Silicone — 20–22 AWG red/black (power), 24 AWG data colors | ~15 m each | ⬜ | TBD |
 
 ## Open decisions (compact)
 
@@ -130,7 +132,7 @@
 ## References
 
 - [Connector pinout / wiring legend](../docs/connector-pinout.md) — PWR / DATA-IN / DATA-OUT wire pairs + colors
-- [Pigtail crimping](../docs/pigtail-crimping.md) — JST-PH parts, counts, crimp procedure
+- [Pigtail crimping](../docs/pigtail-crimping.md) — JST-PNI parts, counts, crimp procedure
 - [Parts list](parts-list.md) — summarized COTS parts + potential vendors (battery excluded)
 - [Battery](../investigations/battery/) — 12 V source sizing
 - [Feather lighting](lighting-and-boards.md) — LED map + chunk counts
