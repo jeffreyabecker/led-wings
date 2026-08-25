@@ -1,6 +1,6 @@
 # Structural Design
 
-Physical wing structure — the frame the strip modules and power-hubs attach to.
+Physical wing structure — the frame the strip chunks and power-hubs attach to.
 
 > Locked decisions — frame material, transport, weight budget — are tracked in
 > [design-readiness.md](design-readiness.md).
@@ -8,7 +8,7 @@ Physical wing structure — the frame the strip modules and power-hubs attach to
 ## Scope
 
 - Wing frame/skeleton: spars, ribs, load path from wing tip to body.
-- Mounting points for strip modules, power-hubs, controller.
+- Mounting points for strip chunks, power-hubs, controller.
 - Harness/cable routing for the daisy-chain data lines and hub power feeds.
 - Body attachment: how the wings mount to the wearer/back and stay balanced in motion.
 - Materials + weight budget (mobility target: 8 h wear).

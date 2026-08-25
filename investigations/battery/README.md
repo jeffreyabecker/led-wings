@@ -1,10 +1,10 @@
 # Battery — Investigation
 
 > Scope: pick the 12 V battery that powers the system for mobility, sized for the planned
-> runtime, and matched to the 12 V→5 V buck that feeds the SK9822-EC20 pixels.
+> runtime, and matched to the 12 V→5 V buck that feeds the SK9822 pixels.
 
 The system runs off a fixed **12 V** source — a wall supply for development, a **12 V
-battery** for mobility. The pixel is locked to the SK9822-EC20 (5 V), fed through a
+battery** for mobility. The pixel is locked to the SK9822 (5 V), fed through a
 12 V→5 V buck, so the battery only needs to stay above the buck's input dropout (~6–7 V),
 not a pixel-string voltage floor.
 

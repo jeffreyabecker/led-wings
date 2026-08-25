@@ -1,6 +1,6 @@
 # Feather Design
 
-Physical feather geometry — the mechanical feathers that carry the strip modules and
+Physical feather geometry — the mechanical feathers that carry the strip chunks and
 shape/diffuse the light.
 
 ## Documents
@@ -29,19 +29,19 @@ authored + validated); the rest not started:
 ## Scope
 
 - Feather outline + curvature for the ~76 unique lit feather shapes, mirroring the
-  module-chain lengths in [boards/README.md](../../boards/README.md).
+  strip-chunk cut lengths in [boards/README.md](../../boards/README.md).
 - The enumerated, first-principles template list lives in
   [outline-templates.md](outline-templates.md) — 76 individual wing feathers (52 flight + 24
   greater coverts), shared covert strips, plus scapular + back-cover templates over the
   electronics.
 - Diffuser integration — see [`investigations/diffuser-halo/`](../../investigations/diffuser-halo/).
-- Strip-module mounting: how each module chain attaches to and follows its feather — see
+- Strip-chunk mounting: how each strip chunk attaches to and follows its feather — see
   [lighting-and-boards.md](lighting-and-boards.md).
 - Overlap/stacking: feather-to-feather layering for a natural wing silhouette — see
   [outline-templates.md](outline-templates.md).
 
 ## Open questions
 
-- Module mounting — chain adhered directly to the feather vs on a removable carrier (repair).
+- Strip mounting — chunk adhered directly to the feather vs on a removable carrier (repair).
 - Diffuser geometry per feather size.
 - Attachment/removal for service (dead-LED replacement).

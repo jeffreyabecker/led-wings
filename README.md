@@ -1,21 +1,19 @@
 # Wings
 
-One-off LED-lit wing costume — two standard SK9822 strip-module PCBs (4-LED / 6-LED, 4-pin
-JST each end) chained tip-to-tail, power injected from buck-module power-hubs, driven by a
-Pixelblaze.
+One-off LED-lit wing costume — off-the-shelf SK9822 strips cut into per-feather chunks, data
+daisy-chained chunk-to-chunk, power fed from buck-module power-hubs, driven by a Pixelblaze.
 
 ## Build strategy
 
-- **Two strip-module PCBs, everything else off-the-shelf.** 4-LED (42 × 10 mm) and 6-LED
-  (62 × 10 mm) SK9822 modules at 10.4 mm pitch, panelized + assembled at JLCPCB; Pixelblaze V3
-  controller; buck-module + fuse power-hubs.
-- Fully parameterized custom feather boards (KiCad 10 + `pcbnew`) are deferred to "if we build
+- **Off-the-shelf electrical system** — no custom PCBs for this build. SK9822 96 LED/m strips
+  cut to per-feather LED counts; Pixelblaze V3 controller; buck-module + fuse power-hubs.
+- Custom boards (KiCad 10 + `pcbnew` parameterized feathers) are deferred to "if we build
   more than one".
 
 ## Boards
 
-- [Boards](boards/README.md) — the build plan: module designs + chain layout, controller,
-  power hubs, settled parts
+- [Boards](boards/README.md) — the build plan: strip-chunk cut table, covert rows, controller,
+  power hubs, settled COTS parts
 
 ## Mechanical
 

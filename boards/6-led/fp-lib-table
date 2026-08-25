@@ -1,5 +1,0 @@
-(fp_lib_table
-  (version 7)
-  (lib (name "wings-led-6")(type "KiCad")(uri "${KIPRJMOD}/libs/wings-led-6.pretty")(options "")(descr "6-LED strip module footprints: JST-GH SM04B-GHS-TB 4-pin, C_0603_1608Metric"))
-  (lib (name "easyeda2kicad")(type "KiCad")(uri "${KIPRJMOD}/../../parts-local/easyeda2kicad.pretty")(options "")(descr "LCSC footprints: SK9822-EC20 (C2909059)"))
-)

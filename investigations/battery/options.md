@@ -1,7 +1,7 @@
 # Battery Options — Wearable Mobility Power
 
 > Pick the battery that feeds the fixed 12 V rail (wall supply for dev, battery for
-> mobility). The pixel is locked to the SK9822-EC20 (5 V), powered through a 12 V→5 V buck,
+> mobility). The pixel is locked to the SK9822 (5 V), powered through a 12 V→5 V buck,
 > so the battery only has to stay above the buck's input dropout (~6–7 V). **Wearable →
 > weight is a first-class constraint.**
 >
