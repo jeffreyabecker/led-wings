@@ -38,6 +38,59 @@ from its own [glossary](https://www.featherbase.info/en/article/).
 
 ---
 
+## Scale — pixel → mm conversion
+
+Featherbase specimen images are scans with an embedded **DPI**, and the
+specimen page's `measure` tool uses it to convert pixels to physical units.
+
+- **1 inch = DPI px = 25.4 mm**
+- **`mm = px ÷ DPI × 25.4`** (or `px × (25.4 / DPI)`)
+- Example at **150 DPI** (specimen 1698, Peregrine Falcon): `1 mm = 150/25.4
+  = 5.906 px`, so **`mm = px × 0.16933`**.
+
+> The DPI is read from the image's metadata (specimen 1698 = 150 DPI,
+> 4133×2942 px). If a given image is missing/zero DPI, the image title
+> (e.g. `Auflösung: 150.00 DPI`) or the page's measure tool is the fallback.
+
+The specimen page also lists **per-feather lengths in mm** (`P1…P10`, `S1…S14`,
+`R1…R6`). Use these to *verify* a measured feather's identity, not just guess by
+look — see the [labelling guide](#labelling-guide--visual-distinguishing) below.
+
+---
+
+## Labelling guide — visual distinguishing
+
+Region assignment is by shape **plus length**, because the per-feather mm table
+is definitive for flight/tail feathers. Workflow:
+
+1. **Measure** the feather (`px × 25.4 / DPI` = mm).
+2. **Match to the mm table** — a match nails it as a primary/secondary/rectrix.
+3. **The leftovers** (no mm-table entry) are your coverts / alula / scapulars —
+   sort them by shape.
+
+| Region | Shape to look for | Tip shape | Shaft / symmetry | Typical size |
+|---|---|---|---|---|
+| **Primary** | long, stiff, narrow | pointed; outer ones notched (emargination) | strongly asymmetric | longest on board (~13–24 cm) |
+| **Secondary** | broad, softer | rounded | near-symmetric, centered | ~half primary length |
+| **Tertial** | innermost wing feather, broad | very rounded, soft | near-symmetric | short (S13/S14 ≈ 6–9 cm) |
+| **Greater covert** | small, rounded | rounded | symmetric | ~½–⅔ of covered feather |
+| **Median covert** | smaller, rounder | rounded | symmetric | below greater covert |
+| **Lesser covert** | small, round; graduated rows | rounded | symmetric | shrinking toward leading edge |
+| **Marginal covert** | smallest, roundest | rounded | symmetric | leading-edge seal |
+| **Alula** | tiny, stiff, slightly asymmetric | pointed | slightly asymmetric | thumb cluster |
+| **Scapular** | elongated, rounded | rounded | near-symmetric | longer than coverts, not stiff |
+| **Rectrix (tail)** | stiff, symmetric | pointed→rounded | centered | mid-length (~15–17 cm) |
+
+**Key discriminator:** coverts/alula/scapulars have **no entry** in the mm
+table. So a short, round feather that *does* match a listed length (e.g.
+S13 = 87 mm, S14 = 64 mm) is an inner secondary/tertial, **not** a covert — the
+short round inner secondaries are the easiest to mislabel.
+
+Featherbase's own "tertial" nuance (from its glossary): it labels **scapulars**
+as the "tertials" of common usage and **humerals** as the "real" tertials.
+
+---
+
 ## Tertial (T)
 
 **Featherbase codes:** `SC` (scapular, the "tertials" of common usage) · `Hum` (humeral, the "real" tertials)
