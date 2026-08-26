@@ -14,9 +14,6 @@ venv/
 pip-wheel-metadata/
 .ipynb_checkpoints/
 
-# Generated feather breakout crops (reproducible via feather/scripts/breakout/breakout.py)
-feather/images/individual-raster/*.jpg
-
 # Local scratch (bootstrap/temp)
 .tmp-pip/
 
