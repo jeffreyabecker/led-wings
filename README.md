@@ -15,10 +15,10 @@ daisy-chained chunk-to-chunk, power fed from buck-module power-hubs, driven by a
 - [Boards](boards/README.md) — the build plan: strip-chunk cut table, covert rows, controller,
   power hubs, settled COTS parts. **Source of truth for the electrical build.**
 
-## Feather
+## Feather templates
 
-- [Feather](feather/) — **physical feather templating only**: outlines + geometry, the
-  generator, and shape sourcing. No electronics content — lighting lives in
+- [Templates](mechanical/templates/) — **physical feather templating only**: outlines + geometry,
+  the generator, and shape sourcing. No electronics content — lighting lives in
   [boards/lighting-and-boards.md](boards/lighting-and-boards.md).
 
 ## Mechanical
@@ -37,8 +37,8 @@ daisy-chained chunk-to-chunk, power fed from buck-module power-hubs, driven by a
 
 - `boards/` — **electrical build**: strategy, feather lighting map, wiring legend, settled
   parts. All electronics information lives here (or in `docs/`).
-- `feather/` — **physical feather templating only**: outlines, geometry, generator, shape
-  sourcing. No electronics/lighting content — that belongs in `boards/`.
+- `mechanical/templates/` — **physical feather templating only**: outlines, geometry, generator,
+  shape sourcing. No electronics/lighting content — that belongs in `boards/`.
 - `mechanical/` — wing structure (frame, backplate, harness mounts).
 - `docs/` — shared electrical references (connector pinout, pigtail crimp guide).
 - `investigations/` — one-off research (battery, diffuser halo).

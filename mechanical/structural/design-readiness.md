@@ -5,7 +5,7 @@
 >
 > ⚠️ **Feather sizing authority:** every feather size below (envelope height/vane, widths,
 > stagger) is a **provisional placeholder**. The authoritative sizing lives in
-> [`feather/`](../../feather/) (`outline-templates.md` + `source-images/`) and **has not yet
+> [`mechanical/templates/`](../templates/) and **has not yet
 > been finalized** — re-check these values once feather sizing is locked.
 
 ## Locked
@@ -48,7 +48,7 @@
 - **Form:** a **folded** wing laid flat on the back (not an extended, outspread wing) — feathers
   point down/back and overlap shingle-style; primaries reach the hem, coverts stack up toward the
   shoulders.
-- Feather scaling lives with the template list: [`feather/outline-templates.md`](../../feather/outline-templates.md) — ⚠️ sizing not yet finalized (see note above).
+- Feather scaling lives with the template list: [`mechanical/templates/`](../templates/) — ⚠️ sizing not yet finalized (see note above).
 
 ### 5 kg total budget
 
@@ -82,4 +82,4 @@
 - [ ] Bay sealing vs access: dust/sweat protection against a hinge/latch/magnet lid.
 - [ ] Does the back-coverts lid carry any electronics, or is it purely a cover?
 - [ ] Feather width: **keep per-feather vane ratios**, adjusted globally by the generator's
-  `--vane-ratio-adjustment` (no hand-editing) — see [feather outline-templates §6/§8](../../feather/outline-templates.md).
+  `--vane-ratio-adjustment` (no hand-editing) — see [mechanical/templates/](../templates/).

@@ -1,7 +1,7 @@
 # Mechanical — Wing Structure
 
 Physical design of the wing structure — the frame the electronics mount into. Kept separate
-from `boards/` (electrical build), `feather/` (physical feather templating), and `docs/`
+from `boards/` (electrical build), `templates/` (physical feather templating), and `docs/`
 (shared electrical pinouts).
 
 | Area | Status | Scope |

@@ -42,8 +42,8 @@
   10 mm-pitch map:
 
   > ⚠️ Chunk lengths/LED counts below derive from **provisional** feather sizing — the
-  > authoritative sizing lives in [`feather/`](../feather/) (`outline-templates.md` +
-  > `source-images/`), **not yet finalized**; re-cut counts once it is locked.
+  > authoritative sizing lives in [`mechanical/templates/`](../mechanical/templates/),
+  > **not yet finalized**; re-cut counts once it is locked.
 
   | Group | Exposed (cm) | Bleed | Chunk LEDs | Chunk length |
   |-------|-------------:|------:|-----------:|-------------:|

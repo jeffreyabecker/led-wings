@@ -1,15 +1,15 @@
 # Feather Lighting & Boards
 
-> Status: **ideation** · nothing locked · pairs with [outline-templates.md](../feather/outline-templates.md).
+> Status: **ideation** · nothing locked · pairs with [mechanical/templates/](../mechanical/templates/).
 > Legend: ✅ = anatomy/selected fact · ⚠️ = design estimate (to be locked later).
 >
 > ⚠️ **Feather sizing authority:** all feather sizes below (vane floor, per-feather
 > vane/exposed cm, row spans, and the LED counts derived from them) are **provisional
 > placeholders**. The authoritative sizing lives in
-> [`feather/outline-templates.md`](../feather/outline-templates.md) + `source-images/` and
-> **has not yet been finalized** — re-derive the LED map once it is locked.
+> [`mechanical/templates/`](../mechanical/templates/) and **has not yet been finalized** —
+> re-derive the LED map once it is locked.
 
-How the mechanical feather outlines map to LED strip chunks. [outline-templates.md](../feather/outline-templates.md)
+How the mechanical feather outlines map to LED strip chunks. [mechanical/templates/](../mechanical/templates/)
 carries the geometry + arrangement; this file carries **which feathers are lit, how** (individual
 chunk vs shared strip vs unlit structural), and the chunk count / LED budget.
 
@@ -198,4 +198,4 @@ chunks** (per-feather LED counts are derived in §6):
 - [Boards](README.md) — COTS build plan, incl. the strip-chunk cut table.
 - [Diffuser halo](../investigations/diffuser-halo/) — light shaping/diffusion.
 - [Connector pinout](../docs/connector-pinout.md) — pigtail wiring legend (PWR / DATA-IN / DATA-OUT).
-- [Feather outlines](../feather/outline-templates.md) — geometry + arrangement this file maps from.
+- [Feather outlines](../mechanical/templates/) — geometry + arrangement this file maps from.
