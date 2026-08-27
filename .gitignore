@@ -28,3 +28,7 @@ pip-wheel-metadata/
 *.lck
 feather/images/source-images-flat/*
 feather/images/print-pages-v2
+
+mechanical\templates\reference_feathers_no_scale.xcf
+mechanical\templates\eagle-feathers_color_no_scale.png
+mechanical\templates\reference_feathers_no_scale_70cm.pdf
