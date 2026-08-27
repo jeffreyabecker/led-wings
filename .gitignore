@@ -27,6 +27,7 @@ pip-wheel-metadata/
 *-backups/
 *.lck
 
-mechanical\templates\reference_feathers_no_scale.xcf
-mechanical\templates\eagle-feathers_color_no_scale.png
-mechanical\templates\reference_feathers_no_scale_70cm.pdf
+mechanical/templates/reference_feathers_no_scale.xcf
+mechanical/templates/eagle-feathers_color_no_scale.png
+mechanical/templates/reference_feathers_no_scale_70cm.pdf
+mechanical/templates/reference_feathers_no_scale_scaled.pdf
