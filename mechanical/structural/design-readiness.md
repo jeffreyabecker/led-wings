@@ -82,8 +82,11 @@
 - [ ] **Pipe-foam alternative** — covering/anchor material available in **multiple colors** —
       under investigation ([wing-bones](../../investigations/wing-bones/README.md#pipe-foam-alternatives--anchoring--color-new-track)).
 - [ ] **Backplate geometry** — shape (angular-shield?), overall height, top-edge offset below
-      the trapezius, wing-fold rise above the shoulders (wearer-measured; checklist in the
-      wing-bones investigation).
+      the trapezius, wing-fold rise above the shoulders. **Working values:** angular-shield,
+      straight taper 44 → ~37 cm, height ~30–32 cm (bottom ~6–8 cm above waist) · plate top ≈
+      shoulder line (3–4 cm below C7, ⚠️ Q5) · **fold rise = 0 cm (✅ Q4)** · roots + straps
+      co-located at the top corners (±20) · bay ~15 × 12 cm at y≈14–26 — see the wing-bones
+      investigation.
 - [ ] Pixel count / runtime — battery is **external** (side pack) → sizes the pack only, no
       longer a structural-weight constraint (worn piece ≈ 2.1 kg ⚠️).
 - [ ] Frame lamination + seal: cardboard layup, adhesive, and a moisture/flame barrier.

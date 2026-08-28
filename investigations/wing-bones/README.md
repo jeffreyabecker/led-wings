@@ -19,10 +19,10 @@ Q4/Q5, pipe-foam, bay/straps) pending.
 | # | Question | Initial position | Confidence | Source / basis |
 |---|----------|------------------|-----------|----------------|
 | 1 | Allowable total width of the wing structure | **50 cm** (hard limit) | ✅ | Tailor's-tape shoulder-to-shoulder, locked in design-readiness |
-| 2 | Backplate shape (where harness straps attach) | angular-shield | ⚠️ | Initial guess — to validate |
+| 2 | Backplate shape (where harness straps attach) | **angular-shield** — straight-edged taper 44 → ~37 cm, height ~30–32 cm (working dims) | ⚠️ | Initial guess, now dimensioned — see Backplate geometry |
 | 3 | Overall backplate height | bounded **21–42 cm** (B1–B3); final TBD | 🧍 | Wearer back length + bay footprint |
-| 4 | Wing-fold rise above the shoulders | TBD | 🧍 | Neck/head clearance |
-| 5 | Backplate top offset below trapezius top | TBD | 🧍 | Neck clearance at C7 |
+| 4 | Wing-fold rise above the shoulders | **0 cm** — fold at the acromion line (decided) | ✅ | User decision; clean front view |
+| 5 | Backplate top offset below trapezius top | **≈ 3–4 cm below C7** (2–5 cm guidance) → plate top ≈ shoulder line | ⚠️ | Neck clearance at C7 — see Q4/Q5 findings below |
 | 6 | Humerus: build it, or blend into the backplate? | **Skip the humerus — wing root blends into the backplate** (Option C) | ✅ | User decision |
 | 7 | Radius/ulna angle vs the spine | **≈ 0–5° splay** (Option C straight members) | ⚠️ | Working value — refine via anatomy research |
 | 8 | Fused carpal angle vs the radius member | **≈ 20–25° fan** (Option C fanned carpal) | ⚠️ | Working value — refine via anatomy research |
@@ -70,7 +70,7 @@ per wing (mirrored left/right):
 ```
       spine │   C7 / trapezius top  ▲ neck — nothing may cross above ~C7
             │
-  ┌─────────┼─────────┐   ← backplate top edge (offset below trapezius top, Q5)
+  ┌─────────┼─────────┐   ← backplate top edge at the shoulder line (Q5: ≈3–4 cm below C7)
   │         │         │
   │  bay:   │         │   (electronics only — battery is off-back in a side pack)
   │ hubs+   │         │
@@ -92,6 +92,71 @@ Member lengths (⚠️ to refine once feather attachment rows are fixed): **no h
 radius/ulna member starts at the backplate wing root; radius/ulna + carpal partition the 55 cm
 folded height with the primaries, whose roots sit along the carpal (near the top of its run)
 and hang to the mid-butt hem.
+
+## Q4/Q5 findings — shoulder-line clearance (⚠️ research-derived)
+
+**Q4 — wing-fold rise above the shoulders: 0 cm ✅ (decided)** — the fold sits at the acromion
+line; nothing rises above the shoulders. Front view = clean (wings are a back piece); a hint of
+front visibility is available later via covert overhang over the shoulder cap (styling, not
+structure), never by raising the fold.
+
+- The acromion line sits **~4 cm below C7** (B4, measured) — the C7 plane is the highest
+  structure may go; the neck (base circumference ~40 cm → ~6 cm from the spine at C7) occupies
+  the zone above it near the spine.
+- Backpack/cosplay-harness practice: the frame/strap top sits **at or just below the top of the
+  shoulders** — never riding above ([The North Face fit guide](https://www.thenorthface.com/en-se/exploration/our-journal/how-to-fit-and-wear-a-backpack),
+  [OutDoz fit guide](https://outdoz.com/how-is-a-hiking-backpack-supposed-to-fit/),
+  [cosplay wing harness tutorials](https://www.cestlasara.com/2019/04/26/cosplay-wing-harness-tutorial/),
+  [laureltreeworkshop](http://laureltreeworkshop.com/cosplay-wing-harness/)).
+- **Hard ceiling:** nothing crosses the C7 plane (~4 cm above the acromion). (A rise of ≤ +2 cm
+  at the roots would be collision-safe, but Q4 is decided at 0 cm.)
+
+**Q5 — backplate top offset below the trapezius top: ≈ 3–4 cm below C7** → the plate top lands
+**at the shoulder line** (given B4 = 4 cm).
+
+- The trapezius "top" at the midline ≈ the C7/neck-base line; the plate must clear it so it
+  doesn't dig on neck extension (looking up) or shoulder shrug, and stays under the collar line.
+- Common rigid-frame/backplate guidance: top edge **2–5 cm below C7**.
+- **Wearer feel-test (confirm):** plate top at the shoulder line — look up, turn the head,
+  shrug — no contact, no pressure.
+
+→ Together: plate top ≈ acromion line; wing roots (±20 cm, C1) mount at the plate's top
+corners; the fold does not rise above the shoulders.
+
+## Backplate geometry (working ⚠️)
+
+```
+Backplate — angular shield (back view, spine centerline)
+              ←———— 44 cm ————→   E1 @ shoulder line (y = 0)
+        ┌─────────────────────┐   ← top edge at the acromion line
+        │  ( ∨ small neck-    │     · over-shoulder strap anchors + wing
+        │    relief scoop )   │       roots co-located at the corners (±20)
+        │   ┌───────────┐     │
+        │   │ bay 15×12 │     │   ← electronics only (hubs + controller)
+        │   │  y≈14–26  │     │     centered on the spine
+        │   └───────────┘     │
+        │                     │   ← straight-edged taper:
+        │                     │     44 @ y=0 → 42 @ y≈17 → ~37 @ y≈30
+        └─────────────────────┘
+              ←—— ~37 cm ——→     ← bottom edge y≈30–32 (≈6–8 cm above the waist)
+```
+
+- **Shape:** angular-shield — straight edges, angular corners (cuts cleanly from
+  cross-laminated cardboard); tapers linearly between the measured widths E1 (44 @ shoulder
+  line) → E2 (42 @ mid-scapula, y≈17) → ~37 @ bottom.
+- **Top edge:** at the acromion line (Q5); **small center neck-relief scoop** (~2–3 cm deep at
+  the spine) — the plate's upper-middle edge arches downward, a standard ergonomics pattern to
+  clear the C7/neck region ([e.g., backplate harness patents](http://data.epo.org/publication-server/rest/v1.2/patents/EP2243347NWA1/document.html)).
+- **Wing roots + straps:** co-located at the top corners (±20 cm, C1) — the shoulder strap
+  pulls up at the same reinforced corner the wing loads down on.
+- **Height:** ~30–32 cm (bottom ~6–8 cm above the natural waist y=38) — clears the waist bend;
+  inside the 21–42 cm bounds (B1–B3).
+- **Bay:** ~15 × 12 cm ⚠️ (6–8 MP1584EN + Pixelblaze + shifter + wiring + airflow), centered on
+  the spine at y≈14–26 — clear of the members at ±20.
+- **Material + thickness:** TBD (open decision); needs enough layup for the +4 cm quill-embed
+  tails and stiffness for the wing-root load.
+- **Feel-test:** top edge at the shoulder line — look up, turn, shrug, bend — no contact at the
+  neck, no digging at the bottom when bending.
 
 ## Wearer measurement checklist 🧍
 
