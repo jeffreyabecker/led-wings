@@ -1,5 +1,10 @@
 # Feather Design — Physical Templating
 
+> ⚠️ **Envelope decision (2026-08):** the wing tips now land at **mid-butt — P4 = 55 cm**
+> (D1, [wing-bones investigation](../../investigations/wing-bones/README.md)) → global scale
+> **× 1.02** (55 ÷ 53.7), **not × 1.40**. The tables below are still × 1.40 and **stale** —
+> rescale every row by `55 ÷ 53.7` before cutting any wire.
+>
 > **Rule: physical templating only.** This folder carries the *mechanical* feather geometry —
 > outlines, arrangement, and the generator that draws them. **No electronics/lighting content
 > lives here**: which feathers are lit, chunk counts, LED maps, and wiring all live in

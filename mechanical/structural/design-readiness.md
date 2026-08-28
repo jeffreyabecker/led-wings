@@ -16,7 +16,7 @@
 | Fold / transport | fixed closed; **not** disassemblable |
 | Total weight budget | **5 kg** (whole piece: frame + feathers + electronics + battery) |
 | Electronics mounting | backplate carries power-hubs + controller; **battery deferred — side pack if needed** (see [README](README.md#electronics-bay--backplate)) |
-| Physical envelope | 50 cm wide × ~75 cm tall (⚠️ height set by longest primary — sizing not finalized, see note above), folded flat on the back |
+| Physical envelope | 50 cm wide × **~55 cm** tall (⚠️ P4 = 55 cm — D1 mid-butt decision; feather sizing not finalized, see note above), folded flat on the back |
 
 ## Constraints (why)
 
@@ -42,9 +42,10 @@
 
 - **Width:** 50 cm — shoulder-to-shoulder, measured with a tailor's tape. Hard limit: both wings
   + center back covers must sit inside it.
-- **Height:** ~75 cm, folded flat on the back — set by the longest primary (P4 = **75 cm**
-  quill-to-tip, **56 cm** vane) from the mockup; hangs from the shoulders down the back (past the
-  butt, clear of the floor).
+- **Height:** **~55 cm**, folded flat on the back — set by the longest primary (**P4 = 55 cm**
+  quill-to-tip, ~41 cm vane @ mockup ratio 0.75), tips landing **mid-butt** (D1 decision,
+  [wing-bones](../../investigations/wing-bones/README.md)) — ≈ 62 cm above the floor for a
+  167 cm wearer (13 cm above the knee); nearly real-eagle scale (**× 1.02**, was × 1.40).
 - **Form:** a **folded** wing laid flat on the back (not an extended, outspread wing) — feathers
   point down/back and overlap shingle-style; primaries reach the hem, coverts stack up toward the
   shoulders.
@@ -63,7 +64,7 @@
 |------|----------:|-------|
 | Battery (3S Li-ion) | 2.5–2.9 kg | 1400 px @ 8 h @ 20 % — dominant lever |
 | Frame (cardboard + foam) | ~0.9 kg | both wings, ribs + spars |
-| Feathers / diffusers | ~0.6 kg | substrate TBD (feather README) |
+| Feathers / diffusers | ~0.3 kg | ⚠️ scales with P4² — envelope 75→55 cm cut feather area ~46 %; substrate TBD (feather README) |
 | LEDs + strips + connectors | ~0.3 kg | ~1400 px, ~88 strip chunks |
 | Power-hubs + controller + wiring | ~0.6 kg | bucks + MCU + cabling |
 | **Total** | **~4.9–5.3 kg** | tight against the 5 kg cap |

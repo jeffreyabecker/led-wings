@@ -52,8 +52,8 @@ geometry + wing-root mounting**, not the battery.
   frame" ([templates README](../../mechanical/templates/README.md)) → **the bone members are the
   mounting substrate the feather quills embed into**, not just decoration.
 - Attachment mapping (bird anatomy, [golden-eagle data](../../mechanical/templates/golden-eagle-feather-data.md)):
-  - **Primaries P1–P10 → carpal (hand) member** — longest = P4 @ 75 cm → sets the carpal member's
-    position/run so the primaries reach the ~75 cm hem.
+  - **Primaries P1–P10 → carpal (hand) member** — longest = P4 @ **55 cm** (D1 decision) →
+    sets the carpal member's position/run so the primaries reach the 55 cm hem (mid-butt).
   - **Secondaries S1–S11 → ulna / forearm member** — the row above the primaries.
   - **Coverts (GPC/GSC/MD/LC/MG) + alula → upper-arm/backplate shoulder zone**, stacking
     shingle-style over the remex bases toward the shoulders.
@@ -85,12 +85,13 @@ the wearer, per wing (mirrored left/right):
       wrist     wrist
        │         │
       carpal    carpal        ← Q8: angle vs radius member (fold θ2)
-      (primaries P1–P10 attach along here, longest = P4 @ 75 cm)
+      (primaries P1–P10 attach along here, longest = P4 @ 55 cm)
 ```
 
 Draft member lengths (⚠️ to refine once feather attachment rows are fixed): humerus
 ~15–20 cm if included; radius/ulna + carpal together span the folded-wing height below the
-elbow such that the primaries reach the ~75 cm hem.
+elbow such that the primaries reach the ~55 cm hem (mid-butt). Partition of the 55 cm between
+the bone chain and the primaries depends on Q6–Q8 (humerus + member lengths).
 
 ## Wearer measurement checklist 🧍
 
@@ -128,7 +129,7 @@ elbow such that the primaries reach the ~75 cm hem.
 
 | # | Measurement | Why | How | Recorded (cm) |
 |---|-------------|-----|-----|---------------|
-| D1 | Shoulder line → desired wing-tip line, down the back | confirms the ~75 cm folded-wing envelope against the real body | tape from the acromion line straight down the back to where the wing tips should end (e.g., mid-butt / hem) | **— design choice; envelope default = 75** ⚠️ |
+| D1 | Shoulder line → desired wing-tip line, down the back | sets the folded-wing envelope height (was ~75 cm) | tape from the acromion line straight down the back to where the wing tips should end | **55** ✅ (decision: mid-butt) |
 
 ### E — Backplate width profile (Q2 shape, Q3)
 
