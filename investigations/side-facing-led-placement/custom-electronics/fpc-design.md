@@ -1,9 +1,10 @@
-# FPC design — custom SK9822-EC20 strip
+# Board design — custom SK9822-EC20 strip
 
-Target: **5 mm-wide flex PCB, 33.3 mm LED pitch (30/m)**, per-feather segment lengths
-(~0.3–0.5 m ⚠️), SK9822-EC20 (2020 package), 5 V SPI. **5 mm width** (not 2 mm) —
-the 2020 part makes the narrow FPC unnecessary, and 5 mm removes every routing and
-fabrication constraint while still fitting the feather thickness budget (~3 mm angled).
+Target: **5 mm-wide boards, 33.3 mm LED pitch (30/m)**, per-feather segment lengths
+(~0.3–0.5 m ⚠️), SK9822-EC20 (2020 package), 5 V SPI. **Baseline material: standard
+FR-4, thin core (0.6–0.8 mm)** — rigid is cheaper, allows 2 oz copper, and has tighter
+registration than FPC; the 233 mm × 5 mm sliver stays stiff enough with a thin core.
+**FPC is the fallback** only if feather curvature rules out rigid boards.
 
 ## Layer count
 
@@ -41,17 +42,15 @@ is the cross-check.
 
 ## Copper / current sizing (safety-critical)
 
-- **FPC copper is capped at 1 oz (35 µm)** ✅ — no 2 oz on flex; all sizing uses
-  1 oz cross-sections ([copper weight guide](https://jlcpcb.com/help/article/jlcpcb-copper-weight)).
 - Per-LED max: 40 mA → **1.2 A/m full white** at 30/m; 0.3 A/m at the 25 % firmware
   cap; 0.12 A/m at the 10 % operating point.
-- 1 oz trace capacity (IPC-2221, external) ⚠️: 0.8 mm ≈ ~1.0–1.3 A; **2.0 mm ≈
-  ~2.0–2.6 A** (10–20 °C rise).
+- **Rigid FR-4 allows 2 oz copper** ✅ (the FPC 1 oz cap no longer applies) — 2.0 mm
+  rail at 2 oz ≈ ~3–4 A ⚠️ (IPC-2221, external), comfortably above the buck-limited
+  worst case.
 - **Worst case per segment is set by the buck, not the wing**: each MP1584EN
   current-limits at ~2–3 A, so a rail segment only ever sees ~2–3 A even on a fault.
-- **A single 2.0 mm VDD rail covers it** — no via-stitching or dual-layer tricks
-  needed on the 5 mm strip; 5 mm width makes the ~2–3 A worst case a non-issue. At
-  the 10 % operating point (0.12 A/m) it's pure safety margin.
+- Even at 1 oz, a single 2.0 mm rail (~2.0–2.6 A) covers it; 2 oz on rigid is free
+  headroom. At the 10 % operating point (0.12 A/m) it's pure safety margin.
 - Power injection: feed VDD/VSS **every segment** (per-feather ~0.3–0.5 m) — segments
   are short, so voltage drop stays negligible; never chain power through feathers.
 - **Fusing**: per-wing fuse on the 5 V bus (e.g. ~8 A — above the 25 % cap draw of
@@ -69,28 +68,22 @@ is the cross-check.
 - Panelize strips **side by side** with V-score/mouse-bites for clean break-off at
   feather lengths; add **test pads** (VDD/VSS/DI/CI) at each segment end for the
   post-reflow SPI test.
-- Connectorization: **tinned solder pads** (2.54 mm pitch) at each end rather than JST —
-  keeps the 2 mm profile and lets us solder thin magnet wire per feather. ⚠️ If JST-PH
-  (4-pin) is preferred for field service, it adds ~4 mm of thickness at the feather root.
+- **Connector: JST-PH 4-pin (2.0 mm pitch)** at each board end — pinout
+  VDD/VSS/DI/CI. Chain links (structure strips, long primaries) and feather-to-bus
+  connections become plug-in cables instead of solder joints. Boards carry a male
+  header at each end so any two boards link with a female–female cable.
+- ⚠️ Profile: JST-PH adds ~3 mm at the board end — plan the feather-root slot to clear
+  it (or swap to the slimmer **JST-ZH 1.5 mm** if the 5–7 mm budget is tight).
 
-## JLCPCB FPC constraints
+## Fabrication constraints (rigid FR-4 baseline) ⚠️
 
-- **Min trace / spacing: 4/4 mil (~0.1 mm) with ±0.20 mm positional tolerance —
-  confirmed** ✅. Our 0.3 mm signals and 2.0 mm rails sit well above the width floor;
-  the ±0.2 mm registration is looser than rigid PCB and drives the 2020 pad design
-  (below).
-- Minimum FPC board **width** — 5 mm is comfortably above any floor ✅ (the 2 mm
-  width question is moot with the 2020 part).
-- Copper weight: **max 1 oz (35 µm) on flex — confirmed** ✅; a single 2.0 mm rail
-  provides the needed capacity, no dual-layer tricks.
-
-### Design implications of the ±0.2 mm tolerance ⚠️
-
-- The 2020 LED pads are the tightest feature (6 pads around a 2 mm square). With
-  ±0.2 mm registration, keep **solder mask between adjacent pads** (mask-defined
-  openings) to limit bridging, and size pads conservatively rather than at minimum.
-- Stencil alignment for assembly must tolerate ±0.2 mm — plan slightly oversized paste
-  apertures, or accept minor skew on the 2 mm parts.
+- **Thin core: 0.6–0.8 mm** — keeps the 233 × 5 mm sliver stiff without bowing and
+  fits the feather thickness budget (~3.7 mm angled at 25° incl. LED ⚠️).
+- Min trace/space 4/4 mil ✅; registration ±0.1 mm (tighter than FPC's ±0.2 mm) ✅;
+  copper up to 2 oz ✅ — none of the FPC caps constrain the design.
+- **Break-out**: rigid panels use V-score/tab routing (no flex panelization rules).
+- Sliver fragility: 5 mm-wide rigid boards are brittle at length — handle via the
+  panel until break-out; consider 0.8 mm core if warping appears.
 - Panel size limits and panelization rules for flex
   ([capabilities](https://jlcpcb.com/capabilities/flex-pcb-capabilities),
   [flex panel design guide](https://jlcpcb.com/blog/design-guidelines-flex-pcb-panels)).

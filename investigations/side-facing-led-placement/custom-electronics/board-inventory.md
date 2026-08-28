@@ -1,7 +1,8 @@
 # Board inventory — panelized FPC subset
 
 Assembly panels are capped at **250 × 250 mm** (stencil/reflow guideline), so the max
-board length is **233 mm = 7 LEDs** @ 33.3 mm pitch.
+board length is **233 mm = 7 LEDs** @ 33.3 mm pitch. **Material: FR-4 thin core
+(0.6–0.8 mm) baseline; FPC fallback.**
 
 ## SKU subset (all with per-LED score lines)
 
@@ -20,8 +21,8 @@ addressable "dark LED" rounding covers the rest. Drop B4 for minimalism if desir
 - Panels (50 strips each, 5 mm wide): **3 × B7 + 1 × B4/B3 = 4 panels**, all ≤ 250×250
 - Material margin ~35 % for rounding-up + cutting waste
 
-## Chain joints ⚠️
+## Chain links ⚠️
 
-~55 solder joints across both wings (4 pads each: VDD/VSS/DI/CI) — structure strips
-(0.8 m) are 4-board chains, longest primaries 3-board. Recheck against measured feather
-lengths before locking the SKU mix.
+~55 board-to-board links across both wings, each a **JST-PH 4-pin cable**
+(VDD/VSS/DI/CI) — structure strips (0.8 m) are 4-board chains, longest primaries
+3-board. Recheck against measured feather lengths before locking the SKU mix.
