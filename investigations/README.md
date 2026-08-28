@@ -8,6 +8,7 @@ decision context) plus one or more analysis notes.
 |---------------|--------|----------|
 | [Battery](battery/) | investigation | Which 12 V battery (chemistry + size) powers 8 h @ 20 % for mobility? |
 | [Diffuser halo](diffuser-halo/) | investigation | How to make a thin, directional, resin-free diffuser bent into a halo ring? |
+| [Wing bones](wing-bones/) | investigation | Bone-structure layout + backplate: angles, heights, humerus, harness geometry |
 
 ## Conventions
 

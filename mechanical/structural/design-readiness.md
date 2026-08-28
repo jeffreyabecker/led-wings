@@ -15,7 +15,7 @@
 | Wing "bones" | cross-laminated cardboard, covered in foam pipe-wrap insulation |
 | Fold / transport | fixed closed; **not** disassemblable |
 | Total weight budget | **5 kg** (whole piece: frame + feathers + electronics + battery) |
-| Electronics mounting | backplate/harness carries battery, power-hubs, controller (see [README](README.md#electronics-bay--backplate)) |
+| Electronics mounting | backplate carries power-hubs + controller; **battery deferred — side pack if needed** (see [README](README.md#electronics-bay--backplate)) |
 | Physical envelope | 50 cm wide × ~75 cm tall (⚠️ height set by longest primary — sizing not finalized, see note above), folded flat on the back |
 
 ## Constraints (why)
@@ -74,8 +74,17 @@
 
 ## Open decisions
 
+- [ ] **Bone-structure geometry** — member chain + angles (humerus include/blend, radius/ulna
+      angle vs spine, carpal angle vs radius) — under investigation:
+      [`investigations/wing-bones/`](../../investigations/wing-bones/README.md).
+- [ ] **Pipe-foam alternative** — covering/anchor material available in **multiple colors** —
+      under investigation ([wing-bones](../../investigations/wing-bones/README.md#pipe-foam-alternatives--anchoring--color-new-track)).
+- [ ] **Backplate geometry** — shape (angular-shield?), overall height, top-edge offset below
+      the trapezius, wing-fold rise above the shoulders (wearer-measured; checklist in the
+      wing-bones investigation).
 - [ ] Pixel count / runtime vs 5 kg — the 2000 px battery alone (~4.2 kg) breaks the budget;
-      reconcile to ~1400 px (or accept less runtime) to hold 5 kg.
+      reconcile to ~1400 px (or accept less runtime) to hold 5 kg. *(No longer constrains the
+      backplate/bone design — battery is off-back in a side pack.)*
 - [ ] Wingspan vs door clearance (fixed, non-disassemblable unit) — confirm max span.
 - [ ] Frame lamination + seal: cardboard layup, adhesive, and a moisture/flame barrier.
 - [ ] Backplate material + how it integrates with the wing frame and shoulder straps.

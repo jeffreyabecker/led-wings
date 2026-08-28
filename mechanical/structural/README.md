@@ -15,19 +15,29 @@ Physical wing structure — the frame the strip chunks and power-hubs attach to.
 
 ## Electronics bay / backplate
 
-The battery, power-hubs, and controller mount to a **backplate** (or directly to the harness),
-and the back coverts ([BC1–BC8](../templates/))
-form a removable feathered lid over them.
+The power-hubs and controller mount to a **backplate** (or directly to the harness), and the
+back coverts ([BC1–BC8](../templates/)) form a removable feathered lid over them.
 
-- Backplate/harness carries the battery (heaviest item), the power-hubs, and the controller.
+- **Battery (deferred ✅):** if a mobility battery is needed it lives in a **side pack** — NOT
+  on the backplate. The bay carries electronics only (hubs + controller + wiring); bay sizing
+  no longer depends on pack footprint (see
+  [wing-bones investigation](../../investigations/wing-bones/README.md)).
 - Electronics bay: a recessed, shielded area on the upper back, sized to the selected parts.
-- Removable/hinged lid: the back-coverts panel detaches or swings open for battery swap + service.
-- Cable egress: data + power runs leave the bay toward each wing with strain relief.
-- Cooling/venting: buck converters + battery need airflow — don't let the bay trap heat.
-- Centre of mass: battery placement dominates balance — keep it low and close to the spine.
+- Removable/hinged lid: the back-coverts panel detaches or swings open for service.
+- Cable egress: data + power runs leave the bay toward each wing with strain relief; a feed
+  run to the side pack (if fitted).
+- Cooling/venting: buck converters need airflow — don't let the bay trap heat.
+- Centre of mass: with the battery off-back, the back load is the wings + light electronics;
+  the side pack (if fitted) sits at the waist — balance is better than a back-mounted pack.
 
 ## Open questions
 
+- **Bone-structure layout + backplate geometry** — being investigated in
+  [`investigations/wing-bones/`](../../investigations/wing-bones/README.md):
+  - Member chain: humerus (include or blend into the backplate?), radius/ulna angle vs the
+    spine, fused-carpal angle vs the radius member.
+  - Backplate shape (angular-shield?), overall height, top-edge offset below the trapezius,
+    wing-fold rise above the shoulders, allowable total width (50 cm — locked).
 - Wingspan vs door clearance (fixed, non-disassemblable unit) — confirm max span.
 - Frame lamination + seal: cardboard layup, adhesive, and a moisture/flame barrier.
 - Backplate material + how it integrates with the wing frame and shoulder straps.
