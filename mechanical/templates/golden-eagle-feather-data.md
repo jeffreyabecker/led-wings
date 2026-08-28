@@ -46,21 +46,25 @@ institutional sources to anchor template sizing.
 | P# | Adult ♂ (Nevada, BRD 901) | First-year ♂ (California, BRD 876) | Jenni et al. 2020 (n≥1, incl. calamus) | ♀ est. (adult ♂ × 1.07) |
 |----|---------------------------|------------------------------------|----------------------------------------|--------------------------|
 | | TF / VF | TF / VF | TF | TF |
-| P1 | 33.4 / 29.0 | 31.8 / 27.6 | 40.6 | 35.7 |
-| P2 | 46.3 / 38.6 | 42.6 / 35.3 | — | 49.5 |
-| P3 | 51.4 / 42.6 | 47.3 / 38.8 | 44.9 | 55.0 |
-| P4 | **53.7 / 43.9** | 48.5 / 39.5 | — | **57.5** |
-| P5 | 54.0 / 43.0 | 49.6 / 39.4 | 51.5–54.5 | 57.8 |
-| P6 | 53.3 / 42.6 | 49.3 / 38.7 | 53.4–57.1 | 57.0 |
-| P7 | 47.4 / 37.4 | 44.1 / 34.3 | 49.6 | 50.7 |
-| P8 | 43.3 / 33.9 | 39.7 / 31.1 | 48.8–54.0 | 46.3 |
-| P9 | 40.4 / 32.1 | 37.4 / 29.2 | 42.1–46.2 | 43.2 |
-| P10 | 39.0 / 31.1 | 35.7 / 28.2 | 33.3–36.1 | 41.7 |
+| P1 | 39.0 / 31.1 | 35.7 / 28.2 | 33.3–36.1 | 41.7 |
+| P2 | 40.4 / 32.1 | 37.4 / 29.2 | 42.1–46.2 | 43.2 |
+| P3 | 43.3 / 33.9 | 39.7 / 31.1 | 48.8–54.0 | 46.3 |
+| P4 | 47.4 / 37.4 | 44.1 / 34.3 | 49.6 | 50.7 |
+| P5 | 53.3 / 42.6 | 49.3 / 38.7 | 53.4–57.1 | 57.0 |
+| P6 | 54.0 / 43.0 | 49.6 / 39.4 | 51.5–54.5 | 57.8 |
+| P7 | **53.7 / 43.9** | 48.5 / 39.5 | — | **57.5** |
+| P8 | 51.4 / 42.6 | 47.3 / 38.8 | 44.9 | 55.0 |
+| P9 | 46.3 / 38.6 | 42.6 / 35.3 | — | 49.5 |
+| P10 | 33.4 / 29.0 | 31.8 / 27.6 | 40.6 | 35.7 |
 
-- Longest primary: **P5 or P6** (P6 = 75 %, P5 = 25 % of birds, featherbase n=4; atlas adult ♂: P5 54.0 > P4 53.7 > P6 53.3). Longest-primary span **51.8–53.9 cm** (featherbase).
+- **Numbering (2026-08):** primaries follow the **USFWS Feather Atlas convention — numbered
+  from the outside (wing tip) working in**: **P1 = the outermost (wing-tip) primary**, P10 =
+  the innermost (adjacent to the secondaries).
+- Longest primary: **P5 or P6** (P5 = 75 %, P6 = 25 % of birds, featherbase n=4; atlas adult ♂:
+  P6 54.0 > P7 53.7 > P5 53.3). Longest-primary span **51.8–53.9 cm** (featherbase).
 - Cross-check: Zenodo individual BERN/GR36 (likely ♀, 53.4–57.1 cm) brackets the female estimate.
-- Vane fraction (atlas adult ♂): **0.78–0.87** — inner primaries P1–P4 0.82–0.87, outer P5–P10 ≈ 0.78–0.80. *(Costume mockup used 0.75 for P4 — real is ~0.82.)*
-- Bare shaft (TF − VF, adult ♂): P1 4.4 → P5 11.0 → P10 7.9 cm. **This is the covered base the strip must hide** (plus wiring margin).
+- Vane fraction (atlas adult ♂): **0.78–0.87** — inner primaries P7–P10 0.82–0.87, outer P1–P6 ≈ 0.78–0.80. *(Costume mockup used 0.75 for P4 — real is ~0.82.)*
+- Bare shaft (TF − VF, adult ♂): P10 4.4 → P6 11.0 → P1 7.9 cm. **This is the covered base the strip must hide** (plus wiring margin).
 
 ## Measured — Secondaries (total / vane, cm; S1 = outermost/longest)
 
@@ -117,7 +121,7 @@ templates** (see Open tasks).
 
 | Group | Basis | Working est. (adult ♂, total cm) |
 |-------|-------|----------------------------------|
-| Greater primary coverts GPC1–GPC6 | ≈ 0.45–0.55 × outer primary (P1 33.4 → 15–18) | 15–18 |
+| Greater primary coverts GPC1–GPC6 | ≈ 0.45–0.55 × covered primary, inner set (P5–P10; e.g., P10 33.4 → 15–18) | 15–18 |
 | Greater secondary coverts GSC1–GSC10 | ≈ 0.45–0.55 × secondary | 17–20 outer → 14–16 inner |
 | Median secondary coverts MD1–MD4 | ≈ 0.55–0.65 × GSC | 9–13 |
 | Lesser secondary coverts LC1–LC8 | ≈ 0.5–0.65 × median | 5–9 |
@@ -128,7 +132,7 @@ templates** (see Open tasks).
 ## Build implications
 
 1. **Design scale:** costume **× 0.9085** — the folded wing fits the 55 cm envelope with the
-   primaries in anatomical order (longest ≈ P5/P6 ≈ 49/48 cm, tips peak at 55; was × 1.024 →
+   primaries in Atlas order (P1 = wing tip; longest ≈ P5/P6 ≈ 49/48 cm, tips peak at 55; was × 1.024 →
    × 1.40). Apply one global scale factor
    (generator `--vane-ratio-adjustment` + uniform scale), don't hand-tune per feather.
 2. **Vane fraction:** real flight feathers are 0.78–0.87 vane/total; the mockup's 0.75 runs

@@ -4,10 +4,10 @@
 > Legend: ✅ = decided/locked · ⚠️ = estimate to confirm.
 >
 > ⚠️ **Feather sizing authority:** the global scale is **locked at × 0.9085** — the primaries
-> mount in anatomical order P1→P10 within the 55 cm envelope (longest ≈ P5/P6 ≈ 49/48 cm, tips
-> peak at 55); the tables in [`mechanical/templates/`](../templates/) are **current** at that
-> scale. ⚠️ Covert/alula/underwing sizes are still **working estimates** (no published
-> data) — validate before locking templates.
+> mount in **Atlas order P1→P10 (P1 = wing tip)** within the 55 cm envelope (longest ≈ P5/P6 ≈
+> 49/48 cm, tips peak at 55); the tables in [`mechanical/templates/`](../templates/) are
+> **current** at that scale. ⚠️ Covert/alula/underwing sizes are still **working estimates**
+> (no published data) — validate before locking templates.
 
 ## Locked
 
@@ -48,8 +48,8 @@
 - **Width:** 50 cm — shoulder-to-shoulder, measured with a tailor's tape. Hard limit: both wings
   + center back covers must sit inside it.
 - **Height:** **~55 cm**, folded flat on the back — set by the longest primaries (**P5/P6 ≈
-  49/48 cm** quill-to-tip; tips peak at 55 cm at the envelope), mounted in **anatomical order
-  P1→P10**, tips landing **mid-butt** (D1 decision,
+  49/48 cm** quill-to-tip; tips peak at 55 cm at the envelope), mounted in **Atlas order
+  (P1 = wing tip) P1→P10**, tips landing **mid-butt** (D1 decision,
   [wing-bones](../../investigations/wing-bones/README.md)) — ≈ 62 cm above the floor for a
   167 cm wearer (13 cm above the knee); scale **× 0.9085** (was × 1.024 → × 1.40).
 - **Form:** a **folded** wing laid flat on the back (not an extended, outspread wing) — feathers

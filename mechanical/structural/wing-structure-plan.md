@@ -10,7 +10,7 @@
 
 - **Folded wing laid flat on the back** — envelope **50 cm wide × 55 cm tall**; feather tips at
   **mid-butt** (55 cm below the shoulder line); feather scale **× 0.9085** — the primaries mount
-  in anatomical order P1→P10, longest ≈ P5/P6 (49/48 cm), tips peaking at 55.
+  in Atlas order P1→P10 (P1 = wing tip), longest ≈ P5/P6 (49/48 cm), tips peaking at 55.
 - **Bones are short upper spars** (~13–14 cm) hidden under the coverts; the feathers dominate
   the lower ~40 cm. **No humerus** — the wing root blends into the backplate.
 - **Backplate**: angular shield carrying the electronics bay, wing roots, and strap anchors.
@@ -48,52 +48,56 @@ Tips at y = 55 (mid-butt). Nothing crosses above ~C7 (≈ −4 cm).
 
 > **Position convention:** every mount point is its **position along the spar**, measured from
 > the spar's **outside (distal) edge — 0 = the spar's outer end**, increasing toward the
-> backplate/root. Spar lengths: forearm **13 cm**, carpal **14 cm**. The x/y back-plane
-> derivation lives in the [wing-bones investigation](../../investigations/wing-bones/README.md).
+> backplate/root. Spar lengths: forearm **13 cm**, carpal **14 cm**. **Feather numbering follows
+> the USFWS Feather Atlas: numbers start at the outside of the wing and work in** — P1 = the
+> wing-tip primary (carpal's distal tip), S1 = the outermost secondary (wrist side, adjacent to
+> the primaries). The x/y back-plane derivation lives in the
+> [wing-bones investigation](../../investigations/wing-bones/README.md).
 
 **Primaries on the carpal spar** (14 cm long; pos 0 = the carpal's distal tip at (±24.8, 13.2);
-anatomical order — P1 at the root end "wrist", P10 at the outside tip):
+Atlas order — P1 = wing tip at the outside, P10 = innermost at the root "wrist"):
 
 | Feather | Mount pos (cm from outside edge) | L (cm) | Tip y |
 |---------|---------------------------------:|-------:|------:|
-| P10 | 1.4 | 35.4 | 47.3 |
-| P9 | 2.8 | 36.7 | 47.2 |
-| P8 | 4.2 | 39.3 | 48.5 |
-| P7 | 5.6 | 43.1 | 51.0 |
-| P6 | 7.0 | 48.4 | **55.0** |
-| P5 | 8.4 | 49.1 | 54.4 |
-| P4 | 9.8 | 48.8 | 52.7 |
-| P3 | 11.2 | 46.7 | 49.3 |
-| P2 | 12.6 | 42.1 | 43.4 |
-| P1 | 14 | 30.3 | 30.3 |
+| P1 | 1.4 | 35.4 | 47.2 |
+| P2 | 2.8 | 36.7 | 47.2 |
+| P3 | 4.2 | 39.3 | 48.5 |
+| P4 | 5.6 | 43.1 | 51.0 |
+| P5 | 7.0 | 48.4 | **55.0** |
+| P6 | 8.4 | 49.1 | 54.4 |
+| P7 | 9.8 | 48.8 | 52.7 |
+| P8 | 11.2 | 46.7 | 49.3 |
+| P9 | 12.6 | 42.1 | 43.4 |
+| P10 | 14 | 30.3 | 30.3 |
 
-**Secondaries on the forearm spar** (13 cm long; pos 0 = the spar's lower end at (±20, 13)):
+**Secondaries on the forearm spar** (13 cm long; pos 0 = the spar's lower end at (±20, 13);
+Atlas order — S1 = outermost at the wrist side (pos 9), numbering works in toward the elbow):
 
 | Feather | Mount pos (cm from outside edge) | L (cm) | Tip y |
 |---------|---------------------------------:|-------:|------:|
-| S11 | 3.5 | 23.6 | 33.1 |
-| S10 | 4 | 24.0 | 33.0 |
-| S9 | 4.5 | 24.5 | 33.0 |
-| S8 | 5 | 25.1 | 33.1 |
-| S7 | 5.5 | 25.7 | 33.2 |
-| S6 | 6 | 27.8 | 34.8 |
-| S5 | 6.5 | 28.7 | 35.2 |
-| S4 | 7 | 29.5 | 35.5 |
-| S3 | 8 | 32.1 | 37.1 |
-| S2 | 8.5 | 33.5 | 38.0 |
 | S1 | 9 | 33.6 | 37.6 |
+| S2 | 8.5 | 33.5 | 38.0 |
+| S3 | 8 | 32.1 | 37.1 |
+| S4 | 7 | 29.5 | 35.5 |
+| S5 | 6.5 | 28.7 | 35.2 |
+| S6 | 6 | 27.8 | 34.8 |
+| S7 | 5.5 | 25.7 | 33.2 |
+| S8 | 5 | 25.1 | 33.1 |
+| S9 | 4.5 | 24.5 | 33.0 |
+| S10 | 4 | 24.0 | 33.0 |
+| S11 | 3.5 | 23.6 | 33.1 |
 
-**Tip lines (design check):** primaries — 55.0 (P6) graduating down to 30.3 (P1), deepest at
-the longest feathers mid-carpal; secondaries — 38.0 (S2) → 33.0 (S9/S10), sitting over the
+**Tip lines (design check):** primaries — 55.0 (P5) graduating down to 30.3 (P10), deepest at
+the longest feathers mid-series; secondaries — 38.0 (S2) → 33.0 (S9/S10), sitting over the
 primaries' root zone. Tips hang vertical.
 
 **Coverts (deep coverage — bones hidden to y ≈ 15–18), mount zones:**
-- GPC1–6: carpal, pos ≈ 12 → 5.5 (tips ≈ 17–32)
-- GSC1–10: forearm, pos ≈ 12 → 5 (tips ≈ 18–20)
+- GPC1–6 (over primaries P5–P10): carpal, pos ≈ 5.5 → 14 (tips ≈ 17–32)
+- GSC1–10 (over S1–S10): forearm, pos ≈ 12 → 5 (tips ≈ 18–20)
 - MD1–4: forearm, pos ≈ 13 → 9 (tips ≈ 10–13)
 - LC1–8: forearm, pos ≈ 13 → 10 (tips ≈ 6–8)
 - MG1–12: forearm, pos ≈ 13 → 11 (tips ≈ 3–5)
-- Alula A-B/A-T: carpal root end, pos ≈ 12–13 (near P1)
+- Alula A-B/A-T: carpal root end, pos ≈ 12–13 (near P10)
 - Underwing U1–10: mirrored on the spar undersides (same positions as their upperwing equivalents)
 
 **Mounting:** quill wires embed **+4 cm** into the spars (below the "skin line"); extra tip

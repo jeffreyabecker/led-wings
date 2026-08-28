@@ -86,7 +86,7 @@ per wing (mirrored left/right):
        │         ╲ carpal   · radius/ulna straight down (θ1 = 0°), ~13 cm
        │          ╲         · carpal fans outward (θ2 = 20°), ~14 cm
        │           ╲
-    (S1–S11 on    (P1–P10 on the carpal, anatomical order P1→P10)
+    (S1–S11 on    (P1–P10 on the carpal, Atlas order P1 = wing tip)
      the forearm)
        │            ╲
        ▼             ▼
@@ -94,13 +94,13 @@ per wing (mirrored left/right):
    (secondaries)   (primaries)
 ```
 
-**Key finding — bones are short upper spars; the scale is set by anatomical order:** the
-55 cm envelope with the primaries mounted **P1→P10** (P1 at the wrist/root end, P10 at the
-carpal tip) forces the **scale down to × 0.9085** — the longest primaries (P5/P6, mid-carpal)
-can't exceed 55 − root_y, so P6 ≈ 48.4 cm with its tip exactly at 55. The members are ~13–14 cm
-spars near the fold, hidden under the coverts; the feathers dominate the lower ~40 cm. (The
-earlier ×1.024 scale forced the longest primaries to share the top mount and scrambled the
-order — superseded.)
+**Key finding — bones are short upper spars; the scale is set by Atlas order:** the
+55 cm envelope with the primaries mounted **P1→P10** (P1 = wing tip at the carpal's distal
+end, P10 = innermost at the root "wrist") forces the **scale down to × 0.9085** — the longest
+primaries (P5/P6, mid-series) can't exceed 55 − root_y, so P5 ≈ 48.4 cm with its tip exactly
+at 55. The members are ~13–14 cm spars near the fold, hidden under the coverts; the feathers
+dominate the lower ~40 cm. (The earlier ×1.024 scale forced the longest primaries to share the
+top mount and scrambled the order — superseded.)
 
 ### Members (per wing)
 
@@ -112,20 +112,20 @@ order — superseded.)
 ### Feather roots + tips (working ⚠️ — right wing; y from the shoulder line)
 
 **Primaries** along the carpal (s = arc length from the root; y ≈ 0.94·s, x ≈ 20 + 0.34·s;
-anatomical order — P1 at the root "wrist", P10 at the carpal tip):
+Atlas order — P1 = wing tip at the carpal's distal end, P10 = innermost at the root "wrist"):
 
 | Feather | s (cm) | Root y | Root x | L (cm) | Tip y |
 |---------|-------:|-------:|-------:|-------:|------:|
-| P1 | 0 | 0.0 | 20.0 | 30.3 | 30.3 |
-| P2 | 1.4 | 1.3 | 20.5 | 42.1 | 43.4 |
-| P3 | 2.8 | 2.6 | 21.0 | 46.7 | 49.3 |
-| P4 | 4.2 | 3.9 | 21.4 | 48.8 | 52.7 |
-| P5 | 5.6 | 5.3 | 21.9 | 49.1 | 54.4 |
-| P6 | 7.0 | 6.6 | 22.4 | 48.4 | **55.0** |
-| P7 | 8.4 | 7.9 | 22.9 | 43.1 | 51.0 |
-| P8 | 9.8 | 9.2 | 23.4 | 39.3 | 48.5 |
-| P9 | 11.2 | 10.5 | 23.8 | 36.7 | 47.2 |
-| P10 | 12.6 | 11.8 | 24.3 | 35.4 | 47.2 |
+| P1 | 12.6 | 11.8 | 24.3 | 35.4 | 47.2 |
+| P2 | 11.2 | 10.5 | 23.8 | 36.7 | 47.2 |
+| P3 | 9.8 | 9.2 | 23.4 | 39.3 | 48.5 |
+| P4 | 8.4 | 7.9 | 22.9 | 43.1 | 51.0 |
+| P5 | 7.0 | 6.6 | 22.4 | 48.4 | **55.0** |
+| P6 | 5.6 | 5.3 | 21.9 | 49.1 | 54.4 |
+| P7 | 4.2 | 3.9 | 21.4 | 48.8 | 52.7 |
+| P8 | 2.8 | 2.6 | 21.0 | 46.7 | 49.3 |
+| P9 | 1.4 | 1.3 | 20.5 | 42.1 | 43.4 |
+| P10 | 0 | 0.0 | 20.0 | 30.3 | 30.3 |
 
 **Secondaries** on the forearm spar (x = ±20):
 
@@ -145,7 +145,7 @@ anatomical order — P1 at the root "wrist", P10 at the carpal tip):
 
 **Coverts (deep coverage — bones hidden to y ≈ 15–18):** GPC1–6 roots y≈2–8 (tips ≈ 17–32) ·
 GSC1–10 roots y≈1–8 (tips ≈ 18–20) · MD1–4 y≈0–4 (tips ≈ 10–13) · LC1–8 y≈0–3 (tips ≈ 6–8) ·
-MG1–12 y≈0–2 (tips ≈ 3–5) · alula A-B/A-T at the carpal root end (near P1, pos ≈ 12–13) ·
+MG1–12 y≈0–2 (tips ≈ 3–5) · alula A-B/A-T at the carpal root end (near P10, pos ≈ 12–13) ·
 underwing U1–10 mirrored on the spar undersides.
 
 **Width check:** carpal end x ≈ 24.8, P10 root x ≈ 24.3 — inside the ±25 cm envelope; tips hang

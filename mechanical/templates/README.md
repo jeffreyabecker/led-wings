@@ -1,7 +1,8 @@
 # Feather Design — Physical Templating
 
 > **Scale (2026-08, current):** wing tips at mid-butt → envelope 55 cm → **× 0.9085** applied
-> to all real totals — rescaled so the primaries mount in **anatomical order P1→P10** within
+> to all real totals — rescaled so the primaries mount in **Atlas order P1→P10 (P1 = wing
+> tip)** within
 > the 55 cm envelope (longest ≈ P5/P6 ≈ 49/48 cm, tips peak at 55; was × 1.024 → × 1.40).
 > The tables below are **current at × 0.9085**.
 >
@@ -26,7 +27,7 @@ Wire length per feather for the costume quills (the wire backbone running the fu
 base of calamus → tip).
 
 > **Scale:** costume **× 0.9085** — the folded wing fits the 55 cm envelope with the primaries
-> in anatomical order (longest ≈ P5/P6, tips at 55; see
+> in Atlas order (P1 = wing tip; longest ≈ P5/P6, tips at 55; see
 > [wing-structure-plan.md](../structural/wing-structure-plan.md)). Measured groups
 > (primaries, secondaries) are rescaled from the real totals; estimate groups from their
 > documented basis (alula, GPC, GSC, MD) or scaled from the previous values (LC, MG, U).
@@ -45,16 +46,16 @@ base of calamus → tip).
 
 | Feather | Real total (cm) | Costume total @0.9085× (cm) | Wire cut = +4 cm (cm) |
 |---------|----------------:|----------------------------:|----------------------:|
-| P1 | 33.4 | 30 | 34 |
-| P2 | 46.3 | 42 | 46 |
-| P3 | 51.4 | 47 | 51 |
-| P4 | 53.7 | 49 | 53 |
-| P5 | 54.0 | 49 | 53 |
-| P6 | 53.3 | 48 | 52 |
-| P7 | 47.4 | 43 | 47 |
-| P8 | 43.3 | 39 | 43 |
-| P9 | 40.4 | 37 | 41 |
-| P10 | 39.0 | 35 | 39 |
+| P1 | 39.0 | 35 | 39 |
+| P2 | 40.4 | 37 | 41 |
+| P3 | 43.3 | 39 | 43 |
+| P4 | 47.4 | 43 | 47 |
+| P5 | 53.3 | 48 | 52 |
+| P6 | 54.0 | 49 | 53 |
+| P7 | 53.7 | 49 | 53 |
+| P8 | 51.4 | 47 | 51 |
+| P9 | 46.3 | 42 | 46 |
+| P10 | 33.4 | 30 | 34 |
 
 ### Secondaries — S1–S11 ✅ measured (S9–S11 trend-extrapolated ⚠️)
 
@@ -83,12 +84,12 @@ base of calamus → tip).
 
 | Feather | Over primary | Costume total (cm) | Wire cut = +4 cm (cm) |
 |---------|-------------:|-------------------:|----------------------:|
-| GPC1 | P1 | 15 | 19 |
-| GPC2 | P2 | 21 | 25 |
-| GPC3 | P3 | 23 | 27 |
-| GPC4 | P4 | 24 | 28 |
-| GPC5 | P5 | 25 | 29 |
-| GPC6 | P6 | 24 | 28 |
+| GPC1 | P10 | 15 | 19 |
+| GPC2 | P9 | 21 | 25 |
+| GPC3 | P8 | 23 | 27 |
+| GPC4 | P7 | 24 | 28 |
+| GPC5 | P6 | 25 | 29 |
+| GPC6 | P5 | 24 | 28 |
 
 ### Greater secondary coverts — GSC1–GSC10 ⚠️ estimate (≈ 0.5 × secondary covered)
 
