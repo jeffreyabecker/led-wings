@@ -45,45 +45,57 @@ Tips at y = 55 (mid-butt). Nothing crosses above ~C7 (≈ −4 cm).
 
 ## 5. Feather mounting — roots & tips (working ⚠️)
 
-**Primaries on the carpal spar** (s = arc length from the root; y ≈ 0.94·s, x ≈ 20 + 0.34·s):
+> **Position convention:** every mount point is its **position along the spar**, measured from
+> the spar's **outside (distal) edge — 0 = the spar's outer end**, increasing toward the
+> backplate/root. Spar lengths: forearm **13 cm**, carpal **14 cm**. The x/y back-plane
+> derivation lives in the [wing-bones investigation](../../investigations/wing-bones/README.md).
 
-| Feather | s (cm) | Root y | Root x | L (cm) | Tip y |
-|---------|-------:|-------:|-------:|-------:|------:|
-| P4 | 0 | 0 | 20.0 | 55 | **55.0** |
-| P5 | 0 | 0 | 20.0 | 55 | **55.0** |
-| P6 | 0 | 0 | 20.0 | 55 | **55.0** |
-| P3 | 2 | 1.9 | 20.7 | 53 | 54.9 |
-| P7 | 3.5 | 3.3 | 21.2 | 49 | 52.3 |
-| P2 | 4.5 | 4.2 | 21.5 | 47 | 51.2 |
-| P8 | 7 | 6.6 | 22.4 | 44 | 50.6 |
-| P9 | 9.5 | 8.9 | 23.2 | 41 | 49.9 |
-| P10 | 10 | 9.4 | 23.4 | 40 | 49.4 |
-| P1 | 13.5 | 12.7 | 24.6 | 34 | 46.7 |
+**Primaries on the carpal spar** (14 cm long; pos 0 = the carpal's distal tip at (±24.8, 13.2)):
 
-**Secondaries on the forearm spar** (x = ±20):
+| Feather | Mount pos (cm from outside edge) | L (cm) |
+|---------|---------------------------------:|-------:|
+| P1 | 0.5 | 34 |
+| P10 | 4 | 40 |
+| P9 | 4.5 | 41 |
+| P8 | 7 | 44 |
+| P2 | 9.5 | 47 |
+| P7 | 10.5 | 49 |
+| P3 | 12 | 53 |
+| P4 | 14 | 55 |
+| P5 | 14 | 55 |
+| P6 | 14 | 55 |
 
-| Feather | Root y | L (cm) | Tip y |
-|---------|-------:|-------:|------:|
-| S1 | 4.0 | 38 | 42.0 |
-| S2 | 4.5 | 38 | 42.5 |
-| S3 | 5.0 | 36 | 41.0 |
-| S4 | 6.0 | 33 | 39.0 |
-| S5 | 6.5 | 32 | 38.5 |
-| S6 | 7.0 | 31 | 38.0 |
-| S7 | 7.5 | 29 | 36.5 |
-| S8 | 8.0 | 28 | 36.0 |
-| S9 | 8.5 | 28 | 36.5 |
-| S10 | 9.0 | 27 | 36.0 |
-| S11 | 9.5 | 27 | 36.5 |
+**Secondaries on the forearm spar** (13 cm long; pos 0 = the spar's lower end at (±20, 13)):
 
-**Coverts (deep coverage — bones hidden to y ≈ 15–18):** GPC1–6 roots y≈2–8 (tips 19–35) ·
-GSC1–10 roots y≈1–8 (tips 20–28) · MD1–4 y≈0–4 (tips 11–15) · LC1–8 y≈0–3 (tips 6–10) ·
-MG1–12 y≈0–2 (tips 3–8) · alula A-B/A-T at the outer top (near P1, y≈11–13, x≈24–25) ·
-underwing U1–10 mirrored on the spar undersides.
+| Feather | Mount pos (cm from outside edge) | L (cm) |
+|---------|---------------------------------:|-------:|
+| S11 | 3.5 | 27 |
+| S10 | 4 | 27 |
+| S9 | 4.5 | 28 |
+| S8 | 5 | 28 |
+| S7 | 5.5 | 29 |
+| S6 | 6 | 31 |
+| S5 | 6.5 | 32 |
+| S4 | 7 | 33 |
+| S3 | 8 | 36 |
+| S2 | 8.5 | 38 |
+| S1 | 9 | 38 |
+
+**Tip lines (design check):** primaries — 55.0 (P4–P6) graduating up to 46.7 (P1); secondaries —
+42.5 (S2) → 36.0 (S8/S10). The graduated folded-wing silhouette; tips hang vertical.
+
+**Coverts (deep coverage — bones hidden to y ≈ 15–18), mount zones:**
+- GPC1–6: carpal, pos ≈ 12 → 5.5 (tips 19–35)
+- GSC1–10: forearm, pos ≈ 12 → 5 (tips 20–28)
+- MD1–4: forearm, pos ≈ 13 → 9 (tips 11–15)
+- LC1–8: forearm, pos ≈ 13 → 10 (tips 6–10)
+- MG1–12: forearm, pos ≈ 13 → 11 (tips 3–8)
+- Alula A-B/A-T: carpal outer end, pos ≈ 1–2 (near P1)
+- Underwing U1–10: mirrored on the spar undersides (same positions as their upperwing equivalents)
 
 **Mounting:** quill wires embed **+4 cm** into the spars (below the "skin line"); extra tip
-splay comes from **bending the quill wires** (not the spar angle). P4/P5/P6 share the root
-point — the root bracket holds three quills (or trim slightly).
+splay comes from **bending the quill wires** (not the spar angle). P4/P5/P6 share the root-end
+mount (pos 14) — the root bracket holds three quills (or trim slightly).
 
 **Width check:** carpal end x ≈ 24.8, P1 root x ≈ 24.6 — inside the ±25 cm envelope.
 
