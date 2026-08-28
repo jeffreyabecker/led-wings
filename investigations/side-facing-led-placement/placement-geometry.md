@@ -36,8 +36,13 @@ Vertical footprint of a strip mounted at angle θ: **thickness ≈ W·sin θ + 2
 | 10 mm standard | 15° | ~4.6 mm |
 | 10 mm standard | 20° | ~5.4 mm |
 | 10 mm standard | 25° | **~6.0 mm ✓** |
-| 5 mm mini | 30° | ~4.3 mm |
-| 5 mm mini | 40° | ~4.8 mm |
+| 5 mm mini (5050, 2 mm LED) | 30° | ~4.3 mm |
+| **5 mm FPC + SK9822-EC20 (2020, ~1 mm LED)** | 25° | **~3.0 mm ✓✓** |
+| **5 mm FPC + SK9822-EC20** | 40° | **~4.0 mm ✓** |
+
+The 2020 package's ~1 mm height (vs 5050's ~2 mm) makes the 5 mm strip even thinner
+than the 10 mm plan — **5 mm wide + EC20 is the chosen configuration** (see
+[custom-electronics/](custom-electronics/)).
 
 - The ±60° beam is so wide that angling barely changes *coverage* — it mainly aims the
   beam center at the edge exit.

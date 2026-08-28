@@ -22,9 +22,9 @@
 4. **Custom FPC strip chosen over stock dense strips (safety)** — de-densifying a stock
    144–200/m mini in firmware was **rejected on safety grounds** (full current capability
    ~33 A @ 5 V on a bug, unverifiable trace sizing). Instead we're building a **custom
-   2 mm-wide FPC with SK9822-EC20 (2020) at 30/m**, which also drops power ~33 %
-   (0.2 W/LED vs 0.3 W) and buys exact geometry + test pads → see
-   [custom-electronics/](custom-electronics/).
+   5 mm-wide FPC with SK9822-EC20 (2020) at 30/m**, which also drops power ~33 %
+   (0.2 W/LED vs 0.3 W), fits the feather thickness budget at ~3 mm angled, and buys
+   exact geometry + test pads → see [custom-electronics/](custom-electronics/).
 5. **Power architecture (same conversation)** — 5 V SK9822, single ESP32 over SPI (clock +
    data daisy chain), 4S low-C LiPo → ~14× MP1584EN buck converters (~1 per 10 feathers).
 
@@ -39,7 +39,7 @@
 
 ## Status
 
-`investigation` — default direction: **custom 2 mm FPC strip (SK9822-EC20 @ 30/m) in a
-slot at the feather edge, tilted ~20–25°, set back ~10–15 mm, bubble wrap at the exit
+`investigation` — default direction: **custom 5 mm FPC strip (SK9822-EC20 @ 30/m) in a
+slot at the feather edge, tilted ~20–40°, set back ~10–15 mm, bubble wrap at the exit
 only**; custom-electronics sub-investigation active (FPC capability + component
 verification pending).
