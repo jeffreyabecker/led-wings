@@ -94,48 +94,49 @@ elbow such that the primaries reach the ~75 cm hem.
 
 ## Wearer measurement checklist 🧍
 
-> Fit is to a **specific person** — fill these in with a tailor's tape (a helper makes the
-> back measurements easier). Stand relaxed, arms at sides, breathing normally. Mark landmarks
-> with a washable pen; measure twice. These are the body-specific inputs to Q1–Q8; the
-> research below supplies typical adult defaults to sanity-check against.
+> Fit is to a **specific person** — values below are filled from **standard men's size-L
+> measurements** (the wearer wears a large t-shirt) + standard adult-male anthropometry.
+> ⚠️ = size-L-derived estimate, not tape-measured (re-measure if precision matters) ·
+> ✅ = measured. Landmarks: C7 = most prominent bump at the neck base (flex head forward);
+> acromion = bony shoulder tip; scapula angle = bottom tip of the shoulder blade.
 
 ### A — Width envelope (Q1)
 
 | # | Measurement | Why | How | Recorded (cm) |
 |---|-------------|-----|-----|---------------|
-| A1 | Shoulder-to-shoulder, over the back | hard width limit — currently **50 cm**, re-confirm | tailor's tape across the upper back at its widest, arms down | |
-| A2 | Biacromial breadth | sanity-check 50 cm vs straight bone width | straight distance between the two acromion points (palpate the bony shoulder tips) | |
+| A1 | Shoulder-to-shoulder, over the back | hard width limit | tailor's tape across the upper back at its widest, arms down | **50** ✅ |
+| A2 | Biacromial breadth | sanity-check 50 cm vs straight bone width | straight distance between the two acromion points (palpate the bony shoulder tips) | **40** ⚠️ |
 
 ### B — Vertical placement / backplate height (Q3, Q5)
 
 | # | Measurement | Why | How | Recorded (cm) |
 |---|-------------|-----|-----|---------------|
-| B1 | C7 → inferior angle of scapula | the backplate must span this for wing-root mounting | C7 = most prominent spinous process at the neck base (flex head forward to find it); tape down the spine to the bottom tip of the shoulder blade | |
-| B2 | C7 → natural waist | backplate lower bound | tape down the spine to the narrowest waist point (bend sideways to find the crease) | |
-| B3 | C7 → iliac crest | absolute lower bound — don't go past this | tape down the spine to the top of the hip bone | |
-| B4 | C7 (neck base) → acromion line, vertical drop | the shoulder-rise region (top of trapezius); sets the Q5 offset and plate-top line | from the neck-base mark straight down to the shoulder-top (acromion) plane | |
+| B1 | C7 → inferior angle of scapula | the backplate must span this for wing-root mounting | tape down the spine to the bottom tip of the shoulder blade | **21** ⚠️ |
+| B2 | C7 → natural waist | backplate lower bound | tape down the spine to the narrowest waist point (bend sideways to find the crease) | **42** ⚠️ |
+| B3 | C7 → iliac crest | absolute lower bound — don't go past this | tape down the spine to the top of the hip bone | **45** ⚠️ |
+| B4 | C7 (neck base) → acromion line, vertical drop | the shoulder-rise region (top of trapezius); sets the Q5 offset and plate-top line | from the neck-base mark straight down to the shoulder-top (acromion) plane | **4** ⚠️ |
 
 ### C — Shoulder / wing-root (Q4, Q6)
 
 | # | Measurement | Why | How | Recorded (cm) |
 |---|-------------|-----|-----|---------------|
-| C1 | Acromion → spine centerline (left + right) | wing-root X-offset from the spine | horizontal tape from each acromion point to the spine at the same height | |
-| C2 | Acromion height above floor | shoulder-line reference for "fold rise" (Q4) | stand against a wall; mark + measure | |
-| C3 | Neck-base circumference | clearance for anything rising above the shoulders (Q4) | tape around the neck base, just below C7 | |
+| C1 | Acromion → spine centerline (left + right) | wing-root X-offset from the spine | horizontal tape from each acromion point to the spine at the same height | **20** each ⚠️ |
+| C2 | Acromion height above floor | shoulder-line reference for "fold rise" (Q4) | stand against a wall; mark + measure | **137** ⚠️ |
+| C3 | Neck-base circumference | clearance for anything rising above the shoulders (Q4) | tape around the neck base, just below C7 | **40** ⚠️ |
 
 ### D — Wing-tip target (envelope height)
 
 | # | Measurement | Why | How | Recorded (cm) |
 |---|-------------|-----|-----|---------------|
-| D1 | Shoulder line → desired wing-tip line, down the back | confirms the ~75 cm folded-wing envelope against the real body | tape from the acromion line straight down the back to where the wing tips should end (e.g., mid-butt / hem) | |
+| D1 | Shoulder line → desired wing-tip line, down the back | confirms the ~75 cm folded-wing envelope against the real body | tape from the acromion line straight down the back to where the wing tips should end (e.g., mid-butt / hem) | **— design choice; envelope default = 75** ⚠️ |
 
 ### E — Backplate width profile (Q2 shape, Q3)
 
 | # | Measurement | Why | How | Recorded (cm) |
 |---|-------------|-----|-----|---------------|
-| E1 | Back width at the shoulder line | plate top edge width (angular-shield top) | across the back at the acromion line | |
-| E2 | Back width at mid-scapula | bay-level plate width (widest point) | across the back at the widest scapula point | |
-| E3 | Back width at the natural waist | plate bottom edge width | across the back at the waist line | |
+| E1 | Back width at the shoulder line | plate top edge width (angular-shield top) | across the back at the acromion line | **44** ⚠️ |
+| E2 | Back width at mid-scapula | bay-level plate width (widest point) | across the back at the widest scapula point | **42** ⚠️ |
+| E3 | Back width at the natural waist | plate bottom edge width | across the back at the waist line | **35** ⚠️ |
 
 ### F — Harness anchors
 
@@ -146,15 +147,29 @@ elbow such that the primaries reach the ~75 cm hem.
 
 | # | Measurement | Why | How | Recorded (cm) |
 |---|-------------|-----|-----|---------------|
-| F1 | Chest circumference | sizing the cross-chest strap | around the chest at its widest, under the arms | |
-| F2 | Waist circumference | optional — waist belt / side-pack belt later | around the natural waist | |
-| F3 | Hip circumference (iliac crest) | optional — same | around the hips at the iliac crest | |
+| F1 | Chest circumference | sizing the cross-chest strap | around the chest at its widest, under the arms | **104** ⚠️ |
+| F2 | Waist circumference | optional — waist belt / side-pack belt later | around the natural waist | **89** ⚠️ |
+| F3 | Hip circumference (iliac crest) | optional — same | around the hips at the iliac crest | **109** ⚠️ |
 
 ### G — Context
 
 | # | Measurement | Why | How | Recorded (cm) |
 |---|-------------|-----|-----|---------------|
-| G1 | Standing height | overall scaling context | barefoot against a wall | **167** |
+| G1 | Standing height | overall scaling context | barefoot against a wall | **167** ✅ |
+
+### Basis — size-L derived values
+
+- Men's size-L body ranges: chest 40–42" (102–107 cm) → 104 · waist 34–36" (86–91 cm) → 89 ·
+  neck 15.5–16" (39–41 cm) → 40. Sources: [Trespass men's size guide](https://trespass.ie/pages/mens-sizes-guide),
+  [New Look men's trousers/jeans guide](https://www.newlook.com/uk/framework/size-guide-mens-trousersjeans),
+  [Regatta regular-fit t-shirt](https://www.regattalifestyle.com/products/regular-fit-basic-t-shirt-987030-black).
+- Adult-male anthropometry anchors: biacromial breadth ~38–42 cm
+  ([CityU anthropometry — shoulder breadth](http://personal.cityu.edu.hk/meachan/online%20anthropometry/Chapter2/Ch2-18.htm),
+  [average shoulder width](https://www.healthline.com/health/average-shoulder-width)); acromion
+  height ≈ 0.80–0.84 × stature → 167 × 0.82 ≈ 137; C7 ≈ 3–5 cm above the acromion plane;
+  nape-to-waist ~42–46 cm (→ 42 at this stature); scapula angle ~T7, ~21–24 cm below C7.
+- ⚠️ These are working values for the initial design — the wearer can re-measure the ones that
+  end up load-bearing (A1, B2, C1, F1).
 
 ## Pipe-foam alternatives — anchoring + color (new track)
 
