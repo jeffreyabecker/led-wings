@@ -18,6 +18,8 @@
   bypass caps, panelization, connectors.
 - [assembly-and-cost.md](assembly-and-cost.md) — component BOM, assembly process
   (stencil/reflow), cost estimate, risks.
+- [board-inventory.md](board-inventory.md) — panelized SKU subset (B7/B4/B3),
+  board counts, panels, chain joints.
 
 ## Key decisions
 
