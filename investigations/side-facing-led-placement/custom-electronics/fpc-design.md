@@ -25,16 +25,24 @@ is the cross-check.
 
 ## Copper / current sizing (safety-critical)
 
+- **FPC copper is capped at 1 oz (35 µm)** ✅ — no 2 oz on flex; all sizing uses
+  1 oz cross-sections ([copper weight guide](https://jlcpcb.com/help/article/jlcpcb-copper-weight)).
 - Per-LED max: 40 mA → **1.2 A/m full white** at 30/m; 0.3 A/m at the 25 % firmware
   cap; 0.12 A/m at the 10 % operating point.
-- 1 oz (35 µm) copper, 0.8 mm trace ≈ ~1 A conservative ⚠️ — adequate for full-white
-  at 30/m, comfortable at cap. **Prefer 2 oz if JLCPCB offers it for FPC ⚠️** (verify;
-  [copper weight guide](https://jlcpcb.com/help/article/jlcpcb-copper-weight)).
+- 1 oz trace capacity (IPC-2221, external) ⚠️: 0.8 mm ≈ ~1.0–1.3 A; 1.2 mm ≈ ~1.8 A
+  (10–20 °C rise).
+- **Worst case per segment is set by the buck, not the wing**: each MP1584EN
+  current-limits at ~2–3 A, so a rail segment only ever sees ~2–3 A even on a fault —
+  but that still exceeds a single 0.8 mm trace.
+- **Plan for ~3 A worst case**: widen VDD/GND to ~1.2 mm **and** run VDD on both
+  layers (top + bottom, via-stitched at each LED) → ~3.5 A combined ⚠️. At the 10 %
+  operating point (0.12 A/m) this is pure safety margin, and it keeps the 2 mm strip
+  width feasible.
 - Power injection: feed VDD/VSS **every segment** (per-feather ~0.3–0.5 m) — segments
   are short, so voltage drop stays negligible; never chain power through feathers.
-- **Fusing**: per-wing fuse on the 5 V bus (e.g. ~5 A, sized above the 25 % cap draw,
-  below any trace/connector limit) so a fault can't dump full-white current through the
-  strip. Firmware cap stays as the second layer of defense.
+- **Fusing**: per-wing fuse on the 5 V bus (e.g. ~8 A — above the 25 % cap draw of
+  ~6 A/wing, below the bus wiring limit); the per-cluster bucks self-limit their own
+  segments. Firmware cap stays as the final layer of defense.
 
 ## Bypass capacitors
 
@@ -55,7 +63,8 @@ is the cross-check.
 
 - Minimum FPC board **width** (2 mm may be below their floor — if so, accept 3 mm).
 - Min trace/space (their rigid PCB floor is ~0.1 mm; FPC similar).
-- Copper options for FPC (1 oz default; 2 oz availability).
+- Copper weight: **max 1 oz (35 µm) on flex — confirmed** ✅; sizing assumes 1 oz
+  (dual-layer parallel VDD where more capacity is needed).
 - Panel size limits and panelization rules for flex
   ([capabilities](https://jlcpcb.com/capabilities/flex-pcb-capabilities),
   [flex panel design guide](https://jlcpcb.com/blog/design-guidelines-flex-pcb-panels)).

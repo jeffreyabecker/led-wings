@@ -37,8 +37,9 @@
 
 - Verify SK9822-EC20 **pinout/pad layout** from the datasheet before layout (QFN-style
   2020 pads) ✅-pending.
-- Verify JLCPCB **FPC capability**: minimum board width (~2 mm?), copper weight options
-  (1 oz default, 2 oz ⚠️), min trace/space, panelization rules
+- Verify JLCPCB **FPC capability**: minimum board width (~2 mm?), copper weight
+  **capped at 1 oz on flex ✅ (no 2 oz)** — sizing uses dual-layer parallel rails,
+  min trace/space, panelization rules
   ([capabilities](https://jlcpcb.com/capabilities/flex-pcb-capabilities),
   [panel design guide](https://jlcpcb.com/blog/design-guidelines-flex-pcb-panels)).
 - Confirm EC20 reel price/MOQ at LCSC for ~830 chips.
