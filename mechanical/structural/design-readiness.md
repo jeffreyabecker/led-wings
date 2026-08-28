@@ -3,9 +3,10 @@
 > Decision tracker for the wing structure. Locked decisions live here; open items below.
 > Legend: ✅ = decided/locked · ⚠️ = estimate to confirm.
 >
-> ⚠️ **Feather sizing authority:** the global scale is **locked at × 1.024** (P4 = 55 cm,
-> envelope 55 cm) — the tables in [`mechanical/templates/`](../templates/) are **current** at
-> that scale. ⚠️ Covert/alula/underwing sizes are still **working estimates** (no published
+> ⚠️ **Feather sizing authority:** the global scale is **locked at × 0.9085** — the primaries
+> mount in anatomical order P1→P10 within the 55 cm envelope (longest ≈ P5/P6 ≈ 49/48 cm, tips
+> peak at 55); the tables in [`mechanical/templates/`](../templates/) are **current** at that
+> scale. ⚠️ Covert/alula/underwing sizes are still **working estimates** (no published
 > data) — validate before locking templates.
 
 ## Locked
@@ -17,7 +18,7 @@
 | Fold / transport | fixed closed; **not** disassemblable |
 | Total weight budget | **battery excluded from structural weight** — externally carried (side pack); worn structure (frame + feathers + electronics) ≈ **~2.1 kg** ⚠️ — the old 5 kg whole-piece cap no longer binds the worn piece |
 | Electronics mounting | backplate carries power-hubs + controller; **battery deferred — side pack if needed** (see [README](README.md#electronics-bay--backplate)) |
-| Physical envelope | 50 cm wide × **~55 cm** tall (⚠️ P4 = 55 cm — D1 mid-butt decision; feather sizing not finalized, see note above), folded flat on the back |
+| Physical envelope | 50 cm wide × **~55 cm** tall (⚠️ longest ≈ P5/P6 ≈ 49/48 cm — D1 mid-butt decision; feather sizing not finalized, see note above), folded flat on the back |
 | Width clearance | ✅ **no passage narrower than 50 cm exists** — the 50 cm envelope is the hard limit |
 | Harness | **over-the-shoulder straps + cross-chest (sternum) strap** — no load-bearing waist belt (battery is off-back) |
 | Plate top + fold | plate top ≈ **shoulder line** (3–4 cm below C7, ⚠️ Q5) · **fold rise = 0 cm** (✅ Q4) — nothing above the shoulders |
@@ -46,10 +47,11 @@
 
 - **Width:** 50 cm — shoulder-to-shoulder, measured with a tailor's tape. Hard limit: both wings
   + center back covers must sit inside it.
-- **Height:** **~55 cm**, folded flat on the back — set by the longest primary (**P4 = 55 cm**
-  quill-to-tip, ~41 cm vane @ mockup ratio 0.75), tips landing **mid-butt** (D1 decision,
+- **Height:** **~55 cm**, folded flat on the back — set by the longest primaries (**P5/P6 ≈
+  49/48 cm** quill-to-tip; tips peak at 55 cm at the envelope), mounted in **anatomical order
+  P1→P10**, tips landing **mid-butt** (D1 decision,
   [wing-bones](../../investigations/wing-bones/README.md)) — ≈ 62 cm above the floor for a
-  167 cm wearer (13 cm above the knee); nearly real-eagle scale (**× 1.024**, was × 1.40).
+  167 cm wearer (13 cm above the knee); scale **× 0.9085** (was × 1.024 → × 1.40).
 - **Form:** a **folded** wing laid flat on the back (not an extended, outspread wing) — feathers
   point down/back and overlap shingle-style; primaries reach the hem, coverts stack up toward the
   shoulders.
@@ -67,7 +69,7 @@
 | Item | Est. mass | Notes |
 |------|----------:|-------|
 | Frame (cardboard + foam) | ~0.9 kg | both wings, ribs + spars |
-| Feathers / diffusers | ~0.3 kg | ⚠️ scales with P4² — envelope 75→55 cm cut feather area ~46 %; substrate TBD (feather README) |
+| Feathers / diffusers | ~0.25 kg | ⚠️ scales with length² — ×1.40 → ×0.9085 cut feather area ~58 %; substrate TBD (feather README) |
 | LEDs + strips + connectors | ~0.3 kg | ~1400 px, ~88 strip chunks |
 | Power-hubs + controller + wiring | ~0.6 kg | bucks + MCU + cabling |
 | **Total (worn)** | **~2.1 kg** | ⚠️ no battery — see below |

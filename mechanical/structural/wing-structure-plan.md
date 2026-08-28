@@ -9,7 +9,8 @@
 ## 1. Summary
 
 - **Folded wing laid flat on the back** — envelope **50 cm wide × 55 cm tall**; feather tips at
-  **mid-butt** (55 cm below the shoulder line); feather scale **× 1.024** (P4 = 55 cm).
+  **mid-butt** (55 cm below the shoulder line); feather scale **× 0.9085** — the primaries mount
+  in anatomical order P1→P10, longest ≈ P5/P6 (49/48 cm), tips peaking at 55.
 - **Bones are short upper spars** (~13–14 cm) hidden under the coverts; the feathers dominate
   the lower ~40 cm. **No humerus** — the wing root blends into the backplate.
 - **Backplate**: angular shield carrying the electronics bay, wing roots, and strap anchors.
@@ -50,52 +51,54 @@ Tips at y = 55 (mid-butt). Nothing crosses above ~C7 (≈ −4 cm).
 > backplate/root. Spar lengths: forearm **13 cm**, carpal **14 cm**. The x/y back-plane
 > derivation lives in the [wing-bones investigation](../../investigations/wing-bones/README.md).
 
-**Primaries on the carpal spar** (14 cm long; pos 0 = the carpal's distal tip at (±24.8, 13.2)):
+**Primaries on the carpal spar** (14 cm long; pos 0 = the carpal's distal tip at (±24.8, 13.2);
+anatomical order — P1 at the root end "wrist", P10 at the outside tip):
 
-| Feather | Mount pos (cm from outside edge) | L (cm) |
-|---------|---------------------------------:|-------:|
-| P1 | 0.5 | 34 |
-| P10 | 4 | 40 |
-| P9 | 4.5 | 41 |
-| P8 | 7 | 44 |
-| P2 | 9.5 | 47 |
-| P7 | 10.5 | 49 |
-| P3 | 12 | 53 |
-| P4 | 14 | 55 |
-| P5 | 14 | 55 |
-| P6 | 14 | 55 |
+| Feather | Mount pos (cm from outside edge) | L (cm) | Tip y |
+|---------|---------------------------------:|-------:|------:|
+| P10 | 1.4 | 35.4 | 47.3 |
+| P9 | 2.8 | 36.7 | 47.2 |
+| P8 | 4.2 | 39.3 | 48.5 |
+| P7 | 5.6 | 43.1 | 51.0 |
+| P6 | 7.0 | 48.4 | **55.0** |
+| P5 | 8.4 | 49.1 | 54.4 |
+| P4 | 9.8 | 48.8 | 52.7 |
+| P3 | 11.2 | 46.7 | 49.3 |
+| P2 | 12.6 | 42.1 | 43.4 |
+| P1 | 14 | 30.3 | 30.3 |
 
 **Secondaries on the forearm spar** (13 cm long; pos 0 = the spar's lower end at (±20, 13)):
 
-| Feather | Mount pos (cm from outside edge) | L (cm) |
-|---------|---------------------------------:|-------:|
-| S11 | 3.5 | 27 |
-| S10 | 4 | 27 |
-| S9 | 4.5 | 28 |
-| S8 | 5 | 28 |
-| S7 | 5.5 | 29 |
-| S6 | 6 | 31 |
-| S5 | 6.5 | 32 |
-| S4 | 7 | 33 |
-| S3 | 8 | 36 |
-| S2 | 8.5 | 38 |
-| S1 | 9 | 38 |
+| Feather | Mount pos (cm from outside edge) | L (cm) | Tip y |
+|---------|---------------------------------:|-------:|------:|
+| S11 | 3.5 | 23.6 | 33.1 |
+| S10 | 4 | 24.0 | 33.0 |
+| S9 | 4.5 | 24.5 | 33.0 |
+| S8 | 5 | 25.1 | 33.1 |
+| S7 | 5.5 | 25.7 | 33.2 |
+| S6 | 6 | 27.8 | 34.8 |
+| S5 | 6.5 | 28.7 | 35.2 |
+| S4 | 7 | 29.5 | 35.5 |
+| S3 | 8 | 32.1 | 37.1 |
+| S2 | 8.5 | 33.5 | 38.0 |
+| S1 | 9 | 33.6 | 37.6 |
 
-**Tip lines (design check):** primaries — 55.0 (P4–P6) graduating up to 46.7 (P1); secondaries —
-42.5 (S2) → 36.0 (S8/S10). The graduated folded-wing silhouette; tips hang vertical.
+**Tip lines (design check):** primaries — 55.0 (P6) graduating down to 30.3 (P1), deepest at
+the longest feathers mid-carpal; secondaries — 38.0 (S2) → 33.0 (S9/S10), sitting over the
+primaries' root zone. Tips hang vertical.
 
 **Coverts (deep coverage — bones hidden to y ≈ 15–18), mount zones:**
-- GPC1–6: carpal, pos ≈ 12 → 5.5 (tips 19–35)
-- GSC1–10: forearm, pos ≈ 12 → 5 (tips 20–28)
-- MD1–4: forearm, pos ≈ 13 → 9 (tips 11–15)
-- LC1–8: forearm, pos ≈ 13 → 10 (tips 6–10)
-- MG1–12: forearm, pos ≈ 13 → 11 (tips 3–8)
-- Alula A-B/A-T: carpal outer end, pos ≈ 1–2 (near P1)
+- GPC1–6: carpal, pos ≈ 12 → 5.5 (tips ≈ 17–32)
+- GSC1–10: forearm, pos ≈ 12 → 5 (tips ≈ 18–20)
+- MD1–4: forearm, pos ≈ 13 → 9 (tips ≈ 10–13)
+- LC1–8: forearm, pos ≈ 13 → 10 (tips ≈ 6–8)
+- MG1–12: forearm, pos ≈ 13 → 11 (tips ≈ 3–5)
+- Alula A-B/A-T: carpal root end, pos ≈ 12–13 (near P1)
 - Underwing U1–10: mirrored on the spar undersides (same positions as their upperwing equivalents)
 
 **Mounting:** quill wires embed **+4 cm** into the spars (below the "skin line"); extra tip
-splay comes from **bending the quill wires** (not the spar angle). P4/P5/P6 share the root-end
-mount (pos 14) — the root bracket holds three quills (or trim slightly).
+splay comes from **bending the quill wires** (not the spar angle). **No coincident mounts** —
+primaries are spaced ~1.4 cm along the carpal in P1→P10 order.
 
 **Width check:** carpal end x ≈ 24.8, P1 root x ≈ 24.6 — inside the ±25 cm envelope.
 

@@ -58,8 +58,8 @@ geometry + wing-root mounting**, not the battery.
   frame" ([templates README](../../mechanical/templates/README.md)) → **the bone members are the
   mounting substrate the feather quills embed into**, not just decoration.
 - Attachment mapping (bird anatomy, [golden-eagle data](../../mechanical/templates/golden-eagle-feather-data.md)):
-  - **Primaries P1–P10 → carpal (hand) member** — longest = P4 @ **55 cm** (D1 decision) →
-    sets the carpal member's position/run so the primaries reach the 55 cm hem (mid-butt).
+  - **Primaries P1–P10 → carpal (hand) member** — longest ≈ P5/P6 ≈ 49/48 cm (scale ×0.9085) →
+    sets the carpal member's run so the primaries' tips reach the 55 cm hem (mid-butt).
   - **Secondaries S1–S11 → ulna / forearm member** — the row above the primaries.
   - **Coverts (GPC/GSC/MD/LC/MG) + alula → upper-arm/backplate shoulder zone**, stacking
     shingle-style over the remex bases toward the shoulders.
@@ -86,18 +86,21 @@ per wing (mirrored left/right):
        │         ╲ carpal   · radius/ulna straight down (θ1 = 0°), ~13 cm
        │          ╲         · carpal fans outward (θ2 = 20°), ~14 cm
        │           ╲
-    (S1–S11 on    (P1–P10 on the carpal; longest at the top)
+    (S1–S11 on    (P1–P10 on the carpal, anatomical order P1→P10)
      the forearm)
        │            ╲
        ▼             ▼
-   tips y≈36–43    tips y≈47–55 (mid-butt)
+   tips y≈33–38    tips y≈30–55 (mid-butt)
    (secondaries)   (primaries)
 ```
 
-**Key finding — the bones are short upper spars:** the envelope (55 cm) with P4 = 55 cm forces
-the **longest primaries to attach at the very top** (root y = tip − length = 0), so the members
-are ~13–14 cm spars near the fold, hidden under the coverts; the feathers dominate the lower
-~40 cm of the wing. The earlier serial-chain sketch (carpal at the bottom) is superseded.
+**Key finding — bones are short upper spars; the scale is set by anatomical order:** the
+55 cm envelope with the primaries mounted **P1→P10** (P1 at the wrist/root end, P10 at the
+carpal tip) forces the **scale down to × 0.9085** — the longest primaries (P5/P6, mid-carpal)
+can't exceed 55 − root_y, so P6 ≈ 48.4 cm with its tip exactly at 55. The members are ~13–14 cm
+spars near the fold, hidden under the coverts; the feathers dominate the lower ~40 cm. (The
+earlier ×1.024 scale forced the longest primaries to share the top mount and scrambled the
+order — superseded.)
 
 ### Members (per wing)
 
@@ -108,43 +111,44 @@ are ~13–14 cm spars near the fold, hidden under the coverts; the feathers domi
 
 ### Feather roots + tips (working ⚠️ — right wing; y from the shoulder line)
 
-**Primaries** along the carpal (s = arc length from the root; y ≈ 0.94·s, x ≈ 20 + 0.34·s):
+**Primaries** along the carpal (s = arc length from the root; y ≈ 0.94·s, x ≈ 20 + 0.34·s;
+anatomical order — P1 at the root "wrist", P10 at the carpal tip):
 
 | Feather | s (cm) | Root y | Root x | L (cm) | Tip y |
 |---------|-------:|-------:|-------:|-------:|------:|
-| P4 | 0 | 0 | 20.0 | 55 | **55.0** |
-| P5 | 0 | 0 | 20.0 | 55 | **55.0** |
-| P6 | 0 | 0 | 20.0 | 55 | **55.0** |
-| P3 | 2 | 1.9 | 20.7 | 53 | 54.9 |
-| P7 | 3.5 | 3.3 | 21.2 | 49 | 52.3 |
-| P2 | 4.5 | 4.2 | 21.5 | 47 | 51.2 |
-| P8 | 7 | 6.6 | 22.4 | 44 | 50.6 |
-| P9 | 9.5 | 8.9 | 23.2 | 41 | 49.9 |
-| P10 | 10 | 9.4 | 23.4 | 40 | 49.4 |
-| P1 | 13.5 | 12.7 | 24.6 | 34 | 46.7 |
+| P1 | 0 | 0.0 | 20.0 | 30.3 | 30.3 |
+| P2 | 1.4 | 1.3 | 20.5 | 42.1 | 43.4 |
+| P3 | 2.8 | 2.6 | 21.0 | 46.7 | 49.3 |
+| P4 | 4.2 | 3.9 | 21.4 | 48.8 | 52.7 |
+| P5 | 5.6 | 5.3 | 21.9 | 49.1 | 54.4 |
+| P6 | 7.0 | 6.6 | 22.4 | 48.4 | **55.0** |
+| P7 | 8.4 | 7.9 | 22.9 | 43.1 | 51.0 |
+| P8 | 9.8 | 9.2 | 23.4 | 39.3 | 48.5 |
+| P9 | 11.2 | 10.5 | 23.8 | 36.7 | 47.2 |
+| P10 | 12.6 | 11.8 | 24.3 | 35.4 | 47.2 |
 
 **Secondaries** on the forearm spar (x = ±20):
 
 | Feather | Root y | L (cm) | Tip y |
 |---------|-------:|-------:|------:|
-| S1 | 4.0 | 38 | 42.0 |
-| S2 | 4.5 | 38 | 42.5 |
-| S3 | 5.0 | 36 | 41.0 |
-| S4 | 6.0 | 33 | 39.0 |
-| S5 | 6.5 | 32 | 38.5 |
-| S6 | 7.0 | 31 | 38.0 |
-| S7 | 7.5 | 29 | 36.5 |
-| S8 | 8.0 | 28 | 36.0 |
-| S9 | 8.5 | 28 | 36.5 |
-| S10 | 9.0 | 27 | 36.0 |
-| S11 | 9.5 | 27 | 36.5 |
+| S1 | 4.0 | 33.6 | 37.6 |
+| S2 | 4.5 | 33.5 | 38.0 |
+| S3 | 5.0 | 32.1 | 37.1 |
+| S4 | 6.0 | 29.5 | 35.5 |
+| S5 | 6.5 | 28.7 | 35.2 |
+| S6 | 7.0 | 27.8 | 34.8 |
+| S7 | 7.5 | 25.7 | 33.2 |
+| S8 | 8.0 | 25.1 | 33.1 |
+| S9 | 8.5 | 24.5 | 33.0 |
+| S10 | 9.0 | 24.0 | 33.0 |
+| S11 | 9.5 | 23.6 | 33.1 |
 
-**Coverts (deep coverage — bones hidden to y ≈ 15–18):** GPC1–6 roots y≈2–8 (tips 19–35) ·
-GSC1–10 roots y≈1–8 (tips 20–28) · MD1–4 y≈0–4 (tips 11–15) · LC1–8 y≈0–3 (tips 6–10) ·
-MG1–12 y≈0–2 (tips 3–8) · alula A-B/A-T at the outer top (near P1, y≈11–13, x≈24–25) ·
+**Coverts (deep coverage — bones hidden to y ≈ 15–18):** GPC1–6 roots y≈2–8 (tips ≈ 17–32) ·
+GSC1–10 roots y≈1–8 (tips ≈ 18–20) · MD1–4 y≈0–4 (tips ≈ 10–13) · LC1–8 y≈0–3 (tips ≈ 6–8) ·
+MG1–12 y≈0–2 (tips ≈ 3–5) · alula A-B/A-T at the carpal root end (near P1, pos ≈ 12–13) ·
 underwing U1–10 mirrored on the spar undersides.
 
-**Width check:** carpal end x ≈ 24.8, P1 root x ≈ 24.6 — inside the ±25 cm envelope; tips hang
+**Width check:** carpal end x ≈ 24.8, P10 root x ≈ 24.3 — inside the ±25 cm envelope; tips hang
 vertical (same x as their roots). Any extra tip splay beyond the 20° fan comes from **bending
 the quill wires** at build (build detail, not spar angle).
 
