@@ -186,3 +186,8 @@ the group's feathers):
 | Marginal coverts | MG1–MG12 |
 | Alula | A-B, A-T |
 | Underwing Coverts | U1-U10|
+
+
+## Source Images
+our source template images are at 7px/cm. the largest primary measures 
+375px tall and is 54cm according to feather atlas
