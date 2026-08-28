@@ -92,21 +92,69 @@ Draft member lengths (⚠️ to refine once feather attachment rows are fixed): 
 ~15–20 cm if included; radius/ulna + carpal together span the folded-wing height below the
 elbow such that the primaries reach the ~75 cm hem.
 
-## Wearer measurement checklist (draft protocol 🧍)
+## Wearer measurement checklist 🧍
 
-Body-specific dimensions — the wearer measures these with a tailor's tape; research below
-gives typical defaults to sanity-check against.
+> Fit is to a **specific person** — fill these in with a tailor's tape (a helper makes the
+> back measurements easier). Stand relaxed, arms at sides, breathing normally. Mark landmarks
+> with a washable pen; measure twice. These are the body-specific inputs to Q1–Q8; the
+> research below supplies typical adult defaults to sanity-check against.
 
-| Measurement | Why | How |
-|-------------|-----|-----|
-| Shoulder-to-shoulder (over back) | hard width limit (Q1) | tailor's tape across the upper back, arms down |
-| Biacromial breadth | sanity-check the 50 cm | straight distance between the acromion points (palpate the bony shoulder tips) |
-| C7 → inferior scapula angle | backplate min/max height (Q3) | find C7 (most prominent bump at neck base when head is flexed forward); tape to the bottom point of the shoulder blade |
-| C7 → natural waist | backplate lower bound (Q3) | tape down the spine to the narrowest waist point |
-| C7 → iliac crest | absolute lower bound (Q3) | tape down the spine to the top of the hip bone |
-| Neck base → top of trapezius | Q5 offset | vertical drop from the neck base line to where the back "starts" |
-| Wing rise above shoulder (visual) | Q4 | stand against a wall, mark acromion height; decide max visible rise above it |
-| Acromion → spine centerline (X-offset) | wing-root position | tape horizontally from each acromion to the spine at shoulder level |
+### A — Width envelope (Q1)
+
+| # | Measurement | Why | How | Recorded (cm) |
+|---|-------------|-----|-----|---------------|
+| A1 | Shoulder-to-shoulder, over the back | hard width limit — currently **50 cm**, re-confirm | tailor's tape across the upper back at its widest, arms down | |
+| A2 | Biacromial breadth | sanity-check 50 cm vs straight bone width | straight distance between the two acromion points (palpate the bony shoulder tips) | |
+
+### B — Vertical placement / backplate height (Q3, Q5)
+
+| # | Measurement | Why | How | Recorded (cm) |
+|---|-------------|-----|-----|---------------|
+| B1 | C7 → inferior angle of scapula | the backplate must span this for wing-root mounting | C7 = most prominent spinous process at the neck base (flex head forward to find it); tape down the spine to the bottom tip of the shoulder blade | |
+| B2 | C7 → natural waist | backplate lower bound | tape down the spine to the narrowest waist point (bend sideways to find the crease) | |
+| B3 | C7 → iliac crest | absolute lower bound — don't go past this | tape down the spine to the top of the hip bone | |
+| B4 | C7 (neck base) → acromion line, vertical drop | the shoulder-rise region (top of trapezius); sets the Q5 offset and plate-top line | from the neck-base mark straight down to the shoulder-top (acromion) plane | |
+
+### C — Shoulder / wing-root (Q4, Q6)
+
+| # | Measurement | Why | How | Recorded (cm) |
+|---|-------------|-----|-----|---------------|
+| C1 | Acromion → spine centerline (left + right) | wing-root X-offset from the spine | horizontal tape from each acromion point to the spine at the same height | |
+| C2 | Acromion height above floor | shoulder-line reference for "fold rise" (Q4) | stand against a wall; mark + measure | |
+| C3 | Neck-base circumference | clearance for anything rising above the shoulders (Q4) | tape around the neck base, just below C7 | |
+
+### D — Wing-tip target (envelope height)
+
+| # | Measurement | Why | How | Recorded (cm) |
+|---|-------------|-----|-----|---------------|
+| D1 | Shoulder line → desired wing-tip line, down the back | confirms the ~75 cm folded-wing envelope against the real body | tape from the acromion line straight down the back to where the wing tips should end (e.g., mid-butt / hem) | |
+
+### E — Backplate width profile (Q2 shape, Q3)
+
+| # | Measurement | Why | How | Recorded (cm) |
+|---|-------------|-----|-----|---------------|
+| E1 | Back width at the shoulder line | plate top edge width (angular-shield top) | across the back at the acromion line | |
+| E2 | Back width at mid-scapula | bay-level plate width (widest point) | across the back at the widest scapula point | |
+| E3 | Back width at the natural waist | plate bottom edge width | across the back at the waist line | |
+
+### F — Harness anchors
+
+> **Configuration (decided ✅): over-the-shoulder straps with a strap across the chest**
+> (cross-chest / sternum strap). With the battery off-back, the backplate needs no
+> load-bearing waist belt — F2/F3 are optional (only if a waist belt or side-pack belt is
+> used later).
+
+| # | Measurement | Why | How | Recorded (cm) |
+|---|-------------|-----|-----|---------------|
+| F1 | Chest circumference | sizing the cross-chest strap | around the chest at its widest, under the arms | |
+| F2 | Waist circumference | optional — waist belt / side-pack belt later | around the natural waist | |
+| F3 | Hip circumference (iliac crest) | optional — same | around the hips at the iliac crest | |
+
+### G — Context
+
+| # | Measurement | Why | How | Recorded (cm) |
+|---|-------------|-----|-----|---------------|
+| G1 | Standing height | overall scaling context | barefoot against a wall | **167** |
 
 ## Pipe-foam alternatives — anchoring + color (new track)
 
