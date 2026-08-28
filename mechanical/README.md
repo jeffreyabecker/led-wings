@@ -6,7 +6,7 @@ from `boards/` (electrical build), `templates/` (physical feather templating), a
 
 | Area | Status | Scope |
 |------|--------|-------|
-| [Structural](structural/) | ideation | Wing frame/skeleton — spars, ribs, mounts, harness routing, body attachment |
+| [Structural](structural/) | design | Wing frame/skeleton — spars, ribs, mounts, harness routing, body attachment · [build plan](structural/wing-structure-plan.md) |
 
 ## Conventions
 

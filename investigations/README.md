@@ -9,7 +9,7 @@ decision context) plus one or more analysis notes.
 | [Battery](battery/) | investigation | Which 12 V battery (chemistry + size) powers 8 h @ 20 % for mobility? |
 | [Diffuser halo](diffuser-halo/) | investigation | How to make a thin, directional, resin-free diffuser bent into a halo ring? |
 | [Side-facing LED placement](side-facing-led-placement/) | investigation | Where do edge-lit strips sit (distance/angle/density) for ≤ 7 mm feathers with an opaque foam top? |
-| [Wing bones](wing-bones/) | investigation | Bone-structure layout + backplate: angles, heights, humerus, harness geometry |
+| [Wing bones](wing-bones/) | target | Bone-structure layout + backplate → build plan: [mechanical/structural/wing-structure-plan.md](../mechanical/structural/wing-structure-plan.md) |
 
 ## Conventions
 

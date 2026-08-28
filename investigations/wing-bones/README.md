@@ -6,13 +6,18 @@
 > [`mechanical/structural/`](../../mechanical/structural/README.md); locking decisions happens
 > in [design-readiness.md](../../mechanical/structural/design-readiness.md).
 >
+> **→ Matured:** the concrete build plan lives in
+> [`mechanical/structural/wing-structure-plan.md`](../../mechanical/structural/wing-structure-plan.md).
+> This investigation keeps the reasoning, measurements, and sources.
+>
 > Legend: ✅ = decided/confirmed · ⚠️ = estimate to confirm · 🧍 = needs wearer measurement.
 
 ## Status
 
-`investigation` — structure decisions locked (Option C, no humerus, envelope 55 cm); wearer
-measurements filled from size-L standards (⚠️); remaining research tracks (angles refinement,
-Q4/Q5, pipe-foam, bay/straps) pending.
+`investigation → plan delivered` — structure decisions locked (Option C, no humerus, envelope
+55 cm, θ1 = 0° / θ2 = 20°, feather-root layout computed); wearer measurements filled from
+size-L standards (⚠️). Remaining: pipe-foam alternatives + frame/build details (see the plan
+§8).
 
 ## Questions & initial positions
 

@@ -3,10 +3,10 @@
 > Decision tracker for the wing structure. Locked decisions live here; open items below.
 > Legend: ✅ = decided/locked · ⚠️ = estimate to confirm.
 >
-> ⚠️ **Feather sizing authority:** every feather size below (envelope height/vane, widths,
-> stagger) is a **provisional placeholder**. The authoritative sizing lives in
-> [`mechanical/templates/`](../templates/) and **has not yet
-> been finalized** — re-check these values once feather sizing is locked.
+> ⚠️ **Feather sizing authority:** the global scale is **locked at × 1.024** (P4 = 55 cm,
+> envelope 55 cm) — the tables in [`mechanical/templates/`](../templates/) are **current** at
+> that scale. ⚠️ Covert/alula/underwing sizes are still **working estimates** (no published
+> data) — validate before locking templates.
 
 ## Locked
 
@@ -19,6 +19,8 @@
 | Electronics mounting | backplate carries power-hubs + controller; **battery deferred — side pack if needed** (see [README](README.md#electronics-bay--backplate)) |
 | Physical envelope | 50 cm wide × **~55 cm** tall (⚠️ P4 = 55 cm — D1 mid-butt decision; feather sizing not finalized, see note above), folded flat on the back |
 | Width clearance | ✅ **no passage narrower than 50 cm exists** — the 50 cm envelope is the hard limit |
+| Harness | **over-the-shoulder straps + cross-chest (sternum) strap** — no load-bearing waist belt (battery is off-back) |
+| Plate top + fold | plate top ≈ **shoulder line** (3–4 cm below C7, ⚠️ Q5) · **fold rise = 0 cm** (✅ Q4) — nothing above the shoulders |
 
 ## Constraints (why)
 
@@ -94,4 +96,5 @@
 - [ ] Bay sealing vs access: dust/sweat protection against a hinge/latch/magnet lid.
 - [ ] Does the back-coverts lid carry any electronics, or is it purely a cover?
 - [ ] Feather width: **keep per-feather vane ratios**, adjusted globally by the generator's
-  `--vane-ratio-adjustment` (no hand-editing) — see [mechanical/templates/](../templates/).
+  `--vane-ratio-adjustment` (no hand-editing) — target vane ratio **~0.80–0.82** (real eagle;
+  the mockup's 0.75 ran low) — see [mechanical/templates/](../templates/).

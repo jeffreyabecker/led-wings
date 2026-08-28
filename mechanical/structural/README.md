@@ -2,7 +2,9 @@
 
 Physical wing structure — the frame the strip chunks and power-hubs attach to.
 
-> Locked decisions — frame material, transport, weight budget — are tracked in
+> **Build plan:** [wing-structure-plan.md](wing-structure-plan.md) — the concrete,
+> buildable wing structure (bones + backplate + feather mounting). Locked decisions —
+> frame material, transport, weight budget — are tracked in
 > [design-readiness.md](design-readiness.md).
 
 ## Scope
@@ -35,8 +37,9 @@ back coverts ([BC1–BC8](../templates/)) form a removable feathered lid over th
 - **Bone-structure layout + backplate geometry** — being investigated in
   [`investigations/wing-bones/`](../../investigations/wing-bones/README.md):
   - Member chain: **no humerus — wing root blends into the backplate** (decided ✅); straight
-    radius/ulna + fanned carpal (Option C); θ1 ≈ 0–5° vs spine, θ2 ≈ 20–25° vs radius (⚠️
-    angles to refine).
+    radius/ulna + fanned carpal (Option C); θ1 = 0° vs spine, θ2 = 20° (15–25° range) — short
+    upper spars (~13–14 cm), feathers dominate the lower wing (⚠️ layout working, see
+    wing-bones).
   - Backplate shape (angular-shield?), overall height, top-edge offset below the trapezius,
     wing-fold rise above the shoulders, allowable total width (50 cm — locked).
 - Width clearance: ✅ resolved — no passage narrower than the 50 cm wings exists (see design-readiness).
