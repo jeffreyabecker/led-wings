@@ -47,7 +47,7 @@
 - **Height:** **~55 cm**, folded flat on the back — set by the longest primary (**P4 = 55 cm**
   quill-to-tip, ~41 cm vane @ mockup ratio 0.75), tips landing **mid-butt** (D1 decision,
   [wing-bones](../../investigations/wing-bones/README.md)) — ≈ 62 cm above the floor for a
-  167 cm wearer (13 cm above the knee); nearly real-eagle scale (**× 1.02**, was × 1.40).
+  167 cm wearer (13 cm above the knee); nearly real-eagle scale (**× 1.024**, was × 1.40).
 - **Form:** a **folded** wing laid flat on the back (not an extended, outspread wing) — feathers
   point down/back and overlap shingle-style; primaries reach the hem, coverts stack up toward the
   shoulders.

@@ -1,9 +1,7 @@
 # Feather Design — Physical Templating
 
-> ⚠️ **Envelope decision (2026-08):** the wing tips now land at **mid-butt — P4 = 55 cm**
-> (D1, [wing-bones investigation](../../investigations/wing-bones/README.md)) → global scale
-> **× 1.02** (55 ÷ 53.7), **not × 1.40**. The tables below are still × 1.40 and **stale** —
-> rescale every row by `55 ÷ 53.7` before cutting any wire.
+> **Scale (2026-08, current):** wing tips at mid-butt → P4 = **55 cm** → **× 1.024** (55 ÷ 53.7)
+> applied to all real totals — the tables below are **current at × 1.024** (were × 1.40).
 >
 > **Rule: physical templating only.** This folder carries the *mechanical* feather geometry —
 > outlines, arrangement, and the generator that draws them. **No electronics/lighting content
@@ -25,9 +23,11 @@
 Wire length per feather for the costume quills (the wire backbone running the full feather,
 base of calamus → tip).
 
-> **Scale:** current P4 = **55 cm** (D1 mid-butt decision, 2026-08 — see banner above) ÷ real
-> adult-♂ P4 53.7 cm (Feather Atlas) = **× 1.02** — the × 1.40 rows below are **stale**. If the
-> design envelope changes, rescale every row by `new_P4 ÷ 53.7`.
+> **Scale:** costume P4 = **55 cm** quill-to-tip (design-readiness) ÷ real adult-♂ P4 53.7 cm
+> (Feather Atlas) = **× 1.024** applied to all real totals (was × 1.40). Measured groups
+> (primaries, secondaries) are rescaled from the real totals; estimate groups from their
+> documented basis (alula, GPC, GSC, MD) or rescaled by 55/75 from the previous graduated
+> values (LC, MG, U). If the design envelope changes, rescale every row by `new_P4 ÷ 53.7`.
 >
 > **Wire cut = costume total + 4 cm mount tail** (adjust the +4 to your mount;
 > recompute = total + tail).
@@ -40,139 +40,139 @@ base of calamus → tip).
 
 ### Primaries — P1–P10 ✅ measured
 
-| Feather | Real total (cm) | Costume total @1.40× (cm) | Wire cut = +4 cm (cm) |
-|---------|----------------:|--------------------------:|----------------------:|
-| P1 | 33.4 | 47 | 51 |
-| P2 | 46.3 | 65 | 69 |
-| P3 | 51.4 | 72 | 76 |
-| P4 | 53.7 | **75** | 79 |
-| P5 | 54.0 | 76 | 80 |
-| P6 | 53.3 | 75 | 79 |
-| P7 | 47.4 | 66 | 70 |
-| P8 | 43.3 | 61 | 65 |
-| P9 | 40.4 | 57 | 61 |
-| P10 | 39.0 | 55 | 59 |
+| Feather | Real total (cm) | Costume total @1.024× (cm) | Wire cut = +4 cm (cm) |
+|---------|----------------:|---------------------------:|----------------------:|
+| P1 | 33.4 | 34 | 38 |
+| P2 | 46.3 | 47 | 51 |
+| P3 | 51.4 | 53 | 57 |
+| P4 | 53.7 | **55** | 59 |
+| P5 | 54.0 | 55 | 59 |
+| P6 | 53.3 | 55 | 59 |
+| P7 | 47.4 | 49 | 53 |
+| P8 | 43.3 | 44 | 48 |
+| P9 | 40.4 | 41 | 45 |
+| P10 | 39.0 | 40 | 44 |
 
 ### Secondaries — S1–S11 ✅ measured (S9–S11 trend-extrapolated ⚠️)
 
-| Feather | Real total (cm) | Costume total @1.40× (cm) | Wire cut = +4 cm (cm) |
-|---------|----------------:|--------------------------:|----------------------:|
-| S1 | 37.0 | 52 | 56 |
-| S2 | 36.9 | 52 | 56 |
-| S3 | 35.3 | 49 | 53 |
-| S4 | 32.5 | 46 | 50 |
-| S5 | 31.6 | 44 | 48 |
-| S6 | 30.6 | 43 | 47 |
-| S7 | 28.3 | 40 | 44 |
-| S8 | 27.6 | 39 | 43 |
-| S9 | 27.0 ⚠️ | 38 | 42 |
-| S10 | 26.4 ⚠️ | 37 | 41 |
-| S11 | 26.0 ⚠️ | 36 | 40 |
+| Feather | Real total (cm) | Costume total @1.024× (cm) | Wire cut = +4 cm (cm) |
+|---------|----------------:|---------------------------:|----------------------:|
+| S1 | 37.0 | 38 | 42 |
+| S2 | 36.9 | 38 | 42 |
+| S3 | 35.3 | 36 | 40 |
+| S4 | 32.5 | 33 | 37 |
+| S5 | 31.6 | 32 | 36 |
+| S6 | 30.6 | 31 | 35 |
+| S7 | 28.3 | 29 | 33 |
+| S8 | 27.6 | 28 | 32 |
+| S9 | 27.0 ⚠️ | 28 | 32 |
+| S10 | 26.4 ⚠️ | 27 | 31 |
+| S11 | 26.0 ⚠️ | 27 | 31 |
 
 ### Alula ⚠️ estimate
 
 | Feather | Basis | Costume total (cm) | Wire cut = +4 cm (cm) |
 |---------|-------|-------------------:|----------------------:|
-| A-B (longer) | ≈ 0.30 × P1 total | 14 | 18 |
-| A-T (shorter) | ≈ 0.22 × P1 total | 10 | 14 |
+| A-B (longer) | ≈ 0.30 × P1 total | 10 | 14 |
+| A-T (shorter) | ≈ 0.22 × P1 total | 8 | 12 |
 
 ### Greater primary coverts — GPC1–GPC6 ⚠️ estimate (≈ 0.5 × primary covered)
 
 | Feather | Over primary | Costume total (cm) | Wire cut = +4 cm (cm) |
 |---------|-------------:|-------------------:|----------------------:|
-| GPC1 | P1 | 23 | 27 |
-| GPC2 | P2 | 32 | 36 |
-| GPC3 | P3 | 36 | 40 |
-| GPC4 | P4 | 38 | 42 |
-| GPC5 | P5 | 38 | 42 |
-| GPC6 | P6 | 37 | 41 |
+| GPC1 | P1 | 17 | 21 |
+| GPC2 | P2 | 24 | 28 |
+| GPC3 | P3 | 26 | 30 |
+| GPC4 | P4 | 28 | 32 |
+| GPC5 | P5 | 28 | 32 |
+| GPC6 | P6 | 27 | 31 |
 
 ### Greater secondary coverts — GSC1–GSC10 ⚠️ estimate (≈ 0.5 × secondary covered)
 
 | Feather | Over secondary | Costume total (cm) | Wire cut = +4 cm (cm) |
 |---------|---------------:|-------------------:|----------------------:|
-| GSC1 | S1 | 26 | 30 |
-| GSC2 | S2 | 26 | 30 |
-| GSC3 | S3 | 25 | 29 |
-| GSC4 | S4 | 23 | 27 |
-| GSC5 | S5 | 22 | 26 |
-| GSC6 | S6 | 21 | 25 |
-| GSC7 | S7 | 20 | 24 |
-| GSC8 | S8 | 19 | 23 |
-| GSC9 | S9 | 19 | 23 |
-| GSC10 | S10 | 18 | 22 |
+| GSC1 | S1 | 19 | 23 |
+| GSC2 | S2 | 19 | 23 |
+| GSC3 | S3 | 18 | 22 |
+| GSC4 | S4 | 17 | 21 |
+| GSC5 | S5 | 16 | 20 |
+| GSC6 | S6 | 16 | 20 |
+| GSC7 | S7 | 14 | 18 |
+| GSC8 | S8 | 14 | 18 |
+| GSC9 | S9 | 14 | 18 |
+| GSC10 | S10 | 14 | 18 |
 
 ### Median secondary coverts — MD1–MD4 ⚠️ estimate (≈ 0.6 × GSC)
 
 | Feather | Costume total (cm) | Wire cut = +4 cm (cm) |
 |---------|-------------------:|----------------------:|
-| MD1 | 16 | 20 |
-| MD2 | 16 | 20 |
-| MD3 | 15 | 19 |
-| MD4 | 14 | 18 |
+| MD1 | 11 | 15 |
+| MD2 | 11 | 15 |
+| MD3 | 11 | 15 |
+| MD4 | 10 | 14 |
 
 ### Lesser secondary coverts — LC1–LC8 ⚠️ estimate (≈ 0.55 × median)
 
 | Feather | Costume total (cm) | Wire cut = +4 cm (cm) |
 |---------|-------------------:|----------------------:|
-| LC1 | 10 | 14 |
-| LC2 | 10 | 14 |
-| LC3 | 9 | 13 |
-| LC4 | 9 | 13 |
-| LC5 | 9 | 13 |
-| LC6 | 8 | 12 |
-| LC7 | 8 | 12 |
-| LC8 | 8 | 12 |
+| LC1 | 7 | 11 |
+| LC2 | 7 | 11 |
+| LC3 | 7 | 11 |
+| LC4 | 7 | 11 |
+| LC5 | 7 | 11 |
+| LC6 | 6 | 10 |
+| LC7 | 6 | 10 |
+| LC8 | 6 | 10 |
 
 ### Marginal coverts — MG1–MG12 ⚠️ estimate (smallest row, graduating)
 
 | Feather | Costume total (cm) | Wire cut = +4 cm (cm) |
 |---------|-------------------:|----------------------:|
-| MG1 | 8 | 12 |
-| MG2 | 8 | 12 |
-| MG3 | 7 | 11 |
-| MG4 | 7 | 11 |
-| MG5 | 6 | 10 |
-| MG6 | 6 | 10 |
-| MG7 | 6 | 10 |
-| MG8 | 5 | 9 |
-| MG9 | 5 | 9 |
-| MG10 | 5 | 9 |
-| MG11 | 4 | 8 |
-| MG12 | 4 | 8 |
+| MG1 | 6 | 10 |
+| MG2 | 6 | 10 |
+| MG3 | 5 | 9 |
+| MG4 | 5 | 9 |
+| MG5 | 4 | 8 |
+| MG6 | 4 | 8 |
+| MG7 | 4 | 8 |
+| MG8 | 4 | 8 |
+| MG9 | 4 | 8 |
+| MG10 | 4 | 8 |
+| MG11 | 3 | 7 |
+| MG12 | 3 | 7 |
 
 ### Underwing coverts — U1–U10 ⚠️ estimate (≈ 0.85 × upperwing equivalents)
 
 | Feather | Costume total (cm) | Wire cut = +4 cm (cm) |
 |---------|-------------------:|----------------------:|
-| U1 | 25 | 29 |
-| U2 | 24 | 28 |
-| U3 | 23 | 27 |
-| U4 | 22 | 26 |
-| U5 | 21 | 25 |
-| U6 | 20 | 24 |
-| U7 | 19 | 23 |
-| U8 | 18 | 22 |
-| U9 | 18 | 22 |
-| U10 | 17 | 21 |
+| U1 | 18 | 22 |
+| U2 | 18 | 22 |
+| U3 | 17 | 21 |
+| U4 | 16 | 20 |
+| U5 | 15 | 19 |
+| U6 | 15 | 19 |
+| U7 | 14 | 18 |
+| U8 | 13 | 17 |
+| U9 | 13 | 17 |
+| U10 | 12 | 16 |
 
 ### Per-wing wire budget
 
 | Group | Count | Wire sum (total, cm) | Wire sum (+4 cm tail, cm) |
 |-------|------:|---------------------:|--------------------------:|
-| Primaries P1–P10 | 10 | 649 | 689 |
-| Secondaries S1–S11 | 11 | 476 | 520 |
-| Alula A-B, A-T | 2 | 24 | 32 |
-| GPC1–GPC6 | 6 | 204 | 228 |
-| GSC1–GSC10 | 10 | 219 | 259 |
-| MD1–MD4 | 4 | 61 | 77 |
-| LC1–LC8 | 8 | 71 | 103 |
-| MG1–MG12 | 12 | 71 | 119 |
-| U1–U10 | 10 | 207 | 247 |
-| **One wing** | **73 feathers** | **~19.8 m** | **~22.7 m** |
+| Primaries P1–P10 | 10 | 473 | 513 |
+| Secondaries S1–S11 | 11 | 347 | 391 |
+| Alula A-B, A-T | 2 | 18 | 26 |
+| GPC1–GPC6 | 6 | 150 | 174 |
+| GSC1–GSC10 | 10 | 161 | 201 |
+| MD1–MD4 | 4 | 43 | 59 |
+| LC1–LC8 | 8 | 53 | 85 |
+| MG1–MG12 | 12 | 52 | 100 |
+| U1–U10 | 10 | 151 | 191 |
+| **One wing** | **73 feathers** | **~14.5 m** | **~17.4 m** |
 
 > **Cut plan:** measured groups (primaries + secondaries) = 21 feathers, safe to cut in bulk
-> (~12.1 m). Estimated groups = 52 feathers (~10.6 m) — cut one per type (GPC, GSC, MD, LC, MG,
+> (~9.0 m). Estimated groups = 52 feathers (~8.4 m) — cut one per type (GPC, GSC, MD, LC, MG,
 > U, alula) first and validate against the frame/mockup before committing the rest.
 
 ## Regions needed
