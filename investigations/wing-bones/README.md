@@ -1,17 +1,18 @@
 # Wing Bones — Bone Structure Investigation
 
-> Scope: the **"bone" structure** of the folded wing — the member layout (humerus?,
-> radius/ulna, fused carpal), the backplate that carries the harness + electronics, and the
+> Scope: the **"bone" structure** of the folded wing — the member layout (no humerus —
+> radius/ulna + fused carpal), the backplate that carries the harness + electronics, and the
 > body-anatomy constraints that bound it all. This feeds the frame design in
 > [`mechanical/structural/`](../../mechanical/structural/README.md); locking decisions happens
 > in [design-readiness.md](../../mechanical/structural/design-readiness.md).
 >
-> Legend: ✅ = sourced/confirmed · ⚠️ = estimate to confirm · 🧍 = needs wearer measurement.
+> Legend: ✅ = decided/confirmed · ⚠️ = estimate to confirm · 🧍 = needs wearer measurement.
 
 ## Status
 
-`investigation` — research in progress; initial values below are **recommendations pending
-wearer measurements** (body-specific dimensions).
+`investigation` — structure decisions locked (Option C, no humerus, envelope 55 cm); wearer
+measurements filled from size-L standards (⚠️); remaining research tracks (angles refinement,
+Q4/Q5, pipe-foam, bay/straps) pending.
 
 ## Questions & initial positions
 
@@ -19,12 +20,12 @@ wearer measurements** (body-specific dimensions).
 |---|----------|------------------|-----------|----------------|
 | 1 | Allowable total width of the wing structure | **50 cm** (hard limit) | ✅ | Tailor's-tape shoulder-to-shoulder, locked in design-readiness |
 | 2 | Backplate shape (where harness straps attach) | angular-shield | ⚠️ | Initial guess — to validate |
-| 3 | Overall backplate height | TBD | 🧍 | Depends on wearer back length (C7 → waist) + bay footprint |
+| 3 | Overall backplate height | bounded **21–42 cm** (B1–B3); final TBD | 🧍 | Wearer back length + bay footprint |
 | 4 | Wing-fold rise above the shoulders | TBD | 🧍 | Neck/head clearance |
 | 5 | Backplate top offset below trapezius top | TBD | 🧍 | Neck clearance at C7 |
-| 6 | Humerus: build it, or blend into the backplate? | TBD | ⚠️ | Bird anatomy + cosplay convention |
-| 7 | Radius/ulna angle vs the spine | TBD | ⚠️ | Folded-wing anatomy |
-| 8 | Fused carpal angle vs the radius member | TBD | ⚠️ | Folded-wing anatomy |
+| 6 | Humerus: build it, or blend into the backplate? | **Skip the humerus — wing root blends into the backplate** (Option C) | ✅ | User decision |
+| 7 | Radius/ulna angle vs the spine | **≈ 0–5° splay** (Option C straight members) | ⚠️ | Working value — refine via anatomy research |
+| 8 | Fused carpal angle vs the radius member | **≈ 20–25° fan** (Option C fanned carpal) | ⚠️ | Working value — refine via anatomy research |
 | 9 | **Pipe-foam alternatives** — other anchoring/padding strategies available in **multiple colors** | TBD | ⚠️ | New track — see below |
 
 ## Design inputs from the build plan (local, ✅)
@@ -60,38 +61,37 @@ geometry + wing-root mounting**, not the battery.
 - Implication: the members' geometry **is** the feather-layout geometry — the "bones" must land
   where each feather row attaches, and the 4 cm tails dictate minimum member thickness/layup.
 
-## Geometry draft ⚠️ pending research
+## Geometry — Option C (decided ✅, angles ⚠️)
 
-Coordinate system (draft): origin = spine centerline at backplate top; **X** lateral
-(left/right), **Y** down the back toward the waist, **Z** out of the back. Viewing from behind
-the wearer, per wing (mirrored left/right):
+Coordinate system: origin = spine centerline at backplate top; **X** lateral (left/right),
+**Y** down the back toward the waist, **Z** out of the back. Viewing from behind the wearer,
+per wing (mirrored left/right):
 
 ```
       spine │   C7 / trapezius top  ▲ neck — nothing may cross above ~C7
             │
   ┌─────────┼─────────┐   ← backplate top edge (offset below trapezius top, Q5)
   │         │         │
-  │  bay:   │         │
-  │ battery │         │
-  │ + hubs  │         │
+  │  bay:   │         │   (electronics only — battery is off-back in a side pack)
+  │ hubs+   │         │
+  │ ctrl    │         │
   └────┬────┴────┬────┘
-       │         │        ← wing roots at the shoulder joints (acromion line)
-      humerus   humerus   (Q6: included or blended into plate?)
+       │         │        ← wing roots ON the backplate (no humerus — Q6 ✅:
+  radius/ulna  radius/ulna    the root blends into the plate at the acromion line)
        │         │
-      elbow     elbow
-       │         │
-    radius/ulna  radius/ulna   ← Q7: angle vs spine (splay θ1)
-       │         │
-      wrist     wrist
-       │         │
-      carpal    carpal        ← Q8: angle vs radius member (fold θ2)
+       │   ╲   ╱  │        ← Q7: radius/ulna ≈ straight, θ1 ≈ 0–5° splay vs spine
+      wrist    wrist
+       │   ╲   ╱  │        ← Q8: carpal fans outward, θ2 ≈ 20–25° vs radius
+      carpal  carpal
       (primaries P1–P10 attach along here, longest = P4 @ 55 cm)
+       ▼         ▼
+     tips @ y=55 (mid-butt), inside the ±25 cm envelope
 ```
 
-Draft member lengths (⚠️ to refine once feather attachment rows are fixed): humerus
-~15–20 cm if included; radius/ulna + carpal together span the folded-wing height below the
-elbow such that the primaries reach the ~55 cm hem (mid-butt). Partition of the 55 cm between
-the bone chain and the primaries depends on Q6–Q8 (humerus + member lengths).
+Member lengths (⚠️ to refine once feather attachment rows are fixed): **no humerus** — the
+radius/ulna member starts at the backplate wing root; radius/ulna + carpal partition the 55 cm
+folded height with the primaries, whose roots sit along the carpal (near the top of its run)
+and hang to the mid-butt hem.
 
 ## Wearer measurement checklist 🧍
 
@@ -199,27 +199,30 @@ table + a recommendation (keep pipe foam / switch / hybrid).
 
 ## Other considerations (draft list)
 
-- **Center of mass**: battery is **off-back** (side pack, deferred) → the back carries wings +
+- **Center of mass**: battery is **off-back** (external side pack) → the back carries wings +
   light electronics only; the wing mass still sits behind the spine → backward torque.
-- **Electronics bay footprint**: battery + 2 buck hubs + controller + airflow — battery pack
-  dims from [`../battery/options.md`](../battery/options.md) (3S Li-ion ~500–710 Wh).
-- **Door clearance**: envelope 50 cm wide × 75 cm tall fits a standard ~0.8–0.9 m door.
+- **Electronics bay footprint**: hubs + controller + wiring only (~15 × 12 cm ⚠️) — no battery
+  in the bay (battery is external; pack dims in [`../battery/options.md`](../battery/options.md)
+  matter only for the side pack).
+- **Door clearance**: ✅ no passage narrower than 50 cm exists — the 50 cm envelope is the hard limit (locked in design-readiness).
 - **Wing root stress**: the shoulder fold point carries the whole wing's weight.
 - **Feathers over bones**: bones must sit under the feather layer (no poking through).
 - **Sitting / bending**: backrest and wing-tip ground clearance.
-- **Getting it on/off** solo; strap load path (shoulders vs waist belt).
-- **Ventilation** for battery + bucks; sweat/moisture.
-
-## Wearer measurement checklist (TBD — to fill)
-
-| Measurement | Why | How |
-|-------------|-----|-----|
-| … | … | … |
+- **Getting it on/off** solo; strap load path (over-shoulder straps + cross-chest strap).
+- **Ventilation** for the bucks (battery is external); sweat/moisture.
 
 ## Sources
 
-(to fill as research lands)
+- Men's size-L body ranges: [Trespass men's size guide](https://trespass.ie/pages/mens-sizes-guide),
+  [New Look men's trousers/jeans guide](https://www.newlook.com/uk/framework/size-guide-mens-trousersjeans),
+  [Regatta regular-fit t-shirt](https://www.regattalifestyle.com/products/regular-fit-basic-t-shirt-987030-black).
+- Adult-male anthropometry: [CityU anthropometry — shoulder breadth](http://personal.cityu.edu.hk/meachan/online%20anthropometry/Chapter2/Ch2-18.htm),
+  [average shoulder width](https://www.healthline.com/health/average-shoulder-width).
+- Local sizing authority: [golden-eagle feather data](../../mechanical/templates/golden-eagle-feather-data.md),
+  [templates README](../../mechanical/templates/README.md).
 
 ## Inputs to structural design
 
-(to fill — recommended initial values + links to updated `mechanical/structural/` docs)
+Decisions feed [design-readiness.md](../../mechanical/structural/design-readiness.md) (locking
+happens there): envelope 50 × 55 cm · Option C members, no humerus · battery external ·
+over-shoulder + cross-chest harness · wearer measurements above.

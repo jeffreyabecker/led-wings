@@ -25,9 +25,9 @@
 Wire length per feather for the costume quills (the wire backbone running the full feather,
 base of calamus → tip).
 
-> **Scale:** costume P4 = 75 cm quill-to-tip (design-readiness) ÷ real adult-♂ P4 53.7 cm
-> (Feather Atlas) = **× 1.40** applied to all real totals. If the design envelope changes,
-> rescale every row by `new_P4 ÷ 53.7`.
+> **Scale:** current P4 = **55 cm** (D1 mid-butt decision, 2026-08 — see banner above) ÷ real
+> adult-♂ P4 53.7 cm (Feather Atlas) = **× 1.02** — the × 1.40 rows below are **stale**. If the
+> design envelope changes, rescale every row by `new_P4 ÷ 53.7`.
 >
 > **Wire cut = costume total + 4 cm mount tail** (adjust the +4 to your mount;
 > recompute = total + tail).

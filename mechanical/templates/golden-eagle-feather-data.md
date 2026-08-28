@@ -127,8 +127,9 @@ templates** (see Open tasks).
 
 ## Build implications
 
-1. **Design scale:** costume P4 = 75 cm (design-readiness) vs measured 53.7 cm (adult ♂) /
-   ~57.5 cm (♀ est.) → the design runs ≈ **1.3–1.4× real**. Apply one global scale factor
+1. **Design scale:** costume P4 = **55 cm** (D1 mid-butt decision, design-readiness) vs
+   measured 53.7 cm (adult ♂) / ~57.5 cm (♀ est.) → the design runs ≈ **× 1.02 — near
+   life-size** (was × 1.40). Apply one global scale factor
    (generator `--vane-ratio-adjustment` + uniform scale), don't hand-tune per feather.
 2. **Vane fraction:** real flight feathers are 0.78–0.87 vane/total; the mockup's 0.75 runs
    low — shift vane ratio up (toward 0.80–0.82) to keep the lit-vane silhouette eagle-proportioned.

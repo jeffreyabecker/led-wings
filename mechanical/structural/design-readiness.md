@@ -12,11 +12,13 @@
 
 | Decision | Value |
 |----------|-------|
-| Wing "bones" | cross-laminated cardboard, covered in foam pipe-wrap insulation |
+| Wing "bones" | cross-laminated cardboard, covered in foam pipe-wrap insulation ⚠️ covering under review — see [pipe-foam alternative](../../investigations/wing-bones/README.md#pipe-foam-alternatives--anchoring--color-new-track) |
+| Wing members | **Option C** — straight radius/ulna + fanned carpal; **no humerus** (wing root blends into the backplate); θ1 ≈ 0–5° vs spine, θ2 ≈ 20–25° vs radius (⚠️ angles to refine via anatomy research) |
 | Fold / transport | fixed closed; **not** disassemblable |
-| Total weight budget | **5 kg** (whole piece: frame + feathers + electronics + battery) |
+| Total weight budget | **battery excluded from structural weight** — externally carried (side pack); worn structure (frame + feathers + electronics) ≈ **~2.1 kg** ⚠️ — the old 5 kg whole-piece cap no longer binds the worn piece |
 | Electronics mounting | backplate carries power-hubs + controller; **battery deferred — side pack if needed** (see [README](README.md#electronics-bay--backplate)) |
 | Physical envelope | 50 cm wide × **~55 cm** tall (⚠️ P4 = 55 cm — D1 mid-butt decision; feather sizing not finalized, see note above), folded flat on the back |
+| Width clearance | ✅ **no passage narrower than 50 cm exists** — the 50 cm envelope is the hard limit |
 
 ## Constraints (why)
 
@@ -51,42 +53,39 @@
   shoulders.
 - Feather scaling lives with the template list: [`mechanical/templates/`](../templates/) — ⚠️ sizing not yet finalized (see note above).
 
-### 5 kg total budget
+### Weight budget — battery excluded (external)
 
-- The **battery dominates** the budget:
-  - 2000 px → ~710 Wh → ~4.2 kg (LiPo) — nearly exhausts 5 kg by itself. ❌
-  - 1400 px → ~500 Wh → ~2.9 kg (LiPo) / ~2.5 kg (18650). ⚠️
-- Holding 5 kg forces the pixel count/runtime down (or 18650 + shorter runtime). See below.
+- The **battery is not worn on the structure** — it rides in an external side pack, so the
+  pixel count/runtime decision sizes the *pack*, not the frame (see the battery investigation;
+  the 5 kg whole-piece ceiling no longer applies to the worn piece).
+- Worn structure = **frame + feathers + electronics only** ≈ **~2.1 kg** ⚠️ (table below).
 
-## Weight budget (first pass — ⚠️ order-of-magnitude)
+## Weight budget — worn structure only (first pass — ⚠️ order-of-magnitude)
 
 | Item | Est. mass | Notes |
 |------|----------:|-------|
-| Battery (3S Li-ion) | 2.5–2.9 kg | 1400 px @ 8 h @ 20 % — dominant lever |
 | Frame (cardboard + foam) | ~0.9 kg | both wings, ribs + spars |
 | Feathers / diffusers | ~0.3 kg | ⚠️ scales with P4² — envelope 75→55 cm cut feather area ~46 %; substrate TBD (feather README) |
 | LEDs + strips + connectors | ~0.3 kg | ~1400 px, ~88 strip chunks |
 | Power-hubs + controller + wiring | ~0.6 kg | bucks + MCU + cabling |
-| **Total** | **~4.9–5.3 kg** | tight against the 5 kg cap |
+| **Total (worn)** | **~2.1 kg** | ⚠️ no battery — see below |
 
-> ⚠️ Only the battery line has a sourced basis
-> ([battery options](../../investigations/battery/options.md)); the rest are order-of-magnitude
-> and must be weighed once the frame + feather materials are locked.
+> Battery (**not worn** — external side pack): ~2.5–2.9 kg @ 1400 px / ~4.2 kg @ 2000 px
+> ([battery options](../../investigations/battery/options.md)). All worn-structure lines are
+> order-of-magnitude and must be weighed once the frame + feather materials are locked.
 
 ## Open decisions
 
-- [ ] **Bone-structure geometry** — member chain + angles (humerus include/blend, radius/ulna
-      angle vs spine, carpal angle vs radius) — under investigation:
+- [ ] **Bone-structure geometry** — structure decided (Option C, no humerus); **θ1/θ2 angle
+      values to refine** via anatomy research — see
       [`investigations/wing-bones/`](../../investigations/wing-bones/README.md).
 - [ ] **Pipe-foam alternative** — covering/anchor material available in **multiple colors** —
       under investigation ([wing-bones](../../investigations/wing-bones/README.md#pipe-foam-alternatives--anchoring--color-new-track)).
 - [ ] **Backplate geometry** — shape (angular-shield?), overall height, top-edge offset below
       the trapezius, wing-fold rise above the shoulders (wearer-measured; checklist in the
       wing-bones investigation).
-- [ ] Pixel count / runtime vs 5 kg — the 2000 px battery alone (~4.2 kg) breaks the budget;
-      reconcile to ~1400 px (or accept less runtime) to hold 5 kg. *(No longer constrains the
-      backplate/bone design — battery is off-back in a side pack.)*
-- [ ] Wingspan vs door clearance (fixed, non-disassemblable unit) — confirm max span.
+- [ ] Pixel count / runtime — battery is **external** (side pack) → sizes the pack only, no
+      longer a structural-weight constraint (worn piece ≈ 2.1 kg ⚠️).
 - [ ] Frame lamination + seal: cardboard layup, adhesive, and a moisture/flame barrier.
 - [ ] Backplate material + how it integrates with the wing frame and shoulder straps.
 - [ ] Bay sealing vs access: dust/sweat protection against a hinge/latch/magnet lid.

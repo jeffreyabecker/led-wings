@@ -34,15 +34,16 @@ back coverts ([BC1–BC8](../templates/)) form a removable feathered lid over th
 
 - **Bone-structure layout + backplate geometry** — being investigated in
   [`investigations/wing-bones/`](../../investigations/wing-bones/README.md):
-  - Member chain: humerus (include or blend into the backplate?), radius/ulna angle vs the
-    spine, fused-carpal angle vs the radius member.
+  - Member chain: **no humerus — wing root blends into the backplate** (decided ✅); straight
+    radius/ulna + fanned carpal (Option C); θ1 ≈ 0–5° vs spine, θ2 ≈ 20–25° vs radius (⚠️
+    angles to refine).
   - Backplate shape (angular-shield?), overall height, top-edge offset below the trapezius,
     wing-fold rise above the shoulders, allowable total width (50 cm — locked).
-- Wingspan vs door clearance (fixed, non-disassemblable unit) — confirm max span.
+- Width clearance: ✅ resolved — no passage narrower than the 50 cm wings exists (see design-readiness).
 - Frame lamination + seal: cardboard layup, adhesive, and a moisture/flame barrier.
 - Backplate material + how it integrates with the wing frame and shoulder straps.
 - Bay sealing vs access: dust/sweat protection against a hinge/latch/magnet lid.
 - Does the back-coverts lid carry any electronics, or is it purely a cover?
 
-Full open-decision list (including the pixel-count vs 5 kg trade) is in
+Full open-decision list (including the battery sizing trade — now external, side pack) is in
 [design-readiness.md](design-readiness.md).
