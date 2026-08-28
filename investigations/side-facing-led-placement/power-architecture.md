@@ -4,27 +4,39 @@ Context: 5 V **SK9822** addressable strips (SPI, clock + data), single ESP32 con
 4S LiPo battery with distributed buck converters. Earlier 12 V strip assumptions were
 superseded once the available part turned out to be 5 V addressable.
 
-## LED counts ⚠️ (2 m wingspan assumption)
+## LED counts ✅ (locked feather lengths — P4 = 55 cm, × 1.024, templates README)
 
-- Vanes @ 30/m (area 0.3 m²/wing, strips ~one LED-pitch apart): ~9.1 m strip/wing →
-  ~273 LEDs/wing (~546 total)
-- Radius + carpal @ 60/m, 3 strips × 0.8 m: ~2.4 m/wing → ~144 LEDs/wing (~288 total)
-- **~830 LEDs total ≈ 22.8 m of strip**
-- Density is a *mounting* decision for addressable strips — "15/m" is achievable by
-  spacing segments or, for the mini strip, by lighting every Nth LED.
+Per wing, strip length = costume feather total (cm), density 30/m (33.3 mm pitch):
 
-## Power at 5 V (SK9822 = 60 mA/LED full white → 0.3 W/LED) ✅
+| Group | Feathers | Strip length | LEDs (ceil) |
+|---|---|---|---|
+| Primaries P1–P10 | 10 | 4.73 m | 147 |
+| Secondaries S1–S11 | 11 | 3.47 m | 110 |
+| Alula A-B/A-T | 2 | 0.18 m | 6 |
+| GPC1–GPC6 | 6 | 1.50 m | 49 |
+| GSC1–GSC10 | 10 | 1.61 m | 54 |
+| Structure (3 × 0.8 m) | 3 | 2.40 m | 72 |
+| **Per wing** | **42** | **13.89 m** | **438** |
+| **Both wings** | **84** | **27.78 m** | **876** |
 
-| Brightness | Power | Current @ 5 V |
+Feathers only: 11.49 m/wing, 366 LEDs/wing → 732 both wings. Source:
+`mechanical/templates/README.md` costume totals @ ×1.024.
+
+## Power at 5 V (SK9822-EC20 = 40 mA/LED full white → 0.2 W/LED) ✅
+
+| Brightness | Power (876 LEDs) | Current @ 5 V |
 |---|---|---|
-| 100 % | ~249 W | ~50 A |
-| 50 % | ~125 W | ~25 A |
-| 25 % | ~62 W | ~12.4 A |
-| 10 % | ~25 W | ~5 A |
-| 5 % | ~12.5 W | ~2.5 A |
+| 100 % | ~175 W | ~35 A |
+| 50 % | ~88 W | ~17.5 A |
+| 25 % | ~44 W | ~8.8 A |
+| 10 % | ~17.5 W | ~3.5 A |
+| 5 % | ~8.8 W | ~1.8 A |
 
-- 8 h runtime target needs **~220 Wh @ 10 % brightness** (incl. ~10 % buck loss) ⚠️.
-- Set a **firmware brightness cap ≤ 40 %** (target 25–33 %) so a bug can't command 50 A.
+(Feathers only, 732 LEDs: subtract ~20 %.)
+
+- 8 h runtime: **~154 Wh @ 10 %** (incl. ~10 % buck loss) → 4S 10000 ≈ 7.7 h;
+  4S 16000 ≈ 12.4 h ⚠️. At 5 %: ~77 Wh → 4S 5000 ≈ 7.6 h.
+- Set a **firmware brightness cap ≤ 40 %** (target 25–33 %) so a bug can't command 35 A.
 
 ## Distribution: 4S → 5 V buck converters
 
@@ -38,7 +50,7 @@ superseded once the available part turned out to be 5 V addressable.
 
 ## Battery
 
-- **4S 16000 mAh** (237 Wh, ~17 × 7 × 4.5 cm, ~1.1–1.2 kg) → ~8.6 h @ 10 % ⚠️
+- **4S 16000 mAh** (237 Wh, ~17 × 7 × 4.5 cm, ~1.1–1.2 kg) → ~12 h @ 10 % ⚠️
   ([Tattu 16000 30C](https://www.nextfpv.com.au/collections/lipo-battery/products/tattu-16000mah-30c-14-8v-4s-lipo-battery-pack-with-xt90-s-plug),
   [Lumenier 16000 4S 20C](https://www.lumenier.com/products/lumenier-16000mah-4s-20c-lipo-battery)).
 - Prefer **2× 4S 8000 mAh** for weight balance (one per wing, ~600 g each) and pack
@@ -63,7 +75,7 @@ superseded once the available part turned out to be 5 V addressable.
 
 - 100 W banks deliver 20 V/5 A peak, but the 12 V rail is typically capped at 3 A
   (36 W); a PD-trigger + buck would be needed anyway.
-- Capacity kills it: 8 h @ 10 % needs ~220 Wh ≈ **3× 27,000 mAh (100 Wh) banks**; only
+- Capacity kills it: 8 h @ 10 % needs ~154 Wh ≈ **2× 27,000 mAh (100 Wh) banks**; only
   5 % brightness was single-bank-viable, and that ran the bank near its continuous max
   (thermal throttle risk).
 

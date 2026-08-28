@@ -13,7 +13,7 @@
 | Decision | Value |
 |----------|-------|
 | Wing "bones" | cross-laminated cardboard, covered in foam pipe-wrap insulation ⚠️ covering under review — see [pipe-foam alternative](../../investigations/wing-bones/README.md#pipe-foam-alternatives--anchoring--color-new-track) |
-| Wing members | **Option C** — straight radius/ulna + fanned carpal; **no humerus** (wing root blends into the backplate); θ1 ≈ 0–5° vs spine, θ2 ≈ 20–25° vs radius (⚠️ angles to refine via anatomy research) |
+| Wing members | **Option C** — straight radius/ulna + fanned carpal; **no humerus** (wing root blends into the backplate); θ1 = 0° vs spine, θ2 = 20° (15–25° range) — short upper spars (~13–14 cm), feathers dominate the lower wing (⚠️ layout working — see wing-bones) |
 | Fold / transport | fixed closed; **not** disassemblable |
 | Total weight budget | **battery excluded from structural weight** — externally carried (side pack); worn structure (frame + feathers + electronics) ≈ **~2.1 kg** ⚠️ — the old 5 kg whole-piece cap no longer binds the worn piece |
 | Electronics mounting | backplate carries power-hubs + controller; **battery deferred — side pack if needed** (see [README](README.md#electronics-bay--backplate)) |
@@ -76,9 +76,9 @@
 
 ## Open decisions
 
-- [ ] **Bone-structure geometry** — structure decided (Option C, no humerus); **θ1/θ2 angle
-      values to refine** via anatomy research — see
-      [`investigations/wing-bones/`](../../investigations/wing-bones/README.md).
+- [ ] **Bone-structure geometry** — structure + angles decided (Option C, no humerus, θ1 = 0°,
+      θ2 = 20°); **feather-root layout computed (working ⚠️)** — primaries/secondaries root
+      tables in the wing-bones investigation; validate on the mockup before committing.
 - [ ] **Pipe-foam alternative** — covering/anchor material available in **multiple colors** —
       under investigation ([wing-bones](../../investigations/wing-bones/README.md#pipe-foam-alternatives--anchoring--color-new-track)).
 - [ ] **Backplate geometry** — shape (angular-shield?), overall height, top-edge offset below

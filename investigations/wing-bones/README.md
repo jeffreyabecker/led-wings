@@ -24,8 +24,8 @@ Q4/Q5, pipe-foam, bay/straps) pending.
 | 4 | Wing-fold rise above the shoulders | **0 cm** — fold at the acromion line (decided) | ✅ | User decision; clean front view |
 | 5 | Backplate top offset below trapezius top | **≈ 3–4 cm below C7** (2–5 cm guidance) → plate top ≈ shoulder line | ⚠️ | Neck clearance at C7 — see Q4/Q5 findings below |
 | 6 | Humerus: build it, or blend into the backplate? | **Skip the humerus — wing root blends into the backplate** (Option C) | ✅ | User decision |
-| 7 | Radius/ulna angle vs the spine | **≈ 0–5° splay** (Option C straight members) | ⚠️ | Working value — refine via anatomy research |
-| 8 | Fused carpal angle vs the radius member | **≈ 20–25° fan** (Option C fanned carpal) | ⚠️ | Working value — refine via anatomy research |
+| 7 | Radius/ulna angle vs the spine | **0°** — parallel to the spine (Option C straight member) | ⚠️ | Working value — anatomy-supported |
+| 8 | Fused carpal angle vs the radius member | **20°** fan (range 15–25°) — short upper spar | ⚠️ | Working value — anatomy-supported |
 | 9 | **Pipe-foam alternatives** — other anchoring/padding strategies available in **multiple colors** | TBD | ⚠️ | New track — see below |
 
 ## Design inputs from the build plan (local, ✅)
@@ -61,37 +61,94 @@ geometry + wing-root mounting**, not the battery.
 - Implication: the members' geometry **is** the feather-layout geometry — the "bones" must land
   where each feather row attaches, and the 4 cm tails dictate minimum member thickness/layup.
 
-## Geometry — Option C (decided ✅, angles ⚠️)
+## Geometry — Option C (decided ✅, layout ⚠️ working)
 
-Coordinate system: origin = spine centerline at backplate top; **X** lateral (left/right),
+Coordinate system: origin = spine centerline at the shoulder line; **X** lateral (left/right),
 **Y** down the back toward the waist, **Z** out of the back. Viewing from behind the wearer,
 per wing (mirrored left/right):
 
 ```
-      spine │   C7 / trapezius top  ▲ neck — nothing may cross above ~C7
+      spine │   C7 / trapezius top  ▲ nothing crosses above ~C7
             │
-  ┌─────────┼─────────┐   ← backplate top edge at the shoulder line (Q5: ≈3–4 cm below C7)
+  ┌─────────┼─────────┐   ← backplate top edge at the shoulder line (Q5)
   │         │         │
-  │  bay:   │         │   (electronics only — battery is off-back in a side pack)
+  │  bay:   │         │   (electronics only — battery is off-back)
   │ hubs+   │         │
   │ ctrl    │         │
   └────┬────┴────┬────┘
-       │         │        ← wing roots ON the backplate (no humerus — Q6 ✅:
-  radius/ulna  radius/ulna    the root blends into the plate at the acromion line)
-       │         │
-       │   ╲   ╱  │        ← Q7: radius/ulna ≈ straight, θ1 ≈ 0–5° splay vs spine
-      wrist    wrist
-       │   ╲   ╱  │        ← Q8: carpal fans outward, θ2 ≈ 20–25° vs radius
-      carpal  carpal
-      (primaries P1–P10 attach along here, longest = P4 @ 55 cm)
-       ▼         ▼
-     tips @ y=55 (mid-butt), inside the ±25 cm envelope
+       │         │        ← wing root ON the plate corner (±20, y=0) — no humerus (Q6 ✅).
+    radius/ulna  ╲         two spars spring from the root:
+       │         ╲ carpal   · radius/ulna straight down (θ1 = 0°), ~13 cm
+       │          ╲         · carpal fans outward (θ2 = 20°), ~14 cm
+       │           ╲
+    (S1–S11 on    (P1–P10 on the carpal; longest at the top)
+     the forearm)
+       │            ╲
+       ▼             ▼
+   tips y≈36–43    tips y≈47–55 (mid-butt)
+   (secondaries)   (primaries)
 ```
 
-Member lengths (⚠️ to refine once feather attachment rows are fixed): **no humerus** — the
-radius/ulna member starts at the backplate wing root; radius/ulna + carpal partition the 55 cm
-folded height with the primaries, whose roots sit along the carpal (near the top of its run)
-and hang to the mid-butt hem.
+**Key finding — the bones are short upper spars:** the envelope (55 cm) with P4 = 55 cm forces
+the **longest primaries to attach at the very top** (root y = tip − length = 0), so the members
+are ~13–14 cm spars near the fold, hidden under the coverts; the feathers dominate the lower
+~40 cm of the wing. The earlier serial-chain sketch (carpal at the bottom) is superseded.
+
+### Members (per wing)
+
+| Member | From | To | Angle | Carries |
+|--------|------|----|-------|---------|
+| Radius/ulna (forearm) | (±20, 0) root | (±20, 13) | θ1 = **0°** (parallel to spine) | S1–S11 |
+| Carpal (hand) | (±20, 0) root | (±24.8, 13.2) | θ2 = **20°** fan (15–25° range) | P1–P10, alula |
+
+### Feather roots + tips (working ⚠️ — right wing; y from the shoulder line)
+
+**Primaries** along the carpal (s = arc length from the root; y ≈ 0.94·s, x ≈ 20 + 0.34·s):
+
+| Feather | s (cm) | Root y | Root x | L (cm) | Tip y |
+|---------|-------:|-------:|-------:|-------:|------:|
+| P4 | 0 | 0 | 20.0 | 55 | **55.0** |
+| P5 | 0 | 0 | 20.0 | 55 | **55.0** |
+| P6 | 0 | 0 | 20.0 | 55 | **55.0** |
+| P3 | 2 | 1.9 | 20.7 | 53 | 54.9 |
+| P7 | 3.5 | 3.3 | 21.2 | 49 | 52.3 |
+| P2 | 4.5 | 4.2 | 21.5 | 47 | 51.2 |
+| P8 | 7 | 6.6 | 22.4 | 44 | 50.6 |
+| P9 | 9.5 | 8.9 | 23.2 | 41 | 49.9 |
+| P10 | 10 | 9.4 | 23.4 | 40 | 49.4 |
+| P1 | 13.5 | 12.7 | 24.6 | 34 | 46.7 |
+
+**Secondaries** on the forearm spar (x = ±20):
+
+| Feather | Root y | L (cm) | Tip y |
+|---------|-------:|-------:|------:|
+| S1 | 4.0 | 38 | 42.0 |
+| S2 | 4.5 | 38 | 42.5 |
+| S3 | 5.0 | 36 | 41.0 |
+| S4 | 6.0 | 33 | 39.0 |
+| S5 | 6.5 | 32 | 38.5 |
+| S6 | 7.0 | 31 | 38.0 |
+| S7 | 7.5 | 29 | 36.5 |
+| S8 | 8.0 | 28 | 36.0 |
+| S9 | 8.5 | 28 | 36.5 |
+| S10 | 9.0 | 27 | 36.0 |
+| S11 | 9.5 | 27 | 36.5 |
+
+**Coverts (deep coverage — bones hidden to y ≈ 15–18):** GPC1–6 roots y≈2–8 (tips 19–35) ·
+GSC1–10 roots y≈1–8 (tips 20–28) · MD1–4 y≈0–4 (tips 11–15) · LC1–8 y≈0–3 (tips 6–10) ·
+MG1–12 y≈0–2 (tips 3–8) · alula A-B/A-T at the outer top (near P1, y≈11–13, x≈24–25) ·
+underwing U1–10 mirrored on the spar undersides.
+
+**Width check:** carpal end x ≈ 24.8, P1 root x ≈ 24.6 — inside the ±25 cm envelope; tips hang
+vertical (same x as their roots). Any extra tip splay beyond the 20° fan comes from **bending
+the quill wires** at build (build detail, not spar angle).
+
+**θ refinement (anatomy-supported):** folded-wing kinematics show the hand folding back against
+the forearm, with the forearm near-parallel to the body axis when at rest
+([pigeon elbow/wrist kinematics](https://pmc.ncbi.nlm.nih.gov/articles/PMC5582118/),
+[How pigeons couple elbow and wrist motion](https://royalsocietypublishing.org/rsif/article/14/133/20170224/64818),
+[Proctor & Lynch, Manual of Ornithology](https://catalogue.librariesni.org.uk/)). Working values:
+**θ1 = 0°, θ2 = 20°** (θ2 range 15–25°).
 
 ## Q4/Q5 findings — shoulder-line clearance (⚠️ research-derived)
 
