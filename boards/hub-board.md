@@ -87,14 +87,34 @@ non-negotiable to design in.
 | H-R1 | Rest half 1 | 3 | ≤ 0.96 A |
 | H-R2 | Rest half 2 | 2 | ≤ 0.88 A |
 
-## 7. Parts to pull next (LCSC via easyeda2kicad)
+## 7. BOM — JLCPCB part numbers (verified via jlcsearch, 2026)
 
-- [x] TPS56628DDA (C2877989) — done
-- [ ] 3.3 µH 6 A shielded inductor (search LCSC, e.g. 6.8 µH alternatives)
-- [ ] 22 µF 1206 10 V X5R (Cout) · 10 µF 1210 35 V X7R (Cin)
-- [ ] 124 kΩ / 22.1 kΩ 0603 (FB divider)
-- [ ] TVS clamp (SMBJ18A-class), SS34 (already in plan)
-- [ ] PH2.0-2PWB power tap (C47647 — already in libs ✅)
+> **Basic = JLCPCB "basic part"** (in-stock, no extended-part fee — the cheap path).
+> 🔴 = not basic (extended part — adds a per-kind setup fee; prefer basic where possible).
+
+| Ref | Value | Pkg | LCSC | Basic? | Stock | ~Price |
+|---|---|---|---|---|---|---|
+| U1 | TPS56628DDA | SO-8 EP | [C2877989](https://www.lcsc.com/product-detail/C2877989.html) | — | 150 | $0.72 |
+| C1, C2 (Cin) | 10 µF 35 V X7R | 1210 | [C97973](https://www.lcsc.com/product-detail/C97973.html) | 🔴 | 7,882 | $0.87 |
+| C3 (boot) | 0.1 µF 50 V X7R | 0603 | [C14663](https://www.lcsc.com/product-detail/C14663.html) | **BASIC** | 12.6 M | $0.011 |
+| C5 (VREG5) | 1 µF 50 V X5R | 0603 | [C15849](https://www.lcsc.com/product-detail/C15849.html) | **BASIC** | 6.0 M | $0.030 |
+| C9, C10 (Cout) | 22 µF 25 V X5R | 1206 | [C12891](https://www.lcsc.com/product-detail/C12891.html) | **BASIC** | 574 k | $0.18 |
+| L1 | 3.3 µH 5.5/6 A | 5.4×5.2 | [C475518](https://www.lcsc.com/product-detail/C475518.html) (FXL0530) | 🔴 | 17 k | $0.18 |
+| R1 (FB top) | 124 kΩ 1 % | 0603 | [C2933136](https://www.lcsc.com/product-detail/C2933136.html) | 🔴 | 181 k | $0.001 |
+| R2 (FB bot) | 22.1 kΩ 1 % | 0603 | [C2960862](https://www.lcsc.com/product-detail/C2960862.html) | 🔴 | 262 k | $0.001 |
+| R5 (EN↑) | 100 kΩ 1 % | 0603 | [C25803](https://www.lcsc.com/product-detail/C25803.html) | **BASIC** | 8.0 M | $0.002 |
+| D1 (TVS) | SMBJ18A (18 V, 600 W) | SMB | [C353379](https://www.lcsc.com/product-detail/C353379.html) | 🔴 | 55 k | $0.038 |
+| D2 (rev-pol) | SS34 | SMA | [C8678](https://www.lcsc.com/product-detail/C8678.html) | — | — | — |
+
+**Per-board BOM ≈ $1.90** (buck $0.72 + caps $0.30 + L $0.18 + R $0.01 + TVS $0.04 + SS34) —
+× 8 boards ≈ **$15 total** for all hub power, vs ~$40+ for 18 × MP1584EN modules.
+
+> ⚠️ **Only 4 of 10 passives are BASIC** (C3, C5, C9/10, R5). The extended-part fee
+> (~$3/kind × ~6 kinds ≈ $18 one-time) erodes the savings on an 8-board run. Options:
+> (a) accept the fee (still ~$33 vs $40 modules, and the boards are better); (b) substitute
+> basic-value parts where tolerance allows (e.g. R1 120 kΩ basic — recompute Vout;
+> C1 10 µF 1206 basic) — review item before ordering; (c) hand-solder the hub boards
+> (no PCBA fee at all — 8 boards × ~20 parts is a manageable bench job).
 
 ## 8. References
 
