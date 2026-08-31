@@ -47,8 +47,9 @@ LIBS = ROOT / "boards" / "2020-leds" / "libs"
 OUT_DIR = ROOT / "boards" / "2020-leds" / "schematics"
 KICAD_CLI = Path(r"C:\Program Files\KiCad\10.0\bin\kicad-cli.exe")
 
-# SKU list = distinct LED counts per feather board (feather-boards.md §3)
-SKUS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+# SKU list = distinct segment LED counts from the group-board design
+# (feather-boards.md §3 — 6 segment lengths, 7–12 LEDs)
+SKUS = [7, 8, 9, 10, 11, 12]
 
 # part metadata: (lib entryName, lib file, pin -> signal map)
 # ZH1.5-4P: 6 pins — 1-4 signals, 5-6 mechanical anchors (NC).
@@ -59,6 +60,10 @@ CONN_IN = ("ZH1.5-4PSMD", "C145992.kicad_sym", {"1": "GND", "2": "CI", "3": "DI"
 CONN_OUT = ("ZH1.5-4PSMD", "C145992.kicad_sym", {"1": "+5V", "2": "DO", "3": "CO", "4": "GND"})
 # PH2.0-2PWB: pins 1-2 signals (+5V/GND), 3-4 anchors
 CONN_PWR = ("PH2.0-2PWB", "C47647.kicad_sym", {"1": "+5V", "2": "GND"})
+# Bulk decoupling cap per segment board — 22uF 25V X5R 1206 (JLCPCB BASIC), C12891.
+# The SK9822-EC20 has NO internal decoupling cap; one bulk cap per board spans the
+# rails at the power-tap end (data lines route under it on the back copper).
+CAP = ("CL31A226KAHNNNE", "C12891.kicad_sym", {"1": "+5V", "2": "GND"})
 # SK9822-EC20: pin -> signal
 LED = ("SK9822-EC20", "C2909059.kicad_sym", {
     "1": "SDO", "2": "GND", "3": "SDI", "4": "CKL", "5": "VDD", "6": "CKO",
@@ -147,6 +152,7 @@ def _datasheet_url(entry: str) -> str:
         "SK9822-EC20": "http://www.normandled.com/upload/202003/SK9822-EC20%20LED%20Datasheet.pdf",
         "ZH1.5-4PSMD": "https://www.lcsc.com/product-detail/C145992.html",
         "PH2.0-2PWB": "https://www.lcsc.com/product-detail/C47647.html",
+        "CL31A226KAHNNNE": "https://www.lcsc.com/product-detail/C12891.html",
     }
     return urls.get(entry, "")
 
@@ -238,7 +244,7 @@ def build_schematic(leds: int) -> Schematic:
     # --- embed lib symbols (self-contained schematic) ---
     # Inside lib_symbols, symbols are named "<nickname>:<entry>" to match lib_id.
     embed = {}
-    for entry, lib_file, _ in (CONN_IN, CONN_PWR, LED):
+    for entry, lib_file, _ in (CONN_IN, CONN_PWR, LED, CAP):
         sym = _load_symbol(lib_file, entry)
         sym.entryName = f"wings:{entry}"
         embed[entry] = sym
@@ -267,6 +273,10 @@ def build_schematic(leds: int) -> Schematic:
         _sym(CONN_PWR[0], X_LED0 + (leds - 1) * PITCH / 2, PWR_Y, "J3", "PWR-TAP",
              "C47647:CONN-SMD_2P-P2.00_PH2.0-SPWB", CONN_PWR[2],
              project, root_uuid))
+    # bulk decoupling cap (below the power tap; joins the rails by net name)
+    sch.schematicSymbols.append(
+        _sym(CAP[0], X_LED0 + (leds - 1) * PITCH / 2, PWR_Y + 40 * GRID, "C1", "22uF",
+             "C12891:C1206", CAP[2], project, root_uuid))
 
     # --- wires: power rails + drops, data chain ---
     wires: list[Connection] = []
@@ -331,8 +341,9 @@ def build_schematic(leds: int) -> Schematic:
         labels.append(_label(signal, endx, py))
 
     for sym, pin_map in ((sch.schematicSymbols[0], CONN_IN[2]),
-                         (sch.schematicSymbols[-2], CONN_OUT[2]),
-                         (sch.schematicSymbols[-1], CONN_PWR[2])):
+                         (sch.schematicSymbols[leds + 1], CONN_OUT[2]),
+                         (sch.schematicSymbols[leds + 2], CONN_PWR[2]),
+                         (sch.schematicSymbols[leds + 3], CAP[2])):
         for num, sig in pin_map.items():
             conn_stub(sym, num, sig)
 
