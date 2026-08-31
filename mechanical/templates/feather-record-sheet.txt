@@ -1,42 +1,43 @@
-FEATHER SIZE RECORD - LED WINGS (scale x0.9085)        Date: _______________
-TOT = costume total (cm)  WIRE = total + 4 cm tail (quill embed)  L / R = left / right wing
-Record the actual values as you cut/measure. One sheet covers both wings (62 feathers each).
+FEATHER SIZE SPEC - LED WINGS (measured templates, mirrored)   Date: _______________
+TOT = measured total (cm, from feather-record.csv)  WIRE = TOT + 4 cm tail
+Templates are mirrored - the same sizes serve BOTH wings (cut each feather twice).
+Tick the check column as you cut each pair. 61 feathers per wing, 122 total.
 
-FEATHER   TOT  WIRE  L       R        FEATHER   TOT  WIRE  L       R
---------  ---  ----  ------  ------   --------  ---  ----  ------  ------
-P1         35   39  ______  ______   GSC1       17   21  ______  ______
-P2         37   41  ______  ______   GSC2       17   21  ______  ______
-P3         39   43  ______  ______   GSC3       16   20  ______  ______
-P4         43   47  ______  ______   GSC4       15   19  ______  ______
-P5         48   52  ______  ______   GSC5       14   18  ______  ______
-P6         49   53  ______  ______   GSC6       14   18  ______  ______
-P7         49   53  ______  ______   GSC7       13   17  ______  ______
-P8         47   51  ______  ______   GSC8       13   17  ______  ______
-P9         42   46  ______  ______   GSC9       12   16  ______  ______
-P10        30   34  ______  ______   GSC10      12   16  ______  ______
-S1         34   38  ______  ______   MD1        10   14  ______  ______
-S2         34   38  ______  ______   MD2        10   14  ______  ______
-S3         32   36  ______  ______   MD3        10   14  ______  ______
-S4         30   34  ______  ______   MD4        9    13  ______  ______
-S5         29   33  ______  ______   MD5        8    12  ______  ______
-S6         28   32  ______  ______   LC1        6    10  ______  ______
-S7         26   30  ______  ______   LC2        6    10  ______  ______
-S8         25   29  ______  ______   LC3        6    10  ______  ______
-S9         25   29  ______  ______   LC4        6    10  ______  ______
-S10        24   28  ______  ______   LC5        6    10  ______  ______
-S11        24   28  ______  ______   LC6        5    9   ______  ______
-A1          9   13  ______  ______   U1         16   20  ______  ______
-A2          8   12  ______  ______   U2         16   20  ______  ______
-A3          8   12  ______  ______   U3         15   19  ______  ______
-A4          7   11  ______  ______   U4         14   18  ______  ______
-GPC1       15   19  ______  ______   U5         13   17  ______  ______
-GPC2       21   25  ______  ______   U6         13   17  ______  ______
-GPC3       23   27  ______  ______   U7         12   16  ______  ______
-GPC4       24   28  ______  ______   U8         12   16  ______  ______
-GPC5       25   29  ______  ______   U9         12   16  ______  ______
-GPC6       24   28  ______  ______   U10        11   15  ______  ______
+FEATHER   TOT  WIRE  CUT     FEATHER   TOT  WIRE  CUT
+--------  ---  ----  ------  --------  ---  ----  ------
+P1        30.7  34.7  ____    GSC1      12.5  16.5  ____
+P2        39.5  43.5  ____    GSC2      16.3  20.3  ____
+P3        41.5  45.5  ____    GSC3      17.3  21.3  ____
+P4        43.0  47.0  ____    GSC4      15.5  19.5  ____
+P5        43.5  47.5  ____    GSC5      15.7  19.7  ____
+P6        42.5  46.5  ____    GSC6      16.0  20.0  ____
+P7        37.0  41.0  ____    GSC7      17.0  21.0  ____
+P8        33.0  37.0  ____    GSC8      17.7  21.7  ____
+P9        31.1  35.1  ____    GSC9      13.2  17.2  ____
+P10       29.0  33.0  ____    GSC10     16.1  20.1  ____
+S1        24.8  28.8  ____    MD1       11.0  15.0  ____
+S2        29.3  33.3  ____    MD2       11.7  15.7  ____
+S3        27.8  31.8  ____    MD3       11.7  15.7  ____
+S4        27.0  31.0  ____    MD4       11.7  15.7  ____
+S5        26.2  30.2  ____    MD5        9.8  13.8  ____
+S6        25.0  29.0  ____    LC1        6.5  10.5  ____
+S7        23.2  27.2  ____    LC2        7.0  11.0  ____
+S8        22.0  26.0  ____    LC3        8.4  12.4  ____
+S9        18.6  22.6  ____    LC4        8.7  12.7  ____
+S10       15.0  19.0  ____    LC5        9.0  13.0  ____
+A1        15.6  19.6  ____    LC6        7.7  11.7  ____
+A2        14.8  18.8  ____    U1         8.7  12.7  ____
+A3        12.6  16.6  ____    U2         9.2  13.2  ____
+A4         9.2  13.2  ____    U3        11.5  15.5  ____
+GPC1      10.2  14.2  ____    U4        14.0  18.0  ____
+GPC2      15.5  19.5  ____    U5        15.0  19.0  ____
+GPC3      17.6  21.6  ____    U6        20.6  24.6  ____
+GPC4      17.1  21.1  ____    U7        11.5  15.5  ____
+GPC5      15.7  19.7  ____    U8        20.6  24.6  ____
+GPC6      13.4  17.4  ____    U9        15.6  19.6  ____
+                              U10       11.5  15.5  ____
 
-WIRE PER WING: 12.5 m total, 15.0 m with +4 tails (two wings: 25.1 / 30.0 m).
-62 feathers per wing, 124 total (no marginal coverts, no tail feathers).
-Notes: estimate groups (alula/GPC/GSC/MD/LC/U) - cut ONE of each type first, dry-fit,
-then commit. Spar mount positions (0 = outside edge): wing-structure-plan.md sec. 5.
+WIRE PER WING: 11.5 m total, 13.9 m with +4 tails (two wings: 23.0 / 27.9 m).
+61 feathers per wing, 122 total (10 secondaries, no marginal coverts, no tail feathers).
+Notes: tips land at ~51 cm below the shoulder line (~4 cm short of the 55 cm envelope).
+Spar mount positions (0 = outside edge): wing-structure-plan.md sec. 5.

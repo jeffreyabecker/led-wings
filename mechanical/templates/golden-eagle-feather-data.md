@@ -32,7 +32,7 @@ institutional sources to anchor template sizing.
 | Group | Real count | Costume plan (templates README) |
 |-------|-----------:|----------------------------------|
 | Primaries | 10 / wing | P1–P10 ✅ |
-| Secondaries | **17** / wing (S1 = outermost) | S1–S11 (atlas scanned only the outer 8) |
+| Secondaries | **17** / wing (S1 = outermost) | S1–S10 (user's templates) |
 | Rectrices (tail) | 12 | — (not in plan) |
 | Alula | 3–5 / wing (digit-1) | A1–A4 (4 — user's templates) |
 | Greater primary coverts | ~10 (one per primary; outer ones tiny) | GPC1–GPC6 |
@@ -132,10 +132,10 @@ templates** (see Open tasks).
 
 ## Build implications
 
-1. **Design scale:** costume **× 0.9085** — the folded wing fits the 55 cm envelope with the
-   primaries in Atlas order (P1 = wing tip; longest ≈ P5/P6 ≈ 49/48 cm, tips peak at 55; was × 1.024 →
-   × 1.40). Apply one global scale factor
-   (generator `--vane-ratio-adjustment` + uniform scale), don't hand-tune per feather.
+1. **Design scale:** superseded by **measured physical templates** — the actual costume sizes
+   come from [feather-record.csv](../../mechanical/templates/feather-record.csv) (authoritative;
+   longest ≈ P5/P4 ≈ 43.5/43.0 cm, tips at ~51 cm). The × 1.40 / × 1.024 / × 0.9085
+   projections are historical.
 2. **Vane fraction:** real flight feathers are 0.78–0.87 vane/total; the mockup's 0.75 runs
    low — shift vane ratio up (toward 0.80–0.82) to keep the lit-vane silhouette eagle-proportioned.
 3. **Covered base:** bare shaft (TF − VF) is 4.4–11.0 cm on primaries, 4.6–6.5 cm on secondaries —

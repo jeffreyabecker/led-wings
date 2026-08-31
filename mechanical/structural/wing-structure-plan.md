@@ -9,8 +9,10 @@
 ## 1. Summary
 
 - **Folded wing laid flat on the back** — envelope **50 cm wide × 55 cm tall**; feather tips at
-  **mid-butt** (55 cm below the shoulder line); feather scale **× 0.9085** — the primaries mount
-  in Atlas order P1→P10 (P1 = wing tip), longest ≈ P5/P6 (49/48 cm), tips peaking at 55.
+  **mid-butt** (55 cm below the shoulder line); feather sizes **measured from the physical
+  templates** ([feather-record.csv](../../mechanical/templates/feather-record.csv),
+  longest ≈ P5/P4 ≈ 43.5/43.0 cm); primaries mount in Atlas order P1→P10 (P1 = wing tip);
+  tips peak at **~51 cm** — ~4 cm short of the 55 cm envelope.
 - **Bones are short upper spars** (~13–14 cm) hidden under the coverts; the feathers dominate
   the lower ~40 cm. **No humerus** — the wing root blends into the backplate.
 - **Backplate**: angular shield carrying the electronics bay, wing roots, and strap anchors.
@@ -37,7 +39,7 @@ Tips at y = 55 (mid-butt). Nothing crosses above ~C7 (≈ −4 cm).
 
 | Member | From | To | Angle | Length | Carries |
 |--------|------|----|-------|--------|---------|
-| Forearm spar (radius/ulna) | (±20, 0) root | (±20, 13) | θ1 = **0°** (parallel to spine) | ~13 cm | S1–S11 |
+| Forearm spar (radius/ulna) | (±20, 0) root | (±20, 13) | θ1 = **0°** (parallel to spine) | ~13 cm | S1–S10 |
 | Carpal spar (hand) | (±20, 0) root | (±24.8, 13.2) | θ2 = **20°** fan (15–25° range) | ~14 cm | P1–P10, alula |
 
 - Both spars spring from the **reinforced root corner** (a Y-bracket on the plate corner).
@@ -55,41 +57,44 @@ Tips at y = 55 (mid-butt). Nothing crosses above ~C7 (≈ −4 cm).
 > [wing-bones investigation](../../investigations/wing-bones/README.md).
 
 **Primaries on the carpal spar** (14 cm long; pos 0 = the carpal's distal tip at (±24.8, 13.2);
-Atlas order — P1 = wing tip at the outside, P10 = innermost at the root "wrist"):
+Atlas order — P1 = wing tip at the outside, P10 = innermost at the root "wrist". L = measured
+from [feather-record.csv](../../mechanical/templates/feather-record.csv)):
 
 | Feather | Mount pos (cm from outside edge) | L (cm) | Tip y |
 |---------|---------------------------------:|-------:|------:|
-| P1 | 1.4 | 35.4 | 47.2 |
-| P2 | 2.8 | 36.7 | 47.2 |
-| P3 | 4.2 | 39.3 | 48.5 |
-| P4 | 5.6 | 43.1 | 51.0 |
-| P5 | 7.0 | 48.4 | **55.0** |
-| P6 | 8.4 | 49.1 | 54.4 |
-| P7 | 9.8 | 48.8 | 52.7 |
-| P8 | 11.2 | 46.7 | 49.3 |
-| P9 | 12.6 | 42.1 | 43.4 |
-| P10 | 14 | 30.3 | 30.3 |
+| P1 | 1.4 | 30.7 | 42.5 |
+| P2 | 2.8 | 39.5 | 50.0 |
+| P3 | 4.2 | 41.5 | 50.7 |
+| P4 | 5.6 | 43.0 | **50.9** |
+| P5 | 7.0 | 43.5 | 50.1 |
+| P6 | 8.4 | 42.5 | 47.8 |
+| P7 | 9.8 | 37.0 | 41.0 |
+| P8 | 11.2 | 33.0 | 35.6 |
+| P9 | 12.6 | 31.1 | 32.4 |
+| P10 | 14 | 29.0 | 29.0 |
 
 **Secondaries on the forearm spar** (13 cm long; pos 0 = the spar's lower end at (±20, 13);
-Atlas order — S1 = outermost at the wrist side (pos 9), numbering works in toward the elbow):
+Atlas order — S1 = outermost at the wrist side (pos 9), numbering works in toward the elbow;
+L = measured):
 
 | Feather | Mount pos (cm from outside edge) | L (cm) | Tip y |
 |---------|---------------------------------:|-------:|------:|
-| S1 | 9 | 33.6 | 37.6 |
-| S2 | 8.5 | 33.5 | 38.0 |
-| S3 | 8 | 32.1 | 37.1 |
-| S4 | 7 | 29.5 | 35.5 |
-| S5 | 6.5 | 28.7 | 35.2 |
-| S6 | 6 | 27.8 | 34.8 |
-| S7 | 5.5 | 25.7 | 33.2 |
-| S8 | 5 | 25.1 | 33.1 |
-| S9 | 4.5 | 24.5 | 33.0 |
-| S10 | 4 | 24.0 | 33.0 |
-| S11 | 3.5 | 23.6 | 33.1 |
+| S1 | 9 | 24.8 | 28.8 |
+| S2 | 8.5 | 29.3 | 33.8 |
+| S3 | 8 | 27.8 | 32.8 |
+| S4 | 7 | 27.0 | 33.0 |
+| S5 | 6.5 | 26.2 | 32.7 |
+| S6 | 6 | 25.0 | 32.0 |
+| S7 | 5.5 | 23.2 | 30.7 |
+| S8 | 5 | 22.0 | 30.0 |
+| S9 | 4.5 | 18.6 | 27.1 |
+| S10 | 4 | 15.0 | 24.0 |
 
-**Tip lines (design check):** primaries — 55.0 (P5) graduating down to 30.3 (P10), deepest at
-the longest feathers mid-series; secondaries — 38.0 (S2) → 33.0 (S9/S10), sitting over the
-primaries' root zone. Tips hang vertical.
+**Tip lines (design check):** primaries — **50.9 (P4)** → 29.0 (P10), deepest at the longest
+feathers mid-series; secondaries — 33.8 (S2) → 24.0 (S10), sitting over the primaries' root
+zone. Tips hang vertical. ⚠️ **The measured templates put the tips at ~51 cm — ~4 cm short of
+the 55 cm mid-butt envelope** (the physical feathers are smaller than the projection; the
+envelope would need longer feathers or lower mounts to reach 55).
 
 **Coverts (deep coverage — bones hidden to y ≈ 15–18), mount zones:**
 - GPC1–6 (over primaries P5–P10): carpal, pos ≈ 5.5 → 14 (tips ≈ 17–32)

@@ -3,11 +3,11 @@
 > Decision tracker for the wing structure. Locked decisions live here; open items below.
 > Legend: ✅ = decided/locked · ⚠️ = estimate to confirm.
 >
-> ⚠️ **Feather sizing authority:** the global scale is **locked at × 0.9085** — the primaries
-> mount in **Atlas order P1→P10 (P1 = wing tip)** within the 55 cm envelope (longest ≈ P5/P6 ≈
-> 49/48 cm, tips peak at 55); the tables in [`mechanical/templates/`](../templates/) are
-> **current** at that scale. ⚠️ Covert/alula/underwing sizes are still **working estimates**
-> (no published data) — validate before locking templates.
+> ⚠️ **Feather sizing authority:** feather sizes are **measured from the physical templates** —
+> [feather-record.csv](../../mechanical/templates/feather-record.csv) is **authoritative**
+> (longest ≈ P5/P4 ≈ 43.5/43.0 cm; primaries in Atlas order P1→P10, P1 = wing tip; tips peak at
+> **~51 cm** — ~4 cm short of the 55 cm envelope). The × 0.9085 projection is superseded;
+> the tables in [`mechanical/templates/`](../templates/) carry the measured sizes.
 
 ## Locked
 
@@ -18,7 +18,7 @@
 | Fold / transport | fixed closed; **not** disassemblable |
 | Total weight budget | **battery excluded from structural weight** — externally carried (side pack); worn structure (frame + feathers + electronics) ≈ **~2.1 kg** ⚠️ — the old 5 kg whole-piece cap no longer binds the worn piece |
 | Electronics mounting | backplate carries power-hubs + controller; **battery deferred — side pack if needed** (see [README](README.md#electronics-bay--backplate)) |
-| Physical envelope | 50 cm wide × **~55 cm** tall (⚠️ longest ≈ P5/P6 ≈ 49/48 cm — D1 mid-butt decision; feather sizing not finalized, see note above), folded flat on the back |
+| Physical envelope | 50 cm wide × **~55 cm** tall (⚠️ measured templates: longest ≈ P5/P4 ≈ 43.5/43.0 cm; tips ~51 cm — see note above), folded flat on the back |
 | Width clearance | ✅ **no passage narrower than 50 cm exists** — the 50 cm envelope is the hard limit |
 | Harness | **over-the-shoulder straps + cross-chest (sternum) strap** — no load-bearing waist belt (battery is off-back) |
 | Plate top + fold | plate top ≈ **shoulder line** (3–4 cm below C7, ⚠️ Q5) · **fold rise = 0 cm** (✅ Q4) — nothing above the shoulders |
@@ -47,11 +47,12 @@
 
 - **Width:** 50 cm — shoulder-to-shoulder, measured with a tailor's tape. Hard limit: both wings
   + center back covers must sit inside it.
-- **Height:** **~55 cm**, folded flat on the back — set by the longest primaries (**P5/P6 ≈
-  49/48 cm** quill-to-tip; tips peak at 55 cm at the envelope), mounted in **Atlas order
-  (P1 = wing tip) P1→P10**, tips landing **mid-butt** (D1 decision,
+- **Height:** **~55 cm** envelope, folded flat on the back — **measured templates** put the
+  longest primaries at **P5/P4 ≈ 43.5/43.0 cm** (mounted in **Atlas order, P1 = wing tip**),
+  tips peaking at **~51 cm** — **~4 cm short of the 55 cm mid-butt target** (D1 decision,
   [wing-bones](../../investigations/wing-bones/README.md)) — ≈ 62 cm above the floor for a
-  167 cm wearer (13 cm above the knee); scale **× 0.9085** (was × 1.024 → × 1.40).
+  167 cm wearer (13 cm above the knee); sizes are measured from the physical templates
+  ([feather-record.csv](../../mechanical/templates/feather-record.csv)).
 - **Form:** a **folded** wing laid flat on the back (not an extended, outspread wing) — feathers
   point down/back and overlap shingle-style; primaries reach the hem, coverts stack up toward the
   shoulders.
@@ -69,7 +70,7 @@
 | Item | Est. mass | Notes |
 |------|----------:|-------|
 | Frame (cardboard + foam) | ~0.9 kg | both wings, ribs + spars |
-| Feathers / diffusers | ~0.25 kg | ⚠️ scales with length² — ×1.40 → ×0.9085 cut feather area ~58 %; substrate TBD (feather README) |
+| Feathers / diffusers | ~0.2 kg | ⚠️ measured templates smaller than projected (longest 43.5 cm vs 75 cm mockup) — feather area ≈ (43.5/75)² ≈ 34 % of the original estimate; substrate TBD |
 | LEDs + strips + connectors | ~0.3 kg | ~1400 px, ~88 strip chunks |
 | Power-hubs + controller + wiring | ~0.6 kg | bucks + MCU + cabling |
 | **Total (worn)** | **~2.1 kg** | ⚠️ no battery — see below |

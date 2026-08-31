@@ -111,6 +111,11 @@ top mount and scrambled the order — superseded.)
 
 ### Feather roots + tips (working ⚠️ — right wing; y from the shoulder line)
 
+> ⚠️ **Lengths below are the × 0.9085 projection (historical).** The **measured template sizes
+> are authoritative** — see [feather-record.csv](../../mechanical/templates/feather-record.csv)
+> and the [build plan](../../mechanical/structural/wing-structure-plan.md) §5 (measured tips
+> peak at ~51 cm). Mount positions are unchanged.
+
 **Primaries** along the carpal (s = arc length from the root; y ≈ 0.94·s, x ≈ 20 + 0.34·s;
 Atlas order — P1 = wing tip at the carpal's distal end, P10 = innermost at the root "wrist"):
 
