@@ -1,0 +1,1968 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "bd3b49e9-eef5-436e-8752-032ba1c71353")
+	(paper "A4")
+	(lib_symbols
+		(symbol "wings:PH2.0-2PWB"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "CN"
+				(at 0 11.43 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "PH2.0-2PWB"
+				(at 0 -11.43 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "C47647:CONN-SMD_2P-P2.00_PH2.0-SPWB"
+				(at 0 -13.97 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "https://lcsc.com/product-detail/PH-Connectors_PH2-0-2PWB-Horizontal_C47647.html"
+				(at 0 -16.51 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "PH2.0-2PWB"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Manufacturer" "BOOMELE(博穆精密)"
+				(at 0 -19.05 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "MPN" "PH-2P卧贴"
+				(at 0 -21.59 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "LCSC Part" "C47647"
+				(at 0 -24.13 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "Wire To Board / Wire To Wire Connector"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "PH2.0-2PWB_0_1"
+				(rectangle
+					(start -1.27 3.81)
+					(end 3.81 -3.81)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(circle
+					(center 0 2.54)
+					(radius 0.38)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin unspecified line
+					(at -3.81 1.27 0)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at -3.81 -1.27 0)
+					(length 2.54)
+					(name "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 2.54 -6.35 90)
+					(length 2.54)
+					(name "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 2.54 6.35 270)
+					(length 2.54)
+					(name "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "wings:SK9822-EC20"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "LED"
+				(at 0 7.62 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "SK9822-EC20"
+				(at 0 -7.62 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "C2909059:LED-SMD_6P-L2.0-W2.0-P0.80-TL"
+				(at 0 -10.16 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "https://www.lcsc.com/datasheet/C2909059.pdf"
+				(at 0 -12.7 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Manufacturer" "欧思科光电"
+				(at 0 -15.24 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "MPN" "SK9822-EC20"
+				(at 0 -17.78 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "LCSC Part" "C2909059"
+				(at 0 -20.32 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "Light Emitting Diodes (LED)"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "SK9822-EC20_0_1"
+				(rectangle
+					(start -6.35 5.08)
+					(end 6.35 -5.08)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(circle
+					(center -5.08 3.81)
+					(radius 0.38)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin unspecified line
+					(at -8.89 2.54 0)
+					(length 2.54)
+					(name "SDO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at -8.89 0 0)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at -8.89 -2.54 0)
+					(length 2.54)
+					(name "SDI"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 8.89 -2.54 180)
+					(length 2.54)
+					(name "CKL"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 8.89 0 180)
+					(length 2.54)
+					(name "VDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 8.89 2.54 180)
+					(length 2.54)
+					(name "CKO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "wings:ZH1.5-4PSMD"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "CN"
+				(at 0 8.89 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "ZH1.5-4P SMD"
+				(at 0 -8.89 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "C145992:CONN-SMD_ZH1.5-4P_SMD"
+				(at 0 -11.43 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "https://lcsc.com/product-detail/ZH-Connectors-1-5mm_ZH1-5-1-4P_C145992.html"
+				(at 0 -13.97 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Manufacturer" "BOOMELE(博穆精密)"
+				(at 0 -16.51 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "MPN" "1.5-4P卧贴"
+				(at 0 -19.05 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "LCSC Part" "C145992"
+				(at 0 -21.59 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "Wire To Board / Wire To Wire Connector"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "ZH1.5-4PSMD_0_1"
+				(rectangle
+					(start -3.81 6.35)
+					(end 3.81 -6.35)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(circle
+					(center -3.05 5.59)
+					(radius 0.38)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin unspecified line
+					(at -6.35 3.81 0)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at -6.35 1.27 0)
+					(length 2.54)
+					(name "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at -6.35 -1.27 0)
+					(length 2.54)
+					(name "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at -6.35 -3.81 0)
+					(length 2.54)
+					(name "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 6.35 -3.81 180)
+					(length 2.54)
+					(name "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 6.35 3.81 180)
+					(length 2.54)
+					(name "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
+	(junction
+		(at 3.81 76.2)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "2900d540-e732-47ca-b6e2-75d251124de2")
+	)
+	(junction
+		(at 21.59 25.4)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "2ea538dc-ff57-4605-87d7-eb063da62eca")
+	)
+	(junction
+		(at 34.29 76.2)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "70b142ea-68c4-4d00-8b03-29d01a310781")
+	)
+	(junction
+		(at 95.25 76.2)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8065adef-0b80-4206-8f53-6177a2cdbb8b")
+	)
+	(junction
+		(at 64.77 76.2)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ae004193-97db-4314-98be-45bd3099e796")
+	)
+	(junction
+		(at 52.07 25.4)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e3a5d491-42cd-445c-a26c-ea1a5d0a86f5")
+	)
+	(junction
+		(at 82.55 25.4)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e541c008-07fa-4fd6-a1d3-efc31348a3f7")
+	)
+	(junction
+		(at 113.03 25.4)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f25c8a4e-c2f4-433e-bb1a-214a17e1cc8b")
+	)
+	(wire
+		(pts
+			(xy 34.29 50.8) (xy 34.29 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0051f3a4-3201-4b4c-9043-d82e294b1be9")
+	)
+	(wire
+		(pts
+			(xy 3.81 48.26) (xy 6.35 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "056d5d06-a4b3-455b-b024-b22b68367b04")
+	)
+	(wire
+		(pts
+			(xy 21.59 53.34) (xy 19.05 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "07290a66-5b52-4684-8958-1e026d4ff9aa")
+	)
+	(wire
+		(pts
+			(xy 128.27 49.53) (xy 130.81 49.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0995a0b0-afff-4fdf-846e-e9cef58e12cb")
+	)
+	(wire
+		(pts
+			(xy 113.03 53.34) (xy 110.49 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0b925fc8-7c4b-4464-8137-00e020f22f09")
+	)
+	(wire
+		(pts
+			(xy 6.35 54.61) (xy 8.89 54.61)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1472f941-7b09-44db-9587-52f3b771df6e")
+	)
+	(wire
+		(pts
+			(xy 52.07 50.8) (xy 52.07 25.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "14f90121-e6c6-4255-a267-2d4183426384")
+	)
+	(wire
+		(pts
+			(xy 82.55 48.26) (xy 80.01 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "15b6176d-1e50-42a2-8d54-016c1bb0c9f1")
+	)
+	(wire
+		(pts
+			(xy 6.35 52.07) (xy 8.89 52.07)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "17849d27-6ebf-4b18-9a52-df43c4efa6fe")
+	)
+	(wire
+		(pts
+			(xy 82.55 53.34) (xy 80.01 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1b907330-9891-499e-bdb1-11b348d8573c")
+	)
+	(wire
+		(pts
+			(xy 3.81 53.34) (xy 6.35 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2061a865-4dd6-4cb8-84ff-993f5d241071")
+	)
+	(wire
+		(pts
+			(xy 21.59 50.8) (xy 21.59 25.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "30caffd1-0fbf-41ce-a7d8-b4496698d568")
+	)
+	(wire
+		(pts
+			(xy 113.03 48.26) (xy 110.49 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "34f3bea1-6a27-45f4-8e4b-3e623eedc8fe")
+	)
+	(wire
+		(pts
+			(xy 128.27 54.61) (xy 130.81 54.61)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "39ed1944-70e1-4d49-be1d-5275ec0043e7")
+	)
+	(wire
+		(pts
+			(xy 34.29 53.34) (xy 36.83 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3b993f5c-41b8-4ba8-a0cf-ebb31c7cb3a0")
+	)
+	(wire
+		(pts
+			(xy 95.25 48.26) (xy 97.79 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3c89d3bf-8c31-450e-af8d-08c5d449396f")
+	)
+	(wire
+		(pts
+			(xy 64.77 48.26) (xy 67.31 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "459f3ae5-a74a-4f6e-8147-5298886b427f")
+	)
+	(wire
+		(pts
+			(xy 128.27 46.99) (xy 130.81 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "49dd8921-f1e8-4829-905e-1240f58f6ad1")
+	)
+	(wire
+		(pts
+			(xy 95.25 50.8) (xy 95.25 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4d7deec3-8a48-450a-a4bf-0ac6d66283d8")
+	)
+	(wire
+		(pts
+			(xy 6.35 46.99) (xy 8.89 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "70d67f21-1a82-4e0d-bae5-a358d94a6e5a")
+	)
+	(wire
+		(pts
+			(xy 95.25 53.34) (xy 97.79 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "79e99744-caab-420d-9348-e4bd17f0034b")
+	)
+	(wire
+		(pts
+			(xy 54.61 102.87) (xy 57.15 102.87)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7cbd7614-5ec2-45d2-b07f-1f4ded5e4cad")
+	)
+	(wire
+		(pts
+			(xy 6.35 49.53) (xy 8.89 49.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7f7e48a0-c47a-4e6b-8adb-1cc530c13036")
+	)
+	(wire
+		(pts
+			(xy 64.77 50.8) (xy 64.77 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8fd850ad-a2d4-499d-bd5d-c642272ad749")
+	)
+	(wire
+		(pts
+			(xy 54.61 100.33) (xy 57.15 100.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8ff9dc26-568d-4767-8cac-9504f0be4f64")
+	)
+	(wire
+		(pts
+			(xy 113.03 50.8) (xy 113.03 25.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "92192dc5-b594-4915-b5be-ef7b42f42ab1")
+	)
+	(wire
+		(pts
+			(xy 3.81 50.8) (xy 3.81 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9914de25-6c75-4202-b7cc-946884e3c090")
+	)
+	(wire
+		(pts
+			(xy 21.59 25.4) (xy 113.03 25.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9944d605-aa50-488c-87df-4592f6ba7a83")
+	)
+	(wire
+		(pts
+			(xy 82.55 50.8) (xy 82.55 25.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9d26ab45-2199-4551-bfda-6fa4da9455f6")
+	)
+	(wire
+		(pts
+			(xy 21.59 48.26) (xy 19.05 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b5ec2f1b-ddb6-4967-a455-bdcb023b2def")
+	)
+	(wire
+		(pts
+			(xy 52.07 53.34) (xy 49.53 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b93a0a42-aefa-49dd-b082-9041ccd1b43f")
+	)
+	(wire
+		(pts
+			(xy 128.27 52.07) (xy 130.81 52.07)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "beb82f84-d94b-4f47-a635-06c947f298a6")
+	)
+	(wire
+		(pts
+			(xy 64.77 53.34) (xy 67.31 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c87eb109-759f-4d7f-88e8-63fa2ec61f0e")
+	)
+	(wire
+		(pts
+			(xy 34.29 48.26) (xy 36.83 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e053b4c4-4f1e-4120-b97d-5c0bf3c589d0")
+	)
+	(wire
+		(pts
+			(xy 3.81 76.2) (xy 95.25 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e6b6a470-2aa7-405c-a155-66548385870a")
+	)
+	(wire
+		(pts
+			(xy 52.07 48.26) (xy 49.53 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ffbacdf5-9a9d-433b-8b1e-8a3e31a73a6e")
+	)
+	(label "CO"
+		(at 130.81 54.61 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "13558d74-b225-4524-8993-6851d34a10e4")
+	)
+	(label "D1"
+		(at 67.31 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "147f343c-eb47-4018-ab0c-7f692074886a")
+	)
+	(label "C0"
+		(at 49.53 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "247473a7-eacd-44ba-9ddc-0c395033645f")
+	)
+	(label "C2"
+		(at 80.01 48.26 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "27cecdc4-aff9-4e5e-b376-b0b52d134785")
+	)
+	(label "GND"
+		(at 130.81 49.53 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "325fe94f-a2b0-417d-aa7b-2d6ced378370")
+	)
+	(label "+5V"
+		(at 113.03 25.4 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "38750ac4-7e9b-4f69-944e-cfadaa6dd12e")
+	)
+	(label "D0"
+		(at 36.83 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "4669af2c-daf7-48b7-99bb-9d55389aa160")
+	)
+	(label "+5V"
+		(at 57.15 100.33 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "53bfb895-e547-48db-892d-2dcd1440c937")
+	)
+	(label "CI"
+		(at 19.05 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "59302ca7-4666-45ce-937f-50499cc07881")
+	)
+	(label "C1"
+		(at 80.01 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "5efa80cb-eb18-4b26-8ac1-063e02023cda")
+	)
+	(label "CO"
+		(at 110.49 48.26 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "5f1f130a-98f2-4d4f-9fdc-2e093a8ca09a")
+	)
+	(label "D1"
+		(at 36.83 48.26 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "684f5fbb-f064-4485-bb50-4cb12bec1ace")
+	)
+	(label "D2"
+		(at 67.31 48.26 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "6c46bdbd-7bde-4a73-86ac-8c26bb674b25")
+	)
+	(label "GND"
+		(at 57.15 102.87 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "6ce9a8f3-09f3-4e71-b40c-8f530936a9f3")
+	)
+	(label "DI"
+		(at 6.35 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "80f3cac5-9c56-4a0b-9574-adab03b944b9")
+	)
+	(label "D0"
+		(at 6.35 48.26 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "8989ebee-6c45-4fd0-ba2d-acf58b73157a")
+	)
+	(label "+5V"
+		(at 130.81 46.99 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "8a5e0a4c-6d1b-4cd1-a042-591d2c2e4a12")
+	)
+	(label "DI"
+		(at 8.89 52.07 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "abe41c2e-1fdd-4315-9f3d-928bd834de5c")
+	)
+	(label "DO"
+		(at 130.81 52.07 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "c00ce1c8-4f86-46e9-8826-a4f743ad6810")
+	)
+	(label "DO"
+		(at 97.79 48.26 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "c71c25ad-17e4-4f8e-acd6-b0a006a607f2")
+	)
+	(label "+5V"
+		(at 8.89 46.99 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "c77a90a2-dcdb-4070-8a16-33dc1cae56a3")
+	)
+	(label "C2"
+		(at 110.49 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "cb970a99-ebd0-4e0f-9ef2-9868e27ff586")
+	)
+	(label "GND"
+		(at 8.89 49.53 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "cc9b1b54-d13c-4128-badb-ab67f07af677")
+	)
+	(label "C0"
+		(at 19.05 48.26 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "e20046af-4a7f-494a-9a95-71d349cf4458")
+	)
+	(label "C1"
+		(at 49.53 48.26 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "e403c7f0-6255-40d2-aedc-735f8c3c27d0")
+	)
+	(label "CI"
+		(at 8.89 54.61 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "ea2c1976-5446-4177-8a66-2bb2154308c3")
+	)
+	(label "GND"
+		(at 95.25 76.2 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "ed0e0aa5-fa6b-476f-86a8-b5964d519fc3")
+	)
+	(label "D2"
+		(at 97.79 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "f99bdfb1-fbb3-43ce-8e32-4c1a8e9ddcf5")
+	)
+	(symbol
+		(lib_id "wings:SK9822-EC20")
+		(at 43.18 50.8 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "5ce39304-3cb0-422c-8cfd-389aacf0ff92")
+		(property "Reference" "L2"
+			(at 43.18 35.8 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "SK9822-EC20"
+			(at 43.18 65.8 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "C2909059:LED-SMD_6P-L2.0-W2.0-P0.80-TL"
+			(at 43.18 75.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "http://www.normandled.com/upload/202003/SK9822-EC20%20LED%20Datasheet.pdf"
+			(at 43.18 85.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 43.18 50.8 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "397c6ff5-4511-45ea-aadf-fc8295c2ae83")
+		)
+		(pin "2"
+			(uuid "b81b8520-a1ff-4e2c-bc6d-30472f81ce0a")
+		)
+		(pin "3"
+			(uuid "c354d70d-59f8-4b8d-bfbe-054a23193717")
+		)
+		(pin "4"
+			(uuid "2420275d-cf2b-47d2-90d1-dd26833c6486")
+		)
+		(pin "5"
+			(uuid "39abcc6b-93d4-45d4-9598-eb548199db23")
+		)
+		(pin "6"
+			(uuid "cbd7ea84-9dfd-41ad-86fc-b5c28e9e3f84")
+		)
+		(instances
+			(project ""
+				(path "/bd3b49e9-eef5-436e-8752-032ba1c71353"
+					(reference "L2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wings:SK9822-EC20")
+		(at 104.14 50.8 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "730ec392-2da0-41d1-9ab2-a00425c60771")
+		(property "Reference" "L4"
+			(at 104.14 35.8 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "SK9822-EC20"
+			(at 104.14 65.8 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "C2909059:LED-SMD_6P-L2.0-W2.0-P0.80-TL"
+			(at 104.14 75.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "http://www.normandled.com/upload/202003/SK9822-EC20%20LED%20Datasheet.pdf"
+			(at 104.14 85.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 104.14 50.8 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "f9d85067-a5fd-4f03-89eb-62ab416e3aee")
+		)
+		(pin "2"
+			(uuid "f0476b9f-e1b7-415e-bc2f-f367e155b5a7")
+		)
+		(pin "3"
+			(uuid "d8deec83-9003-4a2e-8733-09f4b8b203c6")
+		)
+		(pin "4"
+			(uuid "f26210f1-fae8-419d-9f45-27bd73f4fb69")
+		)
+		(pin "5"
+			(uuid "7df8b562-025e-4c9b-8414-b121397fbb66")
+		)
+		(pin "6"
+			(uuid "347ce7bc-b0cf-4652-b9d1-2a1276357541")
+		)
+		(instances
+			(project ""
+				(path "/bd3b49e9-eef5-436e-8752-032ba1c71353"
+					(reference "L4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wings:PH2.0-2PWB")
+		(at 58.42 101.6 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "a213f13a-cf08-4d6c-ba0e-005c3dc54328")
+		(property "Reference" "J3"
+			(at 58.42 86.6 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "PWR-TAP"
+			(at 58.42 116.6 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "C47647:CONN-SMD_2P-P2.00_PH2.0-SPWB"
+			(at 58.42 126.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.lcsc.com/product-detail/C47647.html"
+			(at 58.42 136.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 58.42 101.6 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "4c1467e0-aa05-4ce4-9017-9821aaf32d86")
+		)
+		(pin "2"
+			(uuid "16ee7668-5302-4d7a-a57e-23aceedec9ac")
+		)
+		(pin "4"
+			(uuid "02b1359a-1e11-489c-9dc8-382b4e8bd6ca")
+		)
+		(pin "3"
+			(uuid "191c5181-e3d0-43ca-a6f1-c04fdf40a8e9")
+		)
+		(instances
+			(project ""
+				(path "/bd3b49e9-eef5-436e-8752-032ba1c71353"
+					(reference "J3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wings:SK9822-EC20")
+		(at 73.66 50.8 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "c1ec39d0-59c3-4f6f-bfaf-8b934be581cb")
+		(property "Reference" "L3"
+			(at 73.66 35.8 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "SK9822-EC20"
+			(at 73.66 65.8 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "C2909059:LED-SMD_6P-L2.0-W2.0-P0.80-TL"
+			(at 73.66 75.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "http://www.normandled.com/upload/202003/SK9822-EC20%20LED%20Datasheet.pdf"
+			(at 73.66 85.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 73.66 50.8 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "1a39435c-cd38-4f09-a51f-10959902f2a1")
+		)
+		(pin "2"
+			(uuid "94fed6e7-bdfd-46a3-8311-50be02dd23ad")
+		)
+		(pin "3"
+			(uuid "aa6ceca0-6137-4e21-8973-bc5607179237")
+		)
+		(pin "4"
+			(uuid "1db44717-622e-43de-bc29-a8da0b838e72")
+		)
+		(pin "5"
+			(uuid "0eaf1041-b045-4307-b84b-79d511b7d4f1")
+		)
+		(pin "6"
+			(uuid "94d49174-e112-4474-9f3f-68491418ffad")
+		)
+		(instances
+			(project ""
+				(path "/bd3b49e9-eef5-436e-8752-032ba1c71353"
+					(reference "L3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wings:ZH1.5-4PSMD")
+		(at 12.7 50.8 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "c755770a-335f-41bf-9cb6-3921623805ec")
+		(property "Reference" "J1"
+			(at 12.7 35.8 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "DATA-IN"
+			(at 12.7 65.8 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "C145992:CONN-SMD_ZH1.5-4P_SMD"
+			(at 12.7 75.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.lcsc.com/product-detail/C145992.html"
+			(at 12.7 85.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 12.7 50.8 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "705a7569-7a9e-4d43-bcb4-14ed5ea4c9c8")
+		)
+		(pin "2"
+			(uuid "005b12e1-cb0c-4d83-857c-780f478f84dc")
+		)
+		(pin "3"
+			(uuid "ca10ce9d-8b15-4673-99a5-f3327646c863")
+		)
+		(pin "4"
+			(uuid "39fffecd-98e3-4c65-a5b4-efcb3f82cbb8")
+		)
+		(pin "6"
+			(uuid "73fdba02-c527-4a0f-ba47-fffa60264ce9")
+		)
+		(pin "5"
+			(uuid "f6e78501-b39c-4daf-90b6-a9479a6c95a3")
+		)
+		(instances
+			(project ""
+				(path "/bd3b49e9-eef5-436e-8752-032ba1c71353"
+					(reference "J1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wings:SK9822-EC20")
+		(at 12.7 50.8 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "f5265e41-97d2-4504-a910-adfd57def68c")
+		(property "Reference" "L1"
+			(at 12.7 35.8 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "SK9822-EC20"
+			(at 12.7 65.8 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "C2909059:LED-SMD_6P-L2.0-W2.0-P0.80-TL"
+			(at 12.7 75.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "http://www.normandled.com/upload/202003/SK9822-EC20%20LED%20Datasheet.pdf"
+			(at 12.7 85.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 12.7 50.8 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "5e7679e0-b478-44e1-bff0-c01cf2adfa01")
+		)
+		(pin "2"
+			(uuid "d69aab52-da0e-4744-b949-1231b053fc4a")
+		)
+		(pin "3"
+			(uuid "569c2613-c3c8-4a8c-b2f9-21c9c6e47084")
+		)
+		(pin "4"
+			(uuid "48ed71de-b642-4eab-8634-02d935e2b4cc")
+		)
+		(pin "5"
+			(uuid "5bcade68-3e15-48b9-a12f-676cb8b259e6")
+		)
+		(pin "6"
+			(uuid "5c82ae3b-6a3b-409e-9132-31a094d1a57b")
+		)
+		(instances
+			(project ""
+				(path "/bd3b49e9-eef5-436e-8752-032ba1c71353"
+					(reference "L1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "wings:ZH1.5-4PSMD")
+		(at 134.62 50.8 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "fce354df-0b66-4f50-94a8-685c1f8cb932")
+		(property "Reference" "J2"
+			(at 134.62 35.8 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "DATA-OUT"
+			(at 134.62 65.8 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "C145992:CONN-SMD_ZH1.5-4P_SMD"
+			(at 134.62 75.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.lcsc.com/product-detail/C145992.html"
+			(at 134.62 85.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 134.62 50.8 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "14908518-09d8-4ba7-ad66-78c31df668fe")
+		)
+		(pin "2"
+			(uuid "e893d1b6-dad7-449a-806b-2ee8984c4a80")
+		)
+		(pin "3"
+			(uuid "8dc456e9-fef8-434b-902a-6805e3c2d1db")
+		)
+		(pin "4"
+			(uuid "7ac679ca-ed40-4955-ba4a-c2693653587e")
+		)
+		(pin "6"
+			(uuid "f6400512-daa2-43c0-891b-887f630097bc")
+		)
+		(pin "5"
+			(uuid "c54f3e50-ca1d-482c-be0b-95f6df56a84c")
+		)
+		(instances
+			(project ""
+				(path "/bd3b49e9-eef5-436e-8752-032ba1c71353"
+					(reference "J2")
+					(unit 1)
+				)
+			)
+		)
+	)
+)
