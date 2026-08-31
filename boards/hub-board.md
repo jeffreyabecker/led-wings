@@ -120,9 +120,16 @@ positions are simply unpopulated. ✅
 | R5 (EN↑) | 100 kΩ 1 % | 0603 | [C25803](https://www.lcsc.com/product-detail/C25803.html) | **BASIC** | 8.0 M | $0.002 |
 | D1 (TVS) | SMBJ18A (18 V, 600 W) | SMB | [C353379](https://www.lcsc.com/product-detail/C353379.html) | 🔴 | 55 k | $0.038 |
 | D2 (rev-pol) | SS34 | SMA | [C8678](https://www.lcsc.com/product-detail/C8678.html) | — | — | — |
+| **TB1 (12 V bus in)** | **Wago 2060-452/998-404, 2P, 9 A** | **SMD 4 mm** | [C2765055](https://www.lcsc.com/product-detail/C2765055.html) | 🔴 | 50,721 | $0.44 |
 
-**Per-board BOM ≈ $1.90** (buck $0.72 + caps $0.30 + L $0.18 + R $0.01 + TVS $0.04 + SS34) —
-× 8 boards ≈ **$15 total** for all hub power, vs ~$40+ for 18 × MP1584EN modules.
+> **12 V bus terminal (found ✅):** genuine **Wago 2060-452/998-404** — 2-pole, 4 mm
+> pitch, **9 A**, SMD spring-clamp. One per board (TB1). SMD = pick-and-placeable.
+> (3-pole variant 2060-453, [C2765056](https://www.lcsc.com/product-detail/C2765056.html),
+> if we ever want a bus pass-through on-board instead of Wago 221 lever-nut splices.)
+
+**Per-board BOM ≈ $2.35** (buck $0.72 + caps $0.30 + L $0.18 + R $0.01 + TVS $0.04 +
+SS34 + terminal $0.44) — × 8 boards ≈ **$19 total** for all hub power, vs ~$40+ for
+18 × MP1584EN modules.
 
 > ⚠️ **Only 4 of 10 passives are BASIC** (C3, C5, C9/10, R5). The extended-part fee
 > (~$3/kind × ~6 kinds ≈ $18 one-time) erodes the savings on an 8-board run. Options:
