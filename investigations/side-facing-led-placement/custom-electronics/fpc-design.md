@@ -59,9 +59,9 @@ is the cross-check.
 
 ## Bypass capacitors
 
-- One **0402 100 nF** across VDD/VSS per LED ⚠️ (APA102/SK9822 family recommend local
-  decoupling; cheap insurance against clock/data glitches on long chains).
-- Adds 830 components to place — include in the assembly plan.
+- **None needed ✅ (2026-08).** The **SK9822-EC20 contains an internal decoupling
+  capacitor** — no external per-LED bypass caps required.
+- Removes ~930 components from the build (no parts, no placement, no tombstone risk).
 
 ## Panelization & connectors
 

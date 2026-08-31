@@ -16,7 +16,7 @@
 ## Notes
 
 - [fpc-design.md](fpc-design.md) — FPC layout: trace/routing plan, copper sizing,
-  bypass caps, panelization, connectors.
+  panelization, connectors (no external bypass caps — EC20 internal decoupling).
 - [assembly-and-cost.md](assembly-and-cost.md) — component BOM, assembly process
   (stencil/reflow), cost estimate, risks.
 - [board-inventory.md](board-inventory.md) — panelized SKU subset (B7/B4/B3),
@@ -29,7 +29,7 @@
    Available at [LCSC (C2909059)](https://www.lcsc.com/product-detail/C2909059.html)
    and [OPSCO](https://www.opsco.com); datasheet from
    [Normand](http://www.normandled.com/upload/202003/SK9822-EC20%20LED%20Datasheet.pdf).
-   → Full-white power drops 249 W → **~166 W**; 8 h @ 10 % needs **~146 Wh** →
+   → Full-white power drops 249 W → **~178 W**; 8 h @ 10 % needs **~158 Wh** →
    a single 4S 10000 mAh pack (~800 g) instead of 4S 16000.
 2. **Custom board over stock strip** — controlled trace sizing (safety), exact 5 mm
    width × 30/m (2020 part makes the narrow strip unnecessary), per-feather segment
@@ -47,7 +47,7 @@
 
 - Verify SK9822-EC20 **pinout/pad layout** from the datasheet before starting the
   footprint (QFN-style 2020 pads) — a wrong footprint bricks the panel.
-- Confirm EC20 reel price/MOQ at LCSC for ~830 chips.
+- Confirm EC20 reel price/MOQ at LCSC for ~930 chips (892 lit + ~38 dark positions).
 
 **Confirm-at-quote — low risk, no design impact:**
 
