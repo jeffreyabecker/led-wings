@@ -9,7 +9,7 @@
 
 | # | Part | Spec | Qty | Potential vendors |
 |---|------|------|-----|-------------------|
-| 1 | LED strip | SK9822 96 LED/m, 10 mm, 5050, 5 V | ~15 m (3×5 m) | [Alibaba 30/60/96/144](https://www.alibaba.com/product-detail/Individually-Addressable-APA102-SK9822-30-60_1601370513576.html) (96 option) · [JAD-LEDS 96/m](https://jad-leds.com/dc5v-ic-external-led-strip/467.html) |
+| 1 | LED strip | **custom 5 mm FPC, SK9822-EC20 2020 @ 31 mm/LED** — ~23.1 m both wings (744 LEDs, see [feather-boards.md](feather-boards.md)) | ~23 m | custom PCB (JLCPCB) — [2020-leds project](2020-leds/) |
 | 2 | Controller | Pixelblaze V3 Standard | 1 | [ElectroMage (Tindie)](https://www.tindie.com/products/electromage/pixelblaze-v3-standard-wifi-led-controller/) |
 | 3 | Level shifter | 74AHCT125 Quad, 3.3→5 V (2 of 4 gates) | 1 | [Adafruit 1787](https://www.adafruit.com/product/1787) |
 | 4 | Buck modules | MP1584EN 3 A (practical ~2–2.5 A, **no heatsink**) — cluster ≤ ~2 A full-white | ~6–8 | [DollaTek 5-pk](https://www.amazon.co.uk/DollaTek-MP1584EN-Step-Down-Adjustable-Converter/dp/B07DJ5HZ7G) — bench-test each (counterfeits common) |

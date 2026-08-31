@@ -1,5 +1,10 @@
 # Boards — Off-the-Shelf Build Plan (one-off)
 
+> ⚠️ **Board subset (2026-08, updated):** this build now makes **8 custom group boards/wing**
+> (P, S, A, PC, SC, MC, L, U — [feather-boards.md](feather-boards.md)) + **4 × 6 A hub
+> boards/wing** ([hub-board.md](hub-board.md)). The off-the-shelf strip-chunk plan below is
+> **superseded for the boards** (retained as the parts/wiring reference and fallback).
+>
 > **Strategy (settled ✅):** this is a **one-off build** — the electrical system is assembled
 > from off-the-shelf SK9822 strips and modules. **No custom PCBs for this build**; the
 > parameterized custom-board plan (KiCad + `pcbnew`) and the 6-pin hub-routed idea are

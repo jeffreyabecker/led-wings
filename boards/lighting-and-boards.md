@@ -1,5 +1,10 @@
 # Feather Lighting & Boards
 
+> **Status: superseded ⚠️ →** the COTS 96 LED/m exposed-tip chunk model below predates the
+> board decision. **Authoritative now: [feather-boards.md](feather-boards.md) — 8 custom
+> full-length group boards/wing (SK9822-EC20 2020 @ 31 mm/LED)**. Kept below as the lighting
+> rationale (exposed-tip stagger, shared rows) and the power-cost model.
+
 > Status: **ideation** · nothing locked · pairs with [mechanical/templates/](../mechanical/templates/).
 > Legend: ✅ = anatomy/selected fact · ⚠️ = design estimate (to be locked later).
 >

@@ -1,5 +1,10 @@
 # Hub Modules — Logical Hub List & Module Spec
 
+> **Status: superseded ⚠️ →** the region-hub list below predates the group-board design.
+> **Authoritative now: [feather-boards.md](feather-boards.md) — 8 group boards/wing
+> (P, S, A, PC, SC, MC, L, U; 372 LEDs, 14.88 A) fed by 4 × 6 A hub boards/wing
+> ([hub-board.md](hub-board.md)).** Kept below as the region-based reasoning reference.
+
 > **Status: draft ⚠️** — the hub list below derives from the **templates feather
 > inventory** (`mechanical/templates/README.md`, authoritative ✅) + the lighting model
 > (exposed-tip stagger + bleed @ 96 LED/m). LED counts per feather are from

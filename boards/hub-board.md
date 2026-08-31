@@ -17,7 +17,7 @@
 
 - **Purely power.** The hub does NOT carry data — the LED boards daisy-chain data
   independently. This board is buck + fusing + terminals only.
-- **Count:** 4 boards/wing (P: 1×6 A, S: 1×6 A, R: 2×6 A) → **8 total both wings**.
+- **Count:** 4 boards/wing (H-P, H-S, H-R1, H-R2 — see §6) → **8 total both wings**.
 
 ## 2. Reference design (from TI EVM TPS56628EVM-534 + datasheet Table 3-1)
 
@@ -75,7 +75,7 @@ non-negotiable to design in.
 | Output | **5 × fused taps** → PH2.0-2PWB (C47647) 2-pin power taps |
 | Fuse | 2 A per tap (ATO/polyfuse), or per-board input fuse + per-tap |
 | Terminals | push-in spring-clamp (Wago 2060-class) for bus wiring |
-| Size | ~35 × 25 mm (5 taps) — one panelized part |
+| Size | ~35 × 25 mm (5 taps) — **individual board, NOT panelized** (8× the same part ordered) |
 | No | data, no MCU, no LED drive — power only |
 
 **One board design, deployed N times.** Every hub is the same part; unused tap
@@ -85,21 +85,21 @@ positions are simply unpopulated. ✅
 
 | Board | Group | LEDs | A@100% | Buck | Taps used | Tap currents @100% |
 |---|---|---:|---:|---|---|---|
-| H-P | Primaries | 131 | 5.24 | 1×6 A | **4** (of 5) | 1.32/1.32/1.32/1.28 A |
-| H-S | Secondaries | 100 | 4.00 | 1×6 A | **3** (of 5) | 1.36/1.32/1.32 A |
-| H-R1 | Rest: GPC+GSC+MD | 106 | 4.24 | 1×6 A | **5** | ≤ 0.96 A |
-| H-R2 | Rest: LC+MG+A+U | 88 | 3.52 | 1×6 A | **5** | ≤ 0.88 A |
+| H-P | Primaries P1–P10 | 120 | 4.80 | 1×6 A | **4** (of 5) | 1.20/1.20/1.20/1.20 A |
+| H-S | Secondaries S1–S10 | 77 | 3.08 | 1×6 A | **3** (of 5) | 1.04/1.04/1.00 A |
+| H-R1 | SC1–SC10 + U1–U10 | 96 | 3.84 | 1×6 A | **4** (of 5) | 1.04/1.04/0.92/0.92 A |
+| H-R2 | PC1–PC6 + MC1–MC5 + L1–L6 + A1–A4 | 79 | 3.16 | 1×6 A | **4** (of 5) | 1.16/0.72/0.60/0.68 A |
 
 - **All four boards are the same design** — only the populated taps differ.
-- Every buck load ≤ 6 A ✅ (worst: H-P at 5.24 A = 87 % of rating).
-- **Tap positions/wing: 20 (17 used, 3 spare)** — spares are free redundancy/test points.
+- Every buck load ≤ 6 A ✅ (worst: H-P at 4.80 A = 80 % of rating).
+- **Tap positions/wing: 20 (15 used, 5 spare)** — spares are free redundancy/test points.
 
-**Connectors: per wing 4 × 12 V bus terminals + 17 × PH2.0-2PWB taps populated
-(20 positions). Both wings: 8 + 34 populated (40 positions).**
+**Connectors: per wing 4 × 12 V bus terminals + 15 × PH2.0-2PWB taps populated
+(20 positions). Both wings: 8 + 30 populated (40 positions).**
 
-> ✅ Tap count reconciled with the injection map (`feather-boards.md` §4: 17 taps/wing).
-> The 12 V bus input is a push-in spring-clamp terminal (Wago 2060-class, ≥5 A);
-> the 5 V taps are the 2 A `PH2.0-2PWB` (C47647), one per injection point.
+> ✅ Tap count reconciled with the group-board injection map (`feather-boards.md` §4:
+> 15 taps/wing). The 12 V bus input is a push-in spring-clamp terminal (Wago 2060-class,
+> ≥5 A); the 5 V taps are the 2 A `PH2.0-2PWB` (C47647), one per injection point.
 > One design × 8 boards = 8 × 5-tap parts ordered.
 
 ## 7. BOM — JLCPCB part numbers (verified via jlcsearch, 2026)
