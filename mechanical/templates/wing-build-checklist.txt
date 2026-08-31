@@ -1,0 +1,84 @@
+WING BUILD - CUT & ASSEMBLY CHECKLIST (pair of wings, LED-free build)
+=====================================================================
+Date: ____________   Specs: wing-structure-plan.md (structure) + feather-record.csv (sizes)
+TOT = total (cm)   WIRE = total + 4 cm tail.  Tick [L] and [R] as each feather is cut.
+
+------------------------------------------------------------------------------
+A. STRUCTURE - CUT LIST (cross-laminated cardboard unless noted)
+------------------------------------------------------------------------------
+[ ] Backplate         1x  angular shield, 44 -> ~37 cm taper, ~30-32 cm tall,
+                          with center neck-relief scoop (plan sec. 3)
+[ ] Forearm spar      2x  13 cm, straight (theta1 = 0 deg)
+[ ] Carpal spar       2x  14 cm, fanned (theta2 = 20 deg)
+[ ] Root Y-brackets   2x  one per wing root (joins both spars to the plate corner)
+[ ] Back-coverts      1x  feathered cover panel over the future bay
+[ ] Foam pipe wrap       spars (2x13 + 2x14 cm) + backplate edges (~1.5 m)
+[ ] Seal / laminate      all cardboard pieces (moisture/flame barrier)
+
+------------------------------------------------------------------------------
+B. FEATHERS - CUT LIST (122 total: 61 per wing, mirrored)
+------------------------------------------------------------------------------
+[L] [R]  FEATHER  TOT   WIRE      [L] [R]  FEATHER  TOT   WIRE
+[ ] [ ]  P1       30.7  34.7      [ ] [ ]  GSC1     12.5  16.5
+[ ] [ ]  P2       39.5  43.5      [ ] [ ]  GSC2     16.3  20.3
+[ ] [ ]  P3       41.5  45.5      [ ] [ ]  GSC3     17.3  21.3
+[ ] [ ]  P4       43.0  47.0      [ ] [ ]  GSC4     15.5  19.5
+[ ] [ ]  P5       43.5  47.5      [ ] [ ]  GSC5     15.7  19.7
+[ ] [ ]  P6       42.5  46.5      [ ] [ ]  GSC6     16.0  20.0
+[ ] [ ]  P7       37.0  41.0      [ ] [ ]  GSC7     17.0  21.0
+[ ] [ ]  P8       33.0  37.0      [ ] [ ]  GSC8     17.7  21.7
+[ ] [ ]  P9       31.1  35.1      [ ] [ ]  GSC9     13.2  17.2
+[ ] [ ]  P10      29.0  33.0      [ ] [ ]  GSC10    16.1  20.1
+[ ] [ ]  S1       24.8  28.8      [ ] [ ]  MD1      11.0  15.0
+[ ] [ ]  S2       29.3  33.3      [ ] [ ]  MD2      11.7  15.7
+[ ] [ ]  S3       27.8  31.8      [ ] [ ]  MD3      11.7  15.7
+[ ] [ ]  S4       27.0  31.0      [ ] [ ]  MD4      11.7  15.7
+[ ] [ ]  S5       26.2  30.2      [ ] [ ]  MD5       9.8  13.8
+[ ] [ ]  S6       25.0  29.0      [ ] [ ]  LC1       6.5  10.5
+[ ] [ ]  S7       23.2  27.2      [ ] [ ]  LC2       7.0  11.0
+[ ] [ ]  S8       22.0  26.0      [ ] [ ]  LC3       8.4  12.4
+[ ] [ ]  S9       18.6  22.6      [ ] [ ]  LC4       8.7  12.7
+[ ] [ ]  S10      15.0  19.0      [ ] [ ]  LC5       9.0  13.0
+[ ] [ ]  A1       15.6  19.6      [ ] [ ]  LC6       7.7  11.7
+[ ] [ ]  A2       14.8  18.8      [ ] [ ]  U1        8.7  12.7
+[ ] [ ]  A3       12.6  16.6      [ ] [ ]  U2        9.2  13.2
+[ ] [ ]  A4        9.2  13.2      [ ] [ ]  U3       11.5  15.5
+[ ] [ ]  GPC1     10.2  14.2      [ ] [ ]  U4       14.0  18.0
+[ ] [ ]  GPC2     15.5  19.5      [ ] [ ]  U5       15.0  19.0
+[ ] [ ]  GPC3     17.6  21.6      [ ] [ ]  U6       20.6  24.6
+[ ] [ ]  GPC4     17.1  21.1      [ ] [ ]  U7       11.5  15.5
+[ ] [ ]  GPC5     15.7  19.7      [ ] [ ]  U8       20.6  24.6
+[ ] [ ]  GPC6     13.4  17.4      [ ] [ ]  U9       15.6  19.6
+                                  [ ] [ ]  U10      11.5  15.5
+
+  Feather bodies: 122 x packing foam (substrate TBD - Phase 2)
+  Quill wires:    122 x (total + 4 cm)  -> ~13.9 m per wing, ~27.9 m both wings
+
+------------------------------------------------------------------------------
+C. HARNESS
+------------------------------------------------------------------------------
+[ ] Shoulder straps    2x  webbing, to length (over-shoulder)
+[ ] Cross-chest strap  1x  webbing, to length (sternum strap)
+[ ] Buckles / triglides / sliders
+
+------------------------------------------------------------------------------
+D. ASSEMBLY ORDER
+------------------------------------------------------------------------------
+[ ] 1. Cut the backplate, spars, and root Y-brackets (list A)
+[ ] 2. Laminate + seal all cardboard pieces
+[ ] 3. Assemble the root Y-brackets; mount both spars per wing at the
+         plate's top corners (roots at +-20 cm, y = 0)
+[ ] 4. Pad + cover the spars with foam pipe wrap
+[ ] 5. Cut the feathers: packing-foam bodies + quill wires (list B)
+[ ] 6. Dry-fit feather rows on the mockup: secondaries -> primaries -> coverts
+[ ] 7. Mount the quills (+4 cm embed into the spars), bend wires for tip splay
+[ ] 8. Fit the harness straps (over-shoulder + cross-chest)
+[ ] 9. Fit the back-coverts panel
+
+------------------------------------------------------------------------------
+E. NOTES
+------------------------------------------------------------------------------
+- Mount positions on the spars (0 = outside edge): wing-structure-plan.md sec. 5.
+- Feather tips land at ~51 cm below the shoulder line (mid-butt).
+- Feather sizes are measured from the physical templates (feather-record.csv).
+- Weigh the finished structure (budget ~2.0 kg worn, no battery).
