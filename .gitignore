@@ -27,6 +27,9 @@ pip-wheel-metadata/
 *-backups/
 *.lck
 
+# Generated KiCad schematics (build artifacts — regenerate via tools/gen_schematic.py)
+boards/2020-leds/schematics/*.kicad_sch
+
 mechanical/templates/reference_feathers_no_scale.xcf
 mechanical/templates/eagle-feathers_color_no_scale.png
 mechanical/templates/reference_feathers_no_scale_70cm.pdf
