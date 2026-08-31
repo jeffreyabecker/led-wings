@@ -16,7 +16,7 @@
 ## Notes
 
 - [fpc-design.md](fpc-design.md) — FPC layout: trace/routing plan, copper sizing,
-  panelization, connectors (no external bypass caps — EC20 internal decoupling).
+  panelization, connectors (bulk 22 µF decoupling cap per segment board — no per-LED caps).
 - [assembly-and-cost.md](assembly-and-cost.md) — component BOM, assembly process
   (stencil/reflow), cost estimate, risks.
 - [board-inventory.md](board-inventory.md) — panelized SKU subset (B7/B4/B3),

@@ -20,8 +20,11 @@ Each schematic: **J1** DATA-IN (ZH1.5-4P, +5V/GND/DI/CI) → **L1…LN** (SK9822
 daisy-chained DI→DO, CI→CO) → **J2** DATA-OUT (+5V/GND/DO/CO), plus **J3** PWR-TAP
 (PH2.0-2PWB). Power rails +5V/GND named by net labels.
 
-> **Decoupling:** the **SK9822-EC20 has an internal decoupling capacitor** (confirmed
-> 2026-08) — the strip cell is LED + pads + connectors only, **no external bypass caps**.
+> **Decoupling:** the SK9822-EC20 has **no internal decoupling capacitor** (datasheet —
+> an earlier claim that it did was wrong). Each segment board carries **one bulk
+> 22 µF 25 V X5R 1206** (`C12891`, BASIC) across VDD/VSS at the PWR-TAP end; data lines
+> route under it on the back copper. (Regenerate with `tools/gen_schematic.py` once C1
+> is added to the generator.)
 
 ## Verification
 

@@ -53,9 +53,10 @@
 | 8 | 248 | 2 |
 | 7 | 217 | 1 |
 
-6 distinct segment lengths · one 5 mm-wide strip cell (LED + pads + score lines — the
-**SK9822-EC20 has an internal decoupling capacitor**, so no external bypass caps) → one
-master strip design, cut at score lines, panels break out per-group boards.
+6 distinct segment lengths · one 5 mm-wide strip cell (LED + pads + score lines) with a
+**bulk decoupling cap per segment board** (22 µF 1206 `C12891`, BASIC — data lines route
+under it; the EC20 has no internal cap) → one master strip design, cut at score lines,
+panels break out per-group boards.
 
 ## 4. Power injection — 100 % full-white safe (≤ 1.5 A per 2 A tap)
 

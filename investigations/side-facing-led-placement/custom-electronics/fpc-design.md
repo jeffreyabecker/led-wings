@@ -57,11 +57,16 @@ is the cross-check.
   ~6 A/wing, below the bus wiring limit); the per-cluster bucks self-limit their own
   segments. Firmware cap stays as the final layer of defense.
 
-## Bypass capacitors
+## Decoupling capacitors
 
-- **None needed ✅ (2026-08).** The **SK9822-EC20 contains an internal decoupling
-  capacitor** — no external per-LED bypass caps required.
-- Removes ~930 components from the build (no parts, no placement, no tombstone risk).
+- **Bulk per segment board** (not per-LED): one **22 µF 25 V X5R 1206** (`C12891`,
+  JLCPCB **BASIC** ✅, ~$0.18) across VDD/VSS at each segment's power-tap end.
+- **Data lines run under the cap** — the 2-layer strip routes DI/DO/CI/CO on the back
+  copper beneath the 1206 footprint (vias at the segment start); the cap spans the width
+  between the VDD/VSS rails.
+- **The SK9822-EC20 has NO internal decoupling cap** (datasheet; an earlier assumption
+  that it did was wrong). Bulk per-board covers the short segments (≤ 12 LEDs ≈ 0.48 A
+  full-white) with one basic part instead of 930 × 0402.
 
 ## Panelization & connectors
 
