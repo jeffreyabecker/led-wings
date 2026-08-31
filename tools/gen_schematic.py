@@ -51,9 +51,12 @@ KICAD_CLI = Path(r"C:\Program Files\KiCad\10.0\bin\kicad-cli.exe")
 SKUS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 # part metadata: (lib entryName, lib file, pin -> signal map)
-# ZH1.5-4P: pins 1-4 signals (+5V/GND/DI or DO, /CI or CO), 5-6 mechanical anchors
-CONN_IN = ("ZH1.5-4PSMD", "C145992.kicad_sym", {"1": "+5V", "2": "GND", "3": "DI", "4": "CI"})
-CONN_OUT = ("ZH1.5-4PSMD", "C145992.kicad_sym", {"1": "+5V", "2": "GND", "3": "DO", "4": "CO"})
+# ZH1.5-4P: 6 pins — 1-4 signals, 5-6 mechanical anchors (NC).
+# Connector pinout per the flip-corrected convention (user-verified):
+#   DATA-IN : 1=GND 2=CI 3=DI 4=+5V
+#   DATA-OUT: 1=+5V 2=DO 3=CO 4=GND
+CONN_IN = ("ZH1.5-4PSMD", "C145992.kicad_sym", {"1": "GND", "2": "CI", "3": "DI", "4": "+5V"})
+CONN_OUT = ("ZH1.5-4PSMD", "C145992.kicad_sym", {"1": "+5V", "2": "DO", "3": "CO", "4": "GND"})
 # PH2.0-2PWB: pins 1-2 signals (+5V/GND), 3-4 anchors
 CONN_PWR = ("PH2.0-2PWB", "C47647.kicad_sym", {"1": "+5V", "2": "GND"})
 # SK9822-EC20: pin -> signal
@@ -67,15 +70,19 @@ PITCH = 24 * GRID      # 30.48 symbol spacing along the strip
 LED_Y = 40 * GRID      # 50.8 LED row y
 CONN_Y = 40 * GRID     # connectors on the same row
 PWR_Y = 80 * GRID      # 101.6 power-tap connector row (below)
-RAIL_TOP = 20 * GRID   # 25.4 +5V rail y
-RAIL_BOT = 60 * GRID   # 76.2 GND rail y
+RAIL_GND = 20 * GRID   # 25.4 GND rail y (ABOVE the LED row)
+RAIL_5V = 60 * GRID    # 76.2 +5V rail y (BELOW the LED row)
 STUB = 2 * GRID        # 2.54 wire stub length
-X_J1 = 10 * GRID       # 12.7 data-in connector x
+X_J1 = -10 * GRID      # -12.7 data-in connector x (left of L1, no overlap)
 X_LED0 = 10 * GRID     # 12.7 first LED x
+ROT_J1 = 180           # data-in connector rotated 180 (clockwise)
+ROT_LED = 270          # LEDs rotated 270 (counter-clockwise): SDI/GND/SDO top row,
+                       #   CKL/VDD/CKO bottom row — straight chain + rail drops.
 
 
 def _sym(lib_id: str, x: float, y: float, ref: str, value: str,
-         footprint: str, pins: dict[str, str], project: str, root_uuid: str) -> SchematicSymbol:
+         footprint: str, pins: dict[str, str], project: str, root_uuid: str,
+         angle: int = 0) -> SchematicSymbol:
     """Build a SchematicSymbol instance referencing an embedded lib symbol."""
     from kiutils.items.schitems import Property, SymbolProjectInstance, SymbolProjectPath
 
@@ -96,7 +103,7 @@ def _sym(lib_id: str, x: float, y: float, ref: str, value: str,
     return SchematicSymbol(
         libraryNickname="wings",
         entryName=lib_id,
-        position=Pos(X=x, Y=y, angle=0),
+        position=Pos(X=x, Y=y, angle=angle),
         unit=1,
         inBom=True,
         onBoard=True,
@@ -177,6 +184,49 @@ def _junction(x: float, y: float) -> Junction:
     return Junction(position=Pos(X=x, Y=y), uuid=str(uuid.uuid4()))
 
 
+# Empirically-verified pin offsets (mm from symbol center) as KiCad 10 actually
+# places them after `sch upgrade` (which flips embedded-symbol pin Y, and
+# rotation is applied in KiCad's y-down convention). Verified by fine netlist
+# probing at 1.27mm resolution:
+#   LED rot=270 : SDI(3)=(-2.54,-8.89) GND(2)=(0,-8.89) SDO(1)=(+2.54,-8.89)   [top row]
+#                 CKL(4)=(-2.54,+8.89) VDD(5)=(0,+8.89) CKO(6)=(+2.54,+8.89)   [bottom row]
+#   ZH1.5 rot=180: 1=(+6.35,+3.81) 2=(+6.35,+1.27) 3=(+6.35,-1.27) 4=(+6.35,-3.81)
+#                  5=(-6.35,-3.81) 6=(-6.35,+3.81)
+#   rot=0 (unrotated): LED pins are the raw local coords with Y flipped.
+PIN_OFFSETS = {
+    # (entry, angle) -> {pin: (x, y)}
+    ("SK9822-EC20", 270): {
+        "1": (2.54, -8.89), "2": (0, -8.89), "3": (-2.54, -8.89),
+        "4": (-2.54, 8.89), "5": (0, 8.89), "6": (2.54, 8.89),
+    },
+    ("ZH1.5-4PSMD", 180): {
+        "1": (6.35, 3.81), "2": (6.35, 1.27), "3": (6.35, -1.27), "4": (6.35, -3.81),
+        "5": (-6.35, -3.81), "6": (-6.35, 3.81),
+    },
+}
+
+
+def pin_xy(sym: SchematicSymbol, pin_num: str, embed: dict) -> tuple[float, float]:
+    """Absolute pin position, using empirically-verified rotated offsets.
+
+    These account for both the symbol rotation AND the `kicad-cli sch upgrade`
+    Y-flip quirk, so wires land exactly on the pins KiCad will see.
+    """
+    entry = sym.entryName
+    angle = sym.position.angle or 0
+    key = (entry, angle)
+    if key in PIN_OFFSETS and pin_num in PIN_OFFSETS[key]:
+        ox, oy = PIN_OFFSETS[key][pin_num]
+        return sym.position.X + ox, sym.position.Y + oy
+    # fallback: unrotated — raw local with the upgrade Y-flip
+    lib_sym = embed[entry]
+    unit = lib_sym.units[0]
+    for p in unit.pins:
+        if str(p.number) == str(pin_num):
+            return sym.position.X + p.position.X, sym.position.Y - p.position.Y
+    raise ValueError(f"pin {pin_num} not found on {entry}")
+
+
 def build_schematic(leds: int) -> Schematic:
     """Build the feather-strip schematic for `leds` LEDs."""
     project = "wings"
@@ -197,16 +247,16 @@ def build_schematic(leds: int) -> Schematic:
     # --- symbol instances ---
     sch.schematicSymbols = []
 
-    # data-in connector (left)
+    # data-in connector (left), rotated 180 so its pin row faces the strip
     sch.schematicSymbols.append(
         _sym(CONN_IN[0], X_J1, CONN_Y, "J1", "DATA-IN", "C145992:CONN-SMD_ZH1.5-4P_SMD", CONN_IN[2],
-             project, root_uuid))
-    # LEDs
+             project, root_uuid, angle=ROT_J1))
+    # LEDs, rotated 90 CCW
     for i in range(leds):
         sch.schematicSymbols.append(
             _sym(LED[0], X_LED0 + i * PITCH, LED_Y, f"L{i+1}", "SK9822-EC20",
                  "C2909059:LED-SMD_6P-L2.0-W2.0-P0.80-TL", LED[2],
-                 project, root_uuid))
+                 project, root_uuid, angle=ROT_LED))
     # data-out connector (right)
     x_out = X_LED0 + leds * PITCH
     sch.schematicSymbols.append(
@@ -218,82 +268,73 @@ def build_schematic(leds: int) -> Schematic:
              "C47647:CONN-SMD_2P-P2.00_PH2.0-SPWB", CONN_PWR[2],
              project, root_uuid))
 
-    # --- wires: power rails + stubs, data chain ---
+    # --- wires: power rails + drops, data chain ---
     wires: list[Connection] = []
     junctions: list[Junction] = []
     labels: list[LocalLabel] = []
 
-    # power rails (horizontal) — terminate at the outermost LED junction points
-    # so both wire ends land on junctions (no dangling endpoints).
-    # LED VDD pins are at x = X_LED0 + i*PITCH + 8.89 ; GND at X_LED0 + i*PITCH - 8.89
-    rail5_x0 = X_LED0 + 0 * PITCH + 8.89        # first LED's VDD x
-    rail5_x1 = X_LED0 + (leds - 1) * PITCH + 8.89  # last LED's VDD x
-    railg_x0 = X_LED0 + 0 * PITCH - 8.89        # first LED's GND x
-    railg_x1 = X_LED0 + (leds - 1) * PITCH - 8.89  # last LED's GND x
-    wires.append(_wire(rail5_x0, RAIL_TOP, rail5_x1, RAIL_TOP))   # +5V
-    wires.append(_wire(railg_x0, RAIL_BOT, railg_x1, RAIL_BOT))   # GND
-    # name the rails so connector labeled-stubs (+5V/GND) join them —
-    # label EXACTLY at the rail end point
-    labels.append(_label("+5V", rail5_x1, RAIL_TOP))
-    labels.append(_label("GND", railg_x1, RAIL_BOT))
+    # rot=270 LED pin offsets (mm from symbol center), verified by probe:
+    #   SDO(1)=(+2.54,-8.89) GND(2)=(0,-8.89) SDI(3)=(-2.54,-8.89)   top row
+    #   CKL(4)=(-2.54,+8.89) VDD(5)=(0,+8.89) CKO(6)=(+2.54,+8.89)   bottom row
+    TOP_Y = LED_Y - 8.89    # data-in row: SDI/GND/SDO
+    BOT_Y = LED_Y + 8.89    # clock-in row: CKL/VDD/CKO
+    x_leds = [X_LED0 + i * PITCH for i in range(leds)]
 
-    def pin_xy(sym: SchematicSymbol, pin_num: str) -> tuple[float, float]:
-        """Absolute pin position from the embedded symbol geometry (rotation 0).
+    # power rails (horizontal), spanning the first..last LED x
+    rail_x0 = x_leds[0]
+    rail_x1 = x_leds[-1]
+    wires.append(_wire(rail_x0, RAIL_GND, rail_x1, RAIL_GND))   # GND bus (top)
+    wires.append(_wire(rail_x0, RAIL_5V, rail_x1, RAIL_5V))     # +5V bus (bottom)
+    # name the rails at their right ends so connector labeled-stubs join them
+    labels.append(_label("GND", rail_x1, RAIL_GND))
+    labels.append(_label("+5V", rail_x1, RAIL_5V))
 
-        NOTE: `kicad-cli sch upgrade` (v20211014 -> v20260306) flips the Y of
-        embedded lib-symbol pins, so the absolute Y is sym.Y - local.Y.
-        """
-        entry = sym.entryName
-        lib_sym = embed[entry]
-        # pin local position from first unit
-        unit = lib_sym.units[0]
-        for p in unit.pins:
-            if str(p.number) == str(pin_num):
-                return sym.position.X + p.position.X, sym.position.Y - p.position.Y
-        raise ValueError(f"pin {pin_num} not found on {entry}")
+    # LEDs: GND straight UP to GND bus, VDD straight DOWN to +5V bus
+    for x in x_leds:
+        # GND pin (top row) -> straight up to GND rail
+        wires.append(_wire(x, TOP_Y, x, RAIL_GND))
+        junctions.append(_junction(x, RAIL_GND))
+        # VDD pin (bottom row) -> straight down to +5V rail
+        wires.append(_wire(x, BOT_Y, x, RAIL_5V))
+        junctions.append(_junction(x, RAIL_5V))
 
-    def route(sym: SchematicSymbol, pin_num: str, signal: str, rail_y: float | None):
-        """Draw a stub from the pin to a rail (or a short stub + label at its end)."""
-        px, py = pin_xy(sym, pin_num)
-        if rail_y is not None:
-            # vertical stub from pin up/down to the rail, plus a junction at the rail
-            wires.append(_wire(px, py, px, rail_y))
-            junctions.append(_junction(px, rail_y))
-        else:
-            # labeled stub: horizontal wire from pin, label EXACTLY at the wire end
-            dx = STUB if px < sym.position.X else -STUB
-            endx = px + dx
-            wires.append(_wire(px, py, endx, py))
-            labels.append(_label(signal, endx, py))
+    # data chain: straight HORIZONTAL wires between adjacent LEDs, each with a
+    # net label so KiCad registers the connection (a bare wire between pins is
+    # drawn but NOT netlisted in KiCad 10 — verified by test).
+    #   SDO_i -> SDI_{i+1} on the top row; CKO_i -> CKL_{i+1} on the bottom row
+    for i in range(leds - 1):
+        xm = (x_leds[i] + 2.54 + x_leds[i + 1] - 2.54) / 2  # wire midpoint
+        wires.append(_wire(x_leds[i] + 2.54, TOP_Y, x_leds[i + 1] - 2.54, TOP_Y))  # SDO->SDI
+        wires.append(_wire(x_leds[i] + 2.54, BOT_Y, x_leds[i + 1] - 2.54, BOT_Y))  # CKO->CKL
+        labels.append(_label(f"D{i}", xm, TOP_Y))
+        labels.append(_label(f"C{i}", xm, BOT_Y))
 
-    # connectors -> rails: use SHORT labeled stubs (+5V/GND) instead of long
-    # vertical wires through the board (avoids crossing-wire connections).
+    # first LED's SDI/CKL: labeled stubs to J1 (DI/CI by name)
+    wires.append(_wire(x_leds[0] - 2.54, TOP_Y, x_leds[0] - 2.54 - STUB, TOP_Y))
+    labels.append(_label("DI", x_leds[0] - 2.54 - STUB, TOP_Y))
+    wires.append(_wire(x_leds[0] - 2.54, BOT_Y, x_leds[0] - 2.54 - STUB, BOT_Y))
+    labels.append(_label("CI", x_leds[0] - 2.54 - STUB, BOT_Y))
+
+    # last LED's SDO/CKO: labeled stubs to J2 (DO/CO by name)
+    wires.append(_wire(x_leds[-1] + 2.54, TOP_Y, x_leds[-1] + 2.54 + STUB, TOP_Y))
+    labels.append(_label("DO", x_leds[-1] + 2.54 + STUB, TOP_Y))
+    wires.append(_wire(x_leds[-1] + 2.54, BOT_Y, x_leds[-1] + 2.54 + STUB, BOT_Y))
+    labels.append(_label("CO", x_leds[-1] + 2.54 + STUB, BOT_Y))
+
+    # connectors -> rails: SHORT labeled stubs (+5V/GND/DI/CI/DO/CO)
+    def conn_stub(sym: SchematicSymbol, pin_num: str, signal: str):
+        """Short horizontal labeled stub from a connector pin."""
+        px, py = pin_xy(sym, pin_num, embed)
+        dx = STUB if px < sym.position.X else -STUB
+        endx = px + dx
+        wires.append(_wire(px, py, endx, py))
+        labels.append(_label(signal, endx, py))
+
     for sym, pin_map in ((sch.schematicSymbols[0], CONN_IN[2]),
                          (sch.schematicSymbols[-2], CONN_OUT[2]),
                          (sch.schematicSymbols[-1], CONN_PWR[2])):
         for num, sig in pin_map.items():
-            if sig in ("+5V", "GND"):
-                route(sym, num, sig, None)   # labeled stub, connects to rail by name
-            else:
-                route(sym, num, sig, None)   # DI/CI/DO/CO also labeled stubs
-
-    # LEDs: VDD/GND to rails, data chain via labeled stubs
-    for i, sym in enumerate(sch.schematicSymbols[1:-2]):
-        route(sym, "5", "+5V", RAIL_TOP)
-        route(sym, "2", "GND", RAIL_BOT)
-        if i == 0:
-            route(sym, "3", "DI", None)   # SDI <- J1 DI
-            route(sym, "4", "CI", None)   # CKL <- J1 CI
-        else:
-            prev = sch.schematicSymbols[1 + i - 1]
-            route(sym, "3", f"D{i-1}", None)  # SDI <- prev SDO
-            route(sym, "4", f"C{i-1}", None)  # CKL <- prev CKO
-        if i == leds - 1:
-            route(sym, "1", "DO", None)   # SDO -> J2 DO
-            route(sym, "6", "CO", None)   # CKO -> J2 CO
-        else:
-            route(sym, "1", f"D{i}", None)  # SDO -> next SDI
-            route(sym, "6", f"C{i}", None)  # CKO -> next CKL
+            conn_stub(sym, num, sig)
 
     sch.graphicalItems = wires
     sch.junctions = junctions
