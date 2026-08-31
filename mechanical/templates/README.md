@@ -35,6 +35,9 @@ base of calamus → tip).
 >
 > **Confidence:** all rows are **measured from the physical templates** (authoritative). The
 > templates are **mirrored** — the same sizes serve both wings.
+>
+> **Feather substrate:** **deferred to Phase 2** (foam trials) — this phase builds the feathers
+> from **various packing foams** (see [PROJECT_PLAN](../../PROJECT_PLAN.md), Phase 2).
 
 ### Primaries — P1–P10 ✅ measured (physical templates)
 

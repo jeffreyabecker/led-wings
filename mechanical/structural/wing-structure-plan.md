@@ -1,21 +1,23 @@
-# Wing Structure — Build Plan (working ⚠️)
+# Wing Structure — Build Plan (locked ✅)
 
 > Concrete, buildable plan for the wing structure — bones, backplate, feather mounting.
 > Distilled from the [wing-bones investigation](../../investigations/wing-bones/README.md)
 > (reasoning, measurements, and sources live there). **Locked decisions live in
 > [design-readiness.md](design-readiness.md)** — this is the *how-we-build-it* doc.
-> ⚠️ Working — validate the feather-root layout and estimates on the mockup before committing.
+>
+> **Status: geometry + feather sizes are LOCKED** (measured templates, feather-record.csv).
+> The only open items are fabrication decisions — see §8 (working defaults noted).
 
 ## 1. Summary
 
-- **Folded wing laid flat on the back** — envelope **50 cm wide × 55 cm tall**; feather tips at
-  **mid-butt** (55 cm below the shoulder line); feather sizes **measured from the physical
-  templates** ([feather-record.csv](../../mechanical/templates/feather-record.csv),
-  longest ≈ P5/P4 ≈ 43.5/43.0 cm); primaries mount in Atlas order P1→P10 (P1 = wing tip);
-  tips peak at **~51 cm** — ~4 cm short of the 55 cm envelope.
-- **Bones are short upper spars** (~13–14 cm) hidden under the coverts; the feathers dominate
-  the lower ~40 cm. **No humerus** — the wing root blends into the backplate.
-- **Backplate**: angular shield carrying the electronics bay, wing roots, and strap anchors.
+- ✅ **Folded wing laid flat on the back** — envelope **50 cm wide × ~55 cm tall**; feather
+  tips at **mid-butt**; feather sizes **measured from the physical templates**
+  ([feather-record.csv](../../mechanical/templates/feather-record.csv), longest ≈ P5/P4 ≈
+  43.5/43.0 cm); primaries mount in Atlas order P1→P10 (P1 = wing tip); tips peak at **~51 cm**
+  — ~4 cm short of the 55 cm target (accepted — still mid-butt).
+- ✅ **Bones are short upper spars** (~13–14 cm) hidden under the coverts; the feathers
+  dominate the lower ~40 cm. **No humerus** — the wing root blends into the backplate.
+- ✅ **Backplate**: angular shield carrying the electronics bay, wing roots, and strap anchors.
 
 ## 2. Coordinate system
 
@@ -23,7 +25,7 @@ Origin = spine centerline at the **shoulder line** (y = 0). **X** lateral (left/
 ± toward the arms), **Y** down the back (waist = positive), **Z** out of the back.
 Tips at y = 55 (mid-butt). Nothing crosses above ~C7 (≈ −4 cm).
 
-## 3. Backplate — angular shield
+## 3. Backplate — angular shield ✅ (geometry locked; material TBD)
 
 | Feature | Value | Basis |
 |---------|-------|-------|
@@ -32,10 +34,10 @@ Tips at y = 55 (mid-butt). Nothing crosses above ~C7 (≈ −4 cm).
 | Height | **~30–32 cm** (bottom ~6–8 cm above the natural waist) | B1–B3 + bend clearance |
 | Neck relief | small center scoop (~2–3 cm deep at the spine) | C7 clearance |
 | Wing roots + straps | **co-located at the top corners (±20, y=0)** — the strap pulls up where the wing loads down | C1 |
-| Electronics bay | ~15 × 12 cm ⚠️ centered on the spine, y≈14–26 (hubs + controller only) | settled parts |
-| Material | TBD ⚠️ (cross-laminated cardboard candidate; layup/thickness for the +4 cm quill-embed tails + stiffness) | open decision |
+| Electronics bay | **deferred to the electronics phase** — backplate stays sized for the future ~15 × 12 cm cutout ⚠️ @ y≈14–26 (hubs + controller only) | user decision |
+| Material | TBD ⚠️ — **working default: cross-laminated cardboard, ~10 mm layup** (seats the +4 cm quill-embed tails + carries wing-root load) | open decision |
 
-## 4. Wing members (per wing, mirrored left/right)
+## 4. Wing members (per wing, mirrored left/right) ✅
 
 | Member | From | To | Angle | Length | Carries |
 |--------|------|----|-------|--------|---------|
@@ -43,10 +45,10 @@ Tips at y = 55 (mid-butt). Nothing crosses above ~C7 (≈ −4 cm).
 | Carpal spar (hand) | (±20, 0) root | (±24.8, 13.2) | θ2 = **20°** fan (15–25° range) | ~14 cm | P1–P10, alula |
 
 - Both spars spring from the **reinforced root corner** (a Y-bracket on the plate corner).
-- Spars: cross-laminated cardboard (~10 mm layup ⚠️ — needs to seat the +4 cm quill tails),
-  foam-padded, covered (covering TBD — pipe-foam alternatives investigation).
+- Spars: cross-laminated cardboard (**working default ~10 mm layup** — seats the +4 cm quill
+  tails), foam-padded, covered (covering TBD — pipe-foam alternatives investigation).
 
-## 5. Feather mounting — roots & tips (working ⚠️)
+## 5. Feather mounting — roots & tips ✅ (measured templates)
 
 > **Position convention:** every mount point is its **position along the spar**, measured from
 > the spar's **outside (distal) edge — 0 = the spar's outer end**, increasing toward the
@@ -120,23 +122,32 @@ primaries are spaced ~1.4 cm along the carpal in P1→P10 order.
 1. Cut the **backplate** from cross-laminated cardboard (angular shield + neck scoop, §3 dims).
 2. Cut the **spars** (2 per wing), assemble the **root Y-brackets**, mount to the plate corners.
 3. **Laminate + seal** the cardboard (⚠️ layup + seal TBD — open decision).
-4. Mount the **electronics bay** (hubs + controller), route wiring egress + strain relief.
+4. *(Bay deferred to the electronics phase — the LED-free build carries no electronics.)*
 5. **Dry-fit feather rows**: secondaries → primaries → coverts; adjust the stagger on the
    mockup before committing (especially the estimated groups).
 6. Mount the **quills** (+4 cm embed), bend wires for tip splay.
-7. **Back-coverts lid** over the bay (hinged/removable — open decision).
+7. **Back-coverts panel** over the (future) bay — a removable feathered cover for the LED-free
+   build (bay hardware deferred with the electronics phase).
 8. Fit the **harness straps** (over-shoulder + cross-chest).
 
-## 8. Open items feeding this plan
+## 8. Open items — fabrication decisions only (with working defaults)
 
-- **Pipe-foam alternative** — covering/anchor material + color (investigation track D).
-- **Cardboard layup + seal** — moisture/flame barrier.
-- **Backplate material + thickness** — integration with spars and straps.
-- **Bay lid** sealing/access; **back-coverts lid** carries electronics or not.
-- **Mockup validation** of the feather-root layout (roots/tips tables above).
-- Vane-ratio shift to **~0.80–0.82** (generator `--vane-ratio-adjustment`).
+- **Feather substrate** — **deferred to Phase 2** (foam trials finalize it); this phase builds
+  the feathers from **various packing foams** (user decision).
+- **Covering/anchor material** (pipe-foam vs alternatives) — working default: **foam pipe
+  wrap**; the alternatives investigation (colors) may change it (Q9 track).
+- **Cardboard layup + seal** — working default: **~10 mm cross-laminated** layup, sealed for
+  moisture/flame.
+- **Backplate material + thickness** — working default: **cross-laminated cardboard, ~10 mm**.
+- **Electronics bay — deferred to the electronics phase** — the LED-free build has no bay; the
+  backplate stays sized for the future ~15 × 12 cm cutout. The back-coverts panel is a pure
+  feathered cover for now.
+- **Mockup validation** — dry-fit the feather-root layout (measured sizes) before committing
+  the covert rows.
+- **Vane ratio** for the generator (target ~0.80–0.82) — affects diffuser shapes, not the
+  bone structure.
 
 ## 9. Weight
 
-Worn structure ≈ **~2.1 kg** ⚠️ (frame 0.9 + feathers 0.3 + LEDs 0.3 + electronics 0.6);
+Worn structure ≈ **~2.0 kg** ⚠️ (frame 0.9 + feathers 0.2 + LEDs 0.3 + electronics 0.6);
 battery external (side pack). See [design-readiness.md](design-readiness.md).
