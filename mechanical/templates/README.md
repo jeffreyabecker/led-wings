@@ -73,12 +73,14 @@ base of calamus → tip).
 | S10 | 26.4 ⚠️ | 24 | 28 |
 | S11 | 26.0 ⚠️ | 24 | 28 |
 
-### Alula ⚠️ estimate
+### Alula ⚠️ estimate (4 per wing — user's templates)
 
 | Feather | Basis | Costume total (cm) | Wire cut = +4 cm (cm) |
 |---------|-------|-------------------:|----------------------:|
-| A-B (longer) | ≈ 0.30 × P1 total | 9 | 13 |
-| A-T (shorter) | ≈ 0.22 × P1 total | 7 | 11 |
+| A1 (longest) | ≈ 0.30 × innermost primary (P10 real) | 9 | 13 |
+| A2 | graduated | 8 | 12 |
+| A3 | graduated | 8 | 12 |
+| A4 (shortest) | ≈ 0.22 × innermost primary | 7 | 11 |
 
 ### Greater primary coverts — GPC1–GPC6 ⚠️ estimate (≈ 0.5 × primary covered)
 
@@ -106,7 +108,7 @@ base of calamus → tip).
 | GSC9 | S9 | 12 | 16 |
 | GSC10 | S10 | 12 | 16 |
 
-### Median secondary coverts — MD1–MD4 ⚠️ estimate (≈ 0.6 × GSC)
+### Median secondary coverts — MD1–MD5 ⚠️ estimate (≈ 0.6 × GSC)
 
 | Feather | Costume total (cm) | Wire cut = +4 cm (cm) |
 |---------|-------------------:|----------------------:|
@@ -114,8 +116,9 @@ base of calamus → tip).
 | MD2 | 10 | 14 |
 | MD3 | 10 | 14 |
 | MD4 | 9 | 13 |
+| MD5 | 8 | 12 |
 
-### Lesser secondary coverts — LC1–LC8 ⚠️ estimate (≈ 0.55 × median)
+### Lesser secondary coverts — LC1–LC6 ⚠️ estimate (≈ 0.55 × median)
 
 | Feather | Costume total (cm) | Wire cut = +4 cm (cm) |
 |---------|-------------------:|----------------------:|
@@ -125,25 +128,11 @@ base of calamus → tip).
 | LC4 | 6 | 10 |
 | LC5 | 6 | 10 |
 | LC6 | 5 | 9 |
-| LC7 | 5 | 9 |
-| LC8 | 5 | 9 |
 
-### Marginal coverts — MG1–MG12 ⚠️ estimate (smallest row, graduating)
+### Marginal coverts — MG1–MG12 ⚠️ (removed — not in the user's templates)
 
-| Feather | Costume total (cm) | Wire cut = +4 cm (cm) |
-|---------|-------------------:|----------------------:|
-| MG1 | 5 | 9 |
-| MG2 | 5 | 9 |
-| MG3 | 4 | 8 |
-| MG4 | 4 | 8 |
-| MG5 | 4 | 8 |
-| MG6 | 4 | 8 |
-| MG7 | 4 | 8 |
-| MG8 | 4 | 8 |
-| MG9 | 4 | 8 |
-| MG10 | 4 | 8 |
-| MG11 | 3 | 7 |
-| MG12 | 3 | 7 |
+None — the wearer's actual template set has **no marginal coverts** (see
+[feather-record.csv](feather-record.csv)).
 
 ### Underwing coverts — U1–U10 ⚠️ estimate (≈ 0.85 × upperwing equivalents)
 
@@ -166,18 +155,17 @@ base of calamus → tip).
 |-------|------:|---------------------:|--------------------------:|
 | Primaries P1–P10 | 10 | 419 | 459 |
 | Secondaries S1–S11 | 11 | 311 | 355 |
-| Alula A-B, A-T | 2 | 16 | 24 |
+| Alula A1–A4 | 4 | 32 | 48 |
 | GPC1–GPC6 | 6 | 132 | 156 |
 | GSC1–GSC10 | 10 | 143 | 183 |
-| MD1–MD4 | 4 | 39 | 55 |
-| LC1–LC8 | 8 | 45 | 77 |
-| MG1–MG12 | 12 | 48 | 96 |
+| MD1–MD5 | 5 | 47 | 67 |
+| LC1–LC6 | 6 | 35 | 59 |
 | U1–U10 | 10 | 134 | 174 |
-| **One wing** | **73 feathers** | **~12.9 m** | **~15.8 m** |
+| **One wing** | **62 feathers** | **~12.5 m** | **~15.0 m** |
 
 > **Cut plan:** measured groups (primaries + secondaries) = 21 feathers, safe to cut in bulk
-> (~8.1 m). Estimated groups = 52 feathers (~7.7 m) — cut one per type (GPC, GSC, MD, LC, MG,
-> U, alula) first and validate against the frame/mockup before committing the rest.
+> (~8.1 m). Estimated groups = 41 feathers (~6.9 m) — cut one per type (alula, GPC, GSC, MD,
+> LC, U) first and validate against the frame/mockup before committing the rest.
 
 ## Regions needed
 
@@ -190,10 +178,9 @@ the group's feathers):
 | Secondaries | S1–S11 |
 | Greater secondary coverts | GSC1–GSC10 |
 | Greater primary coverts | GPC1–GPC6 |
-| Median secondary coverts | MD1–MD4 |
-| Lesser secondary coverts | LC1-LC8 |
-| Marginal coverts | MG1–MG12 |
-| Alula | A-B, A-T |
+| Median secondary coverts | MD1–MD5 |
+| Lesser secondary coverts | LC1-LC6 |
+| Alula | A1–A4 |
 | Underwing Coverts | U1-U10|
 
 

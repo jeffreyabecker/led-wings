@@ -34,11 +34,12 @@ institutional sources to anchor template sizing.
 | Primaries | 10 / wing | P1–P10 ✅ |
 | Secondaries | **17** / wing (S1 = outermost) | S1–S11 (atlas scanned only the outer 8) |
 | Rectrices (tail) | 12 | — (not in plan) |
-| Alula | 3–5 / wing (digit-1) | A-B, A-T |
+| Alula | 3–5 / wing (digit-1) | A1–A4 (4 — user's templates) |
 | Greater primary coverts | ~10 (one per primary; outer ones tiny) | GPC1–GPC6 |
 | Greater secondary coverts | ~17 | GSC1–GSC10 |
-| Median secondary coverts | ~17 (a row) | MD1–MD4 |
-| Lesser secondary coverts | variable (several rows) | LC1–LC8 |
+| Median secondary coverts | ~17 (a row) | MD1–MD5 |
+| Lesser secondary coverts | variable (several rows) | LC1–LC6 |
+| Marginal coverts | several rows | none (user's templates) |
 | Underwing coverts | mirror of upperwing | U1–U10 |
 
 ## Measured — Primaries (total / vane, cm)

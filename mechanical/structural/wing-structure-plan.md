@@ -94,10 +94,9 @@ primaries' root zone. Tips hang vertical.
 **Coverts (deep coverage — bones hidden to y ≈ 15–18), mount zones:**
 - GPC1–6 (over primaries P5–P10): carpal, pos ≈ 5.5 → 14 (tips ≈ 17–32)
 - GSC1–10 (over S1–S10): forearm, pos ≈ 12 → 5 (tips ≈ 18–20)
-- MD1–4: forearm, pos ≈ 13 → 9 (tips ≈ 10–13)
-- LC1–8: forearm, pos ≈ 13 → 10 (tips ≈ 6–8)
-- MG1–12: forearm, pos ≈ 13 → 11 (tips ≈ 3–5)
-- Alula A-B/A-T: carpal root end, pos ≈ 12–13 (near P10)
+- MD1–5: forearm, pos ≈ 13 → 9 (tips ≈ 10–13)
+- LC1–6: forearm, pos ≈ 13 → 10 (tips ≈ 6–8)
+- Alula A1–A4: carpal root end, pos ≈ 12–13 (near P10)
 - Underwing U1–10: mirrored on the spar undersides (same positions as their upperwing equivalents)
 
 **Mounting:** quill wires embed **+4 cm** into the spars (below the "skin line"); extra tip
