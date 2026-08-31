@@ -78,14 +78,21 @@ non-negotiable to design in.
 | Size | ~30 × 25 mm (4 taps) — one panelized part |
 | No | data, no MCU, no LED drive — power only |
 
-## 6. Per-wing deployment (4 boards/wing)
+## 6. Per-wing deployment (4 boards/wing) — connectors
 
-| Board | Group | Taps | Tap currents @100% |
-|---|---|---|---|
-| H-P | Primaries (131 LED, 5.24 A) | 4 | 1.32/1.32/1.32/1.28 A |
-| H-S | Secondaries (100 LED, 4.0 A) | 3 | 1.36/1.32/1.32 A |
-| H-R1 | Rest half 1 | 3 | ≤ 0.96 A |
-| H-R2 | Rest half 2 | 2 | ≤ 0.88 A |
+| Board | Group | Buck | 12 V in | 5 V taps (PH2.0-2PWB) | Tap currents @100% |
+|---|---|---|---|---|---|
+| H-P | Primaries (131 LED, 5.24 A) | 1×6 A | 1 | **4** | 1.32/1.32/1.32/1.28 A |
+| H-S | Secondaries (100 LED, 4.0 A) | 1×6 A | 1 | **3** | 1.36/1.32/1.32 A |
+| H-R1 | Rest: GPC+GSC+MD (22+24+15 LED) | 1×6 A | 1 | **5** | ≤ 0.96 A |
+| H-R2 | Rest: LC+MG+A+U (16+22+6+44 LED) | 1×6 A | 1 | **5** | ≤ 0.88 A |
+
+**Connectors per wing: 4 × 12 V bus terminals + 17 × PH2.0-2PWB taps = 21.
+Both wings: 8 + 34 = 42 connectors.**
+
+> ✅ Tap count reconciled with the injection map (`feather-boards.md` §4: 17 taps/wing).
+> The 12 V bus input is a push-in spring-clamp terminal (Wago 2060-class, ≥5 A);
+> the 5 V taps are the 2 A `PH2.0-2PWB` (C47647), one per injection point.
 
 ## 7. BOM — JLCPCB part numbers (verified via jlcsearch, 2026)
 
