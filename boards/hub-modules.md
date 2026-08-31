@@ -55,14 +55,14 @@ terminals (see §3/§4.1).
 ## 4. Open decisions
 
 ### 4.1 Hub count / current rule (affects §2 + §3)
-- The **region grouping (user's) = 6 hubs/wing at 2.8–3.4 A** — each needs a buck bigger
-  than the MP1584EN no-heatsink ~2–2.5 A.
-- Options: (a) **one ~4 A-capable buck per hub** (DIY or a beefier module); (b) **two
-  MP1584EN-class channels per hub board** (12 buck channels/wing total); (c) revert to the
-  ≤2 A micro-cluster list (18/wing, 36 total).
-- This is **why DIY bucks entered the conversation** — the region hubs need ~3.5 A, beyond
-  the off-the-shelf module's comfortable envelope, and a custom hub board could carry a
-  4 A synchronous buck + fuse + terminals in one panelized part.
+- **Updated (100 % safe design):** with no brightness cap, the region hubs are sized by
+  **full-white current** (see `feather-boards.md` §4): **9 × 2.5 A bucks/wing**
+  (P 5.24 A → 3 · S 4.00 A → 2 · rest 7.76 A → 4). 18 total both wings.
+- **17 injection taps/wing** (34 total) — every tap ≤ 1.36 A on a 2 A `PH2.0-2PWB`.
+- The earlier ≤2 A micro-cluster list (18/wing) and the 6-region-hub list are
+  superseded by the group-buck + injection-tap design in `feather-boards.md`.
+- The custom 2020-LED path (0.2 W/LED) halves currents only if the medium changes —
+  current design uses the off-the-shelf 40 mA/LED model.
 
 ### 4.2 DIY buck or module?
 Schematic trivial, **layout is the real work** (critical loop, ground pour, inductor
