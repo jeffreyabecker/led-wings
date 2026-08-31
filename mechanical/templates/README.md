@@ -11,6 +11,20 @@
 > [boards/](../boards/README.md) (lighting doc:
 > [boards/lighting-and-boards.md](../boards/lighting-and-boards.md)).
 
+## Terminology
+
+| Code | Group |
+|------|-------|
+| P | primaries P1–P10 |
+| S | secondaries S1–S10 |
+| A | alula A1–A4 |
+| PC | primary coverts PC1–PC6 |
+| SC | secondary coverts SC1–SC10 |
+| MC | median coverts MC1–MC5 |
+| L | lesser coverts L1–L6 |
+| U | underwing coverts U1–U10 |
+| B | body feathers (scapulars, etc.) — **not yet in the cut list** |
+
 ## Measured reference data
 
 - [Golden eagle feather measurements](golden-eagle-feather-data.md) — pulled totals + vane
@@ -78,52 +92,52 @@ base of calamus → tip).
 | A3 | 12.6 | 16.6 |
 | A4 | 9.2 | 13.2 |
 
-### Greater primary coverts — GPC1–GPC6 ✅ measured
+### Primary coverts — PC1–PC6 ✅ measured
 
 | Feather | Measured total (cm) | Wire cut = +4 cm (cm) |
 |---------|--------------------:|----------------------:|
-| GPC1 | 10.2 | 14.2 |
-| GPC2 | 15.5 | 19.5 |
-| GPC3 | 17.6 | 21.6 |
-| GPC4 | 17.1 | 21.1 |
-| GPC5 | 15.7 | 19.7 |
-| GPC6 | 13.4 | 17.4 |
+| PC1 | 10.2 | 14.2 |
+| PC2 | 15.5 | 19.5 |
+| PC3 | 17.6 | 21.6 |
+| PC4 | 17.1 | 21.1 |
+| PC5 | 15.7 | 19.7 |
+| PC6 | 13.4 | 17.4 |
 
-### Greater secondary coverts — GSC1–GSC10 ✅ measured
-
-| Feather | Measured total (cm) | Wire cut = +4 cm (cm) |
-|---------|--------------------:|----------------------:|
-| GSC1 | 12.5 | 16.5 |
-| GSC2 | 16.3 | 20.3 |
-| GSC3 | 17.3 | 21.3 |
-| GSC4 | 15.5 | 19.5 |
-| GSC5 | 15.7 | 19.7 |
-| GSC6 | 16.0 | 20.0 |
-| GSC7 | 17.0 | 21.0 |
-| GSC8 | 17.7 | 21.7 |
-| GSC9 | 13.2 | 17.2 |
-| GSC10 | 16.1 | 20.1 |
-
-### Median secondary coverts — MD1–MD5 ✅ measured
+### Secondary coverts — SC1–SC10 ✅ measured
 
 | Feather | Measured total (cm) | Wire cut = +4 cm (cm) |
 |---------|--------------------:|----------------------:|
-| MD1 | 11.0 | 15.0 |
-| MD2 | 11.7 | 15.7 |
-| MD3 | 11.7 | 15.7 |
-| MD4 | 11.7 | 15.7 |
-| MD5 | 9.8 | 13.8 |
+| SC1 | 12.5 | 16.5 |
+| SC2 | 16.3 | 20.3 |
+| SC3 | 17.3 | 21.3 |
+| SC4 | 15.5 | 19.5 |
+| SC5 | 15.7 | 19.7 |
+| SC6 | 16.0 | 20.0 |
+| SC7 | 17.0 | 21.0 |
+| SC8 | 17.7 | 21.7 |
+| SC9 | 13.2 | 17.2 |
+| SC10 | 16.1 | 20.1 |
 
-### Lesser secondary coverts — LC1–LC6 ✅ measured
+### Median coverts — MC1–MC5 ✅ measured
 
 | Feather | Measured total (cm) | Wire cut = +4 cm (cm) |
 |---------|--------------------:|----------------------:|
-| LC1 | 6.5 | 10.5 |
-| LC2 | 7.0 | 11.0 |
-| LC3 | 8.4 | 12.4 |
-| LC4 | 8.7 | 12.7 |
-| LC5 | 9.0 | 13.0 |
-| LC6 | 7.7 | 11.7 |
+| MC1 | 11.0 | 15.0 |
+| MC2 | 11.7 | 15.7 |
+| MC3 | 11.7 | 15.7 |
+| MC4 | 11.7 | 15.7 |
+| MC5 | 9.8 | 13.8 |
+
+### Lesser coverts — L1–L6 ✅ measured
+
+| Feather | Measured total (cm) | Wire cut = +4 cm (cm) |
+|---------|--------------------:|----------------------:|
+| L1 | 6.5 | 10.5 |
+| L2 | 7.0 | 11.0 |
+| L3 | 8.4 | 12.4 |
+| L4 | 8.7 | 12.7 |
+| L5 | 9.0 | 13.0 |
+| L6 | 7.7 | 11.7 |
 
 ### Marginal coverts — MG ⚠️ (removed — not in the user's templates)
 
@@ -152,16 +166,16 @@ None — the wearer's actual template set has **no marginal coverts** (see
 | Primaries P1–P10 | 10 | 370.8 | 410.8 |
 | Secondaries S1–S10 | 10 | 238.9 | 278.9 |
 | Alula A1–A4 | 4 | 52.2 | 68.2 |
-| GPC1–GPC6 | 6 | 89.5 | 113.5 |
-| GSC1–GSC10 | 10 | 157.3 | 197.3 |
-| MD1–MD5 | 5 | 55.9 | 75.9 |
-| LC1–LC6 | 6 | 47.3 | 71.3 |
+| PC1–PC6 | 6 | 89.5 | 113.5 |
+| SC1–SC10 | 10 | 157.3 | 197.3 |
+| MC1–MC5 | 5 | 55.9 | 75.9 |
+| L1–L6 | 6 | 47.3 | 71.3 |
 | U1–U10 | 10 | 138.2 | 178.2 |
 | **One wing** | **61 feathers** | **~11.5 m** | **~13.9 m** |
 
 > **Cut plan:** measured groups (primaries + secondaries) = 20 feathers, safe to cut in bulk
-> (~6.9 m). Estimated groups = 41 feathers (~7.0 m) — cut one per type (alula, GPC, GSC, MD,
-> LC, U) first and validate against the frame/mockup before committing the rest.
+> (~6.9 m). Estimated groups = 41 feathers (~7.0 m) — cut one per type (A, PC, SC, MC, L,
+> U) first and validate against the frame/mockup before committing the rest.
 
 ## Regions needed
 
@@ -172,12 +186,13 @@ the group's feathers):
 |--------|----------------|
 | Primaries | P1–P10 |
 | Secondaries | S1–S10 |
-| Greater secondary coverts | GSC1–GSC10 |
-| Greater primary coverts | GPC1–GPC6 |
-| Median secondary coverts | MD1–MD5 |
-| Lesser secondary coverts | LC1-LC6 |
+| Secondary coverts | SC1–SC10 |
+| Primary coverts | PC1–PC6 |
+| Median coverts | MC1–MC5 |
+| Lesser coverts | L1-L6 |
 | Alula | A1–A4 |
-| Underwing Coverts | U1-U10|
+| Underwing coverts | U1-U10|
+| Body feathers | B (scapulars, etc.) — not yet in the cut list |
 
 
 ## Source Images

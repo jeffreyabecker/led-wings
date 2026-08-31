@@ -35,10 +35,10 @@ institutional sources to anchor template sizing.
 | Secondaries | **17** / wing (S1 = outermost) | S1–S10 (user's templates) |
 | Rectrices (tail) | 12 | — (not in plan) |
 | Alula | 3–5 / wing (digit-1) | A1–A4 (4 — user's templates) |
-| Greater primary coverts | ~10 (one per primary; outer ones tiny) | GPC1–GPC6 |
-| Greater secondary coverts | ~17 | GSC1–GSC10 |
-| Median secondary coverts | ~17 (a row) | MD1–MD5 |
-| Lesser secondary coverts | variable (several rows) | LC1–LC6 |
+| Primary coverts | ~10 (one per primary; outer ones tiny) | PC1–PC6 |
+| Secondary coverts | ~17 | SC1–SC10 |
+| Median coverts | ~17 (a row) | MC1–MC5 |
+| Lesser coverts | variable (several rows) | L1–L6 |
 | Marginal coverts | several rows | none (user's templates) |
 | Underwing coverts | mirror of upperwing | U1–U10 |
 
@@ -116,16 +116,16 @@ covert lengths.) Known facts: alula 3–5 feathers on digit-1, young birds longe
 overlapping rows over the remex bases.
 
 Working estimates below use standard avian wing-anatomy ratios (covert ≈ ½ of the remex it covers,
-median ≈ 0.6 × GSC, lesser ≈ 0.5–0.65 × median, alula ≈ 0.25–0.35 × P1) applied to the measured
+median ≈ 0.6 × SC, lesser ≈ 0.5–0.65 × median, alula ≈ 0.25–0.35 × P1) applied to the measured
 adult-♂ primaries/secondaries. **These are estimates, not data — validate before locking
 templates** (see Open tasks).
 
 | Group | Basis | Working est. (adult ♂, total cm) |
 |-------|-------|----------------------------------|
-| Greater primary coverts GPC1–GPC6 | ≈ 0.45–0.55 × covered primary, inner set (P5–P10; e.g., P10 33.4 → 15–18) | 15–18 |
-| Greater secondary coverts GSC1–GSC10 | ≈ 0.45–0.55 × secondary | 17–20 outer → 14–16 inner |
-| Median secondary coverts MD1–MD4 | ≈ 0.55–0.65 × GSC | 9–13 |
-| Lesser secondary coverts LC1–LC8 | ≈ 0.5–0.65 × median | 5–9 |
+| Primary coverts PC1–PC6 | ≈ 0.45–0.55 × covered primary, inner set (P5–P10; e.g., P10 33.4 → 15–18) | 15–18 |
+| Secondary coverts SC1–SC10 | ≈ 0.45–0.55 × secondary | 17–20 outer → 14–16 inner |
+| Median coverts MC1–MC5 | ≈ 0.55–0.65 × SC | 9–13 |
+| Lesser coverts L1–L6 | ≈ 0.5–0.65 × median | 5–9 |
 | Marginal coverts MG1–MG12 | smallest upperwing row | 3–6 |
 | Alula A-B / A-T | ≈ 0.25–0.35 × P1 (33.4) | 8–12 (longest) |
 | Underwing coverts U1–U10 | ≈ 0.8–0.95 × upperwing equivalent | 14–19 |

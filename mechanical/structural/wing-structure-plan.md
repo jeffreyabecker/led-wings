@@ -99,10 +99,10 @@ the 55 cm mid-butt envelope** (the physical feathers are smaller than the projec
 envelope would need longer feathers or lower mounts to reach 55).
 
 **Coverts (deep coverage — bones hidden to y ≈ 15–18), mount zones:**
-- GPC1–6 (over primaries P5–P10): carpal, pos ≈ 5.5 → 14 (tips ≈ 17–32)
-- GSC1–10 (over S1–S10): forearm, pos ≈ 12 → 5 (tips ≈ 18–20)
-- MD1–5: forearm, pos ≈ 13 → 9 (tips ≈ 10–13)
-- LC1–6: forearm, pos ≈ 13 → 10 (tips ≈ 6–8)
+- PC1–6 (over primaries P5–P10): carpal, pos ≈ 5.5 → 14 (tips ≈ 17–32)
+- SC1–10 (over S1–S10): forearm, pos ≈ 12 → 5 (tips ≈ 18–20)
+- MC1–5: forearm, pos ≈ 13 → 9 (tips ≈ 10–13)
+- L1–6: forearm, pos ≈ 13 → 10 (tips ≈ 6–8)
 - Alula A1–A4: carpal root end, pos ≈ 12–13 (near P10)
 - Underwing U1–10: mirrored on the spar undersides (same positions as their upperwing equivalents)
 

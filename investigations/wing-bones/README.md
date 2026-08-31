@@ -61,7 +61,7 @@ geometry + wing-root mounting**, not the battery.
   - **Primaries P1–P10 → carpal (hand) member** — longest ≈ P5/P6 ≈ 49/48 cm (scale ×0.9085) →
     sets the carpal member's run so the primaries' tips reach the 55 cm hem (mid-butt).
   - **Secondaries S1–S11 → ulna / forearm member** — the row above the primaries.
-  - **Coverts (GPC/GSC/MD/LC/MG) + alula → upper-arm/backplate shoulder zone**, stacking
+  - **Coverts (PC/SC/MC/L) + alula → upper-arm/backplate shoulder zone**, stacking
     shingle-style over the remex bases toward the shoulders.
 - Implication: the members' geometry **is** the feather-layout geometry — the "bones" must land
   where each feather row attaches, and the 4 cm tails dictate minimum member thickness/layup.
@@ -148,8 +148,8 @@ Atlas order — P1 = wing tip at the carpal's distal end, P10 = innermost at the
 | S10 | 9.0 | 24.0 | 33.0 |
 | S11 | 9.5 | 23.6 | 33.1 |
 
-**Coverts (deep coverage — bones hidden to y ≈ 15–18):** GPC1–6 roots y≈2–8 (tips ≈ 17–32) ·
-GSC1–10 roots y≈1–8 (tips ≈ 18–20) · MD1–4 y≈0–4 (tips ≈ 10–13) · LC1–8 y≈0–3 (tips ≈ 6–8) ·
+**Coverts (deep coverage — bones hidden to y ≈ 15–18):** PC1–6 roots y≈2–8 (tips ≈ 17–32) ·
+SC1–10 roots y≈1–8 (tips ≈ 18–20) · MC1–5 y≈0–4 (tips ≈ 10–13) · L1–6 y≈0–3 (tips ≈ 6–8) ·
 MG1–12 y≈0–2 (tips ≈ 3–5) · alula A-B/A-T at the carpal root end (near P10, pos ≈ 12–13) ·
 underwing U1–10 mirrored on the spar undersides.
 
