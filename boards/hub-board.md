@@ -65,34 +65,42 @@ on the bus input, and keep the bus wiring clean. This is the one real constraint
 AOZ/SY8205 (30 V) parts didn't have — acceptable trade for 6 A at $0.72, but
 non-negotiable to design in.
 
-## 5. Board spec (pure distribution)
+## 5. Board spec (pure distribution) — ONE design, 5 taps
 
 | Item | Value |
 |---|---|
 | Stackup | 2-layer, 2 oz outer (current + thermal) |
 | Input | 12 V bus, SS34 reverse-protect, TVS clamp, 2×10 µF 1210 |
 | Buck | TPS56628DDA, 5.0 V, 6 A, 650 kHz |
-| Output | fused taps → PH2.0-2PWB (C47647) 2-pin power taps |
+| Output | **5 × fused taps** → PH2.0-2PWB (C47647) 2-pin power taps |
 | Fuse | 2 A per tap (ATO/polyfuse), or per-board input fuse + per-tap |
-| Terminals | push-in spring-clamp (Wago 2060-class) for bus + tap wiring |
-| Size | ~30 × 25 mm (4 taps) — one panelized part |
+| Terminals | push-in spring-clamp (Wago 2060-class) for bus wiring |
+| Size | ~35 × 25 mm (5 taps) — one panelized part |
 | No | data, no MCU, no LED drive — power only |
 
-## 6. Per-wing deployment (4 boards/wing) — connectors
+**One board design, deployed N times.** Every hub is the same part; unused tap
+positions are simply unpopulated. ✅
 
-| Board | Group | Buck | 12 V in | 5 V taps (PH2.0-2PWB) | Tap currents @100% |
-|---|---|---|---|---|---|
-| H-P | Primaries (131 LED, 5.24 A) | 1×6 A | 1 | **4** | 1.32/1.32/1.32/1.28 A |
-| H-S | Secondaries (100 LED, 4.0 A) | 1×6 A | 1 | **3** | 1.36/1.32/1.32 A |
-| H-R1 | Rest: GPC+GSC+MD (22+24+15 LED) | 1×6 A | 1 | **5** | ≤ 0.96 A |
-| H-R2 | Rest: LC+MG+A+U (16+22+6+44 LED) | 1×6 A | 1 | **5** | ≤ 0.88 A |
+## 6. Deployment — 4 identical 5-tap boards per wing
 
-**Connectors per wing: 4 × 12 V bus terminals + 17 × PH2.0-2PWB taps = 21.
-Both wings: 8 + 34 = 42 connectors.**
+| Board | Group | LEDs | A@100% | Buck | Taps used | Tap currents @100% |
+|---|---|---:|---:|---|---|---|
+| H-P | Primaries | 131 | 5.24 | 1×6 A | **4** (of 5) | 1.32/1.32/1.32/1.28 A |
+| H-S | Secondaries | 100 | 4.00 | 1×6 A | **3** (of 5) | 1.36/1.32/1.32 A |
+| H-R1 | Rest: GPC+GSC+MD | 106 | 4.24 | 1×6 A | **5** | ≤ 0.96 A |
+| H-R2 | Rest: LC+MG+A+U | 88 | 3.52 | 1×6 A | **5** | ≤ 0.88 A |
+
+- **All four boards are the same design** — only the populated taps differ.
+- Every buck load ≤ 6 A ✅ (worst: H-P at 5.24 A = 87 % of rating).
+- **Tap positions/wing: 20 (17 used, 3 spare)** — spares are free redundancy/test points.
+
+**Connectors: per wing 4 × 12 V bus terminals + 17 × PH2.0-2PWB taps populated
+(20 positions). Both wings: 8 + 34 populated (40 positions).**
 
 > ✅ Tap count reconciled with the injection map (`feather-boards.md` §4: 17 taps/wing).
 > The 12 V bus input is a push-in spring-clamp terminal (Wago 2060-class, ≥5 A);
 > the 5 V taps are the 2 A `PH2.0-2PWB` (C47647), one per injection point.
+> One design × 8 boards = 8 × 5-tap parts ordered.
 
 ## 7. BOM — JLCPCB part numbers (verified via jlcsearch, 2026)
 
