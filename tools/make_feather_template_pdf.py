@@ -76,15 +76,12 @@ SPARSE_GAP_MM = 70.0            # around a row that holds a single pair
 DENSE_GAP_MM = 30.0             # between pairs sharing a row, and between rows
 # Vertical furniture above the first pair: a title line and a subtitle line.
 HEAD_MM = 18.0
-# Per-pair band above each pair, holding two stacked text lines: the half labels
-# ("LEFT - mirror" / "RIGHT - as built") and, below them, the feather ID. Two
-# lines rather than one so the ID can never collide with a half label on a narrow
-# pair, where the labels reach inwards.
-LABEL_BAND_MM = 11.6
+# Per-pair band above each pair, holding the feather ID line. The ID carries the
+# side as a suffix (`P1 L` / `P1 R`), which is what distinguishes the halves.
+LABEL_BAND_MM = 6.6
 FOOT_MM = 15.0
 LABEL_SIZE_MM = 4.4
-ID_SIZE_MM = 6.0                # feather ID inside a half
-ID_LINE_MM = 7.6                # baseline of the ID line, above the pair
+ID_SIZE_MM = 6.0                # feather ID, page header
 FOOT_SIZE_MM = 3.0
 LABEL_GAP_MM = 0.9              # gap from the pair to its ID line
 MIN_PAGE_HEIGHT_MM = 60.0
@@ -515,25 +512,15 @@ def layout_page(title: str, rows: list, by_name: dict, scale: float) -> PageLayo
 
 
 def slot_labels(slot: PairSlot) -> list:
-    """(text, x, y, align) for a pair's half labels, as drawn on the page.
-
-    Shared with the verifier so the label positions are not restated twice.
-    """
-    return [
-        ("LEFT - mirror", slot.left_box[0], slot.label_y, "left"),
-        ("RIGHT - as built", slot.right_box[2], slot.label_y, "right"),
-    ]
-
-
-def slot_id_labels(slot: PairSlot) -> list:
     """(text, x, y, align) for the feather ID above each half of a pair.
 
-    Sits on its own line between the half labels and the pair, so it cannot
-    collide with them. Anchored to each half's inner edge and pushed one em clear
-    of the axis, so the two IDs of a pair never overlap.
+    The ID carries the side as a suffix (`P1 L`, `P1 R`), which is what tells the
+    two halves apart, so no separate side caption is drawn. Each ID is anchored to
+    its half's inner edge and pushed one em clear of the axis, so the two IDs of a
+    pair never overlap.
     """
     inset = slot.axis_x - slot.cell_left
-    y = slot.pair_top + ID_LINE_MM
+    y = slot.label_y
     return [
         (f"{slot.name} L", slot.axis_x - inset, y, "left"),
         (f"{slot.name} R", slot.axis_x + inset, y, "right"),
@@ -617,18 +604,10 @@ def build_page(layout: PageLayout, page_no: int, page_total: int,
                generated: str, scale: float) -> str:
     cmds: list[str] = [compute_layout_geometry(layout)]
 
-    # Half labels sit just above their pair. The feather apex is the widest point
-    # of a half, so a label anchored to the outer edge of a half cannot reach the
-    # cut line; a white backing keeps it legible regardless.
+    # Feather ID above each half of its pair, with the side as a suffix, so a
+    # loose template can always be identified and the two sides told apart.
     for slot in layout.slots:
         for text, x, y, align in slot_labels(slot):
-            cmds.append(text_cmd(x, y, LABEL_SIZE_MM, text, color=(0, 0, 0),
-                                 align=align, halo_mm=0.7))
-
-    # Feather ID written above both halves of its pair, on its own line, so a
-    # loose template can always be identified and the two sides cannot be confused.
-    for slot in layout.slots:
-        for text, x, y, align in slot_id_labels(slot):
             cmds.append(text_cmd(x, y, LABEL_SIZE_MM, text, color=(0, 0, 0),
                                  align=align))
 

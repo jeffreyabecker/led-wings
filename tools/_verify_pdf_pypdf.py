@@ -80,17 +80,14 @@ def main() -> int:
             expected = [layout.title, "reduced", "not full size"]
         expected.append(f"page {i} of {len(layouts)}")
         expected.extend(slot.name for slot in layout.slots)
-        # the feather ID is written above both halves of its pair
+        # one ID per half, with the side suffix
         expected.extend(f"{slot.name} L" for slot in layout.slots)
         expected.extend(f"{slot.name} R" for slot in layout.slots)
         for needle in expected:
             if needle not in text:
                 failures.append(f"page {i}: missing text {needle!r}")
-        for label in ("LEFT - mirror", "RIGHT - as built"):
-            count = text.count(label)
-            if count != len(layout.slots):
-                failures.append(
-                    f"page {i}: {count} x {label!r}, expected {len(layout.slots)}")
+        if "LEFT - mirror" in text or "RIGHT - as built" in text:
+            failures.append(f"page {i}: obsolete side caption still present")
         if "\uFFFD" in text:
             failures.append(f"page {i}: replacement characters in extracted text")
 

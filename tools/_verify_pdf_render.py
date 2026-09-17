@@ -35,30 +35,23 @@ from make_feather_template_pdf import (  # noqa: E402
 PAGE_WIDTH_LIMIT_MM = 273.0
 
 
-def label_counts(page) -> dict:
-    """How many times each half label appears in the rendered text layer.
+def check_labels(page, layout, page_no: int, failures: list) -> None:
+    """Require an ID label for every half on the rendered page.
 
-    Deliberately only counts: pairing a substring occurrence with a glyph box
-    through PDFium's text indices is not reliable enough to assert millimetre
-    positions from, and the exact label placement is already proven by the
-    content-stream check. A per-pair count is what catches a missing or duplicated
-    label, and the content-stream check carries the handedness assertion.
+    The IDs carry the side suffix (`P1 L` / `P1 R`), which is what distinguishes
+    the halves, so the text layer must contain one of each. Presence only is
+    asserted: a strict occurrence count is not reliable here because the footer's
+    pair list can accidentally contain a label as a substring (`LC1 LC5` contains
+    `LC1 L`), and the exact label placement is already proven by the
+    content-stream check.
     """
     text = page.get_textpage().get_text_range()
-    return {
-        "LEFT - mirror": text.count("LEFT - mirror"),
-        "RIGHT - as built": text.count("RIGHT - as built"),
-    }
-
-
-def check_labels(page, layout, page_no: int, failures: list) -> None:
-    """Require one of each half label per pair on the rendered page."""
-    counts = label_counts(page)
-    for name, count in counts.items():
-        if count != len(layout.slots):
-            failures.append(
-                f"page {page_no}: rendered {count} x {name!r}, "
-                f"expected {len(layout.slots)} (one per pair)")
+    for slot in layout.slots:
+        for text_id, _x, _y, _align in slot_labels(slot):
+            if text_id not in text:
+                failures.append(
+                    f"page {page_no} {slot.name}: no {text_id!r} label in the "
+                    f"rendered text layer")
 
 
 def main() -> int:

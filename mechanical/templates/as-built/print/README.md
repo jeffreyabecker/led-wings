@@ -27,14 +27,15 @@ mirror-image outline is never sitting on the cut edge you are working on:
 Each pair also carries its own identification, so a loose template can always be
 traced:
 
-* above the pair, one line per half: `LEFT - mirror` and `RIGHT - as built`
-* below that, the feather ID with its side: `P1 L`, `P1 R`, `SC4 L`, `SC4 R`, ...
+* above each half, the feather ID with its side: `P1 L`, `P1 R`, `SC4 L`, `SC4 R`, ...
+  - the `L` / `R` suffix is what distinguishes the two halves, so there is no
+  separate side caption
 * the page footer lists every pair on the sheet
 
 Other properties:
 
 * printed at **1:1** - measure the 50 mm bar at the foot of any page before cutting
-* every page is **273 mm wide**; heights run from 400 mm to 949 mm
+* every page is **273 mm wide**; heights run from 395 mm to 929 mm
 * cut lines are the calibrated outlines at 0.5 mm stroke; the grey/white fills
   only exist so the cut line stands out
 * a thin dashed tick marks each pair's mirror axis above and below it
@@ -50,14 +51,14 @@ pair gets a row.
 
 | page | content | page size |
 | --- | --- | --- |
-| 1-6 | P1 ... P6, one pair per page | 273 x 400-563 mm |
-| 7-9 | S2+S1, S4+S3, S6+S5 | 273 x 838 / 752 / 621 mm |
-| 10 | B1 + B2 | 273 x 729 mm |
-| 11 | B3 + B4 + B5 | 273 x 841 mm |
-| 12-13 | SC1-8 | 273 x 908 / 949 mm |
-| 14 | PC1-3 | 273 x 715 mm |
-| 15 | A1-4 | 273 x 855 mm |
-| 16 | MC1-5 and LC1-5 | 273 x 753 mm |
+| 1-6 | P1 ... P6, one pair per page | 273 x 395-558 mm |
+| 7-9 | S2+S1, S4+S3, S6+S5 | 273 x 828 / 742 / 611 mm |
+| 10 | B1 + B2 | 273 x 719 mm |
+| 11 | B3 + B4 + B5 | 273 x 826 mm |
+| 12-13 | SC1-8 | 273 x 888 / 929 mm |
+| 14 | PC1-3 | 273 x 700 mm |
+| 15 | A1-4 | 273 x 834 mm |
+| 16 | MC1-5 and LC1-5 | 273 x 728 mm |
 
 Feathers are ordered inner primary outwards:
 `P1-6`, `S1-6`, `B1-5`, `SC1-8`, `PC1-3`, `A1-4`, `MC1-5`, `LC1-5`.
