@@ -202,19 +202,37 @@ our source template images are at 7px/cm. the largest primary measures
 ## As-built template outlines (photos → measurements)
 
 [find-template-outlines.py](find-template-outlines.py) reads the de-skewed photos of the
-as-built templates in [as-built-source-images/unskewed/](as-built-source-images/unskewed/)
+as-built templates in [as-built/source-images/unskewed/](as-built/source-images/unskewed/)
 and extracts one outline + physical measurement per template.
 
 ```bash
 python find-template-outlines.py                     # all images
-python find-template-outlines.py --images "S1-5.jpg"
+python find-template-outlines.py --images "S1-6.jpg"
 python find-template-outlines.py --px-per-inch 100   # skip auto-calibration
 ```
 
-Outputs go to `as-built-outlines/` (**git-ignored** — regenerate, don't commit): per image
-an `.overlay.png` (outlines + measured length), `.gridcheck.png` (fitted grid over the
-photo, for eyeballing the calibration), `.mask.png`, a 1:1 mm `.svg`, a `.json`; plus
-combined `templates-measured.csv`, `outlines.json` and `calibration.json`.
+### Layout
+
+```
+mechanical/templates/
+  find-template-outlines.py     the tool
+  as-built/
+    source-images/              photos: raw/ = camera originals, unskewed/ = de-skewed
+    labels.csv                  image,index -> feather label, transcribed from the marks
+    outlines/                   TRACKED   geometry + measurements (309 KB)
+      <stem>.svg                 1:1 mm outline, path ids are feather labels
+      <stem>.json                full polygon set, px and cm
+      outlines.json              all images combined
+      calibration.json           per-image px/inch for X and Y
+      templates-measured.csv     one row per feather: length/width/area/aspect/position
+    scratch/                    IGNORED   QC rasters (~110 MB, fully regenerable)
+      <stem>.overlay.png         outlines drawn on the photo, labelled
+      <stem>.gridcheck.png       fitted 1" grid over the photo — verify calibration by eye
+      <stem>.mask.png            the binary detection mask
+```
+
+Geometry is small, textual and diffable, so it is committed. The rasters are ~15 MB each and
+regenerate in seconds, so they stay in `scratch/`. `--out` and `--scratch` relocate either.
 
 ### Calibration — X and Y must be scaled separately
 
@@ -224,7 +242,7 @@ carry a different pixels-per-inch in X and Y, in different directions per photo:
 | Image | px/in X | px/in Y | Y/X |
 |-------|--------:|--------:|----:|
 | `P1-6_B1-5.jpg` | 101.54 | 112.10 | **+10.4%** |
-| `S1-5.jpg` | 104.13 | 94.03 | **−9.7%** |
+| `S1-6.jpg` | 104.13 | 94.03 | **−9.7%** |
 | `SC1-8_A1-4_PC1-3_MC1-5_LC1-5.jpg` | 106.82 | 105.83 | −0.9% |
 
 A single px/inch figure would therefore corrupt every across-feather width by up to 10%,
@@ -260,7 +278,7 @@ false positives (20 blobs on `P1-6_B1-5.jpg` where 11 are expected).
 
 ### Feather labels
 
-[as-built-outline-labels.csv](as-built-outline-labels.csv) is the **labelling authority**:
+[as-built/labels.csv](as-built/labels.csv) is the **labelling authority**:
 it maps each photo's detection index to a feather code, and the script applies it to the
 CSV `label` column, the overlay labels and the SVG path ids.
 

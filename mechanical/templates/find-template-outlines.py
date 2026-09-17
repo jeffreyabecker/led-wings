@@ -19,15 +19,24 @@ Usage
     python find-template-outlines.py --px-per-inch 101.8,112  # per-axis override
     python find-template-outlines.py --split                  # split touching parts
 
-Outputs land in as-built-outlines/ (git-ignored), one set per source image plus
-a combined templates-measured.csv / outlines.json / calibration.json.
+Layout
+------
+    as-built/
+      source-images/     the photos (raw/ = camera originals, unskewed/ = de-skewed)
+      labels.csv         image,index -> feather label, transcribed from the marks
+      outlines/          OUTPUT, tracked:   <stem>.svg / <stem>.json, outlines.json,
+                         calibration.json, templates-measured.csv
+      scratch/           OUTPUT, ignored:   <stem>.overlay.png / .gridcheck.png / .mask.png
+
+Geometry (SVG + JSON + CSV) is small, textual and worth versioning, so it goes to
+outlines/. The rasters are ~15 MB each and fully regenerable, so they go to scratch/.
 
 Why two calibration axes
 -----------------------
 These photos are *not* metrically rectified. Measured against the printed ruler:
 
     P1-6_B1-5.jpg            101.83 px/in X    112.24 px/in Y   (+11% stretch Y)
-    S1-5.jpg                 105.08 px/in X     94.63 px/in Y   (-10% squash Y)
+    S1-6.jpg                 105.08 px/in X     94.63 px/in Y   (-10% squash Y)
     SC1-8_A1-4_...jpg        107.21 px/in X    106.02 px/in Y   ( -1% )
 
 so a single px/inch figure would corrupt every across-feather width. The two axes
@@ -40,10 +49,10 @@ against a near-neutral printed sheet (sat 15-22), so saturation separates them
 cleanly without touching the dark checkerboard patch or the printed ink. The
 printed grid has 1" numbered cells, a 1/4" dot grid and 3/4" checkerboard patches.
 
-Caveat: a *white paper* template (B5 in P1-6_B1-5.jpg) has the same saturation as
-the sheet and is NOT found by the default pass; the expected count parsed from the
-filename is reported so the shortfall is visible. --pale adds a best-effort
-brightness pass for such templates (expect false positives; verify the overlay).
+Caveat: a *white paper* template has the same saturation as the sheet and is NOT
+found by the default pass; the expected count parsed from the filename is reported
+so the shortfall is visible. --pale adds a best-effort brightness pass (expect false
+positives; verify the overlay).
 """
 from __future__ import annotations
 
@@ -60,9 +69,11 @@ import cv2
 import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-DEFAULT_IN = os.path.join(HERE, "as-built-source-images", "unskewed")
-DEFAULT_OUT = os.path.join(HERE, "as-built-outlines")
-DEFAULT_LABELS = os.path.join(HERE, "as-built-outline-labels.csv")
+AS_BUILT = os.path.join(HERE, "as-built")
+DEFAULT_IN = os.path.join(AS_BUILT, "source-images", "unskewed")
+DEFAULT_OUT = os.path.join(AS_BUILT, "outlines")     # tracked: geometry + measurements
+DEFAULT_SCRATCH = os.path.join(AS_BUILT, "scratch")  # ignored: regenerable rasters
+DEFAULT_LABELS = os.path.join(AS_BUILT, "labels.csv")
 
 INCH_CM = 2.54
 SAT_MIN_CM2 = 3.0        # reject specks / handwriting flecks below this area
@@ -552,7 +563,7 @@ def write_svg(items, out_w_cm, out_h_cm, path):
         lines.append(f'    <text x="{cx:.2f}" y="{cy:.2f}" text-anchor="middle">'
                      f'{tag} {it["length_cm"]:.1f}</text>')
     lines += ['  </g>', '</svg>', '']
-    with open(path, "w", encoding="utf-8") as f:
+    with open(path, "w", encoding="utf-8", newline="\n") as f:
         f.write("\n".join(lines))
 
 
@@ -579,7 +590,7 @@ def expected_count(stem):
 
 
 # --------------------------------------------------------------------------- #
-def process(path, out_dir, args):
+def process(path, out_dir, scratch_dir, args):
     bgr = cv2.imread(path)
     if bgr is None:
         print(f"  ! cannot read {path}", file=sys.stderr)
@@ -723,13 +734,16 @@ def process(path, out_dir, args):
             parts.append(" ".join(t["label"] for t in ordered))
         print("    label order: " + " | ".join(parts))
 
+    # geometry -> outlines/ (tracked);  regenerable rasters -> scratch/ (ignored)
     os.makedirs(out_dir, exist_ok=True)
-    write_overlay(bgr, items, os.path.join(out_dir, f"{stem}.overlay.png"))
-    write_gridcheck(bgr, cal, os.path.join(out_dir, f"{stem}.gridcheck.png"))
-    cv2.imwrite(os.path.join(out_dir, f"{stem}.mask.png"), mask * 255)
+    os.makedirs(scratch_dir, exist_ok=True)
+    write_overlay(bgr, items, os.path.join(scratch_dir, f"{stem}.overlay.png"))
+    write_gridcheck(bgr, cal, os.path.join(scratch_dir, f"{stem}.gridcheck.png"))
+    cv2.imwrite(os.path.join(scratch_dir, f"{stem}.mask.png"), mask * 255)
     write_svg(items, w / tx * INCH_CM, h / ty * INCH_CM,
               os.path.join(out_dir, f"{stem}.svg"))
-    with open(os.path.join(out_dir, f"{stem}.json"), "w", encoding="utf-8") as f:
+    with open(os.path.join(out_dir, f"{stem}.json"), "w", encoding="utf-8",
+              newline="\n") as f:
         json.dump({"image": os.path.basename(path), "size_px": [w, h],
                    "calibration": {k: v for k, v in cal.items() if not k.endswith("_all")},
                    "expected_count": exp_total or None,
@@ -744,16 +758,19 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--images", default=os.path.join(DEFAULT_IN, "*.jpg"),
-                    help="glob of source images (default: unskewed/*.jpg)")
-    ap.add_argument("--out", default=DEFAULT_OUT, help="output folder")
+                    help="glob of source images (default: as-built/source-images/unskewed/*.jpg)")
     ap.add_argument("--px-per-inch", default=None,
                     help="skip auto-calibration, e.g. 100 or 101.8,112.0 (X[,Y])")
     ap.add_argument("--sheet-in", default="36,24",
                     help="printed sheet size in inches W,H, used only as a "
                          "margin sanity check (default 36,24)")
+    ap.add_argument("--out", default=DEFAULT_OUT,
+                    help="geometry output folder, tracked (default as-built/outlines)")
+    ap.add_argument("--scratch", default=DEFAULT_SCRATCH,
+                    help="raster/QC output folder, git-ignored (default as-built/scratch)")
     ap.add_argument("--labels", default=DEFAULT_LABELS,
                     help="CSV mapping image,index -> feather label "
-                         "(default as-built-outline-labels.csv)")
+                         "(default as-built/labels.csv)")
     ap.add_argument("--sat-threshold", type=float, default=45.0,
                     help="saturation threshold for template detection (default 45)")
     ap.add_argument("--min-area-cm2", type=float, default=SAT_MIN_CM2,
@@ -777,9 +794,11 @@ def main():
     paths = sorted(glob.glob(args.images))
     if not paths:
         sys.exit(f"no images matched {args.images}")
-    print(f"source : {args.images}\noutput : {args.out}")
+    print(f"source  : {args.images}")
+    print(f"outlines: {args.out}  (tracked)")
+    print(f"scratch : {args.scratch}  (ignored)")
 
-    results = [r for r in (process(p, args.out, args) for p in paths) if r]
+    results = [r for r in (process(p, args.out, args.scratch, args) for p in paths) if r]
     if not results:
         sys.exit("nothing processed")
 
@@ -799,25 +818,29 @@ def main():
     csv_path = os.path.join(args.out, "templates-measured.csv")
     if rows:
         with open(csv_path, "w", newline="", encoding="utf-8") as f:
-            wr = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
+            wr = csv.DictWriter(f, fieldnames=list(rows[0].keys()),
+                                lineterminator="\n")
             wr.writeheader()
             wr.writerows(rows)
 
-    with open(os.path.join(args.out, "outlines.json"), "w", encoding="utf-8") as f:
+    with open(os.path.join(args.out, "outlines.json"), "w", encoding="utf-8",
+              newline="\n") as f:
         json.dump([{"image": r["image"], "calibration": r["calibration"],
                     "expected_count": r["expected_count"],
                     "templates": r["templates"]} for r in results], f, indent=1)
-    with open(os.path.join(args.out, "calibration.json"), "w", encoding="utf-8") as f:
+    with open(os.path.join(args.out, "calibration.json"), "w", encoding="utf-8",
+              newline="\n") as f:
         json.dump([{"image": r["image"],
                     "x": r["calibration"]["x"], "y": r["calibration"]["y"]}
                    for r in results], f, indent=1)
 
+    print()
     if rows:
-        print(f"\nwrote {len(rows)} template rows -> {csv_path}")
+        print(f"wrote {len(rows)} template rows -> {csv_path}")
     else:
-        print("\n! no templates detected in any image -- check --sat-threshold")
-    print(f"      outlines.json, calibration.json, plus per-image .overlay.png / "
-          f".gridcheck.png / .mask.png / .svg in {args.out}")
+        print("! no templates detected in any image -- check --sat-threshold")
+    print(f"      geometry (per-image .svg/.json, outlines.json, calibration.json) -> {args.out}")
+    print(f"      QC rasters (.overlay/.gridcheck/.mask .png) -> {args.scratch}")
 
 
 if __name__ == "__main__":

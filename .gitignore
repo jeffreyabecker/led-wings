@@ -30,8 +30,9 @@ pip-wheel-metadata/
 # Generated KiCad schematics (build artifacts — regenerate via tools/gen_schematic.py)
 boards/2020-leds/schematics/*.kicad_sch
 
-# As-built template outline detection output (generate via mechanical/templates/find-template-outlines.py)
-mechanical/templates/as-built-outlines/
+# As-built scratch: regenerable QC rasters (overlay/gridcheck/mask PNGs, ~15 MB each).
+# The geometry the script writes to as-built/outlines/ IS tracked -- see the templates README.
+mechanical/templates/as-built/scratch/
 
 mechanical/templates/reference_feathers_no_scale.xcf
 mechanical/templates/eagle-feathers_color_no_scale.png
