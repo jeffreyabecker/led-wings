@@ -198,3 +198,131 @@ the group's feathers):
 ## Source Images
 our source template images are at 7px/cm. the largest primary measures 
 375px tall and is 54cm according to feather atlas
+
+## As-built template outlines (photos → measurements)
+
+[find-template-outlines.py](find-template-outlines.py) reads the de-skewed photos of the
+as-built templates in [as-built-source-images/unskewed/](as-built-source-images/unskewed/)
+and extracts one outline + physical measurement per template.
+
+```bash
+python find-template-outlines.py                     # all images
+python find-template-outlines.py --images "S1-5.jpg"
+python find-template-outlines.py --px-per-inch 100   # skip auto-calibration
+```
+
+Outputs go to `as-built-outlines/` (**git-ignored** — regenerate, don't commit): per image
+an `.overlay.png` (outlines + measured length), `.gridcheck.png` (fitted grid over the
+photo, for eyeballing the calibration), `.mask.png`, a 1:1 mm `.svg`, a `.json`; plus
+combined `templates-measured.csv`, `outlines.json` and `calibration.json`.
+
+### Calibration — X and Y must be scaled separately
+
+These photos are **not metrically rectified**. Measured against the printed 1" grid they
+carry a different pixels-per-inch in X and Y, in different directions per photo:
+
+| Image | px/in X | px/in Y | Y/X |
+|-------|--------:|--------:|----:|
+| `P1-6_B1-5.jpg` | 101.54 | 112.10 | **+10.4%** |
+| `S1-5.jpg` | 104.13 | 94.03 | **−9.7%** |
+| `SC1-8_A1-4_PC1-3_MC1-5_LC1-5.jpg` | 106.82 | 105.83 | −0.9% |
+
+A single px/inch figure would therefore corrupt every across-feather width by up to 10%,
+so the script measures the two axes independently and does all geometry in physical units.
+
+Calibration is automatic: it fits the printed 1" grid lines (per-band, least-squares on
+~30 lines) and independently checks the result against the printed **1/4" dot grid**,
+which must be 4.00 dot cells per inch (measured: 4.02 / 4.00 / 3.99). Because the de-skew
+is purely affine (X pitch is constant top-to-bottom and Y pitch constant left-to-right),
+one scale per axis is sufficient. `--px-per-inch X,Y` overrides everything.
+
+> **If the source photos are ever re-exported**, map the sheet's grid to a fixed isotropic
+> scale (e.g. exactly 3600 × 2400 px = 100 px/inch for the full 36 × 24" sheet). That
+> removes the per-image scale *and* the aspect error, puts all three photos in one shared
+> sheet coordinate frame (so the groups can be stitched), and makes `--px-per-inch 100`
+> exact. Not required — the current photos calibrate fine.
+
+### Detection
+
+Templates are saturated (cardboard sat ≈ 91, blue tape sat ≈ 129) against a near-neutral
+printed sheet (sat 15–22), so a saturation threshold separates them without picking up the
+dark checkerboard patch or the printed ink. Tan templates, blue-taped templates and the
+cardboard tips of part-taped templates are all found.
+
+**Material matters.** Detection needs the template to be saturated. Kraft cardboard,
+blue tape, and the cardboard tips of part-taped templates all read 60–130 saturation and
+are found reliably. A **white paper** template has the same saturation as the sheet (~15)
+and is not found at all — the original B5 was like this, which is what the
+detected-vs-expected count check exists to catch. The fix that worked was remaking B5 in
+cardboard and photographing it alone (`B5.jpg`). If you must use pale stock, mark it with
+tape or a marker first; `--pale` adds a best-effort brightness pass, but it also returns
+false positives (20 blobs on `P1-6_B1-5.jpg` where 11 are expected).
+
+### Feather labels
+
+[as-built-outline-labels.csv](as-built-outline-labels.csv) is the **labelling authority**:
+it maps each photo's detection index to a feather code, and the script applies it to the
+CSV `label` column, the overlay labels and the SVG path ids.
+
+**The labels are transcribed from the hand-written marks on the templates themselves, and a
+mark beats every other source.** Marks ride on the physical part; detection indices are
+*derived*. Indices are assigned by **area**, so they are position-blind and can renumber if
+segmentation changes — so each row carries the `length_cm` and `x_cm` the template had when
+the mapping was made, and the script warns if a labelled index no longer matches its anchor
+instead of silently mislabelling a feather.
+
+It also prints each series in physical reading order, which is what catches a scrambled
+mapping:
+
+```
+label order: B1 B2 B3 B4 | P1 P2 P3 P4 P5 P6
+label order: A1 A2 A3 A4 | LC1 LC2 LC3 LC4 LC5 | MC1 MC2 MC3 MC4 MC5 | PC1 PC2 PC3 | SC1…SC8
+```
+
+Current mapping (label → photo), 42 templates:
+
+| Photo | Labels |
+|-------|--------|
+| `B5.jpg` | `#1` = B5 (solo re-shoot in cardboard) |
+| `P1-6_B1-5.jpg` | `#1` P2, `#2` P3, `#3` P4, `#4` P1, `#5` P5, `#6` P6, `#7`–`#10` = B1–B4 |
+| `S1-6.jpg` | `#1`–`#6` = S1–S6 |
+| `SC1-8_A1-4_PC1-3_MC1-5_LC1-5.jpg` | `#1` PC1, `#2` SC3, `#3` SC6, `#4` SC5, `#5` SC4, `#6` SC8, `#7` PC2, `#8` SC2, `#9` A2, `#10` A1, `#11` SC7, `#12` PC3, `#13` A3, `#14` SC1, `#15` MC2, `#16` MC4, `#17` MC3, `#18` A4, `#19` MC5, `#20` MC1, `#21` LC4, `#22` LC5, `#23` LC3, `#24` LC2, `#25` LC1 |
+
+> **Why the P group is not index-ordered.** Detection index order for the primaries is
+> 43.4, 42.2, 41.3, 39.4 cm, but the templates are *marked* P2, P3, P4, P1 — so `#4`
+> (39.4 cm) is **P1** and `#1` (43.4 cm) is **P2**. Read off the sheet in physical order the
+> series is a clean P1…P6 left to right (39.4, 43.4, 42.2, 41.3, 34.5, 30.2 cm). All four
+> photos were re-read against the marks; only these four indices changed.
+
+> `P1-6_B1-5.jpg` reports "10 detected vs 11 expected" on every run. That warning is correct:
+> B5 has been re-shot on its own, so the filename still claims five B templates but only four
+> remain in that photo. Rename it `P1-6_B1-4.jpg` to silence it.
+
+> Neither P reading matches `feather-record.csv` for the P group (record: P1 30.7, P2 39.5,
+> P3 41.5, P4 43.0, P5 43.5, P6 42.5 cm). Five of the six measured values match record values
+> to within 0.5 cm but in a different order, and the photo's 34.5 cm template has no
+> counterpart — the templates and the record look to have drifted apart (relabelled or
+> re-cut) after the record was written. The measurement itself is verified independently by
+> `*.gridcheck.png`, so this is a record question, not a measurement one.
+
+### B series (graduated)
+
+| | B1 | B2 | B3 | B4 | B5 |
+|---|---:|---:|---:|---:|---:|
+| length (cm) | 25.33 | 24.26 | 21.32 | 17.97 | 12.80 |
+| width (cm) | 7.86 | 7.27 | 6.34 | 5.40 | 3.64 |
+
+Measured from `P1-6_B1-5.jpg` (B1–B4) and the solo `B5.jpg`.
+
+> **⚠️ Open question — the P group.** The handwritten marks on the photo read
+> **left to right as P1 (39.4 cm), P2 (43.4 cm), P3 (42.2 cm), P4 (41.3 cm), P5 (34.5 cm),
+> P6 (30.2 cm)** — i.e. the physical template marked `P1` is detection **#4**, and `#1` is
+> marked `P2`. The table above instead labels `#1`–`#6` as P1–P6, i.e. in descending-length
+> order. Both readings are recorded here so the discrepancy is not lost; confirm which is
+> intended, since it moves 43.4 cm from P2 to P1 and 39.4 cm from P1 to P4.
+>
+> Note also that neither reading matches `feather-record.csv` for the P group
+> (record: P1 30.7, P2 39.5, P3 41.5, P4 43.0, P5 43.5, P6 42.5 cm). Five of the six
+> measured values match record values to within 0.5 cm but in a different order, and the
+> photo's 34.5 cm template has no counterpart — which suggests the templates and the record
+> drifted apart (relabelled or re-cut) after the record was written.
