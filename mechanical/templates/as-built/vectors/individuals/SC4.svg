@@ -24,7 +24,7 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="2.9699966"
-     inkscape:cx="105.89238"
+     inkscape:cx="105.72403"
      inkscape:cy="305.55591"
      inkscape:window-width="3840"
      inkscape:window-height="2054"
@@ -34,7 +34,7 @@
      inkscape:current-layer="svg1" />
   <g
      id="feather"
-     transform="matrix(-0.99903875,0.04383586,0.04383586,0.99903875,316.73419,-370.66274)"
+     transform="matrix(0.99903875,-0.04383586,-0.04383586,-0.99903875,-244.67229,548.35342)"
      data-source="feathers-aggregate.svg">
     <path
        fill="none"
@@ -44,13 +44,13 @@
        id="SC4"
        sodipodi:nodetypes="cccccssccccccsc" />
     <text
-       x="27.8946"
-       y="95.639999"
+       x="272.46445"
+       y="-448.35104"
        font-family="sans-serif"
        font-size="6px"
        fill="#000000"
        text-anchor="middle"
-       transform="matrix(-0.99903875,0.04383586,0.04383586,0.99903875,315.82538,343.55911)"
+       transform="matrix(0.99903875,-0.04383586,-0.04383586,-0.99903875,0,0)"
        id="text1">SC4</text>
   </g>
 </svg>
