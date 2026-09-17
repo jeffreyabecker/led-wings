@@ -28,30 +28,30 @@
     <path id="LC1" d="M 659.850,64.561 L 656.284,66.481 L 655.095,68.161 L 655.095,82.321 L 656.521,98.641 L 656.521,108.001 L 656.046,109.201 L 655.570,132.001 L 654.381,132.481 L 654.381,137.281 L 668.411,139.201 L 668.886,139.681 L 671.026,139.681 L 673.404,140.881 L 676.971,141.361 L 677.922,141.121 L 680.775,134.881 L 681.727,131.521 L 682.440,125.281 L 683.867,120.721 L 684.104,116.881 L 684.818,115.441 L 685.293,102.721 L 684.342,95.761 L 682.915,92.881 L 681.727,86.161 L 677.922,79.681 L 672.929,74.881 L 671.026,71.281 L 668.648,70.321 L 661.515,64.561 Z"/>
   </g>
   <g font-family="sans-serif" font-size="6" fill="#000">
-    <text x="415.90" y="198.79" text-anchor="middle">PC1 19.0</text>
-    <text x="219.15" y="433.94" text-anchor="middle">SC3 17.5</text>
-    <text x="443.88" y="436.89" text-anchor="middle">SC6 17.8</text>
-    <text x="369.94" y="423.09" text-anchor="middle">SC5 17.6</text>
-    <text x="291.60" y="444.47" text-anchor="middle">SC4 16.2</text>
-    <text x="606.13" y="439.32" text-anchor="middle">SC8 16.3</text>
-    <text x="486.51" y="227.30" text-anchor="middle">PC2 16.5</text>
-    <text x="147.21" y="445.01" text-anchor="middle">SC2 16.2</text>
-    <text x="165.19" y="218.13" text-anchor="middle">A2 16.1</text>
-    <text x="90.17" y="217.91" text-anchor="middle">A1 16.2</text>
-    <text x="526.55" y="456.64" text-anchor="middle">SC7 14.5</text>
-    <text x="565.88" y="223.77" text-anchor="middle">PC3 15.1</text>
-    <text x="240.90" y="243.64" text-anchor="middle">A3 13.0</text>
-    <text x="62.88" y="448.05" text-anchor="middle">SC1 12.6</text>
-    <text x="717.81" y="304.07" text-anchor="middle">MC2 11.9</text>
-    <text x="836.71" y="312.76" text-anchor="middle">MC4 12.2</text>
-    <text x="785.20" y="304.11" text-anchor="middle">MC3 12.5</text>
-    <text x="305.50" y="246.57" text-anchor="middle">A4 10.4</text>
-    <text x="899.91" y="318.90" text-anchor="middle">MC5 10.5</text>
-    <text x="667.55" y="327.34" text-anchor="middle">MC1 10.9</text>
-    <text x="820.86" y="89.83" text-anchor="middle">LC4 9.4</text>
-    <text x="872.53" y="96.96" text-anchor="middle">LC5 8.4</text>
-    <text x="769.99" y="88.43" text-anchor="middle">LC3 9.7</text>
-    <text x="719.30" y="101.26" text-anchor="middle">LC2 9.2</text>
-    <text x="670.34" y="107.23" text-anchor="middle">LC1 7.9</text>
+    <text x="415.90" y="198.79" text-anchor="middle">PC1</text>
+    <text x="219.15" y="433.94" text-anchor="middle">SC3</text>
+    <text x="443.88" y="436.89" text-anchor="middle">SC6</text>
+    <text x="369.94" y="423.09" text-anchor="middle">SC5</text>
+    <text x="291.60" y="444.47" text-anchor="middle">SC4</text>
+    <text x="606.13" y="439.32" text-anchor="middle">SC8</text>
+    <text x="486.51" y="227.30" text-anchor="middle">PC2</text>
+    <text x="147.21" y="445.01" text-anchor="middle">SC2</text>
+    <text x="165.19" y="218.13" text-anchor="middle">A2</text>
+    <text x="90.17" y="217.91" text-anchor="middle">A1</text>
+    <text x="526.55" y="456.64" text-anchor="middle">SC7</text>
+    <text x="565.88" y="223.77" text-anchor="middle">PC3</text>
+    <text x="240.90" y="243.64" text-anchor="middle">A3</text>
+    <text x="62.88" y="448.05" text-anchor="middle">SC1</text>
+    <text x="717.81" y="304.07" text-anchor="middle">MC2</text>
+    <text x="836.71" y="312.76" text-anchor="middle">MC4</text>
+    <text x="785.20" y="304.11" text-anchor="middle">MC3</text>
+    <text x="305.50" y="246.57" text-anchor="middle">A4</text>
+    <text x="899.91" y="318.90" text-anchor="middle">MC5</text>
+    <text x="667.55" y="327.34" text-anchor="middle">MC1</text>
+    <text x="820.86" y="89.83" text-anchor="middle">LC4</text>
+    <text x="872.53" y="96.96" text-anchor="middle">LC5</text>
+    <text x="769.99" y="88.43" text-anchor="middle">LC3</text>
+    <text x="719.30" y="101.26" text-anchor="middle">LC2</text>
+    <text x="670.34" y="107.23" text-anchor="middle">LC1</text>
   </g>
 </svg>

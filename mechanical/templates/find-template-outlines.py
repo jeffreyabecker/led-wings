@@ -508,11 +508,11 @@ def write_overlay(bgr, items, path):
         cv2.polylines(vis, [cnt], True, colour, thick, cv2.LINE_AA)
         c = tuple(np.round(it["centroid_px"]).astype(int))
         cv2.drawMarker(vis, c, colour, cv2.MARKER_CROSS, thick * 5, max(1, thick // 2))
-        name = it.get("label") or f"#{it['index']}"
-        label = f"{name} {it['length_cm']:.1f}cm"
+        # just the feather code: dimensions belong in the CSV/JSON, not stamped on the drawing
+        tag = it.get("label") or f"#{it['index']}"
         org = (int(it["bbox_px"][0]), max(20, int(it["bbox_px"][1]) - 8))
         for col, off in (((0, 0, 0), thick), (colour, 1)):
-            cv2.putText(vis, label, (org[0] + off, org[1] + off), cv2.FONT_HERSHEY_SIMPLEX,
+            cv2.putText(vis, tag, (org[0] + off, org[1] + off), cv2.FONT_HERSHEY_SIMPLEX,
                         bgr.shape[1] / 2400.0, col, thick, cv2.LINE_AA)
     cv2.imwrite(path, vis)
 
@@ -561,7 +561,7 @@ def write_svg(items, out_w_cm, out_h_cm, path):
         tag = it.get("label") or f"t{it['index']}"
         cx, cy = np.asarray(it["centroid_cm"], float) * 10.0
         lines.append(f'    <text x="{cx:.2f}" y="{cy:.2f}" text-anchor="middle">'
-                     f'{tag} {it["length_cm"]:.1f}</text>')
+                     f'{tag}</text>')
     lines += ['  </g>', '</svg>', '']
     with open(path, "w", encoding="utf-8", newline="\n") as f:
         f.write("\n".join(lines))

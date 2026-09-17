@@ -13,15 +13,15 @@
     <path id="B4" d="M 637.157,177.408 L 637.908,177.635 L 637.908,180.354 L 658.421,186.698 L 678.183,190.323 L 698.196,192.589 L 722.712,193.042 L 739.973,191.682 L 759.736,188.057 L 783.251,179.674 L 794.007,174.689 L 805.765,167.212 L 815.771,158.376 L 815.771,156.563 L 795.759,149.993 L 772.744,145.914 L 770.242,144.781 L 755.233,143.195 L 740.473,140.250 L 701.198,138.664 L 675.181,139.570 L 655.669,145.688 L 637.407,154.751 Z"/>
   </g>
   <g font-family="sans-serif" font-size="6" fill="#000">
-    <text x="202.35" y="394.92" text-anchor="middle">P2 43.4</text>
-    <text x="334.83" y="388.72" text-anchor="middle">P3 42.2</text>
-    <text x="464.68" y="432.57" text-anchor="middle">P4 41.3</text>
-    <text x="88.45" y="407.60" text-anchor="middle">P1 39.4</text>
-    <text x="574.32" y="466.91" text-anchor="middle">P5 34.5</text>
-    <text x="703.04" y="426.58" text-anchor="middle">P6 30.2</text>
-    <text x="190.78" y="89.38" text-anchor="middle">B1 25.3</text>
-    <text x="493.55" y="77.89" text-anchor="middle">B2 24.3</text>
-    <text x="714.69" y="74.18" text-anchor="middle">B3 21.3</text>
-    <text x="725.59" y="165.96" text-anchor="middle">B4 18.0</text>
+    <text x="202.35" y="394.92" text-anchor="middle">P2</text>
+    <text x="334.83" y="388.72" text-anchor="middle">P3</text>
+    <text x="464.68" y="432.57" text-anchor="middle">P4</text>
+    <text x="88.45" y="407.60" text-anchor="middle">P1</text>
+    <text x="574.32" y="466.91" text-anchor="middle">P5</text>
+    <text x="703.04" y="426.58" text-anchor="middle">P6</text>
+    <text x="190.78" y="89.38" text-anchor="middle">B1</text>
+    <text x="493.55" y="77.89" text-anchor="middle">B2</text>
+    <text x="714.69" y="74.18" text-anchor="middle">B3</text>
+    <text x="725.59" y="165.96" text-anchor="middle">B4</text>
   </g>
 </svg>

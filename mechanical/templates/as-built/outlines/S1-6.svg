@@ -9,11 +9,11 @@
     <path id="S6" d="M 670.277,377.645 L 667.351,378.185 L 658.570,384.398 L 646.130,397.365 L 640.032,408.170 L 633.202,422.757 L 625.153,447.880 L 620.031,479.485 L 619.543,494.883 L 620.519,504.878 L 624.665,524.597 L 633.690,546.748 L 635.398,547.018 L 635.398,550.260 L 642.227,562.416 L 644.179,563.226 L 649.545,573.221 L 662.716,573.491 L 664.667,572.140 L 670.277,549.449 L 681.741,516.493 L 688.571,491.371 L 691.254,472.462 L 692.474,441.667 L 691.010,427.620 L 682.473,396.284 L 675.644,383.318 L 672.717,379.806 L 671.253,379.806 Z"/>
   </g>
   <g font-family="sans-serif" font-size="6" fill="#000">
-    <text x="123.10" y="405.46" text-anchor="middle">S1 31.4</text>
-    <text x="213.88" y="434.57" text-anchor="middle">S2 28.0</text>
-    <text x="310.75" y="444.42" text-anchor="middle">S3 28.4</text>
-    <text x="413.00" y="440.35" text-anchor="middle">S4 24.6</text>
-    <text x="529.88" y="456.11" text-anchor="middle">S5 22.5</text>
-    <text x="655.54" y="474.04" text-anchor="middle">S6 19.7</text>
+    <text x="123.10" y="405.46" text-anchor="middle">S1</text>
+    <text x="213.88" y="434.57" text-anchor="middle">S2</text>
+    <text x="310.75" y="444.42" text-anchor="middle">S3</text>
+    <text x="413.00" y="440.35" text-anchor="middle">S4</text>
+    <text x="529.88" y="456.11" text-anchor="middle">S5</text>
+    <text x="655.54" y="474.04" text-anchor="middle">S6</text>
   </g>
 </svg>
