@@ -217,6 +217,7 @@ python find-template-outlines.py --px-per-inch 100   # skip auto-calibration
 mechanical/templates/
   find-template-outlines.py     the photo -> outline/measurement tool
   build-feather-aggregate.py    aggregate the individual feather SVGs into one catalog
+  split-feather-aggregate.py    and back: the aggregate -> straightened individual files
   as-built/
     source-images/              photos: raw/ = camera originals, unskewed/ = de-skewed
     labels.csv                  image,index -> feather label, transcribed from the marks
@@ -309,47 +310,82 @@ Two properties make these safe to edit:
 python build-feather-aggregate.py                 # -> as-built/vectors/feathers-aggregate.svg
 python build-feather-aggregate.py --png           # + scratch/feathers-aggregate.png (QC raster)
 python build-feather-aggregate.py --check         # verify only, write nothing
-python build-feather-aggregate.py --flip none     # as authored (tips up); default is vertical
+python build-feather-aggregate.py --flip none     # default: the files carry their own orientation
 ```
 
-[build-feather-aggregate.py](build-feather-aggregate.py) reads the hand-editable
-[as-built/vectors/individuals/](as-built/vectors/individuals/) SVGs — **those files are the
-source of truth and the photo-detection tool above is not involved** — and writes one catalog
-holding all 42 feathers, 1:1 mm (user units = mm):
+[build-feather-aggregate.py](build-feather-aggregate.py) reads the feather sources in
+[as-built/vectors/individuals/](as-built/vectors/individuals/) — **those files are the source of
+truth and the photo-detection tool above is not involved** — and writes one catalog holding all 42
+feathers, 1:1 mm (user units = mm):
 
 ```xml
 <g id="catalog">
   <g id="P">                      one group per prefix (P, S, A, PC, SC, MC, LC, B)
-    <g id="P1" transform="translate(dx,dy) translate(tx,ty) scale(1,-1)"
-       data-source="individuals/P1.svg">
+    <g id="P1" transform="matrix(...)" data-source="individuals/P1.svg">
       <path id="P1-outline" .../>    verbatim from individuals/P1.svg — d and transform
-      <text ...>P1</text>            the source's own label (plus a counter-transform)
+      <text ...>P1</text>            the source's own label
 ```
 
-Every feather keeps its own group, and the **group** carries the placement (and the flip) so the
-`<path>` inside is untouched — a group can be selected, hidden, moved or exported by id in a
-vector editor without disturbing the geometry. No text is emitted for the document or for the
+Every feather keeps its own group, and the **group** carries the whole transform — the placement,
+the optional flip, *and the source file's own group transform* (the split files carry a real one) —
+so the `<path>` inside is untouched and a group can be selected, hidden, moved or exported by id in
+a vector editor without disturbing the geometry. No text is emitted for the document or for the
 groups: the only labels in the output are the ones the individual SVGs already carry.
 
-> **Why repositioning is required.** Each individual file sits in *its own photo sheet's* mm
-> frame, and those frames are separate photographs that overlap in absolute coordinates: S1
-> (`S1-6.jpg`) and SC1 (combined sheet) land on top of each other if the files are merely
+> **Why repositioning is required.** The individual files sit in frames of their own, and those
+> frames overlap in absolute coordinates, so feathers would stack if the files were merely
 > concatenated. The aggregate lays out one row per prefix instead, with `--align base|top|center`
-> choosing the edge the row lines up on (default `base`: the primaries' vane bases, measured
-> 3 mm in, are ~31 mm wide against a ~7 mm point at the tip, so bases flush fans the tips).
+> choosing the edge the row lines up on (default `base`).
 >
-> **Flip.** `--flip none|vertical|horizontal|both` (default `vertical`) mirrors each outline
-> about its own bounding-box centre, which leaves that box — and therefore every row and slot —
-> unchanged. The mirror is on the feather's group, never on the path. The label rides the
-> mirrored group so it stays on the same part of the feather, with a local counter-transform:
-> a group mirror would reverse the glyphs, and the counter-transform makes the net effect on a
-> label a pure translation, so it renders exactly as authored.
+> **Flip.** `--flip none|vertical|horizontal|both` (default **`none`**: the files already carry the
+> orientation they were split out with) mirrors each outline about its own bounding-box centre,
+> which leaves that box — and therefore every row and slot — unchanged. The mirror is on the
+> feather's group, never on the path, and the label rides the group with a local counter-transform
+> (a mirror would reverse the glyphs; the counter-transform makes the net effect on a label a pure
+> translation, so it renders exactly as authored). Because a mirror on top of a file that already
+> has its own group transform would need that transform folded into the label solution, asking for
+> a flip while sources carry one is refused with an explanation rather than drawn wrong.
 >
-> **Self-checks** on every build: each written outline must equal its group transform applied to
-> the source outline (same points, to 0.01 mm), paths must be byte-identical, each label must
-> keep its glyph orientation and mirrored anchor and still lie on its own feather, no two
-> feathers may overlap, and no non-source label text may appear. `--check` runs that without
-> writing.
+> **Self-checks** on every build: each written outline must equal the placement applied to the
+> source outline (same points, to 0.01 mm), paths must be byte-identical, each label must keep its
+> glyph orientation and anchored position and still lie on its own feather, no two feathers may
+> overlap, and no non-source label text may appear. `--check` runs that without writing.
+
+### Splitting the aggregate back into individual files
+
+```bash
+python split-feather-aggregate.py                  # -> individuals/*.svg, straightened
+python split-feather-aggregate.py --check          # verify only, write nothing
+python split-feather-aggregate.py --no-straighten  # exactly as drawn in the aggregate
+python split-feather-aggregate.py --no-ancestors   # size from the feather's own transform
+```
+
+[split-feather-aggregate.py](split-feather-aggregate.py) is the inverse of the builder, for when the
+aggregate has become the authority (hand edits, and the arrangement: per-prefix-group rotation and
+scale, per-feather transforms). For every feather group it writes `individuals/<LABEL>.svg`:
+
+- the feather **upright** — rotated so its long axis (the minimum-area box's long side, not a PCA
+  axis, which leaves a curved feather slightly tilted) runs down the page with the tip at the
+  bottom, at the size the aggregate gives it. So a group scale such as P's 1.2001x length survives,
+  the arrangement's rotation does not, and the shape is never re-fitted;
+- **`<g id="feather">` carries that transform and the `<path>` is copied verbatim** (d, transform,
+  style, `sodipodi:nodetypes`), so an outline is bit-for-bit the aggregate's;
+- the **label stays level**: it is re-anchored onto the straightened feather and its own transform
+  solved so the net effect is the authored `rotate(180)` — level and unstretched whatever the
+  group's rotation or scale;
+- the `viewBox` is `0 0 w h` with the feather `--margin-mm` from the corner, so each file opens 1:1
+  on its own feather. A shared sheet frame is meaningless once feathers are rotated upright, so
+  files get their own local frame.
+
+> The two flags are independent: `--no-ancestors` drops the *prefix group's* arrangement (its
+> rotation and its ~1.2x length scale) and keeps only the feather's own transform; `--no-straighten`
+> keeps the arrangement rotation, i.e. writes the geometry exactly as it lies in the aggregate (a
+> lossless dump, but most files then open rotated).
+>
+> Self-checks on every run: each outline must equal the aggregate's put through the same
+> straightening (point-for-point), the feather must come out axis-aligned and keep the aggregate's
+> minimum-area size, the label must end up level, verbatim in text and on its own feather, and the
+> file must read back through `build-feather-aggregate.py` as the same geometry.
 
 ### Calibration — X and Y must be scaled separately
 

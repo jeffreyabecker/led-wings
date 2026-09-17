@@ -115,6 +115,27 @@ def mat_apply(m, p):
     return (a * x + c * y + e, b * x + d * y + f)
 
 
+def mat_translate(x, y):
+    return (1.0, 0.0, 0.0, 1.0, x, y)
+
+
+def mat_inverse(m):
+    a, b, c, d, e, f = m
+    det = a * d - b * c
+    if abs(det) < 1e-12:
+        raise ValueError(f"singular transform {m}")
+    ia, ib, ic, id_ = d / det, -b / det, -c / det, a / det
+    return (ia, ib, ic, id_, -(ia * e + ic * f), -(ib * e + id_ * f))
+
+
+def transform_str(m):
+    """An affine matrix as an SVG transform list, short form when it is a plain translation."""
+    a, b, c, d, e, f = m
+    if (a, b, c, d) == (1.0, 0.0, 0.0, 1.0):
+        return f"translate({e:.3f},{f:.3f})"
+    return f"matrix({a:.10g},{b:.10g},{c:.10g},{d:.10g},{e:.10g},{f:.10g})"
+
+
 def flip_matrix(bbox, flip):
     """Mirror about the bbox centre. Matches flip_transform_str() exactly."""
     if flip == "none":
@@ -362,16 +383,17 @@ def path_points(d, samples=32):
 # reading one individual
 # --------------------------------------------------------------------------- #
 class Feather:
-    __slots__ = ("label", "prefix", "index", "source", "els", "bbox", "points")
+    __slots__ = ("label", "prefix", "index", "source", "els", "bbox", "points", "own")
 
-    def __init__(self, label, prefix, index, source, els, bbox, points):
+    def __init__(self, label, prefix, index, source, els, bbox, points, own):
         self.label = label
         self.prefix = prefix
         self.index = index
         self.source = source
         self.els = els          # [(element, ctm)] in document order
         self.bbox = bbox        # (x0, y0, x1, y1) of the outline, transformed, user units
-        self.points = points    # outline points in sheet mm, for verification
+        self.points = points    # outline points in the file's own frame, for verification
+        self.own = own          # the feather group's own transform (IDENT for plain files)
 
     @property
     def size(self):
@@ -383,7 +405,13 @@ def _local(el):
 
 
 def collect_geometry(root):
-    """[(element, ctm)] for path/text elements outside <defs>, ancestors' transforms included."""
+    """([(element, ctm)], group_ctm) for path/text outside <defs>, ancestors' transforms included.
+
+    `group_ctm` is the accumulated transform of the group the elements sit in -- the feather's own
+    frame. Individual files written by split-feather-aggregate.py carry a real transform there
+    (straightening, mirror, group scale), so the builder has to put it back on the group it writes,
+    or the outline it draws would not be the one in the file.
+    """
     parent, ctm = {}, {}
     order = []
 
@@ -410,9 +438,10 @@ def collect_geometry(root):
             group = el
             break
     if group is not None:
-        return [(el, ctm[id(el)]) for el in group if _local(el) in ("path", "text")]
-    return [(el, ctm[id(el)]) for el in order
-            if _local(el) in ("path", "text") and not in_defs(el)]
+        return ([(el, ctm[id(el)]) for el in group if _local(el) in ("path", "text")],
+                ctm[id(group)])
+    return ([(el, ctm[id(el)]) for el in order
+             if _local(el) in ("path", "text") and not in_defs(el)], IDENT)
 
 
 def bbox_of(points):
@@ -428,7 +457,7 @@ def load_individual(path):
     if not m:
         raise ValueError(f"{label}: not <prefix><digits>")
     root = ET.parse(path).getroot()
-    els = collect_geometry(root)
+    els, own = collect_geometry(root)
     if not els:
         raise ValueError(f"{label}: no path/text geometry found")
     pts = []
@@ -439,7 +468,7 @@ def load_individual(path):
     if not pts:
         raise ValueError(f"{label}: no <path> found")
     return Feather(label, m.group(1).upper(), int(m.group(2)), path, els,
-                   bbox_of(pts), pts)
+                   bbox_of(pts), pts, own)
 
 
 def load_all(in_dir):
@@ -547,11 +576,14 @@ def build(feathers, out_path, flip="none", align="base"):
                            "data-count": str(len(row["placed"]))})
         for f, dx, dy in row["placed"]:
             counts[prefix] = counts.get(prefix, 0) + 1
-            mirror = flip_transform_str(f.bbox, flip)
+            # placement, the optional mirror, and the source file's own group transform -- the
+            # split files carry a real one (straightening, mirror, group scale); a plain generated
+            # file has IDENT there
+            group_ctm = mat_mul(mat_mul(mat_translate(dx, dy), flip_matrix(f.bbox, flip)), f.own)
             fg = ET.SubElement(g, f"{{{SVG_NS}}}g", {
                 "id": f.label,
-                # placement + mirror live on the group, so the path below stays untouched
-                "transform": f"translate({dx:.3f},{dy:.3f})" + (f" {mirror}" if mirror else ""),
+                # all of it lives on the group, so the path below stays untouched
+                "transform": transform_str(group_ctm),
                 "data-source": f"individuals/{os.path.basename(f.source)}",
             })
             for el, _ in f.els:
@@ -626,10 +658,12 @@ def verify(source_feathers, text, flip="none", tol=0.01):
         ctm = parse_transform(g.get("transform"))
         if ctm == IDENT:
             problems.append(f"{label}: feather group has no placement transform")
-        if abs(ctm[1]) > 1e-9 or abs(ctm[2]) > 1e-9:
-            problems.append(f"{label}: group transform is not translate+mirror ({ctm})")
-        if (round(ctm[0]), round(ctm[3])) != (sx, sy):
-            problems.append(f"{label}: group mirror is ({ctm[0]:g},{ctm[3]:g}), expected "
+        # the group must be exactly translate + (optional mirror) + the source's own transform
+        rel = mat_mul(ctm, mat_inverse(src.own))
+        if abs(rel[1]) > 1e-9 or abs(rel[2]) > 1e-9:
+            problems.append(f"{label}: group transform is not translate+mirror+own ({ctm})")
+        if (round(rel[0]), round(rel[3])) != (sx, sy):
+            problems.append(f"{label}: group mirror is ({rel[0]:g},{rel[3]:g}), expected "
                             f"({sx},{sy}) for flip={flip}")
 
         # the group must be the *only* thing moving the outline: the path inside is verbatim, so
@@ -652,7 +686,9 @@ def verify(source_feathers, text, flip="none", tol=0.01):
         for p in out_paths:
             ptm = mat_mul(ctm, parse_transform(p.get("transform")))
             out_final.extend(mat_apply(ptm, q) for q in path_points(p.get("d")))
-        want = [mat_apply(ctm, q) for q in src.points]
+        # src.points are already in the source file's own frame, so the expectation is the placed
+        # geometry (rel = translate + mirror) applied to them, not the full group transform
+        want = [mat_apply(rel, q) for q in src.points]
         if len(out_final) != len(want):
             problems.append(f"{label}: {len(out_final)} points written vs {len(want)} in the "
                             f"source")
@@ -679,19 +715,19 @@ def verify(source_feathers, text, flip="none", tol=0.01):
                 problems.append(f"{label}: label changed ({a_att} -> {b_att})")
                 continue
             labels_seen.append((b.text or "").strip())
-            # net transform on the label = group o label-local; its linear part must be the
-            # source's (glyphs unmirrored), and its anchor the mirror of the source's anchor
-            tm_src = parse_transform(a.get("transform"))
+            # net transform on a label = the source file's own transform o the label's own; the
+            # output's net must keep the source's linear part (glyphs exactly as authored) and put
+            # the anchor where the placement (rel) takes it
+            tm_src = mat_mul(src.own, parse_transform(a.get("transform")))
             tm_out = mat_mul(ctm, parse_transform(b.get("transform")))
-            if tm_src[:4] != tm_out[:4]:
+            if max(abs(x - y) for x, y in zip(tm_src[:4], tm_out[:4])) > 1e-6:
                 problems.append(f"{label}: label orientation/mirroring changed "
                                 f"({tm_src[:4]} -> {tm_out[:4]})")
             xy = (float(b.get("x", 0)), float(b.get("y", 0)))
             got_anchor = mat_apply(tm_out, xy)
-            # the label rides the mirrored group (so it stays on the same part of the feather);
-            # the counter-transform only fixes the glyphs, leaving the anchor where the group
-            # puts it -- i.e. the group transform applied to the source anchor
-            want_anchor = mat_apply(ctm, mat_apply(tm_src, xy))
+            # the label rides the placed group (so it stays on the same part of the feather);
+            # a counter-transform only fixes the glyphs, leaving the anchor where placement puts it
+            want_anchor = mat_apply(rel, mat_apply(tm_src, xy))
             if math.hypot(got_anchor[0] - want_anchor[0],
                           got_anchor[1] - want_anchor[1]) > 0.01:
                 problems.append(f"{label}: label anchor {got_anchor} is not the mirrored "
@@ -812,13 +848,21 @@ def main():
     ap.add_argument("--align", choices=("base", "top", "center"), default="base",
                     help="row alignment: which feather edge lines up (default base = the "
                          "vane bases on one line, tips fanning out)")
-    ap.add_argument("--flip", choices=FLIP_CHOICES, default="vertical",
-                    help="mirror each outline in its own slot (default vertical = top<->bottom, "
-                         "which turns the as-authored tips-up templates tips-down); labels are "
+    ap.add_argument("--flip", choices=FLIP_CHOICES, default="none",
+                    help="mirror each outline in its own slot (default none: the individual files "
+                         "already carry the orientation they were split out with); labels are "
                          "never mirrored, they stay verbatim from the source SVGs")
     args = ap.parse_args()
 
     feathers = load_all(args.in_dir)
+    if args.flip != "none":
+        odd = sorted(f.label for f in feathers if f.own != IDENT)
+        if odd:
+            raise SystemExit(
+                f"--flip {args.flip} cannot be combined with files that carry their own group "
+                f"transform ({len(odd)} of {len(feathers)}, e.g. {', '.join(odd[:4])}).\n"
+                f"Those files already encode their orientation (see split-feather-aggregate.py); "
+                f"re-split with --no-straighten to regenerate plain ones, or use --flip none.")
     print(f"individuals: {len(feathers)} feathers from {args.in_dir}")
     for prefix, group in order_groups(feathers):
         print(f"  {prefix:3s} {GROUP_TITLE.get(prefix, ''):18s} "

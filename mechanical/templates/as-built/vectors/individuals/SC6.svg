@@ -1,7 +1,56 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="75.38mm" height="192.24mm" viewBox="404.470 337.443 75.378 192.242">
-  <g id="feather">
-    <path id="SC6" fill="none" stroke="#000" stroke-width="0.5" d="M 461.587,385.774 C 457.575,373.424 446.294,349.762 432.618,345.978 C 414.719,341.024 411.684,368.011 412.620,380.406 C 412.980,385.169 413.024,390.091 413.031,394.867 C 413.032,395.964 413.031,398.157 413.031,398.157 C 413.031,421.284 416.876,451.970 422.710,474.356 C 425.311,484.337 429.178,493.935 431.950,503.836 C 433.036,507.716 431.702,513.363 433.575,516.856 C 434.651,518.864 444.834,521.739 447.118,521.347 C 450.502,520.766 452.203,514.272 453.795,511.892 C 457.574,506.242 461.991,501.417 464.687,494.868 C 474.368,471.349 473.545,427.356 466.340,402.862 C 464.920,398.036 463.852,393.127 462.365,388.289 C 462.107,387.450 461.587,385.774 461.587,385.774 Z"/>
-    <text x="441.87" y="422.35" font-family="sans-serif" font-size="6" fill="#000" text-anchor="middle" transform="rotate(180,441.87,420.25)">SC6</text>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="55.86mm"
+   height="177.01mm"
+   viewBox="8.000 8.000 55.861 177.012"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="SC6.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="2.7129471"
+     inkscape:cx="105.60471"
+     inkscape:cy="334.50708"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <g
+     id="feather"
+     transform="matrix(0.99400376,-0.10934608,-0.10934608,-0.99400376,-359.67905,571.92756)"
+     data-source="feathers-aggregate.svg">
+    <path
+       fill="none"
+       stroke="#000000"
+       stroke-width="0.5"
+       d="m 463.48625,382.37089 c -4.012,-12.35 -15.293,-36.012 -28.969,-39.796 -17.899,-4.954 -20.934,22.033 -19.998,34.428 0.36,4.763 0.404,9.685 0.411,14.461 10e-4,1.097 0,3.29 0,3.29 0,23.127 3.845,53.813 9.679,76.199 2.601,9.981 6.468,19.579 9.24,29.48 1.086,3.88 3.60351,11.29146 5.17692,15.19214 4.93985,0.99986 6.88566,1.88992 9.99108,2.31886 3.384,-0.581 5.085,-7.075 6.677,-9.455 3.779,-5.65 8.196,-10.475 10.892,-17.024 9.681,-23.519 8.858,-67.512 1.653,-92.006 -1.42,-4.826 -2.488,-9.735 -3.975,-14.573 -0.258,-0.839 -0.778,-2.515 -0.778,-2.515 z"
+       id="SC6"
+       sodipodi:nodetypes="cccccccccccccc" />
+    <text
+       x="38.0326"
+       y="85.034698"
+       font-family="sans-serif"
+       font-size="6px"
+       fill="#000000"
+       text-anchor="middle"
+       transform="matrix(0.99400372,-0.10934608,-0.10934608,-0.99400372,413.36368,506.83352)"
+       id="text1">SC6</text>
   </g>
 </svg>

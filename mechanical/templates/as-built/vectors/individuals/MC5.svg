@@ -1,7 +1,56 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="59.45mm" height="121.20mm" viewBox="871.240 256.562 59.446 121.201">
-  <g id="feather">
-    <path id="MC5" fill="none" stroke="#000" stroke-width="0.5" d="M 922.364,327.236 C 922.364,326.565 922.364,325.894 922.364,325.223 C 922.364,310.972 920.366,268.393 902.017,264.664 C 891.402,262.507 882.432,286.530 881.155,294.318 C 881.133,294.450 881.067,294.848 881.089,294.715 C 877.589,315.616 881.280,336.529 888.548,356.246 C 889.412,358.592 889.469,362.796 891.416,364.573 C 893.394,366.379 901.027,368.816 903.755,369.405 C 909.838,370.717 921.963,339.343 922.331,333.277 C 922.452,331.274 922.364,327.236 922.364,327.236 Z"/>
-    <text x="900.99" y="317.96" font-family="sans-serif" font-size="6" fill="#000" text-anchor="middle" transform="rotate(180,900.99,315.86)">MC5</text>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="42.20mm"
+   height="104.88mm"
+   viewBox="8.000 7.999 42.200 104.881"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="MC5.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="4.5787449"
+     inkscape:cx="79.825369"
+     inkscape:cy="198.19842"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="3829"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <g
+     id="feather"
+     transform="matrix(0.99813633,-0.06102345,-0.06102345,-0.99813633,-850.94029,431.86487)"
+     data-source="feathers-aggregate.svg">
+    <path
+       fill="none"
+       stroke="#000000"
+       stroke-width="0.5"
+       d="m 922.364,327.236 v -2.013 c 0,-14.251 -1.998,-56.83 -20.347,-60.559 -10.615,-2.157 -19.585,21.866 -20.862,29.654 -0.022,0.132 -0.088,0.53 -0.066,0.397 -3.5,20.901 0.191,41.814 7.459,61.531 0.864,2.346 1.96758,5.92724 2.868,8.327 2.35857,1.16594 10.87381,4.1911 12.339,4.832 7.36311,-0.31409 18.208,-30.062 18.576,-36.128 0.121,-2.003 0.033,-6.041 0.033,-6.041 z"
+       id="MC5"
+       sodipodi:nodetypes="cscccccccc" />
+    <text
+       x="28.9743"
+       y="57.1698"
+       font-family="sans-serif"
+       font-size="6px"
+       fill="#000000"
+       text-anchor="middle"
+       transform="matrix(0.99813631,-0.06102351,-0.06102351,-0.99813631,875.55836,372.59137)"
+       id="text1">MC5</text>
   </g>
 </svg>

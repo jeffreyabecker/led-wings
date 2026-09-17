@@ -1,7 +1,56 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="57.07mm" height="125.04mm" viewBox="641.303 254.402 57.068 125.041">
-  <g id="feather">
-    <path id="MC1" fill="none" stroke="#000" stroke-width="0.5" d="M 683.356,288.359 C 679.585,281.690 667.771,259.795 658.662,262.566 C 650.068,265.179 649.388,293.083 649.388,300.882 C 649.388,301.858 649.388,303.810 649.388,303.810 C 649.388,315.042 650.591,361.692 655.902,369.226 C 658.032,372.246 665.564,371.509 668.732,370.971 C 673.607,370.141 677.437,362.485 679.351,358.560 C 689.284,338.185 695.426,310.843 683.956,289.461 C 683.758,289.092 683.356,288.359 683.356,288.359 Z"/>
-    <text x="669.76" y="313.90" font-family="sans-serif" font-size="6" fill="#000" text-anchor="middle" transform="rotate(180,669.76,311.80)">MC1</text>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="40.57mm"
+   height="108.79mm"
+   viewBox="8.000 8.000 40.567 108.791"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="MC1.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="4.414181"
+     inkscape:cx="76.684667"
+     inkscape:cy="205.5874"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <g
+     id="feather"
+     transform="matrix(0.99972243,-0.02355994,-0.02355994,-0.99972243,-633.97071,394.60234)"
+     data-source="feathers-aggregate.svg">
+    <path
+       fill="none"
+       stroke="#000000"
+       stroke-width="0.5"
+       d="m 683.356,288.359 c -3.771,-6.669 -15.585,-28.564 -24.694,-25.793 -8.594,2.613 -9.274,30.517 -9.274,38.316 v 2.928 c 0,11.232 1.203,57.882 6.514,65.416 3.79069,0.80575 13.05257,1.17588 17.81206,1.60661 2.59155,-4.70493 3.72294,-8.34761 5.63694,-12.27261 9.933,-20.375 16.075,-47.717 4.605,-69.099 -0.198,-0.369 -0.6,-1.102 -0.6,-1.102 z"
+       id="MC1"
+       sodipodi:nodetypes="ccsscccsc" />
+    <text
+       x="662.33026"
+       y="-321.03122"
+       font-family="sans-serif"
+       font-size="6px"
+       fill="#000000"
+       text-anchor="middle"
+       transform="matrix(0.99972243,-0.02355994,-0.02355994,-0.99972243,0,0)"
+       id="text1">MC1</text>
   </g>
 </svg>

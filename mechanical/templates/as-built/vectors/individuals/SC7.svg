@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   width="73.00mm"
-   height="160.80mm"
-   viewBox="492.213 367.683 73.000 160.801"
+   width="55.00mm"
+   height="143.69mm"
+   viewBox="8.000 8.000 55.004 143.687"
    version="1.1"
    id="svg1"
    sodipodi:docname="SC7.svg"
@@ -23,32 +23,34 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="2.986435"
-     inkscape:cx="137.95713"
-     inkscape:cy="303.87402"
+     inkscape:zoom="3.3420471"
+     inkscape:cx="103.97819"
+     inkscape:cy="271.54016"
      inkscape:window-width="3840"
      inkscape:window-height="2054"
      inkscape:window-x="-11"
      inkscape:window-y="-11"
      inkscape:window-maximized="1"
-     inkscape:current-layer="feather" />
+     inkscape:current-layer="svg1" />
   <g
-     id="feather">
+     id="feather"
+     transform="matrix(0.9972614273,0.07395732221,0.07395732221,-0.9972614273,-524.8330832,487.0353884)"
+     data-source="feathers-aggregate.svg">
     <path
-       id="SC7"
        fill="none"
        stroke="#000000"
        stroke-width="0.5"
-       d="m 553.127,474.145 c 4.863,-26.597 8.436,-81.078 -18.431,-97.887 -1.683,-1.053 -3.491,0.017 -5.067,0.768 -14.419,6.868 -22.519,37.282 -25.739,52.156 -0.038,0.176 -0.156,0.703 -0.117,0.527 -2.824,12.345 -3.784,23.852 -1.507,36.317 2.813,15.403 14.944,28.947 22.838,41.76 1.92,3.116 -0.14046,9.08593 2.79354,11.71393 1.432,1.282 8.60646,0.93407 10.50146,0.71607 3.513,-0.404 12.274,-32.512 13.029,-37.597 0.343,-2.307 0.983,-4.581 1.396,-6.882 0.096,-0.532 0.303,-1.592 0.303,-1.592 z"
-       sodipodi:nodetypes="cccccccccccc" />
+       d="m 553.127,474.145 c 4.863,-26.597 8.436,-81.078 -18.431,-97.887 -1.683,-1.053 -3.491,0.017 -5.067,0.768 -14.419,6.868 -22.519,37.282 -25.739,52.156 -0.038,0.176 -0.156,0.703 -0.117,0.527 -2.824,12.345 -3.784,23.852 -1.507,36.317 2.813,15.403 14.944,28.947 22.838,41.76 1.92,3.116 -0.14066,9.08595 2.79334,11.71395 5.56371,0.27981 7.87947,0.68977 10.50166,0.71605 3.513,-0.404 12.274,-32.512 13.029,-37.597 0.343,-2.307 0.983,-4.581 1.396,-6.882 0.096,-0.532 0.303,-1.592 0.303,-1.592 z"
+       sodipodi:nodetypes="cccccccccccc"
+       id="SC7" />
     <text
-       x="529.09"
-       y="444.04"
+       x="560.15576"
+       y="-395.1431"
        font-family="sans-serif"
-       font-size="6"
-       fill="#000"
+       font-size="6px"
+       fill="#000000"
        text-anchor="middle"
-       transform="rotate(180,529.09,441.94)"
+       transform="matrix(0.99726141,0.07395732,0.07395732,-0.99726141,0,0)"
        id="text1">SC7</text>
   </g>
 </svg>

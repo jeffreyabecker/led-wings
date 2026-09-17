@@ -1,7 +1,56 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="47.32mm" height="92.88mm" viewBox="646.297 56.641 47.319 92.881">
-  <g id="feather">
-    <path id="LC1" fill="none" stroke="#000" stroke-width="0.5" d="M 655.570,126.796 C 655.570,137.359 651.402,136.442 663.616,138.666 C 666.709,139.229 674.497,142.246 677.281,141.021 C 681.002,139.383 681.823,130.409 682.309,126.982 C 685.590,103.857 688.240,90.346 671.041,71.622 C 667.117,67.350 655.111,60.139 655.095,70.998 C 655.094,72.033 655.095,74.104 655.095,74.104 C 655.095,88.122 656.227,101.930 656.041,115.939 C 655.995,119.357 655.570,122.749 655.570,126.174 C 655.570,126.381 655.570,127.003 655.570,126.796 Z"/>
-    <text x="670.11" y="100.86" font-family="sans-serif" font-size="6" fill="#000" text-anchor="middle" transform="rotate(180,670.11,98.76)">LC1</text>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="31.825777mm"
+   height="82.44046mm"
+   viewBox="8 8 31.824761 82.439456"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="LC1.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="5.8620454"
+     inkscape:cx="60.132594"
+     inkscape:cy="155.83298"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <g
+     id="feather"
+     transform="matrix(0.97864805,0.20554325,0.20554325,-0.97864805,-647.20426,18.411694)"
+     data-source="feathers-aggregate.svg">
+    <text
+       x="27.101101"
+       y="75.712303"
+       font-family="sans-serif"
+       font-size="6px"
+       fill="#000000"
+       text-anchor="middle"
+       transform="matrix(0.97864802,0.20554324,0.20554324,-0.97864802,612.17268,201.78359)"
+       id="text1">LC1</text>
+    <path
+       fill="none"
+       stroke="#000000"
+       stroke-width="0.5"
+       d="m 642.59307,134.60313 c 0.0136,2.94152 -0.0738,7.37217 -0.34795,10.64855 4.82325,0.57 17.97239,-5.38463 27.85504,-17.17181 C 680.15771,107.4502 688.24,90.346 671.041,71.622 c -3.924,-4.272 -15.93,-11.483 -15.946,-0.624 -10e-4,1.035 0,3.106 0,3.106 0,14.018 -9.38756,30.90848 -9.57356,44.91748 0.12221,1.75637 -0.32271,7.68228 -2.92837,15.58165 z"
+       id="LC1"
+       sodipodi:nodetypes="cccccccc" />
   </g>
 </svg>

@@ -1,7 +1,56 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="48.51mm" height="113.52mm" viewBox="746.879 37.440 48.508 113.521">
-  <g id="feather">
-    <path id="LC3" fill="none" stroke="#000" stroke-width="0.5" d="M 779.843,57.438 C 777.654,53.945 772.140,44.090 766.780,45.596 C 760.409,47.385 754.964,106.918 754.964,115.932 C 754.964,116.173 754.964,116.895 754.964,116.654 C 754.964,121.074 754.713,137.230 757.501,140.120 C 758.915,141.585 761.404,141.455 763.276,141.829 C 764.858,142.146 767.371,143.429 768.870,142.349 C 776.016,137.204 786.601,90.957 787.040,80.945 C 787.234,76.524 785.677,72.478 784.737,68.239 C 784.035,65.072 782.546,62.105 780.948,59.301 C 780.591,58.673 779.843,57.438 779.843,57.438 Z"/>
-    <text x="772.42" y="84.15" font-family="sans-serif" font-size="6" fill="#000" text-anchor="middle" transform="rotate(180,772.42,82.05)">LC3</text>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="34.21mm"
+   height="89.82mm"
+   viewBox="8.000 8.000 34.209 89.824"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="LC3.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="5.3464568"
+     inkscape:cx="64.622237"
+     inkscape:cy="169.73858"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <g
+     id="feather"
+     transform="matrix(0.98744493,0.15796368,0.15796368,-0.98744493,-747.79876,21.49221)"
+     data-source="feathers-aggregate.svg">
+    <path
+       fill="none"
+       stroke="#000000"
+       stroke-width="0.5"
+       d="M 779.843,57.438 C 777.654,53.945 772.14,44.09 766.78,45.596 c -19.08845,16.511544 -15.75061,63.99085 -11.80925,76.42965 0.87197,2.73702 3.54312,8.02683 5.54818,13.14577 7.146,-5.145 26.08207,-44.21442 26.52107,-54.22642 0.194,-4.421 -1.363,-8.467 -2.303,-12.706 -0.702,-3.167 -2.191,-6.134 -3.789,-8.938 -0.357,-0.628 -1.105,-1.863 -1.105,-1.863 z"
+       id="LC3"
+       sodipodi:nodetypes="cccccccc" />
+    <text
+       x="22.6618"
+       y="41.415298"
+       font-family="sans-serif"
+       font-size="6px"
+       fill="#000000"
+       text-anchor="middle"
+       transform="matrix(0.98744491,0.15796368,0.15796368,-0.98744491,743.50065,117.26561)"
+       id="text1">LC3</text>
   </g>
 </svg>
