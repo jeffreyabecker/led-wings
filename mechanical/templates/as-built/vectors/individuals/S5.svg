@@ -1,7 +1,57 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" width="76.77mm" height="261.86mm" viewBox="8.000 8.000 76.768 261.860">
-  <g id="feather" transform="matrix(1.017261239,-0.08225203695,0.03180657255,-1.182068497,-508.4443812,727.3781231)" data-source="feathers-aggregate.svg">
-    <path fill="none" stroke="#000000" stroke-width="0.5" d="m 560.487,523.784 c 7.352,-38.463 13.471,-104.467 4.776,-142.363 -1.488,-6.49 -4.101,-12.823 -5.96,-19.167 -0.623,-2.129 -3.516,-12.937 -5.729,-13.533 -2.029,-0.547 -6.729,1.166 -9.042,1.344 -19.448,1.499 -28.059,19.952 -36.23,35.387 -2.26,4.27 -5.465,7.522 -6.761,12.396 -5.487,20.638 -10.332,53.443 -6.903,74.494 0.134,0.828 0.396,2.484 0.396,2.484 0.661,3.6 1.353,7.107 2.482,10.598 4.693,14.506 6.883,29.892 12.043,44.429 3.425,9.65 8.996,17.944 13.065,27.001 1.818,4.048 3.751,12.247 7.514,14.833 2.41781,-0.31608 15.56184,-2.12262 17.866,-2.846 4.086,-3.271 9.671,-30.708 10.831,-36.838 0.416,-2.198 0.959,-4.366 1.345,-6.571 0.135,-0.774 0.307,-1.648 0.307,-1.648 z" id="S5" sodipodi:nodetypes="ccccccccccccccscc" />
-    <text x="46.2996" y="156.9988" font-family="sans-serif" font-size="6px" fill="#000000" text-anchor="middle" transform="matrix(-0.9851750488,0.06855157271,-0.02650865136,0.8478192196,581.175055,309.2695092)">S5</text>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="76.77mm"
+   height="261.86mm"
+   viewBox="8.000 8.000 76.768 261.860"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="S5.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="1.833876"
+     inkscape:cx="145.32062"
+     inkscape:cy="494.85352"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="feather" />
+  <g
+     id="feather"
+     transform="matrix(1.017261239,-0.08225203695,0.03180657255,-1.182068497,-508.4443812,727.3781231)"
+     data-source="feathers-aggregate.svg">
+    <path
+       fill="none"
+       stroke="#000000"
+       stroke-width="0.5"
+       d="m 560.487,523.784 c 7.352,-38.463 13.471,-104.467 4.776,-142.363 -1.488,-6.49 -4.101,-12.823 -5.96,-19.167 -0.623,-2.129 -3.516,-12.937 -5.729,-13.533 -2.029,-0.547 -6.729,1.166 -9.042,1.344 -19.448,1.499 -28.059,19.952 -36.23,35.387 -2.26,4.27 -5.465,7.522 -6.761,12.396 -5.487,20.638 -10.332,53.443 -6.903,74.494 0.134,0.828 0.396,2.484 0.396,2.484 0.661,3.6 1.353,7.107 2.482,10.598 4.693,14.506 6.883,29.892 12.043,44.429 3.425,9.65 8.996,17.944 13.065,27.001 1.818,4.048 3.751,12.247 7.514,14.833 2.41781,-0.31608 15.56184,-2.12262 17.866,-2.846 4.086,-3.271 9.671,-30.708 10.831,-36.838 0.416,-2.198 0.959,-4.366 1.345,-6.571 0.135,-0.774 0.307,-1.648 0.307,-1.648 z"
+       id="S5"
+       sodipodi:nodetypes="ccccccccccccccscc" />
+    <text
+       x="506.46948"
+       y="-516.74213"
+       font-family="sans-serif"
+       font-size="5.47755px"
+       fill="#000000"
+       text-anchor="middle"
+       transform="matrix(1.0791406,-0.07508999,0.02903704,-0.92868382,0,0)"
+       id="text1"
+       style="stroke-width:0.912926">S5</text>
   </g>
 </svg>
