@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="52.31mm"
+   height="109.68mm"
+   viewBox="797.765 38.880 52.312 109.681"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="LC4.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="4.378362"
+     inkscape:cx="98.895431"
+     inkscape:cy="207.26929"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="feather" />
+  <g
+     id="feather">
+    <path
+       id="LC4"
+       fill="none"
+       stroke="#000000"
+       stroke-width="0.5"
+       d="m 830.29119,140.32507 c 0,0 1.34902,-6.10733 2.89481,-10.17307 7.529,-19.806 13.509,-45.005 2.377,-64.55 -4.86342,-6.03657 -13.35518,-16.191975 -20.386,-18.554 -3.124,-0.766 -5.569,15.923 -6.03,18.863 -0.148,0.945 -0.423,2.838 -0.423,2.838 -3.366,23.824 6.38557,71.58964 6.38557,71.58964 5.06029,0.10615 10.12105,0.0252 15.18162,-0.0136 z"
+       sodipodi:nodetypes="cccccccc" />
+    <text
+       x="824.32"
+       y="91.84"
+       font-family="sans-serif"
+       font-size="6"
+       fill="#000"
+       text-anchor="middle"
+       transform="rotate(180,824.32,89.74)"
+       id="text1">LC4</text>
+  </g>
+</svg>
