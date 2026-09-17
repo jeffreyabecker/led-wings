@@ -31,6 +31,17 @@ Layout
 Geometry (SVG + JSON + CSV) is small, textual and worth versioning, so it goes to
 outlines/. The rasters are ~15 MB each and fully regenerable, so they go to scratch/.
 
+Each SVG carries one black outline path per template (`<g id="outlines">`, stroke 0.5)
+plus the feather-code labels. The outline is a smooth cubic-Bezier idealisation of the
+detected edge, not a faithful trace of it: see fit_closed_beziers for why the tolerance is
+the smoothing lever. Tune with --fit-mm; --no-smooth falls back to the raw RDP polyline.
+
+NOTE the measurements (templates-measured.csv / the JSON) are still computed from the RDP
+polygon, not from the smooth curve, so the drawn outline sits up to ~1.5 mm away from the
+reported width. That is deliberate -- switching the measurement source would change
+length/width/area, and since detection indices are assigned by area it could renumber
+templates and invalidate as-built/labels.csv.
+
 Why two calibration axes
 -----------------------
 These photos are *not* metrically rectified. Measured against the printed ruler:
@@ -77,6 +88,8 @@ DEFAULT_LABELS = os.path.join(AS_BUILT, "labels.csv")
 
 INCH_CM = 2.54
 SAT_MIN_CM2 = 3.0        # reject specks / handwriting flecks below this area
+DEFAULT_FIT_MM = 1.0     # smooth-outline Bezier tolerance: this IS the smoothing lever
+DEFAULT_SMOOTH_MM = 1.0  # light pre-smoothing only -- see the note in fit_closed_beziers
 
 
 # --------------------------------------------------------------------------- #
@@ -497,6 +510,188 @@ def measure(poly_cm):
 
 
 # --------------------------------------------------------------------------- #
+# smooth (cubic Bezier) outline
+#
+# The SVG outline is the smooth cubic-Bezier idealisation of the detected edge. It is
+# fitted to the *unsimplified* contour, not to the RDP polygon, so the fit is not limited
+# by the polygon's own tolerance.
+#
+# Measurements are still taken from the RDP polygon (see measure()): the smooth curve is
+# allowed to sit up to --fit-mm away from the detected edge, and since detection indices
+# are assigned by area, re-deriving area from the smooth curve could renumber templates
+# and invalidate as-built/labels.csv.
+#
+# Fitting is done in physical units (cm) so the tolerance is isotropic; the contour
+# carries ~10% different scale in X and Y.
+# --------------------------------------------------------------------------- #
+def _smooth_closed(pts, sigma):
+    """Gaussian-smooth a closed polyline, wrapping at the ends. sigma in samples."""
+    if sigma <= 1e-9:
+        return pts.astype(float)
+    r = max(1, int(round(3.0 * sigma)))
+    k = np.exp(-0.5 * (np.arange(-r, r + 1) / sigma) ** 2)
+    k /= k.sum()
+    out = np.empty((len(pts), 2), float)
+    for j in range(2):
+        pad = np.r_[pts[-r:, j], pts[:, j], pts[:r, j]]
+        out[:, j] = np.convolve(pad, k, mode="valid")
+    return out
+
+
+def _bezier_eval(ctrl, u):
+    u = np.asarray(u, float)[:, None]
+    return (((1 - u) ** 3) * ctrl[0] + 3 * ((1 - u) ** 2) * u * ctrl[1]
+            + 3 * (1 - u) * (u ** 2) * ctrl[2] + (u ** 3) * ctrl[3])
+
+
+def _chord_u(pts):
+    d = np.linalg.norm(np.diff(pts, axis=0), axis=1)
+    u = np.r_[0.0, np.cumsum(d)]
+    return u / u[-1] if u[-1] > 0 else u
+
+
+def _span_error(pts, ctrl, u):
+    d = np.linalg.norm(_bezier_eval(ctrl, u) - pts, axis=1)
+    return float(d.max()), int(np.argmax(d))
+
+
+def _reparam(pts, u, ctrl):
+    q = _bezier_eval(ctrl, u)
+    d1 = (3 * (1 - u)[:, None] ** 2 * (ctrl[1] - ctrl[0])
+          + 6 * ((1 - u) * u)[:, None] * (ctrl[2] - ctrl[1])
+          + 3 * (u ** 2)[:, None] * (ctrl[3] - ctrl[2]))
+    d2 = (6 * (1 - u)[:, None] * (ctrl[2] - 2 * ctrl[1] + ctrl[0])
+          + 6 * u[:, None] * (ctrl[3] - 2 * ctrl[2] + ctrl[1]))
+    num = ((q - pts) * d1).sum(1)
+    den = (d1 * d1).sum(1) + ((q - pts) * d2).sum(1)
+    return np.clip(u - num / np.where(np.abs(den) < 1e-12, 1e-12, den), 0.0, 1.0)
+
+
+def _bezier_through(pts, u, t0, t1):
+    """Least-squares cubic Bezier with fixed end tangents (Schneider, Graphics Gems 1990)."""
+    n = len(pts)
+    a = np.empty((n, 2, 2))
+    for i in range(n):
+        b1 = 3.0 * (1.0 - u[i]) ** 2 * u[i]
+        b2 = 3.0 * (1.0 - u[i]) * u[i] ** 2
+        # column 0 pairs with t0 (P1), column 1 with t1 (P2). np.outer(t, scalar) is
+        # (2,1) and broadcast-fills BOTH columns, silently degenerating the fit.
+        a[i] = np.column_stack([t0 * b1, t1 * b2])
+    c = np.zeros((2, 2))
+    x = np.zeros(2)
+    p0, p3 = pts[0], pts[-1]
+    for i in range(n):
+        b0 = (1.0 - u[i]) ** 3
+        b1 = 3.0 * (1.0 - u[i]) ** 2 * u[i]
+        b2 = 3.0 * (1.0 - u[i]) * u[i] ** 2
+        b3 = u[i] ** 3
+        tmp = pts[i] - ((b0 + b1) * p0 + (b2 + b3) * p3)
+        c += a[i].T @ a[i]
+        x += a[i].T @ tmp
+    det = c[0, 0] * c[1, 1] - c[1, 0] * c[0, 1]
+    seg = float(np.linalg.norm(p3 - p0))
+    if abs(det) < 1e-12:
+        al = ar = seg / 3.0
+    else:
+        al = (x[0] * c[1, 1] - c[0, 1] * x[1]) / det
+        ar = (c[0, 0] * x[1] - x[0] * c[1, 0]) / det
+        al, ar = min(max(al, 0.0), seg), min(max(ar, 0.0), seg)
+    return np.array([p0, p0 + t0 * al, p3 + t1 * ar, p3])
+
+
+def _fit_span(pts, t0, t1, tol, out, depth=0):
+    if len(pts) < 2 or depth > 20:
+        return
+    if len(pts) == 2:
+        d = float(np.linalg.norm(pts[1] - pts[0])) / 3.0
+        out.append(np.array([pts[0], pts[0] + t0 * d, pts[1] + t1 * d, pts[1]]))
+        return
+    u = _chord_u(pts)
+    ctrl = _bezier_through(pts, u, t0, t1)
+    e, split = _span_error(pts, ctrl, u)
+    if e > tol:
+        # Always try reparameterising before paying for a split. Schneider's original
+        # "error*error" retry band, taken literally, disables the retry for small
+        # tolerances and over-splits badly (a circle needed 14 segments instead of 7).
+        for _ in range(8):
+            u = _reparam(pts, u, ctrl)
+            ctrl = _bezier_through(pts, u, t0, t1)
+            e, split = _span_error(pts, ctrl, u)
+            if e <= tol:
+                break
+    if e <= tol:
+        out.append(ctrl)
+        return
+    split = min(max(split, 1), len(pts) - 2)
+    tan = pts[split - 1] - pts[split + 1]
+    nn = float(np.linalg.norm(tan))
+    tan = tan / nn if nn > 1e-9 else t0
+    _fit_span(pts[:split + 1], t0, tan, tol, out, depth + 1)
+    _fit_span(pts[split:], -tan, t1, tol, out, depth + 1)
+
+
+def fit_closed_beziers(raw_cm, mm_per_px, tol_mm, smooth_mm, samples=600):
+    """Closed loop -> list of cubic Bezier control quadruples (in cm).
+
+    The loop is split at two well-separated low-curvature points so each open span
+    starts and ends where a tangent is well defined.
+
+    `tol_mm` is the smoothing lever: because the fitter subdivides only where the
+    error exceeds the tolerance, a generous tolerance flattens the ragged hand-cut
+    edge along the flanks while still spending segments to follow the tip.
+
+    `smooth_mm` is deliberately NOT the lever. Measured over all 42 templates, raising
+    pre-smoothing to 3-6 mm cut the tip so hard that the feather lost 1.5-4.0 mm of
+    length, where raising the tolerance to the same segment count lost 0.3 mm. Keep
+    this small (~1 mm, the hand-cut roughness scale) and turn `tol_mm` instead.
+    """
+    if len(raw_cm) < 16:
+        return []
+    sigma = smooth_mm / max(mm_per_px, 1e-9)          # mm -> samples
+    pts = _smooth_closed(np.asarray(raw_cm, float), sigma)
+    d = np.r_[0.0, np.cumsum(np.linalg.norm(np.diff(np.r_[pts, pts[:1]], axis=0), axis=1))]
+    if not np.isfinite(d[-1]) or d[-1] <= 0:
+        return []
+    m = max(32, min(samples, len(pts)))
+    u = np.linspace(0.0, d[-1], m, endpoint=False)
+    c = np.c_[np.interp(u, d, np.r_[pts[:, 0], pts[0, 0]]),
+              np.interp(u, d, np.r_[pts[:, 1], pts[0, 1]])]
+
+    d1 = np.gradient(c, axis=0)
+    d2 = np.gradient(d1, axis=0)
+    sp = np.linalg.norm(d1, axis=1)
+    k = np.abs(d1[:, 0] * d2[:, 1] - d1[:, 1] * d2[:, 0]) / np.maximum(sp ** 3, 1e-12)
+    k = np.convolve(np.r_[k, k, k], np.ones(15) / 15.0, "same")[len(k):2 * len(k)]
+    a = int(np.argmin(k))
+    idx = np.arange(len(c))
+    dist = np.minimum(np.abs(idx - a), len(c) - np.abs(idx - a))
+    b = int(np.argmin(np.where(dist > len(c) * 0.25, k, np.inf)))
+    hi, lo = max(a, b), min(a, b)
+
+    tol = max(tol_mm / 10.0, 1e-7)                    # mm -> cm
+    out = []
+    for span in (np.r_[c[hi:], c[:lo + 1]], c[lo:hi + 1]):
+        if len(span) < 3:
+            continue
+        t0 = span[1] - span[0]
+        t0 = t0 / max(float(np.linalg.norm(t0)), 1e-9)
+        t1 = span[-1] - span[-2]
+        t1 = t1 / max(float(np.linalg.norm(t1)), 1e-9)
+        _fit_span(span, t0, t1, tol, out)
+    return out
+
+
+def bezier_max_dev_cm(beziers, raw_cm, per_seg=12):
+    """Largest distance from the fitted curve back to the detected (unsmoothed) edge."""
+    if not beziers or len(raw_cm) < 4:
+        return 0.0
+    samp = np.vstack([_bezier_eval(b, np.linspace(0.0, 1.0, per_seg)) for b in beziers])
+    ref = np.asarray(raw_cm, float)[::max(1, len(raw_cm) // 800)]
+    d = np.linalg.norm(samp[:, None, :] - ref[None, :, :], axis=2).min(axis=1)
+    return float(d.max())
+
+
+# --------------------------------------------------------------------------- #
 # outputs
 # --------------------------------------------------------------------------- #
 def write_overlay(bgr, items, path):
@@ -539,23 +734,35 @@ def write_gridcheck(bgr, cal, path):
     cv2.imwrite(path, vis)
 
 
-def write_svg(items, out_w_cm, out_h_cm, path):
-    """1:1 physical SVG (user units = mm) with one path per template."""
+def write_svg(items, out_w_cm, out_h_cm, path, smooth=None):
+    """1:1 physical SVG (user units = mm), one black outline path per template.
+
+    The outline is the smooth cubic-Bezier idealisation when a fit is available (the
+    default), falling back to the RDP polyline for any template that could not be fit
+    or when --no-smooth is given. Path ids are the feather labels either way.
+    """
     lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         f'<svg xmlns="http://www.w3.org/2000/svg" '
         f'width="{out_w_cm * 10:.2f}mm" height="{out_h_cm * 10:.2f}mm" '
         f'viewBox="0 0 {out_w_cm * 10:.3f} {out_h_cm * 10:.3f}">',
-        '  <g fill="none" stroke="#000" stroke-width="0.5">',
+        '  <g id="outlines" fill="none" stroke="#000" stroke-width="0.5">',
     ]
-    for it in items:
+    for it, bz in zip(items, smooth if smooth else [None] * len(items)):
         tag = it.get("label") or f"t{it['index']}"
-        pts = np.asarray(it["polygon_cm"], float) * 10.0
-        d = "M " + " L ".join(f"{p[0]:.3f},{p[1]:.3f}" for p in pts) + " Z"
+        if bz:
+            cp = [np.asarray(b, float) * 10.0 for b in bz]
+            d = f"M {cp[0][0][0]:.3f},{cp[0][0][1]:.3f} " + " ".join(
+                f"C {c[1][0]:.3f},{c[1][1]:.3f} {c[2][0]:.3f},{c[2][1]:.3f} "
+                f"{c[3][0]:.3f},{c[3][1]:.3f}" for c in cp) + " Z"
+        else:
+            pts = np.asarray(it["polygon_cm"], float) * 10.0
+            d = "M " + " L ".join(f"{p[0]:.3f},{p[1]:.3f}" for p in pts) + " Z"
         lines.append(f'    <path id="{tag}" d="{d}"/>')
+    lines.append('  </g>')
+
     lines += [
-        '  </g>',
-        '  <g font-family="sans-serif" font-size="6" fill="#000">',
+        '  <g id="labels" font-family="sans-serif" font-size="6" fill="#000">',
     ]
     for it in items:
         tag = it.get("label") or f"t{it['index']}"
@@ -646,7 +853,9 @@ def process(path, out_dir, scratch_dir, args):
     items = []
     for comp in pieces:
         cmask = comp.astype(np.uint8)
-        cnts, _ = cv2.findContours(cmask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        # dense contour: the polygon uses approxPolyDP, the Bezier outline fits the
+        # unsimplified boundary, so ask for every point
+        cnts, _ = cv2.findContours(cmask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
         if not cnts:
             continue
         cnt = max(cnts, key=cv2.contourArea)
@@ -677,6 +886,9 @@ def process(path, out_dir, scratch_dir, args):
             "polygon_cm": poly_cm.round(4).tolist(),
             "centroid_cm": [float(poly_cm[:, 0].mean()), float(poly_cm[:, 1].mean())],
             **{k: round(v, 3) for k, v in m.items()},
+            # temporary: consumed for the SVG outline, dropped before any JSON is written
+            "_raw_cm": np.c_[cnt.reshape(-1, 2)[:, 0] / tx * INCH_CM,
+                             cnt.reshape(-1, 2)[:, 1] / ty * INCH_CM].round(4),
         })
 
     items.sort(key=lambda it: -it["area_cm2"])
@@ -693,6 +905,23 @@ def process(path, out_dir, scratch_dir, args):
     stale = sorted(set(lab) - {it["index"] for it in items})
     if stale:
         print(f"    ! label file lists indices not detected: {stale}")
+
+    # Bezier outline for the SVG. NOT fed to the measurements -- see the note above.
+    mm_per_px = 25.4 * 0.5 * (1.0 / tx + 1.0 / ty)
+    smooth, devs = [], []
+    for it in items:
+        raw_cm = it.pop("_raw_cm", None)
+        bz = []
+        if raw_cm is not None and not args.no_smooth:
+            bz = fit_closed_beziers(np.asarray(raw_cm, float), mm_per_px,
+                                    args.fit_mm, args.smooth_mm)
+            devs.append(bezier_max_dev_cm(bz, np.asarray(raw_cm, float)))
+        smooth.append(bz)
+    if any(smooth):
+        n = [len(b) for b in smooth if b]
+        print(f"    outline: {sum(n)} cubic segments (median {np.median(n):.0f}), "
+              f"tol {args.fit_mm} mm, pre-smooth {args.smooth_mm} mm, "
+              f"max deviation from the detected edge {max(devs) * 10:.2f} mm")
 
     exp_total, exp_groups = expected_count(stem)
     print(f"  templates: {len(items)} detected"
@@ -741,7 +970,7 @@ def process(path, out_dir, scratch_dir, args):
     write_gridcheck(bgr, cal, os.path.join(scratch_dir, f"{stem}.gridcheck.png"))
     cv2.imwrite(os.path.join(scratch_dir, f"{stem}.mask.png"), mask * 255)
     write_svg(items, w / tx * INCH_CM, h / ty * INCH_CM,
-              os.path.join(out_dir, f"{stem}.svg"))
+              os.path.join(out_dir, f"{stem}.svg"), smooth=smooth)
     with open(os.path.join(out_dir, f"{stem}.json"), "w", encoding="utf-8",
               newline="\n") as f:
         json.dump({"image": os.path.basename(path), "size_px": [w, h],
@@ -779,6 +1008,16 @@ def main():
                     help="add best-effort brightness pass for white/paper templates")
     ap.add_argument("--split", action="store_true",
                     help="watershed-split templates that touch each other")
+    ap.add_argument("--fit-mm", type=float, default=DEFAULT_FIT_MM,
+                    help="max deviation of the smooth SVG outline path -- this is the "
+                         f"smoothing lever; larger = flatter flanks (default {DEFAULT_FIT_MM} mm)")
+    ap.add_argument("--smooth-mm", type=float, default=DEFAULT_SMOOTH_MM,
+                    help="Gaussian pre-smoothing before the fit. Keep small (~1 mm): "
+                         "raising it rounds the tip and shortens the feather "
+                         f"(default {DEFAULT_SMOOTH_MM} mm)")
+    ap.add_argument("--no-smooth", action="store_true",
+                    help="emit the unsmoothed RDP polyline outline instead of the "
+                         "finite-tolerance Bezier idealisation")
     args = ap.parse_args()
 
     if args.px_per_inch:

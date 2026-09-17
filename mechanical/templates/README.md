@@ -234,6 +234,37 @@ mechanical/templates/
 Geometry is small, textual and diffable, so it is committed. The rasters are ~15 MB each and
 regenerate in seconds, so they stay in `scratch/`. `--out` and `--scratch` relocate either.
 
+### Smoothed outline
+
+Each SVG has one black outline path per template in `<g id="outlines">` (stroke 0.5, path
+ids are the feather codes: `P1`, `SC3`, …), plus a `<g id="labels">` group. The outline is a
+**smooth cubic-Bézier idealisation** of the detected edge, not a faithful trace of it —
+`--fit-mm` (default **1.0 mm**) is the smoothing lever.
+
+> **The measurements are NOT taken from the smooth curve.** `templates-measured.csv` and the
+> JSON still derive length/width/area from the RDP polygon, so the drawn outline can sit up
+> to ~1.5 mm from the reported width (median length difference 0.32 mm). This is deliberate:
+> switching the measurement source would change the values, and because detection indices
+> are assigned by **area**, a near-tie could renumber templates and invalidate
+> [as-built/labels.csv](as-built/labels.csv). If you want the measurements taken from the
+> smooth curve, that is a separate change and the anchor check would flag any remapping.
+
+`--fit-mm` is the dial. Larger = flatter flanks, fewer segments:
+
+| `--fit-mm` | median segments | deviation from the detected edge | length change |
+|---|---:|---:|---:|
+| 0.25 (unsmoothed-faithful) | 32 | 0.44 mm | 0.34 mm |
+| 0.5 | 18 | 0.59 mm | 0.30 mm |
+| **1.0 (default)** | **12** | **0.95 mm** | **0.32 mm** |
+| 2.5 | 8 | 1.85 mm | 0.40 mm |
+
+> **Do not use `--smooth-mm` as the smoothing lever.** Measured across all 42 templates, at
+> the same resulting segment count, raising pre-smoothing to 3–6 mm cut the tip so hard the
+> feather lost **1.5–4.0 mm of length**, whereas raising the tolerance lost **0.3 mm**. Keep
+> `--smooth-mm` near 1 mm (the hand-cut roughness scale) and turn `--fit-mm` instead.
+
+`--no-smooth` falls back to emitting the raw RDP polyline (the pre-smoothing output).
+
 ### Calibration — X and Y must be scaled separately
 
 These photos are **not metrically rectified**. Measured against the printed 1" grid they
