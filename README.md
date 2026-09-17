@@ -32,6 +32,8 @@ daisy-chained chunk-to-chunk, power fed from buck-module power-hubs, driven by a
 ## Investigations
 
 - [Battery](investigations/battery/) — 12 V chemistry + sizing for 8 h @ 20 % mobility
+- [Connectors](investigations/connectors/) — board-to-wire family options for the strip ends
+  (pitch-split power/data, JLCPCB-assembled)
 
 ## Repository layout
 
@@ -41,7 +43,7 @@ daisy-chained chunk-to-chunk, power fed from buck-module power-hubs, driven by a
   shape sourcing. No electronics/lighting content — that belongs in `boards/`.
 - `mechanical/` — wing structure (frame, backplate, harness mounts).
 - `docs/` — shared electrical references (connector pinout, pigtail crimp guide).
-- `investigations/` — one-off research (battery, diffuser halo).
+- `investigations/` — one-off research (battery, connectors, diffuser halo).
 
 ## Changing the plan
 

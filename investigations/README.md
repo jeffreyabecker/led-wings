@@ -7,6 +7,7 @@ decision context) plus one or more analysis notes.
 | Investigation | Status | Question |
 |---------------|--------|----------|
 | [Battery](battery/) | investigation | Which 12 V battery (chemistry + size) powers 8 h @ 20 % for mobility? |
+| [Connectors](connectors/) | investigation | Which 2-pin board-to-wire family (pitch/keying) for strip ends, JLCPCB-assembled? |
 | [Diffuser halo](diffuser-halo/) | investigation | How to make a thin, directional, resin-free diffuser bent into a halo ring? |
 | [Side-facing LED placement](side-facing-led-placement/) | investigation | Where do edge-lit strips sit (distance/angle/density) for ≤ 7 mm feathers with an opaque foam top? |
 | [Wing bones](wing-bones/) | target | Bone-structure layout + backplate → build plan: [mechanical/structural/wing-structure-plan.md](../mechanical/structural/wing-structure-plan.md) |

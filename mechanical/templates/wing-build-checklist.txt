@@ -9,8 +9,9 @@ A. STRUCTURE - CUT LIST (cross-laminated cardboard unless noted)
 ------------------------------------------------------------------------------
 [ ] Backplate         1x  angular shield, 44 -> ~37 cm taper, ~30-32 cm tall,
                           with center neck-relief scoop (plan sec. 3)
-[ ] Forearm spar      2x  13 cm, straight (theta1 = 0 deg)
-[ ] Carpal spar       2x  14 cm, fanned (theta2 = 20 deg)
+[ ] Forearm spar      2x  13 cm, straight (theta1 = 0 deg, parallel to the spine)
+[ ] Carpal spar       2x  14 cm, fanned (theta2 = 20 deg RELATIVE TO THE FOREARM spar;
+                          included angle at the root Y-bracket = 20 deg, 15-25 deg range)
 [ ] Root Y-brackets   2x  one per wing root (joins both spars to the plate corner)
 [ ] Back-coverts      1x  feathered cover panel over the future bay
 [ ] Foam pipe wrap       spars (2x13 + 2x14 cm) + backplate edges (~1.5 m)

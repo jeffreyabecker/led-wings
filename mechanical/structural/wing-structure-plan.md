@@ -44,6 +44,12 @@ Tips at y = 55 (mid-butt). Nothing crosses above ~C7 (≈ −4 cm).
 | Forearm spar (radius/ulna) | (±20, 0) root | (±20, 13) | θ1 = **0°** (parallel to spine) | ~13 cm | S1–S10 |
 | Carpal spar (hand) | (±20, 0) root | (±24.8, 13.2) | θ2 = **20°** fan (15–25° range) | ~14 cm | P1–P10, alula |
 
+- **Angle convention — relative to the spine (Y axis):** the forearm runs straight down
+  (θ1 = 0°, parallel to the spine); the carpal fans outward (θ2 = 20°, 15–25° range).
+  Because the forearm sits at 0°, the **included angle between the two spars at the root
+  is θ2 = 20°** — the carpal bends 20° away from the forearm toward the wing tip. Set the
+  root Y-bracket to this 20° included angle (right wing: carpal tips outward to the right;
+  left wing mirrored).
 - Both spars spring from the **reinforced root corner** (a Y-bracket on the plate corner).
 - Spars: cross-laminated cardboard (**working default ~10 mm layup** — seats the +4 cm quill
   tails), foam-padded, covered (covering TBD — pipe-foam alternatives investigation).
