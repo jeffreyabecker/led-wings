@@ -265,6 +265,39 @@ ids are the feather codes: `P1`, `SC3`, …), plus a `<g id="labels">` group. Th
 
 `--no-smooth` falls back to emitting the raw RDP polyline (the pre-smoothing output).
 
+### Per-feather SVGs for hand-tweaking
+
+```bash
+python find-template-outlines.py --feathers
+```
+
+Writes one **self-contained** SVG per feather to `as-built/scratch/feathers/<label>.svg`
+(42 files, ~3.4 MB, ~24 s). Each holds:
+
+- the source photo cropped around that feather (base64 JPEG, embedded — no sibling file to
+  lose if you move or copy the SVG), with an 8 mm margin (`--feather-margin-mm`)
+- the smooth outline path with id = the feather code
+- the code as a red label
+
+Two properties make these safe to edit:
+
+- **They share the sheet's mm frame.** `viewBox` is the crop's rectangle in absolute sheet
+  coordinates, with `width`/`height` trimmed to it — so each file opens zoomed on its
+  feather at 1:1, yet coordinates stay meaningful across all 42 files. A path tweaked in one
+  keeps its absolute position.
+- The photo is placed with `preserveAspectRatio="none"` across its calibrated mm rectangle.
+  The scan is anisotropic (X and Y px/inch differ by ~10%), so stretching the crop to the
+  mm box is exactly what makes it register with the path.
+
+> **Hand edits are protected.** An existing file whose content differs is *left alone* and
+> reported, so re-running cannot silently regenerate over your tweaked paths. Pass
+> `--feather-force` when you do want to regenerate them.
+
+> **Not tracked.** They live in `scratch/` (git-ignored) because they are large and
+> regenerable. If your hand-tweaked versions become the source of truth, point
+> `--feather-out` at a tracked folder instead — but note the generator will then be writing
+> into it, so keep the no-clobber behaviour in mind.
+
 ### Calibration — X and Y must be scaled separately
 
 These photos are **not metrically rectified**. Measured against the printed 1" grid they

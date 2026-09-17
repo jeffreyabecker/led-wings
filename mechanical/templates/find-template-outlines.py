@@ -36,6 +36,12 @@ plus the feather-code labels. The outline is a smooth cubic-Bezier idealisation 
 detected edge, not a faithful trace of it: see fit_closed_beziers for why the tolerance is
 the smoothing lever. Tune with --fit-mm; --no-smooth falls back to the raw RDP polyline.
 
+--feathers additionally writes ONE self-contained SVG per feather
+(as-built/scratch/feathers/<label>.svg) with the source photo crop embedded under the
+outline, for hand-tweaking in a vector editor. These share the sheet's mm frame, so a
+tweaked path keeps its absolute position. An existing file that differs is left untouched
+(--feather-force overrides) so hand edits are not silently regenerated over.
+
 NOTE the measurements (templates-measured.csv / the JSON) are still computed from the RDP
 polygon, not from the smooth curve, so the drawn outline sits up to ~1.5 mm away from the
 reported width. That is deliberate -- switching the measurement source would change
@@ -68,6 +74,7 @@ positives; verify the overlay).
 from __future__ import annotations
 
 import argparse
+import base64
 import csv
 import glob
 import json
@@ -734,6 +741,90 @@ def write_gridcheck(bgr, cal, path):
     cv2.imwrite(path, vis)
 
 
+def _path_d(it, bz):
+    """SVG path data (mm) for one template: smooth Bezier if fitted, else the polyline."""
+    if bz:
+        cp = [np.asarray(b, float) * 10.0 for b in bz]
+        return f"M {cp[0][0][0]:.3f},{cp[0][0][1]:.3f} " + " ".join(
+            f"C {c[1][0]:.3f},{c[1][1]:.3f} {c[2][0]:.3f},{c[2][1]:.3f} "
+            f"{c[3][0]:.3f},{c[3][1]:.3f}" for c in cp) + " Z"
+    pts = np.asarray(it["polygon_cm"], float) * 10.0
+    return "M " + " L ".join(f"{p[0]:.3f},{p[1]:.3f}" for p in pts) + " Z"
+
+
+def write_feather_svgs(bgr, items, smooth, tx, ty, out_dir, margin_mm=8.0, quality=92,
+                       force=False):
+    """One self-contained SVG per template: the photo underneath the outline.
+
+    Written to be opened in a vector editor for hand-tweaking. Two properties matter:
+
+    * the raster is embedded (base64 JPEG), so the file never depends on a sibling image
+      surviving a move or a copy into a project folder;
+    * the viewBox is the *sheet's* mm frame, not a local one, so every file shares one
+      coordinate system and a tweaked path keeps its absolute position. Only width/height
+      are trimmed to the crop, so the file opens zoomed on that feather at 1:1.
+
+    The photo crop is placed with preserveAspectRatio="none" over its own mm rectangle:
+    the scan is anisotropic (~10% difference between X and Y px/inch), so stretching the
+    crop to the calibrated mm box is what makes it register with the path.
+
+    An existing file that differs is left alone unless `force` is set -- these files are
+    meant to be hand-edited, and silently regenerating over that work would be the worst
+    possible failure mode. Returns (written, kept).
+    """
+    h_img, w_img = bgr.shape[:2]
+    os.makedirs(out_dir, exist_ok=True)
+    written, kept = [], []
+    for it, bz in zip(items, smooth if smooth else [None] * len(items)):
+        x, y, bw, bh = it["bbox_px"]
+        px_per_mm_x, px_per_mm_y = tx / 25.4, ty / 25.4
+        mx, my = int(round(margin_mm * px_per_mm_x)), int(round(margin_mm * px_per_mm_y))
+        x0, y0 = max(0, x - mx), max(0, y - my)
+        x1, y1 = min(w_img, x + bw + mx), min(h_img, y + bh + my)
+        crop = bgr[y0:y1, x0:x1]
+        if crop.size == 0:
+            continue
+        ok, buf = cv2.imencode(".jpg", crop, [int(cv2.IMWRITE_JPEG_QUALITY), int(quality)])
+        if not ok:
+            continue
+        b64 = base64.b64encode(buf.tobytes()).decode("ascii")
+
+        # crop rectangle in the sheet's mm frame
+        vx, vy = x0 / px_per_mm_x, y0 / px_per_mm_y
+        vw, vh = (x1 - x0) / px_per_mm_x, (y1 - y0) / px_per_mm_y
+        tag = it.get("label") or f"t{it['index']}"
+        lines = [
+            '<?xml version="1.0" encoding="UTF-8"?>',
+            '<svg xmlns="http://www.w3.org/2000/svg" '
+            'xmlns:xlink="http://www.w3.org/1999/xlink" '
+            f'width="{vw:.2f}mm" height="{vh:.2f}mm" '
+            f'viewBox="{vx:.3f} {vy:.3f} {vw:.3f} {vh:.3f}">',
+            f'  <image x="{vx:.3f}" y="{vy:.3f}" width="{vw:.3f}" height="{vh:.3f}" '
+            f'preserveAspectRatio="none" xlink:href="data:image/jpeg;base64,{b64}"/>',
+            '  <g id="outlines" fill="none" stroke="#000" stroke-width="0.5">',
+            f'    <path id="{tag}" d="{_path_d(it, bz)}"/>',
+            '  </g>',
+            '  <g id="labels" font-family="sans-serif" font-size="6" fill="#d40000">',
+            f'    <text x="{vx + 1.5:.2f}" y="{vy + 6:.2f}">{tag}</text>',
+            '  </g>',
+            '</svg>',
+            '',
+        ]
+        path = os.path.join(out_dir, f"{tag}.svg")
+        text = "\n".join(lines)
+        if not force and os.path.exists(path):
+            try:
+                if open(path, encoding="utf-8").read() != text:
+                    kept.append(tag)
+                    continue
+            except OSError:
+                pass
+        with open(path, "w", encoding="utf-8", newline="\n") as f:
+            f.write(text)
+        written.append((tag, path, len(lines[2]) / 1024.0))
+    return written, kept
+
+
 def write_svg(items, out_w_cm, out_h_cm, path, smooth=None):
     """1:1 physical SVG (user units = mm), one black outline path per template.
 
@@ -969,6 +1060,18 @@ def process(path, out_dir, scratch_dir, args):
     write_overlay(bgr, items, os.path.join(scratch_dir, f"{stem}.overlay.png"))
     write_gridcheck(bgr, cal, os.path.join(scratch_dir, f"{stem}.gridcheck.png"))
     cv2.imwrite(os.path.join(scratch_dir, f"{stem}.mask.png"), mask * 255)
+    if args.feathers:
+        feather_dir = args.feather_out or os.path.join(scratch_dir, "feathers")
+        got, kept = write_feather_svgs(bgr, items, smooth, tx, ty, feather_dir,
+                                       margin_mm=args.feather_margin_mm,
+                                       force=args.feather_force)
+        kb = sum(g[2] for g in got)
+        print(f"    feather files: {len(got)} written, {len(kept)} kept -> {feather_dir} "
+              f"({kb / 1024.0:.2f} MB written)")
+        if kept:
+            print(f"    ! kept existing (hand-edited?) {', '.join(kept[:6])}"
+                  f"{' ...' if len(kept) > 6 else ''} -- "
+                  f"use --feather-force to regenerate them")
     write_svg(items, w / tx * INCH_CM, h / ty * INCH_CM,
               os.path.join(out_dir, f"{stem}.svg"), smooth=smooth)
     with open(os.path.join(out_dir, f"{stem}.json"), "w", encoding="utf-8",
@@ -1018,6 +1121,16 @@ def main():
     ap.add_argument("--no-smooth", action="store_true",
                     help="emit the unsmoothed RDP polyline outline instead of the "
                          "finite-tolerance Bezier idealisation")
+    ap.add_argument("--feathers", action="store_true",
+                    help="also write one self-contained SVG per feather (embedded photo "
+                         "crop + outline, sheet mm frame) for editing in a vector editor")
+    ap.add_argument("--feather-out", default=None,
+                    help="where to write the per-feather SVGs (default <scratch>/feathers)")
+    ap.add_argument("--feather-margin-mm", type=float, default=8.0,
+                    help="photo context to include around each feather (default 8 mm)")
+    ap.add_argument("--feather-force", action="store_true",
+                    help="overwrite per-feather SVGs that already exist (default: keep an "
+                         "existing file that differs, so hand-tweaked paths survive)")
     args = ap.parse_args()
 
     if args.px_per_inch:
