@@ -215,7 +215,8 @@ python find-template-outlines.py --px-per-inch 100   # skip auto-calibration
 
 ```
 mechanical/templates/
-  find-template-outlines.py     the tool
+  find-template-outlines.py     the photo -> outline/measurement tool
+  build-feather-aggregate.py    aggregate the individual feather SVGs into one catalog
   as-built/
     source-images/              photos: raw/ = camera originals, unskewed/ = de-skewed
     labels.csv                  image,index -> feather label, transcribed from the marks
@@ -225,10 +226,14 @@ mechanical/templates/
       outlines.json              all images combined
       calibration.json           per-image px/inch for X and Y
       templates-measured.csv     one row per feather: length/width/area/aspect/position
+    vectors/                    TRACKED   hand-editable vector set
+      individuals/               one SVG per feather — SOURCE OF TRUTH for the aggregate
+      feathers-aggregate.svg     all 42, one <g> per prefix, 1:1 mm
     scratch/                    IGNORED   QC rasters (~110 MB, fully regenerable)
       <stem>.overlay.png         outlines drawn on the photo, labelled
       <stem>.gridcheck.png       fitted 1" grid over the photo — verify calibration by eye
       <stem>.mask.png            the binary detection mask
+      feathers-aggregate.png     aggregate QC raster (--png)
 ```
 
 Geometry is small, textual and diffable, so it is committed. The rasters are ~15 MB each and
@@ -297,6 +302,54 @@ Two properties make these safe to edit:
 > regenerable. If your hand-tweaked versions become the source of truth, point
 > `--feather-out` at a tracked folder instead — but note the generator will then be writing
 > into it, so keep the no-clobber behaviour in mind.
+
+### Aggregate SVG — all feathers, grouped by prefix
+
+```bash
+python build-feather-aggregate.py                 # -> as-built/vectors/feathers-aggregate.svg
+python build-feather-aggregate.py --png           # + scratch/feathers-aggregate.png (QC raster)
+python build-feather-aggregate.py --check         # verify only, write nothing
+python build-feather-aggregate.py --flip none     # as authored (tips up); default is vertical
+```
+
+[build-feather-aggregate.py](build-feather-aggregate.py) reads the hand-editable
+[as-built/vectors/individuals/](as-built/vectors/individuals/) SVGs — **those files are the
+source of truth and the photo-detection tool above is not involved** — and writes one catalog
+holding all 42 feathers, 1:1 mm (user units = mm):
+
+```xml
+<g id="catalog">
+  <g id="P">                      one group per prefix (P, S, A, PC, SC, MC, LC, B)
+    <g id="P1" transform="translate(dx,dy) translate(tx,ty) scale(1,-1)"
+       data-source="individuals/P1.svg">
+      <path id="P1-outline" .../>    verbatim from individuals/P1.svg — d and transform
+      <text ...>P1</text>            the source's own label (plus a counter-transform)
+```
+
+Every feather keeps its own group, and the **group** carries the placement (and the flip) so the
+`<path>` inside is untouched — a group can be selected, hidden, moved or exported by id in a
+vector editor without disturbing the geometry. No text is emitted for the document or for the
+groups: the only labels in the output are the ones the individual SVGs already carry.
+
+> **Why repositioning is required.** Each individual file sits in *its own photo sheet's* mm
+> frame, and those frames are separate photographs that overlap in absolute coordinates: S1
+> (`S1-6.jpg`) and SC1 (combined sheet) land on top of each other if the files are merely
+> concatenated. The aggregate lays out one row per prefix instead, with `--align base|top|center`
+> choosing the edge the row lines up on (default `base`: the primaries' vane bases, measured
+> 3 mm in, are ~31 mm wide against a ~7 mm point at the tip, so bases flush fans the tips).
+>
+> **Flip.** `--flip none|vertical|horizontal|both` (default `vertical`) mirrors each outline
+> about its own bounding-box centre, which leaves that box — and therefore every row and slot —
+> unchanged. The mirror is on the feather's group, never on the path. The label rides the
+> mirrored group so it stays on the same part of the feather, with a local counter-transform:
+> a group mirror would reverse the glyphs, and the counter-transform makes the net effect on a
+> label a pure translation, so it renders exactly as authored.
+>
+> **Self-checks** on every build: each written outline must equal its group transform applied to
+> the source outline (same points, to 0.01 mm), paths must be byte-identical, each label must
+> keep its glyph orientation and mirrored anchor and still lie on its own feather, no two
+> feathers may overlap, and no non-source label text may appear. `--check` runs that without
+> writing.
 
 ### Calibration — X and Y must be scaled separately
 
