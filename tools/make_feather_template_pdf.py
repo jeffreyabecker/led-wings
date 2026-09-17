@@ -59,9 +59,19 @@ FEATHER_ORDER = (
 # layout constants (millimetres)
 # ---------------------------------------------------------------------------
 PAGE_WIDTH_MM = 273.0           # hard maximum page width
-MARGIN_MM = 12.0                # page edge to the outermost content
-# Clear space between pairs, measured between cut outlines so there is room to
-# paint over the stencil edges. Sparse pages get a much wider berth.
+MARGIN_MM = 12.0                # preferred page edge to the outermost content
+MIN_MARGIN_MM = 5.0             # allowed to shrink so a wide pair still fits
+# Clear space between the two halves of ONE mirrored pair, across its centre line.
+# This is what makes a pair usable: the mirror-image outline is not on top of the
+# cut edge you are working on. Large feathers need the wider gap because their
+# outlines run close to the centre line.
+SMALL_PARTNER_GAP_MM = 30.0
+LARGE_PARTNER_GAP_MM = 70.0
+# Feathers that take the wide gap: the long primaries and secondaries. Their
+# outlines run close to the pair's centre line along their whole length, so the
+# mirror-image cut edge really would be in the way.
+LARGE_FAMILIES = ("P", "S")
+# Clear space between neighbouring pairs on a page.
 SPARSE_GAP_MM = 70.0            # around a row that holds a single pair
 DENSE_GAP_MM = 30.0             # between pairs sharing a row, and between rows
 # Vertical furniture above the first pair: a title line and a subtitle line.
@@ -224,6 +234,7 @@ class PageLayout:
     slots: list
     title: str
     stroke_scale: float
+    margin: float = MARGIN_MM
 
     @property
     def names(self) -> list:
@@ -238,21 +249,47 @@ def mat_scale_about(sx: float, sy: float, cx: float, cy: float) -> tuple:
     )
 
 
+def partner_gap(feather: Feather, scale: float = 1.0) -> float:
+    """Clear space between the two halves *within* one mirrored pair.
+
+    The halves are separated across the pair's centre line so there is room to
+    paint over each cut edge without the mirror-image outline being in the way.
+    """
+    letters = "".join(c for c in feather.name if c.isalpha())
+    large = letters in LARGE_FAMILIES
+    return (LARGE_PARTNER_GAP_MM if large else SMALL_PARTNER_GAP_MM) * scale
+
+
+def pair_size(feather: Feather, scale: float = 1.0) -> tuple:
+    """(width, height) of one mirrored pair, in millimetres.
+
+    The width includes the pair's own half-to-half gap, so every width and fit
+    check in this module accounts for it exactly once.
+    """
+    cut = feather.cut_box
+    half_w = (cut[2] - cut[0]) * scale
+    return (2.0 * half_w + partner_gap(feather, scale), (cut[3] - cut[1]) * scale)
+
+
 def make_slot(feather: Feather, axis_x: float, pair_bottom: float,
               scale: float) -> PairSlot:
     """Place one mirrored pair so its apex is at `pair_bottom + height`.
 
     The source geometry is the right wing as built. On the page the as-built half
     occupies the RIGHT-hand side of the axis and its reflection occupies the
-    LEFT-hand side, matching how the two wings sit on the bird.
+    LEFT-hand side, matching how the two wings sit on the bird. Each half is kept
+    `partner_gap` clear of the axis, so the two cut outlines never touch.
     """
     cut = feather.cut_box
     half_w = (cut[2] - cut[0]) * scale
     half_h = (cut[3] - cut[1]) * scale
+    # Compose at true size; the uniform shrink below scales this gap with
+    # everything else, so the gap must be requested unscaled here.
+    gap_half = partner_gap(feather, scale) / 2.0
     pair_top = pair_bottom + half_h
 
-    # as-built geometry goes on the right-hand side of the axis
-    right_to_page = mat_fit(cut, axis_x, pair_bottom)
+    # as-built geometry goes on the right-hand side, offset clear of the axis
+    right_to_page = mat_fit(cut, axis_x + gap_half, pair_bottom)
     # Reflect it about the axis for the left wing. The reflection is composed in
     # page space (translate-to-origin, scale -1 on x, translate back) and applied
     # to the already-fitted page coordinates.
@@ -269,13 +306,13 @@ def make_slot(feather: Feather, axis_x: float, pair_bottom: float,
         shrink = mat_scale_about(scale, scale, axis_x, 0.0)
         right_to_page = mat_mul(shrink, right_to_page)
         left_to_page = mat_mul(shrink, left_to_page)
-        pair_top = pair_bottom + (cut[3] - cut[1]) * scale
+        pair_top = pair_bottom + half_h
 
     return PairSlot(
         feather=feather,
         axis_x=axis_x,
-        cell_left=axis_x - half_w,
-        cell_right=axis_x + half_w,
+        cell_left=axis_x - gap_half - half_w,
+        cell_right=axis_x + gap_half + half_w,
         pair_top=pair_top,
         pair_bottom=pair_bottom,
         label_y=pair_top + LABEL_GAP_MM,
@@ -284,12 +321,6 @@ def make_slot(feather: Feather, axis_x: float, pair_bottom: float,
         right_to_page=right_to_page,
         left_to_page=left_to_page,
     )
-
-
-def pair_size(feather: Feather, scale: float = 1.0) -> tuple:
-    """(width, height) of one mirrored pair's cut footprint, in millimetres."""
-    cut = feather.cut_box
-    return ((cut[2] - cut[0]) * 2.0 * scale, (cut[3] - cut[1]) * scale)
 
 
 def fit_bbox(box, transform) -> tuple:
@@ -313,7 +344,7 @@ def _pack_rows(pairs: list) -> list:
     outlines, so a row only ever becomes multi-pair when there is really room for
     it; a pair that will not fit beside another gets a row to itself.
     """
-    content_w = PAGE_WIDTH_MM - 2.0 * MARGIN_MM
+    content_w = PAGE_WIDTH_MM - 2.0 * MIN_MARGIN_MM
     rows: list = []
     for key, width, height in sorted(pairs, key=lambda p: -p[2]):
         if width > content_w + 1e-9:
@@ -441,7 +472,16 @@ def layout_page(title: str, rows: list, by_name: dict, scale: float) -> PageLayo
     # the row gap between rows, then the footer furniture. A row holding a single
     # pair keeps the wider sparse gap from its neighbours.
     page_h = page_height_for_rows(rows)
-    content_w = PAGE_WIDTH_MM - 2.0 * MARGIN_MM
+    # Widest row (including the space between its pairs) sets the page's side
+    # margins. They shrink from the preferred MARGIN_MM down to MIN_MARGIN_MM if
+    # that is what a wide pair needs to fit on the page.
+    widest_row = max(
+        sum(w for _, w, _ in row["items"]) + DENSE_GAP_MM * (len(row["items"]) - 1)
+        for row in rows
+    )
+    margin = max(MIN_MARGIN_MM,
+                 min(MARGIN_MM, (PAGE_WIDTH_MM - widest_row) / 2.0))
+    content_w = PAGE_WIDTH_MM - 2.0 * margin
     body_h = page_h - HEAD_MM - FOOT_MM
 
     slots: list = []
@@ -452,7 +492,7 @@ def layout_page(title: str, rows: list, by_name: dict, scale: float) -> PageLayo
         row_width = sum(w for _, w, _ in row["items"]) + DENSE_GAP_MM * (
             len(row["items"]) - 1
         )
-        x = MARGIN_MM + (content_w - row_width) / 2.0
+        x = margin + (content_w - row_width) / 2.0
         for key, width, height in row["items"]:
             axis_x = x + width / 2.0
             slot = make_slot(by_name[key], axis_x, row_bottom + LABEL_BAND_MM, scale)
@@ -470,6 +510,7 @@ def layout_page(title: str, rows: list, by_name: dict, scale: float) -> PageLayo
         slots=slots,
         title=title,
         stroke_scale=scale,
+        margin=margin,
     )
 
 
@@ -557,7 +598,7 @@ def footer_pair_line(layout: PageLayout) -> str:
 
 def _check_text_fits(layout: PageLayout, scale: float) -> None:
     """Fail loudly rather than emit a header or footer that runs off the page."""
-    usable = layout.page_w - 2.0 * MARGIN_MM
+    usable = layout.page_w - 2.0 * layout.margin
     scale_note = "1:1" if scale == 1.0 else f"1:{1.0 / scale:.1f} reduced"
     header = f"{layout.title}  -  mirrored pairs  ({scale_note})"
     header_w = text_width_mm(header, ID_SIZE_MM)
@@ -799,7 +840,10 @@ def main(argv: list[str] | None = None) -> int:
     print(f"  scale       : {args.scale:g} : 1")
     print(f"  page width  : {PAGE_WIDTH_MM:g} mm (max)")
     print(f"  page height : {min(heights):.1f} .. {max(heights):.1f} mm")
-    print(f"  spacing     : {DENSE_GAP_MM:g} mm between pairs in a row, "
+    print(f"  spacing     : {SMALL_PARTNER_GAP_MM:g} mm between the halves of a "
+          f"small-feather pair, {LARGE_PARTNER_GAP_MM:g} mm for "
+          f"{'/'.join(LARGE_FAMILIES)}")
+    print(f"                {DENSE_GAP_MM:g} mm between pairs in a row, "
           f"{SPARSE_GAP_MM:g} mm around a lone pair")
     for index, layout in enumerate(layouts, start=1):
         print(f"    page {index:2}: {len(layout.slots)} pair(s) "

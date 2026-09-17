@@ -26,6 +26,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from feather_geometry import load_feather  # noqa: E402
 from make_feather_template_pdf import (  # noqa: E402
     DENSE_GAP_MM,
+    partner_gap,
     MAX_PAGE_HEIGHT_MM,
     PAGE_WIDTH_MM,
     SPARSE_GAP_MM,
@@ -164,7 +165,7 @@ def main() -> int:
     failures: list[str] = []
     pairs_checked = 0
     print(f"{'page':>5} {'page mm':>17} {'slots':>5}  {'placement':>10} {'mirror':>9} "
-          f"{'spacing':>9} {'axis':>8}")
+          f"{'half gap':>9} {'pair gap':>8} {'axis':>6}")
 
     with tempfile.TemporaryDirectory() as tmp:
         for page_no, layout in enumerate(layouts, start=1):
@@ -186,6 +187,7 @@ def main() -> int:
 
             worst_place = 0.0
             worst_mirror = 0.0
+            worst_partner = float('inf')
             for slot in layout.slots:
                 pairs_checked += 1
                 name = slot.name
@@ -242,6 +244,27 @@ def main() -> int:
                     failures.append(
                         f"page {page_no} {name}: mirrored vertices differ by {err * 1000:.3f} um")
 
+                # The two halves of a pair must be separated by the required
+                # clear gap across the pair's centre line - this is the check
+                # that the halves are not drawn touching each other.
+                want_partner = partner_gap(feather, args.scale)
+                got_partner = (slot.right_box[0] - slot.left_box[2]) / args.scale
+                worst_partner = min(worst_partner, got_partner)
+                if got_partner < want_partner - 1e-6:
+                    failures.append(
+                        f"page {page_no} {name}: the two halves of the pair are only "
+                        f"{got_partner:.2f} mm apart, need {want_partner:.2f} mm")
+                # and each half must be centred in its side of the pair cell
+                expect_axis_gap = want_partner / 2.0 * args.scale
+                left_inner = slot.axis_x - slot.left_box[2]
+                right_inner = slot.right_box[0] - slot.axis_x
+                if abs(left_inner - expect_axis_gap) > 1e-6 or \
+                        abs(right_inner - expect_axis_gap) > 1e-6:
+                    failures.append(
+                        f"page {page_no} {name}: pair is not centred on its axis "
+                        f"(inner gaps {left_inner:.2f} / {right_inner:.2f} mm, "
+                        f"expected {expect_axis_gap:.2f} mm each side)")
+
                 if ink_l < -0.05 or ink_r > layout.page_w + 0.05:
                     failures.append(f"page {page_no} {name}: ink escapes the page width")
 
@@ -274,11 +297,14 @@ def main() -> int:
                             f"page {page_no}: {a.name}/{b.name} spacing {gap:.2f} mm "
                             f"is under the required {want:.2f} mm")
 
+            gap_note = ("none" if min_gap is float("inf")
+                        else f"{min_gap:.1f}")
             print(f"{page_no:5} {layout.page_w:8.1f} x {layout.page_h:7.1f} "
                   f"{len(layout.slots):5}  {worst_place * PX_PER_MM:9.2f}px "
                   f"{worst_mirror * 1000:8.3f}u "
-                  f"{(min_gap if min_gap is not float('inf') else float('nan')):9.2f} "
-                  f"{'ok' if worst_place <= PLACEMENT_TOL_MM else 'FAIL':>8}")
+                  f"{(worst_partner if worst_partner is not float('inf') else float('nan')):9.1f} "
+                  f"{gap_note:>7} "
+                  f"{'ok' if worst_place <= PLACEMENT_TOL_MM else 'FAIL':>6}")
 
     print()
     if failures:
@@ -287,7 +313,7 @@ def main() -> int:
             print("  " + f)
         return 1
     print(f"all {len(layouts)} pages / {pairs_checked} pairs verified: placement, "
-          f"handedness, mirroring, spacing and page fit")
+          f"handedness, mirroring, half-to-half gap, pair spacing and page fit")
     return 0
 
 

@@ -11,14 +11,20 @@ side-to-side mirror of it.
 
 ## `print/feathers-mirrored-pairs.pdf`
 
-14 logical pages holding all 42 feather pairs. Each pair is the as-built feather
+16 logical pages holding all 42 feather pairs. Each pair is the as-built feather
 plus its mirror placed side-to-side, so one page yields both templates.
 
 The halves are laid out the way the wings sit on the bird: the **as-built
 (right) feather on the right** of the pair's centre line, its **mirror (left
 feather) on the left**. The labels name them, not the page position.
 
-Each pair carries its own identification, so a loose template can always be
+The two halves of a pair are held apart across the centre line, so the
+mirror-image outline is never sitting on the cut edge you are working on:
+
+* **70 mm** between the halves of a P or S pair (the long primaries and secondaries)
+* **30 mm** between the halves of every other pair, and between neighbouring pairs
+
+Each pair also carries its own identification, so a loose template can always be
 traced:
 
 * above the pair, one line per half: `LEFT - mirror` and `RIGHT - as built`
@@ -28,10 +34,7 @@ traced:
 Other properties:
 
 * printed at **1:1** - measure the 50 mm bar at the foot of any page before cutting
-* every page is **273 mm wide**; heights run from 400 mm to 838 mm
-* **30 mm of clear space** between pairs sharing a row, and **70 mm** around a
-  pair that has its row to itself - measured between cut outlines, so there is
-  room to paint over the stencil edges
+* every page is **273 mm wide**; heights run from 400 mm to 949 mm
 * cut lines are the calibrated outlines at 0.5 mm stroke; the grey/white fills
   only exist so the cut line stands out
 * a thin dashed tick marks each pair's mirror axis above and below it
@@ -39,21 +42,22 @@ Other properties:
 
 ### Why some pairs get a page or a row to themselves
 
-A mirrored pair is twice the feather's width, and the big feathers are wide:
-P1's pair is 190.2 mm and S1's is 169.3 mm, against 249 mm of usable width. With
-30 mm required beside a neighbour there is no room for a second pair, so each P
-gets a page of its own and each S pair gets a row.
-
-The small families are narrow enough to go several per row:
+A pair is now two half-widths plus its own 70 mm or 30 mm gap, and the big
+feathers are wide: P1's pair is 259 mm and S1's is 244 mm, against 263 mm of
+usable width once the margins shrink to 5 mm. With 30 mm also required beside a
+neighbour there is no room for a second pair, so each P gets a page and each S
+pair gets a row.
 
 | page | content | page size |
 | --- | --- | --- |
 | 1-6 | P1 ... P6, one pair per page | 273 x 400-563 mm |
 | 7-9 | S2+S1, S4+S3, S6+S5 | 273 x 838 / 752 / 621 mm |
-| 10 | B2 + B1 | 273 x 729 mm |
-| 11 | B3 + B4 + B5 | 273 x 606 mm |
-| 12-13 | the 14 SC / PC / A pairs (8 and 7 per page) | 273 x 805 / 831 mm |
-| 14 | MC1-5 and LC1-5 (10 pairs) | 273 x 737 mm |
+| 10 | B1 + B2 | 273 x 729 mm |
+| 11 | B3 + B4 + B5 | 273 x 841 mm |
+| 12-13 | SC1-8 | 273 x 908 / 949 mm |
+| 14 | PC1-3 | 273 x 715 mm |
+| 15 | A1-4 | 273 x 855 mm |
+| 16 | MC1-5 and LC1-5 | 273 x 753 mm |
 
 Feathers are ordered inner primary outwards:
 `P1-6`, `S1-6`, `B1-5`, `SC1-8`, `PC1-3`, `A1-4`, `MC1-5`, `LC1-5`.
@@ -88,10 +92,10 @@ The generated file is checked by four independent passes:
 | script | what it establishes |
 | --- | --- |
 | `_check_feather_geometry.py` | parsed outlines match each SVG's declared page size |
-| `_verify_mirror_layout.py` | placement, handedness, exact mirroring, pair spacing and page fit (rasterised by Chrome) |
+| `_verify_mirror_layout.py` | placement, handedness, exact mirroring, the half-to-half gap, pair spacing and page fit (rasterised by Chrome) |
 | `_verify_pdf_contents.py` | PDF objects, xref, MediaBoxes, and the emitted geometry stream rebuilt from the layout and compared line for line |
 | `_verify_pdf_pypdf.py` | independent parse (pypdf) of pages, boxes and text layer |
 | `_verify_pdf_render.py` | independent render (PDFium) of the printed result, incl. label sides read back from the glyph boxes |
 
-All pass for all 14 pages / 42 pairs. All take `--only`, `--scale`, `--spacing`, `--max-rows` and `--max-page-height`
+All pass for all 16 pages / 42 pairs. All take `--only`, `--scale`, `--spacing`, `--max-rows` and `--max-page-height`
 to match a non-default build.

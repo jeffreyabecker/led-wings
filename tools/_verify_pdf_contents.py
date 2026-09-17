@@ -22,6 +22,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from feather_geometry import load_feather  # noqa: E402
 from make_feather_template_pdf import (  # noqa: E402
+    partner_gap,
     MAX_PAGE_HEIGHT_MM,
     DENSE_GAP_MM,
     PAGE_WIDTH_MM,
@@ -252,6 +253,15 @@ def main() -> int:
             if max(x for poly in left for x, _ in poly) > slot.axis_x + 1e-6:
                 errors.append(
                     f"page {index} {slot.name}: mirrored half is right of its axis")
+
+            # the two halves of a pair must be separated by the required clear gap
+            want_partner = partner_gap(slot.feather, args.scale)
+            got_partner = (min(x for poly in right for x, _ in poly)
+                           - max(x for poly in left for x, _ in poly)) / args.scale
+            if got_partner < want_partner - 1e-6:
+                errors.append(
+                    f"page {index} {slot.name}: the two halves are only "
+                    f"{got_partner:.2f} mm apart, need {want_partner:.2f} mm")
             reflected = [[(2 * slot.axis_x - x, y) for x, y in poly] for poly in right]
             err = max(
                 max(abs(a[0] - b[0]), abs(a[1] - b[1]))
