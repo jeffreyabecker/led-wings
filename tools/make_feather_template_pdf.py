@@ -62,6 +62,12 @@ FEATHER_ORDER = (
 PAGE_WIDTH_MM = 273.0           # hard maximum page width
 MARGIN_MM = 12.0                # preferred page edge to the outermost content
 MIN_MARGIN_MM = 5.0             # allowed to shrink so a wide pair still fits
+# Clear space at the top and bottom of a page. These documents are meant to be
+# printed through Acrobat's poster/tile mode, which joins tiles with an overlap
+# (0.5 in by default), so no ink should sit nearer the trim than that or a tile
+# cannot be registered against its neighbour.
+MARGIN_TOP_MM = 6.0
+MARGIN_BOTTOM_MM = 6.0
 # Clear space between the two halves of ONE mirrored pair, across its centre line.
 # This is what makes a pair usable: the mirror-image outline is not on top of the
 # cut edge you are working on. Large feathers need the wider gap because their
@@ -79,12 +85,16 @@ ROTATED_FAMILIES = ()
 # Clear space between neighbouring pairs on a page.
 SPARSE_GAP_MM = 70.0            # around a row that holds a single pair
 DENSE_GAP_MM = 30.0             # between pairs sharing a row, and between rows
-# Vertical furniture above the first pair: a title line and a subtitle line.
-HEAD_MM = 18.0
+# Vertical furniture, each measured from the page edge to the body of pairs:
+# HEAD_MM holds the title and subtitle at the top, FOOT_MM the scale bar, page
+# number and pair list at the bottom. Both include the trim margin above, so the
+# body starts MARGIN_TOP_MM below the top edge and the footer sits
+# MARGIN_BOTTOM_MM above the foot of the page.
+HEAD_MM = MARGIN_TOP_MM + 15.2
 # Per-pair band above each pair, holding the feather ID line. The ID carries the
 # side as a suffix (`P1 L` / `P1 R`), which is what distinguishes the halves.
 LABEL_BAND_MM = 6.6
-FOOT_MM = 15.0
+FOOT_MM = MARGIN_BOTTOM_MM + 15.0
 LABEL_SIZE_MM = 4.4
 ID_SIZE_MM = 6.0                # feather ID, page header
 FOOT_SIZE_MM = 3.0
@@ -692,14 +702,18 @@ def build_page(layout: PageLayout, page_no: int, page_total: int,
     scale_note = "1:1" if scale == 1.0 else f"1:{1.0 / scale:.1f} reduced"
     header = f"{layout.title}  -  mirrored pairs  ({scale_note})"
     subtitle = "as-built geometry mirrored about each centre line"
-    cmds.append(text_cmd(layout.page_w / 2.0, layout.page_h - ID_SIZE_MM, ID_SIZE_MM,
+    # The title hangs MARGIN_TOP_MM below the top edge, so nothing is printed
+    # inside the trim that poster tiling overlaps.
+    header_y = layout.page_h - MARGIN_TOP_MM - ID_SIZE_MM
+    cmds.append(text_cmd(layout.page_w / 2.0, header_y, ID_SIZE_MM,
                          header, color=(0, 0, 0), align="center"))
-    cmds.append(text_cmd(layout.page_w / 2.0, layout.page_h - ID_SIZE_MM - 4.6,
+    cmds.append(text_cmd(layout.page_w / 2.0, header_y - 4.6,
                          FOOT_SIZE_MM, subtitle, color=TEXT_GREY, align="center"))
 
     # Footer: a scale-check bar plus provenance. The bar is only meaningful at
-    # true size, so a reduced print says so instead of claiming 50 mm.
-    bar_y = 8.0
+    # true size, so a reduced print says so instead of claiming 50 mm. The block
+    # clears MARGIN_BOTTOM_MM, so no part of it falls inside the poster overlap.
+    bar_y = MARGIN_BOTTOM_MM + 3.0
     bar_x = MARGIN_MM
     if scale == 1.0:
         cmds.append(f"{rgb((0, 0, 0))} RG {num(0.3)} w")

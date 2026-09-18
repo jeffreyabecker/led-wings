@@ -14,8 +14,33 @@ small feathers are laid out; the P, S and B groups are identical in both.
 
 | file | pages | small-feather pages | for |
 | --- | --- | --- | --- |
-| `feathers-mirrored-pairs.pdf` | 16 | 700-929 mm tall | roll / large-format printer, fewest sheets |
-| `feathers-200mm-rotated.pdf` | 37 | **all 200 mm or less** | printers that only take short sheets |
+| `feathers-mirrored-pairs.pdf` | 16 | 707-938 mm tall | roll / large-format printer, fewest sheets |
+| `feathers-200mm-rotated.pdf` | 37 | **all 200 mm or less** (20 pages) | anything a home printer takes, tiled |
+
+## Printing: use Acrobat's poster mode
+
+Neither document is meant to come out on one sheet. Print both through
+**Acrobat Reader -> Print -> Page Sizing & Handling -> Poster**, which tiles each
+logical page across as many sheets as the paper needs and joins them with an
+overlap you trim to. The page sizes here are *logical*; the paper in the printer
+is what tiling takes care of.
+
+Settings that matter:
+
+* **Tile Scale 100%** - the templates are true size and any other value loses
+  that. Check the 50 mm bar at the foot of a page once the tiles are joined.
+* **Overlap** - Acrobat defaults to 0.5 in (12.7 mm). Every page keeps at least
+  **5.6 mm of clear margin on all four edges**, so the default works and a
+  smaller overlap will not clip anything: every feather outline and both ID
+  labels sit well inside that margin. Only the title, subtitle and footer text
+  come near it, and those are labels rather than cut lines.
+* **Cut Marks** - optional; the overlap is enough to register tiles by eye.
+* **Labels** - leave on, so each sheet is stamped with its logical page number.
+
+A 273 x 938 mm logical page tiles into roughly 2 x 6 sheets of A4 landscape. The
+16-page document needs about 150 A4 sheets in total, the 37-page one about 190 -
+so the 200 mm document's advantage is not paper, it is that it prints at all on a
+printer that refuses the taller sheets.
 
 ## `print/feathers-mirrored-pairs.pdf`
 
@@ -82,9 +107,11 @@ subset to test the fit.
 
 ## `print/feathers-200mm-rotated.pdf`
 
-37 pages for printers that only take short sheets: every page is **200 mm or
-less** tall (they range 124-200 mm for the small feathers), while P, S and B keep
-the larger pages they need.
+37 pages, of which the **20 that hold SC, PC, A, MC and LC are all 200 mm or
+less** (133-194 mm). P, S and B keep the larger pages they need, up to 567 mm.
+
+Under 200 mm those pages tile into a single row of sheets rather than a grid,
+which is what makes them work on a printer with a short maximum sheet length.
 
 To get the tall small-feather pairs onto a 200 mm sheet, the SC, PC and A pairs
 are laid down **rotated 90 degrees clockwise** — the feather's long axis runs
