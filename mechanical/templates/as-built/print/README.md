@@ -9,6 +9,14 @@ photographed grid (`outlines/calibration.json`).
 The feather set is the **right-hand (as built)** side. The left wing is the
 side-to-side mirror of it.
 
+Two documents are generated from that one source. They differ only in how the
+small feathers are laid out; the P, S and B groups are identical in both.
+
+| file | pages | small-feather pages | for |
+| --- | --- | --- | --- |
+| `feathers-mirrored-pairs.pdf` | 16 | 700-929 mm tall | roll / large-format printer, fewest sheets |
+| `feathers-200mm-rotated.pdf` | 37 | **all 200 mm or less** | printers that only take short sheets |
+
 ## `print/feathers-mirrored-pairs.pdf`
 
 16 logical pages holding all 42 feather pairs. Each pair is the as-built feather
@@ -72,16 +80,46 @@ pairs sharing a row. `--scale` shrinks the drawing to a stated reduced scale (th
 footer then says so instead of printing a 50 mm bar); `--only` regenerates a
 subset to test the fit.
 
+## `print/feathers-200mm-rotated.pdf`
+
+37 pages for printers that only take short sheets: every page is **200 mm or
+less** tall (they range 124-200 mm for the small feathers), while P, S and B keep
+the larger pages they need.
+
+To get the tall small-feather pairs onto a 200 mm sheet, the SC, PC and A pairs
+are laid down **rotated 90 degrees clockwise** — the feather's long axis runs
+across the page. Rotation swaps a pair's extents, so a pair that was 169.7 mm
+tall by 145.5 mm wide becomes 145.5 mm tall by 169.7 mm wide, and fits.
+
+The halves are then stacked rather than side-by-side: the **as-built (right)
+feather below the pair's centre line**, its **mirror above it**, with the same
+clear gap between them. The ID labels sit at the ends of the pair, so `SC3 L` is
+still the mirror and `SC3 R` the as-built piece.
+
+* 42 pairs across 37 pages; P/S/B pages are the same as the other document
+* rotating is the only lever that works here: the non-fitters are too tall as
+  *single* pairs, so closing up the spacing cannot help them
+* each rotated pair is wider than half the page, so it takes a sheet to itself
+* the price is sheet count — 37 pages against 16
+
+```sh
+python tools/make_feather_template_pdf.py --max-page-height 200 --rotate SC PC A \
+    --out mechanical/templates/as-built/print/feathers-200mm-rotated.pdf
+```
+
 ## Regenerating
 
 ```sh
-python tools/make_feather_template_pdf.py                      # the 14-page document
+python tools/make_feather_template_pdf.py                      # the 16-page document
 python tools/make_feather_template_pdf.py --list               # page plan, no output
 python tools/make_feather_template_pdf.py --only P1 B5 LC1     # a subset
 python tools/make_feather_template_pdf.py --spacing 50         # wider gap within a row
 python tools/make_feather_template_pdf.py --max-page-height 900 # shorter pages, more of them
 python tools/make_feather_template_pdf.py --scale 0.5 --out half.pdf
 ```
+
+`--rotate FAMILY ...` lays those families' pairs down a quarter turn clockwise.
+It is what the 200 mm document uses; the default is to rotate nothing.
 
 `tools/feather_geometry.py` holds the SVG parsing (path data, transform
 composition, curve flattening) and is shared by the generator and the verifiers.
@@ -93,10 +131,10 @@ The generated file is checked by four independent passes:
 | script | what it establishes |
 | --- | --- |
 | `_check_feather_geometry.py` | parsed outlines match each SVG's declared page size |
-| `_verify_mirror_layout.py` | placement, handedness, exact mirroring, the half-to-half gap, pair spacing and page fit (rasterised by Chrome) |
+| `_verify_mirror_layout.py` | placement, handedness, exact mirroring, the half-to-half gap, pair spacing and page fit, in either orientation (rasterised by Chrome) |
 | `_verify_pdf_contents.py` | PDF objects, xref, MediaBoxes, and the emitted geometry stream rebuilt from the layout and compared line for line |
 | `_verify_pdf_pypdf.py` | independent parse (pypdf) of pages, boxes and text layer |
 | `_verify_pdf_render.py` | independent render (PDFium) of the printed result, incl. label sides read back from the glyph boxes |
 
-All pass for all 16 pages / 42 pairs. All take `--only`, `--scale`, `--spacing`, `--max-rows` and `--max-page-height`
+All pass for both documents (16 and 37 pages, 42 pairs each). All take `--only`, `--scale`, `--spacing`, `--max-rows` and `--max-page-height`
 to match a non-default build.

@@ -36,9 +36,14 @@ def main() -> int:
     ap.add_argument("--max-rows", type=int, default=None)
     ap.add_argument("--max-page-height", type=float,
                     default=MAX_PAGE_HEIGHT_MM, metavar="MM")
+    ap.add_argument("--rotate", nargs="*", metavar="FAMILY", default=None)
     ap.add_argument("--spacing", type=float, default=None)
     args = ap.parse_args()
 
+    if args.rotate is not None:
+        import make_feather_template_pdf as gen
+
+        gen.ROTATED_FAMILIES = tuple(args.rotate)
     if args.spacing is not None:
         import make_feather_template_pdf as gen
 

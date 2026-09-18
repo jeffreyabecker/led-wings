@@ -26,6 +26,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from feather_geometry import load_feather  # noqa: E402
 from make_feather_template_pdf import (  # noqa: E402
     DENSE_GAP_MM,
+    slot_axis_ticks,
     partner_gap,
     MAX_PAGE_HEIGHT_MM,
     PAGE_WIDTH_MM,
@@ -75,16 +76,17 @@ def build_fixture(layout, scale, out_svg: Path) -> dict:
                     f'<polygon points="{pts}" fill="none" stroke="#000000" '
                     f'stroke-width="{feather.stroke_mm * scale:.3f}"/>'
                 )
-        # spine ticks above and below, exactly as the PDF draws them
-        for y0, y1 in ((slot.pair_bottom - 5.0, slot.pair_bottom),
-                       (slot.pair_top, slot.pair_top + 5.0)):
+        # mirror-axis ticks, exactly as the PDF draws them
+        for (x0, y0), (x1, y1) in slot_axis_ticks(slot):
             parts.append(
-                f'<line x1="{slot.axis_x}" y1="{layout.page_h - y0:.4f}" '
-                f'x2="{slot.axis_x}" y2="{layout.page_h - y1:.4f}" '
+                f'<line x1="{x0:.4f}" y1="{layout.page_h - y0:.4f}" '
+                f'x2="{x1:.4f}" y2="{layout.page_h - y1:.4f}" '
                 f'stroke="#000000" stroke-width="0.4"/>'
             )
-        marks.append((slot.axis_x - 0.2, layout.page_h - slot.pair_top - 5.0,
-                      slot.axis_x + 0.2, layout.page_h - slot.pair_bottom + 5.0))
+        ticks = slot_axis_ticks(slot)
+        tx = [p[0] for t in ticks for p in t]
+        ty = [layout.page_h - p[1] for t in ticks for p in t]
+        marks.append((min(tx), min(ty), max(tx), max(ty)))
     parts.append("</svg>")
 
     xs = [m[0] for m in marks] + [m[2] for m in marks]
@@ -131,6 +133,7 @@ def main() -> int:
     ap.add_argument("--only", nargs="+", metavar="ID")
     ap.add_argument("--scale", type=float, default=1.0)
     ap.add_argument("--max-rows", type=int, default=None)
+    ap.add_argument("--rotate", nargs="*", metavar="FAMILY", default=None)
     ap.add_argument("--max-page-height", type=float, default=MAX_PAGE_HEIGHT_MM,
                     metavar="MM")
     ap.add_argument("--spacing", type=float, default=None)
@@ -152,6 +155,10 @@ def main() -> int:
 
         feathers = [load_feather(p) for p in discover(args.src, None)]
 
+    if args.rotate is not None:
+        import make_feather_template_pdf as gen
+
+        gen.ROTATED_FAMILIES = tuple(args.rotate)
     if args.spacing is not None:
         import make_feather_template_pdf as gen
 
@@ -226,14 +233,24 @@ def main() -> int:
                         f"{place_err * PX_PER_MM:.2f} px "
                         f"(ink [{ink_l:.2f},{ink_r:.2f}] vs layout [{exp_l:.2f},{exp_r:.2f}])")
 
-                # handedness and exact mirroring
+                # handedness and exact mirroring, in whichever orientation the
+                # pair was laid down
                 right = transform_polys(feather.polys_right, slot.right_to_page)
                 left = transform_polys(feather.polys_right, slot.left_to_page)
-                if min(x for poly in right for x, _ in poly) < slot.axis_x - 1e-6:
-                    failures.append(f"page {page_no} {name}: as-built half left of its axis")
-                if max(x for poly in left for x, _ in poly) > slot.axis_x + 1e-6:
-                    failures.append(f"page {page_no} {name}: mirrored half right of its axis")
-                reflected = [[(2 * slot.axis_x - x, y) for x, y in poly] for poly in right]
+                if not slot.rotated:
+                    if min(x for poly in right for x, _ in poly) < slot.axis_x - 1e-6:
+                        failures.append(f"page {page_no} {name}: as-built half left of its axis")
+                    if max(x for poly in left for x, _ in poly) > slot.axis_x + 1e-6:
+                        failures.append(f"page {page_no} {name}: mirrored half right of its axis")
+                    reflected = [[(2 * slot.axis_x - x, y) for x, y in poly] for poly in right]
+                else:
+                    # rotated: the as-built half sits below the horizontal axis,
+                    # its mirror above it
+                    if max(y for poly in right for _, y in poly) > slot.axis_y + 1e-6:
+                        failures.append(f"page {page_no} {name}: as-built half above its axis")
+                    if min(y for poly in left for _, y in poly) < slot.axis_y - 1e-6:
+                        failures.append(f"page {page_no} {name}: mirrored half below its axis")
+                    reflected = [[(x, 2 * slot.axis_y - y) for x, y in poly] for poly in right]
                 err = max(
                     max(abs(a[0] - b[0]), abs(a[1] - b[1]))
                     for p, q in zip(reflected, left)
@@ -248,7 +265,10 @@ def main() -> int:
                 # clear gap across the pair's centre line - this is the check
                 # that the halves are not drawn touching each other.
                 want_partner = partner_gap(feather, args.scale)
-                got_partner = (slot.right_box[0] - slot.left_box[2]) / args.scale
+                if not slot.rotated:
+                    got_partner = (slot.right_box[0] - slot.left_box[2]) / args.scale
+                else:
+                    got_partner = (slot.left_box[1] - slot.right_box[3]) / args.scale
                 worst_partner = min(worst_partner, got_partner)
                 if got_partner < want_partner - 1e-6:
                     failures.append(
@@ -256,13 +276,16 @@ def main() -> int:
                         f"{got_partner:.2f} mm apart, need {want_partner:.2f} mm")
                 # and each half must be centred in its side of the pair cell
                 expect_axis_gap = want_partner / 2.0 * args.scale
-                left_inner = slot.axis_x - slot.left_box[2]
-                right_inner = slot.right_box[0] - slot.axis_x
-                if abs(left_inner - expect_axis_gap) > 1e-6 or \
-                        abs(right_inner - expect_axis_gap) > 1e-6:
+                if not slot.rotated:
+                    inner = (slot.axis_x - slot.left_box[2],
+                             slot.right_box[0] - slot.axis_x)
+                else:
+                    inner = (slot.left_box[1] - slot.axis_y,
+                             slot.axis_y - slot.right_box[3])
+                if any(abs(v - expect_axis_gap) > 1e-6 for v in inner):
                     failures.append(
                         f"page {page_no} {name}: pair is not centred on its axis "
-                        f"(inner gaps {left_inner:.2f} / {right_inner:.2f} mm, "
+                        f"(inner gaps {inner[0]:.2f} / {inner[1]:.2f} mm, "
                         f"expected {expect_axis_gap:.2f} mm each side)")
 
                 if ink_l < -0.05 or ink_r > layout.page_w + 0.05:

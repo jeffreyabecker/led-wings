@@ -137,9 +137,14 @@ def main() -> int:
     ap.add_argument("--max-rows", type=int, default=None)
     ap.add_argument("--max-page-height", type=float,
                     default=MAX_PAGE_HEIGHT_MM, metavar="MM")
+    ap.add_argument("--rotate", nargs="*", metavar="FAMILY", default=None)
     ap.add_argument("--spacing", type=float, default=None)
     args = ap.parse_args()
 
+    if args.rotate is not None:
+        import make_feather_template_pdf as gen
+
+        gen.ROTATED_FAMILIES = tuple(args.rotate)
     if args.spacing is not None:
         import make_feather_template_pdf as gen
 
@@ -247,22 +252,35 @@ def main() -> int:
             right = transform_polys(slot.feather.polys_right, slot.right_to_page)
             left = transform_polys(slot.feather.polys_right, slot.left_to_page)
             total_vertices += sum(len(p) for p in right) + sum(len(p) for p in left)
-            if min(x for poly in right for x, _ in poly) < slot.axis_x - 1e-6:
-                errors.append(
-                    f"page {index} {slot.name}: as-built half is left of its axis")
-            if max(x for poly in left for x, _ in poly) > slot.axis_x + 1e-6:
-                errors.append(
-                    f"page {index} {slot.name}: mirrored half is right of its axis")
-
-            # the two halves of a pair must be separated by the required clear gap
             want_partner = partner_gap(slot.feather, args.scale)
-            got_partner = (min(x for poly in right for x, _ in poly)
-                           - max(x for poly in left for x, _ in poly)) / args.scale
+            if not slot.rotated:
+                # upright: the as-built half is right of a vertical axis, its
+                # mirror left of it, separated across x
+                if min(x for poly in right for x, _ in poly) < slot.axis_x - 1e-6:
+                    errors.append(
+                        f"page {index} {slot.name}: as-built half is left of its axis")
+                if max(x for poly in left for x, _ in poly) > slot.axis_x + 1e-6:
+                    errors.append(
+                        f"page {index} {slot.name}: mirrored half is right of its axis")
+                got_partner = (min(x for poly in right for x, _ in poly)
+                               - max(x for poly in left for x, _ in poly)) / args.scale
+                reflected = [[(2 * slot.axis_x - x, y) for x, y in poly] for poly in right]
+            else:
+                # rotated: the as-built half is below a horizontal axis, its
+                # mirror above it, separated across y
+                if max(y for poly in right for _, y in poly) > slot.axis_y + 1e-6:
+                    errors.append(
+                        f"page {index} {slot.name}: as-built half is above its axis")
+                if min(y for poly in left for _, y in poly) < slot.axis_y - 1e-6:
+                    errors.append(
+                        f"page {index} {slot.name}: mirrored half is below its axis")
+                got_partner = (min(y for poly in left for _, y in poly)
+                               - max(y for poly in right for _, y in poly)) / args.scale
+                reflected = [[(x, 2 * slot.axis_y - y) for x, y in poly] for poly in right]
             if got_partner < want_partner - 1e-6:
                 errors.append(
                     f"page {index} {slot.name}: the two halves are only "
                     f"{got_partner:.2f} mm apart, need {want_partner:.2f} mm")
-            reflected = [[(2 * slot.axis_x - x, y) for x, y in poly] for poly in right]
             err = max(
                 max(abs(a[0] - b[0]), abs(a[1] - b[1]))
                 for p, q in zip(reflected, left)

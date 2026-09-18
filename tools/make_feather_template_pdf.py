@@ -27,6 +27,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from feather_geometry import (  # noqa: E402
+    mat_rotate,
     Feather,
     load_feather,
     mat_apply,
@@ -71,6 +72,10 @@ LARGE_PARTNER_GAP_MM = 70.0
 # outlines run close to the pair's centre line along their whole length, so the
 # mirror-image cut edge really would be in the way.
 LARGE_FAMILIES = ("P", "S")
+# Families whose pairs are laid down rotated 90 degrees clockwise, so the
+# feather's long axis runs across the page. That trades width for height and lets
+# a tall pair fit a short page - see LAY_ROTATED_MM.
+ROTATED_FAMILIES = ()
 # Clear space between neighbouring pairs on a page.
 SPARSE_GAP_MM = 70.0            # around a row that holds a single pair
 DENSE_GAP_MM = 30.0             # between pairs sharing a row, and between rows
@@ -209,17 +214,23 @@ class PairSlot:
     axis_x: float
     cell_left: float           # left edge of the pair's cell (feather only)
     cell_right: float          # right edge of the pair's cell
-    pair_top: float            # y of the feather apex
+    pair_top: float            # top of the pair's ink
     pair_bottom: float
     label_y: float             # baseline of the half labels
     right_box: tuple           # page rect of the right-wing (as-built) half
     left_box: tuple            # page rect of the left-wing (mirrored) half
-    right_to_page: tuple       # as-built geometry -> page (right of the axis)
-    left_to_page: tuple        # as-built geometry -> page (mirror, left of the axis)
+    right_to_page: tuple       # as-built geometry -> page
+    left_to_page: tuple        # as-built geometry -> page, mirrored
+    rotated: bool = False      # laid down 90 deg clockwise
 
     @property
     def name(self) -> str:
         return self.feather.name
+
+    @property
+    def axis_y(self) -> float:
+        """The mirror axis, when the pair is rotated (it runs horizontally)."""
+        return (self.pair_top + self.pair_bottom) / 2.0
 
 
 @dataclass
@@ -258,66 +269,25 @@ def partner_gap(feather: Feather, scale: float = 1.0) -> float:
 
 
 def pair_size(feather: Feather, scale: float = 1.0) -> tuple:
-    """(width, height) of one mirrored pair, in millimetres.
+    """(width, height) of one mirrored pair's cell, in millimetres.
 
-    The width includes the pair's own half-to-half gap, so every width and fit
-    check in this module accounts for it exactly once.
+    Includes the pair's own half-to-half gap, so every width and fit check in
+    this module accounts for it exactly once. A rotated pair reports the extents
+    it actually occupies on the page: the feather's long axis runs across.
     """
     cut = feather.cut_box
-    half_w = (cut[2] - cut[0]) * scale
-    return (2.0 * half_w + partner_gap(feather, scale), (cut[3] - cut[1]) * scale)
+    half_w = (cut[2] - cut[0]) * scale      # across the feather
+    half_h = (cut[3] - cut[1]) * scale      # along the feather
+    across = 2.0 * half_w + partner_gap(feather, scale)
+    if is_rotated(feather):
+        return (half_h, across)
+    return (across, half_h)
 
 
-def make_slot(feather: Feather, axis_x: float, pair_bottom: float,
-              scale: float) -> PairSlot:
-    """Place one mirrored pair so its apex is at `pair_bottom + height`.
-
-    The source geometry is the right wing as built. On the page the as-built half
-    occupies the RIGHT-hand side of the axis and its reflection occupies the
-    LEFT-hand side, matching how the two wings sit on the bird. Each half is kept
-    `partner_gap` clear of the axis, so the two cut outlines never touch.
-    """
-    cut = feather.cut_box
-    half_w = (cut[2] - cut[0]) * scale
-    half_h = (cut[3] - cut[1]) * scale
-    # Compose at true size; the uniform shrink below scales this gap with
-    # everything else, so the gap must be requested unscaled here.
-    gap_half = partner_gap(feather, scale) / 2.0
-    pair_top = pair_bottom + half_h
-
-    # as-built geometry goes on the right-hand side, offset clear of the axis
-    right_to_page = mat_fit(cut, axis_x + gap_half, pair_bottom)
-    # Reflect it about the axis for the left wing. The reflection is composed in
-    # page space (translate-to-origin, scale -1 on x, translate back) and applied
-    # to the already-fitted page coordinates.
-    reflect = mat_mul(
-        mat_mul(mat_translate(axis_x, 0.0), mat_scale(-1.0, 1.0)),
-        mat_translate(-axis_x, 0.0),
-    )
-    left_to_page = mat_mul(reflect, right_to_page)
-
-    if scale != 1.0:
-        # Shrink about the mirror axis, not the page origin: scaling about the
-        # origin would also scale the axis position and collapse the mirrored
-        # half onto the as-built one.
-        shrink = mat_scale_about(scale, scale, axis_x, 0.0)
-        right_to_page = mat_mul(shrink, right_to_page)
-        left_to_page = mat_mul(shrink, left_to_page)
-        pair_top = pair_bottom + half_h
-
-    return PairSlot(
-        feather=feather,
-        axis_x=axis_x,
-        cell_left=axis_x - gap_half - half_w,
-        cell_right=axis_x + gap_half + half_w,
-        pair_top=pair_top,
-        pair_bottom=pair_bottom,
-        label_y=pair_top + LABEL_GAP_MM,
-        right_box=fit_bbox(cut, right_to_page),
-        left_box=fit_bbox(cut, left_to_page),
-        right_to_page=right_to_page,
-        left_to_page=left_to_page,
-    )
+def is_rotated(feather: Feather) -> bool:
+    """Whether this feather's pair is laid down 90 degrees clockwise."""
+    letters = "".join(c for c in feather.name if c.isalpha())
+    return letters in ROTATED_FAMILIES
 
 
 def fit_bbox(box, transform) -> tuple:
@@ -326,6 +296,90 @@ def fit_bbox(box, transform) -> tuple:
     xs = [c[0] for c in corners]
     ys = [c[1] for c in corners]
     return (min(xs), min(ys), max(xs), max(ys))
+
+
+def make_slot(feather: Feather, cell_left: float, pair_bottom: float,
+              scale: float) -> PairSlot:
+    """Place one mirrored pair in its cell, with the two halves held apart.
+
+    The source geometry is the right wing as built. Upright (the default) the
+    as-built half occupies the right-hand side of a vertical mirror axis and its
+    reflection the left; rotated 90 degrees clockwise the axis runs horizontally
+    instead, with the as-built half at the bottom of the cell and its reflection
+    at the top. Either way each half keeps `partner_gap` clear of the axis, so the
+    two cut outlines never touch.
+    """
+    cut = feather.cut_box
+    half_w = (cut[2] - cut[0]) * scale      # across the feather
+    half_h = (cut[3] - cut[1]) * scale      # along the feather
+    # Compose at true size; the uniform shrink below scales this gap with
+    # everything else, so the gap must be requested unscaled here.
+    gap_half = partner_gap(feather, scale) / 2.0
+    rotated = is_rotated(feather)
+
+    if not rotated:
+        axis_x = cell_left + gap_half + half_w
+        pair_top = pair_bottom + half_h
+        right_to_page = mat_fit(cut, axis_x + gap_half, pair_bottom)
+        # reflect about the vertical axis for the left wing, as a page operation
+        reflect = mat_mul(
+            mat_mul(mat_translate(axis_x, 0.0), mat_scale(-1.0, 1.0)),
+            mat_translate(-axis_x, 0.0),
+        )
+        left_to_page = mat_mul(reflect, right_to_page)
+        cell_right = axis_x + gap_half + half_w
+        axis_y = (pair_bottom + pair_top) / 2.0
+    else:
+        # Rotated 90 degrees clockwise the pair occupies a cell `half_h` wide and
+        # `2 * half_w + gap` tall: each slot runs `half_h` across the page and
+        # `half_w` down it. Turn the as-built half a quarter turn, slide it into
+        # the lower slot, then reflect about the cell's horizontal mirror axis.
+        cell_w = half_h
+        cell_h = 2.0 * half_w + partner_gap(feather, scale)
+        cell_right = cell_left + cell_w
+        pair_top = pair_bottom + cell_h
+        axis_x = cell_left + cell_w / 2.0
+        axis_y = (pair_bottom + pair_top) / 2.0
+
+        # quarter turn clockwise about the cut's own centre
+        turn = mat_rotate(
+            90.0, (cut[0] + cut[2]) / 2.0, (cut[1] + cut[3]) / 2.0
+        )
+        turned = fit_bbox(cut, turn)
+        slide = mat_translate(cell_left - turned[0], pair_bottom - turned[1])
+        right_to_page = mat_mul(slide, turn)
+
+        reflect = mat_mul(
+            mat_mul(mat_translate(0.0, axis_y), mat_scale(1.0, -1.0)),
+            mat_translate(0.0, -axis_y),
+        )
+        left_to_page = mat_mul(reflect, right_to_page)
+
+    if scale != 1.0:
+        # Shrink about the cell, not the page origin: scaling about the origin
+        # would also move the axis and collapse the mirrored half onto its pair.
+        shrink = mat_scale_about(scale, scale, (cell_left + cell_right) / 2.0, 0.0)
+        right_to_page = mat_mul(shrink, right_to_page)
+        left_to_page = mat_mul(shrink, left_to_page)
+        pair_bottom *= scale
+        pair_top *= scale
+        axis_x *= scale
+        axis_y *= scale
+
+    return PairSlot(
+        feather=feather,
+        axis_x=axis_x,
+        cell_left=cell_left,
+        cell_right=cell_right,
+        pair_top=pair_top,
+        pair_bottom=pair_bottom,
+        label_y=pair_top + LABEL_GAP_MM,
+        right_box=fit_bbox(cut, right_to_page),
+        left_box=fit_bbox(cut, left_to_page),
+        right_to_page=right_to_page,
+        left_to_page=left_to_page,
+        rotated=rotated,
+    )
 
 
 def row_gap(row: dict) -> float:
@@ -491,8 +545,7 @@ def layout_page(title: str, rows: list, by_name: dict, scale: float) -> PageLayo
         )
         x = margin + (content_w - row_width) / 2.0
         for key, width, height in row["items"]:
-            axis_x = x + width / 2.0
-            slot = make_slot(by_name[key], axis_x, row_bottom + LABEL_BAND_MM, scale)
+            slot = make_slot(by_name[key], x, row_bottom + LABEL_BAND_MM, scale)
             slots.append(slot)
             x += width + DENSE_GAP_MM
         row_bottom += LABEL_BAND_MM + row["height"]
@@ -515,15 +568,41 @@ def slot_labels(slot: PairSlot) -> list:
     """(text, x, y, align) for the feather ID above each half of a pair.
 
     The ID carries the side as a suffix (`P1 L`, `P1 R`), which is what tells the
-    two halves apart, so no separate side caption is drawn. Each ID is anchored to
-    its half's inner edge and pushed one em clear of the axis, so the two IDs of a
-    pair never overlap.
+    two halves apart, so no separate side caption is drawn. Upright, each ID is
+    anchored to its half's inner edge and pushed one em clear of the vertical
+    axis; rotated, the half occupies a horizontal strip, so the two IDs are
+    anchored to the ends of the pair with one pushed clear of the horizontal axis.
     """
-    inset = slot.axis_x - slot.cell_left
     y = slot.label_y
+    if not slot.rotated:
+        inset = slot.axis_x - slot.cell_left
+        return [
+            (f"{slot.name} L", slot.axis_x - inset, y, "left"),
+            (f"{slot.name} R", slot.axis_x + inset, y, "right"),
+        ]
+    # rotated: L is the upper strip, R the lower; keep them on one text line so
+    # the label band stays a single line tall
     return [
-        (f"{slot.name} L", slot.axis_x - inset, y, "left"),
-        (f"{slot.name} R", slot.axis_x + inset, y, "right"),
+        (f"{slot.name} L", slot.cell_left, y, "left"),
+        (f"{slot.name} R", slot.cell_right, y, "right"),
+    ]
+
+
+def slot_axis_ticks(slot: PairSlot) -> list:
+    """The two dashed ticks marking a pair's mirror axis, as ((x0,y0),(x1,y1)).
+
+    Upright the axis is vertical, so ticks run above and below the pair. Rotated
+    the axis is horizontal, so they run to the left and right of it.
+    """
+    if not slot.rotated:
+        return [
+            ((slot.axis_x, slot.pair_bottom - 5.0), (slot.axis_x, slot.pair_bottom)),
+            ((slot.axis_x, slot.pair_top), (slot.axis_x, slot.pair_top + 5.0)),
+        ]
+    axis_y = slot.axis_y
+    return [
+        ((slot.cell_left - 5.0, axis_y), (slot.cell_left, axis_y)),
+        ((slot.cell_right, axis_y), (slot.cell_right + 5.0, axis_y)),
     ]
 
 
@@ -538,13 +617,12 @@ def compute_layout_geometry(layout: PageLayout) -> str:
         f"{num(PT_PER_MM)} 0 0 {num(PT_PER_MM)} 0 0 cm",
     ]
 
-    # The tick below each pair is drawn first because the feather apex is at the
-    # top of its bounding box, so only the lower tick can touch the geometry; the
-    # upper tick goes over everything once the geometry is down.
+    # The first tick of each pair is drawn under the geometry; the second goes over
+    # the top once the geometry is down, so the axis stays visible either way.
     cmds.append(f"{rgb(GUIDE_GREY)} RG {num(0.25)} w [2 2] 0 d")
     for slot in layout.slots:
-        cmds.append(f"{num(slot.axis_x)} {num(slot.pair_bottom - 5.0)} m "
-                    f"{num(slot.axis_x)} {num(slot.pair_bottom)} l S")
+        (x0, y0), (x1, y1) = slot_axis_ticks(slot)[0]
+        cmds.append(f"{num(x0)} {num(y0)} m {num(x1)} {num(y1)} l S")
     cmds.append("[] 0 d")
 
     # Draw each wing from the single set of as-built outlines: the right wing
@@ -567,11 +645,11 @@ def compute_layout_geometry(layout: PageLayout) -> str:
             cmds.append(geometry)
             cmds.append("S")
 
-    # Upper axis ticks, over the geometry so the mirror axis stays visible.
+    # Second axis ticks, over the geometry so the mirror axis stays visible.
     cmds.append(f"{rgb(GUIDE_GREY)} RG {num(0.25)} w [2 2] 0 d")
     for slot in layout.slots:
-        cmds.append(f"{num(slot.axis_x)} {num(slot.pair_top)} m "
-                    f"{num(slot.axis_x)} {num(slot.pair_top + 5.0)} l S")
+        (x0, y0), (x1, y1) = slot_axis_ticks(slot)[1]
+        cmds.append(f"{num(x0)} {num(y0)} m {num(x1)} {num(y1)} l S")
     cmds.append("[] 0 d")
     return "\n".join(cmds)
 
@@ -750,7 +828,7 @@ def discover(src: Path, only: list[str] | None) -> list[Path]:
 
 
 def main(argv: list[str] | None = None) -> int:
-    global SPARSE_GAP_MM, DENSE_GAP_MM
+    global SPARSE_GAP_MM, DENSE_GAP_MM, ROTATED_FAMILIES
 
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--src", type=Path, default=DEFAULT_SRC, help="directory of individual feather SVGs")
@@ -772,12 +850,20 @@ def main(argv: list[str] | None = None) -> int:
         "--max-rows", type=int, default=None, metavar="N",
         help="also cap the rows stacked on one logical page (default: no cap)",
     )
+    ap.add_argument(
+        "--rotate", nargs="*", metavar="FAMILY", default=None,
+        help="families whose pairs are laid down 90 degrees clockwise, so their "
+             "long axis runs across the page (e.g. --rotate SC PC A); with no "
+             "values, rotates nothing",
+    )
     ap.add_argument("--spacing", type=float, default=None, metavar="MM",
                     help="clear space between pairs sharing a row (default "
                          f"{DENSE_GAP_MM:g} mm; a lone pair keeps "
                          f"{SPARSE_GAP_MM:g} mm from its neighbours)")
     args = ap.parse_args(argv)
 
+    if args.rotate is not None:
+        ROTATED_FAMILIES = tuple(args.rotate)
     if args.spacing is not None:
         if args.spacing < 0:
             raise SystemExit("--spacing cannot be negative")
