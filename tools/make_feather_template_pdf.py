@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import os
 import sys
 import zlib
 from dataclasses import dataclass, field
@@ -740,6 +741,21 @@ def build_page(layout: PageLayout, page_no: int, page_total: int,
 # ---------------------------------------------------------------------------
 # document assembly
 # ---------------------------------------------------------------------------
+def build_stamp() -> tuple[str, str]:
+    """(footer date, PDF CreationDate) for this build.
+
+    Honours SOURCE_DATE_EPOCH so a rebuild is byte-identical: otherwise every
+    build differs only in its timestamp, which makes it impossible to tell a real
+    content change from a rebuild by comparing the files.
+    """
+    epoch = os.environ.get("SOURCE_DATE_EPOCH")
+    if epoch and epoch.strip().isdigit():
+        when = dt.datetime.fromtimestamp(int(epoch), tz=dt.timezone.utc).astimezone()
+    else:
+        when = dt.datetime.now().astimezone()
+    return when.date().isoformat(), when.strftime("D:%Y%m%d%H%M%S%z")
+
+
 class PdfDocument:
     """Multi-page PDF with per-page point dimensions."""
 
@@ -749,7 +765,7 @@ class PdfDocument:
             "Title": title,
             "Creator": "tools/make_feather_template_pdf.py (wings-pcbs)",
             "Producer": "wings-pcbs template generator",
-            "CreationDate": dt.datetime.now().astimezone().strftime("D:%Y%m%d%H%M%S%z"),
+            "CreationDate": build_stamp()[1],
         }
 
     def add_page(self, width_mm: float, height_mm: float, content: str) -> None:
@@ -907,7 +923,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     doc = PdfDocument("Feather templates - mirrored left/right pairs")
-    generated = dt.date.today().isoformat()
+    generated = build_stamp()[0]
     for index, layout in enumerate(layouts, start=1):
         content = build_page(layout, index, len(layouts), generated, args.scale)
         doc.add_page(layout.page_w, layout.page_h, content)

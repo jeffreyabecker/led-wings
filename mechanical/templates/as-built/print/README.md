@@ -148,6 +148,14 @@ python tools/make_feather_template_pdf.py --scale 0.5 --out half.pdf
 `--rotate FAMILY ...` lays those families' pairs down a quarter turn clockwise.
 It is what the 200 mm document uses; the default is to rotate nothing.
 
+Builds are reproducible: set `SOURCE_DATE_EPOCH` and both the PDF's CreationDate
+and the date in each footer are taken from it, so a rebuild is byte-identical and
+a diff means the content really changed.
+
+```sh
+SOURCE_DATE_EPOCH=$(date +%s) python tools/make_feather_template_pdf.py
+```
+
 `tools/feather_geometry.py` holds the SVG parsing (path data, transform
 composition, curve flattening) and is shared by the generator and the verifiers.
 
