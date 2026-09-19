@@ -495,10 +495,10 @@ def load_feather(svg_path: Path) -> Feather:
     if len(vb) != 4:
         raise ValueError(f"{svg_path.name}: missing/invalid viewBox")
 
-    # The feather lives in a <g> that may hold several <path>s: the outline, whose
-    # id is the feather's name, and one or more guide paths (the rachis centre
-    # line) whose id is not. Transforms compose as group transform then the
-    # element's own (B1-B4 carry a rotate() on the outline itself).
+    # The feather lives in a <g> holding the outline (id = the feather's name)
+    # and a centre-line guide (id = "center-line"), the line the quill runs along.
+    # Transforms compose as the group's transform then the element's own (B1-B4
+    # carry a rotate() on the outline itself).
     group = None
     for child in root:
         if child.tag == f"{{{SVG_NS}}}g":
@@ -513,7 +513,16 @@ def load_feather(svg_path: Path) -> Feather:
         raise ValueError(f"{svg_path.name}: no <path> feather geometry found")
 
     def role(el) -> str:
-        return "outline" if (el.get("id") or "").strip() == svg_path.stem else "line"
+        """Outline vs guide path, decided by id, never by document order."""
+        eid = (el.get("id") or "").strip()
+        if eid == "center-line":
+            return "line"
+        if eid == svg_path.stem:
+            return "outline"
+        raise ValueError(
+            f"{svg_path.name}: unexpected <path> id {eid!r} "
+            f"(expected {svg_path.stem!r} or 'center-line')"
+        )
 
     outlines = [el for el in path_els if role(el) == "outline"]
     if len(outlines) != 1:

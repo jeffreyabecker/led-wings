@@ -107,6 +107,8 @@ GROUP_JOIN = (("SC", "PC", "A"), ("MC", "LC"))
 
 HALF_FILL = (0.93, 0.93, 0.93)
 GUIDE_GREY = (0.55, 0.55, 0.55)
+CENTERLINE_GREY = (0.45, 0.45, 0.45)
+CENTERLINE_WIDTH_MM = 0.25      # thin and dashed: a guide, never a cut line
 TEXT_GREY = (0.25, 0.25, 0.25)
 
 HELVETICA_WIDTHS = {
@@ -655,6 +657,26 @@ def compute_layout_geometry(layout: PageLayout) -> str:
             cmds.append("1 J 1 j")
             cmds.append(geometry)
             cmds.append("S")
+
+    # The quill centre line, dashed and grey so it reads as a guide rather than a
+    # cut, drawn over the pair. Mirrored with its wing, so each half gets the
+    # guide on its own side.
+    dashed = False
+    for slot in layout.slots:
+        if not slot.feather.centerlines_right:
+            continue
+        if not dashed:
+            cmds.append(f"{rgb(CENTERLINE_GREY)} RG {num(CENTERLINE_WIDTH_MM)} w "
+                        f"[3 3] 0 d")
+            dashed = True
+        for to_page in (slot.left_to_page, slot.right_to_page):
+            for poly in transform_polys(slot.feather.centerlines_right, to_page):
+                pts = [f"{num(x)} {num(y)} m" for x, y in poly[:1]]
+                pts += [f"{num(x)} {num(y)} l" for x, y in poly[1:]]
+                cmds.append("\n".join(pts))
+                cmds.append("S")
+    if dashed:
+        cmds.append("[] 0 d")
 
     # Second axis ticks, over the geometry so the mirror axis stays visible.
     cmds.append(f"{rgb(GUIDE_GREY)} RG {num(0.25)} w [2 2] 0 d")

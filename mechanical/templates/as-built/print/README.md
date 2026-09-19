@@ -71,6 +71,9 @@ Other properties:
 * every page is **273 mm wide**; heights run from 395 mm to 929 mm
 * cut lines are the calibrated outlines at 0.5 mm stroke; the grey/white fills
   only exist so the cut line stands out
+* a **dashed grey centre line** runs down each half - the line the quill runs
+  along, taken from the `center-line` path in each source SVG. It is a guide for
+  placing the quill, not a cut
 * a thin dashed tick marks each pair's mirror axis above and below it
 * the header names the group
 
