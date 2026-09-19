@@ -63,7 +63,7 @@
          fill="#000000"
          text-anchor="middle"
          transform="matrix(-1,0,0,1,185.4,-4.2)"
-         id="text1">P1</text>
+         id="feather-label">P1</text>
     </g>
     <g
        id="P2"
@@ -266,7 +266,7 @@
          fill="#000000"
          text-anchor="middle"
          transform="matrix(-1,0,0,1,822.92,-4.2)"
-         id="text10">S4</text>
+         id="feather-label0">S4</text>
     </g>
     <g
        id="S5"
@@ -288,7 +288,7 @@
          fill="#000000"
          text-anchor="middle"
          transform="matrix(-1,0,0,1,1062.8,-4.2)"
-         id="text11">S5</text>
+         id="feather-label1">S5</text>
     </g>
     <g
        id="S6"
@@ -310,7 +310,7 @@
          fill="#000000"
          text-anchor="middle"
          transform="matrix(-1,0,0,1,1312.72,-4.2)"
-         id="text12">S6</text>
+         id="feather-label2">S6</text>
     </g>
   </g>
   <g
@@ -330,7 +330,7 @@
          fill="#000000"
          text-anchor="middle"
          transform="matrix(-1,0,0,1,174.76,-4.2)"
-         id="text13">A1</text>
+         id="feather-label3">A1</text>
       <path
          fill="none"
          stroke="#000000"
@@ -359,7 +359,7 @@
          fill="#000000"
          text-anchor="middle"
          transform="matrix(-1,0,0,1,330.92,-4.2)"
-         id="text14">A2</text>
+         id="feather-label4">A2</text>
     </g>
     <g
        id="A3"
@@ -381,7 +381,7 @@
          fill="#000000"
          text-anchor="middle"
          transform="matrix(-1,0,0,1,476.7,-4.2)"
-         id="text15">A3</text>
+         id="feather-label5">A3</text>
     </g>
     <g
        id="A4"
@@ -403,7 +403,7 @@
          fill="#000000"
          text-anchor="middle"
          transform="matrix(-1,0,0,1,606.52,-4.2)"
-         id="text16">A4</text>
+         id="feather-label6">A4</text>
     </g>
   </g>
   <g
@@ -430,7 +430,7 @@
          fill="#000000"
          text-anchor="middle"
          transform="matrix(-1,0,0,1,829.6,-4.2)"
-         id="text17">PC1</text>
+         id="feather-label7">PC1</text>
     </g>
     <g
        id="PC2"
@@ -452,7 +452,7 @@
          fill="#000000"
          text-anchor="middle"
          transform="matrix(-1,0,0,1,983.6,-4.2)"
-         id="text18">PC2</text>
+         id="feather-label8">PC2</text>
     </g>
     <g
        id="PC3"
@@ -474,7 +474,7 @@
          fill="#000000"
          text-anchor="middle"
          transform="matrix(-1,0,0,1,1130.58,-4.2)"
-         id="text19">PC3</text>
+         id="feather-label9">PC3</text>
     </g>
   </g>
   <g

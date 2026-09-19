@@ -25,13 +25,13 @@
      inkscape:document-units="mm"
      inkscape:zoom="4.0115174"
      inkscape:cx="83.509547"
-     inkscape:cy="305.8693"
+     inkscape:cy="305.99394"
      inkscape:window-width="3840"
      inkscape:window-height="2054"
      inkscape:window-x="-11"
      inkscape:window-y="-11"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg1" />
+     inkscape:current-layer="feather" />
   <g
      id="feather"
      transform="matrix(0.99955038,-0.02998442,-0.02998442,-0.99955038,-682.98529,399.92116)"
@@ -51,10 +51,11 @@
        fill="#000000"
        text-anchor="middle"
        transform="matrix(0.99955036,-0.02998442,-0.02998442,-0.99955036,693.36982,334.184)"
-       id="text1">MC2</text>
+       id="feather-label">MC2</text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264577px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 26.45877,8.6264745 26.071513,127.70664"
+       id="center-line"
+       transform="matrix(0.99955036,-0.02998442,-0.02998442,-0.99955036,694.66959,379.26242)" />
   </g>
-  <path
-     style="fill:none;stroke:#000000;stroke-width:0.264577px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     d="M 26.45877,8.6264745 26.071513,127.70664"
-     id="path1" />
 </svg>

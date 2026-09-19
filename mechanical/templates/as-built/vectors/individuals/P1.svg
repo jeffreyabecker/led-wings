@@ -50,12 +50,12 @@
        fill="#000000"
        text-anchor="middle"
        transform="matrix(1.0946707,0.0384578,0.0461661,-0.91189484,0,0)"
-       id="text1"
+       id="feather-label"
        style="stroke-width:0.912946">P1</text>
     <path
        style="fill:none;stroke:#000000;stroke-width:0.264597px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="M 60.353752,9.0973376 C 69.330447,118.67381 47.043656,297.34944 18.265638,476.26956"
-       id="path1"
+       id="center-line"
        sodipodi:nodetypes="cc"
        transform="matrix(0.99937498,0.03510988,0.04214714,-0.8325106,29.052683,603.60991)" />
   </g>

@@ -51,11 +51,11 @@
        fill="#000000"
        text-anchor="middle"
        transform="matrix(0.99755648,-0.06986472,-0.06986472,-0.99755648,0,0)"
-       id="text1">MC3</text>
+       id="feather-label">MC3</text>
     <path
        style="fill:none;stroke:#000000;stroke-width:0.264577px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="M 24.887132,8.3093233 C 32.558295,58.4479 28.881434,93.375297 28.580447,132.8278"
-       id="path1"
+       id="center-line"
        sodipodi:nodetypes="cc"
        transform="matrix(0.99755645,-0.06986472,-0.06986472,-0.99755645,759.49155,377.92186)" />
   </g>

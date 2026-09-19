@@ -31,7 +31,7 @@
      inkscape:window-x="-11"
      inkscape:window-y="-11"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg1" />
+     inkscape:current-layer="feather" />
   <g
      id="feather"
      transform="matrix(0.99998761,-0.00497933,-0.00497933,-0.99998761,-31.596716,527.90409)"
@@ -51,11 +51,12 @@
        fill="#000000"
        text-anchor="middle"
        transform="matrix(0.9999876,-0.00497933,-0.00497933,-0.9999876,34.377356,547.19975)"
-       id="text1">SC1</text>
+       id="feather-label">SC1</text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264577px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 22.66,9.8570834 C 26.557578,16.964589 41.991999,90.158843 30.849274,131.48786"
+       id="center-line"
+       sodipodi:nodetypes="cc"
+       transform="matrix(0.9999876,-0.00497933,-0.00497933,-0.9999876,34.224933,527.74021)" />
   </g>
-  <path
-     style="fill:none;stroke:#000000;stroke-width:0.264577px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     d="M 22.66,9.8570834 C 26.557578,16.964589 41.991999,90.158843 30.849274,131.48786"
-     id="path1"
-     sodipodi:nodetypes="cc" />
 </svg>

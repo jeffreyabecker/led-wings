@@ -452,11 +452,12 @@ def expand_bbox(box, amount: float) -> tuple[float, float, float, float]:
 class Feather:
     name: str
     source: Path
-    polys_right: list  # transformed geometry in the as-built (right) orientation, mm
-    box: tuple  # bbox of the stroke centreline geometry
+    polys_right: list  # transformed outline in the as-built (right) orientation, mm
+    box: tuple  # bbox of the stroke centreline of the outline
     stroke_mm: float
     declared_size_mm: tuple
     view_box: tuple
+    centerlines_right: list = field(default_factory=list)  # rachis guide lines, mm
 
     @property
     def width(self) -> float:
@@ -494,29 +495,49 @@ def load_feather(svg_path: Path) -> Feather:
     if len(vb) != 4:
         raise ValueError(f"{svg_path.name}: missing/invalid viewBox")
 
-    # Find the single <path> element and accumulate every ancestor <g> transform
-    # plus the path's own transform (B1-B4 carry a rotate() on the path itself).
+    # The feather lives in a <g> that may hold several <path>s: the outline, whose
+    # id is the feather's name, and one or more guide paths (the rachis centre
+    # line) whose id is not. Transforms compose as group transform then the
+    # element's own (B1-B4 carry a rotate() on the outline itself).
     group = None
-    path_el = None
     for child in root:
         if child.tag == f"{{{SVG_NS}}}g":
             group = child
-            for grandchild in child:
-                if grandchild.tag == f"{{{SVG_NS}}}path":
-                    path_el = grandchild
-                    break
             break
-    if group is None or path_el is None:
-        raise ValueError(f"{svg_path.name}: no <g><path> feather geometry found")
+    if group is None:
+        raise ValueError(f"{svg_path.name}: no <g> feather geometry found")
 
-    matrix = parse_transform(group.get("transform", ""))
-    path_matrix = parse_transform(path_el.get("transform", ""))
-    matrix = mat_mul(matrix, path_matrix)
+    group_matrix = parse_transform(group.get("transform", ""))
+    path_els = [el for el in group if el.tag == f"{{{SVG_NS}}}path"]
+    if not path_els:
+        raise ValueError(f"{svg_path.name}: no <path> feather geometry found")
+
+    def role(el) -> str:
+        return "outline" if (el.get("id") or "").strip() == svg_path.stem else "line"
+
+    outlines = [el for el in path_els if role(el) == "outline"]
+    if len(outlines) != 1:
+        raise ValueError(
+            f"{svg_path.name}: expected exactly one outlined path with id "
+            f"{svg_path.stem!r}, found {len(outlines)}"
+        )
+    path_el = outlines[0]
+    lines = [el for el in path_els if role(el) == "line"]
+
+    def transform_of(el) -> Matrix:
+        return mat_mul(group_matrix, parse_transform(el.get("transform", "")))
+
     stroke_mm = float(path_el.get("stroke-width", "0.5"))
-
-    path = transform_path(parse_path(path_el.get("d", "")), matrix)
-    polys = flatten_path(path)
+    polys = flatten_path(transform_path(parse_path(path_el.get("d", "")), transform_of(path_el)))
     box = bbox_of_polys(polys)
+
+    # Guide paths are kept out of the box on purpose: they are not cut, so they
+    # must not influence the size the layout fits to.
+    centerlines: list = []
+    for el in lines:
+        centerlines.extend(
+            flatten_path(transform_path(parse_path(el.get("d", "")), transform_of(el)))
+        )
 
     return Feather(
         name=svg_path.stem,
@@ -526,4 +547,5 @@ def load_feather(svg_path: Path) -> Feather:
         stroke_mm=stroke_mm,
         declared_size_mm=(width_mm, height_mm),
         view_box=tuple(vb),
+        centerlines_right=centerlines,
     )

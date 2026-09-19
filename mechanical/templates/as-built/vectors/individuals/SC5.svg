@@ -51,11 +51,11 @@
        fill="#000000"
        text-anchor="middle"
        transform="matrix(0.99996636,-0.00820221,-0.00820221,-0.99996636,0,0)"
-       id="text1">SC5</text>
+       id="feather-label">SC5</text>
     <path
        style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="M 30.343174,9.3312008 C 38.583579,86.373337 38.11735,133.48642 38.398903,183.17"
-       id="path1"
+       id="center-line"
        sodipodi:nodetypes="cc"
        transform="matrix(0.99996636,-0.00820221,-0.00820221,-0.99996636,334.22606,528.40443)" />
   </g>

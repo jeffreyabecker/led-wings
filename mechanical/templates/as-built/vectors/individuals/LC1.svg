@@ -44,7 +44,7 @@
        fill="#000000"
        text-anchor="middle"
        transform="matrix(0.97864802,0.20554324,0.20554324,-0.97864802,612.17268,201.78359)"
-       id="text1">LC1</text>
+       id="feather-label">LC1</text>
     <path
        fill="none"
        stroke="#000000"
@@ -55,7 +55,7 @@
     <path
        style="fill:none;stroke:#000000;stroke-width:0.26458px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="M 11.183177,8.2705699 C 33.77733,42.078151 31.364076,68.501662 10.149643,89.554027"
-       id="path1"
+       id="center-line"
        sodipodi:nodetypes="cc"
        transform="matrix(0.97864802,0.20554324,0.20554324,-0.97864802,629.60077,151.04703)" />
   </g>

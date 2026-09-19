@@ -44,7 +44,7 @@
        fill="#000000"
        text-anchor="middle"
        transform="matrix(0.99938168,-0.03516058,-0.03516058,-0.99938168,0,0)"
-       id="text1">A1</text>
+       id="feather-label">A1</text>
     <path
        fill="none"
        stroke="#000000"
@@ -55,7 +55,7 @@
     <path
        style="fill:none;stroke:#000000;stroke-width:0.264992;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
        d="M 25.475605,169.835 C 28.589147,120.69697 36.48487,70.660249 25.340949,9.4691448"
-       id="path1"
+       id="center-line"
        sodipodi:nodetypes="cc"
        transform="matrix(0.99938166,-0.03516058,-0.03516058,-0.99938166,60.349886,304.59897)" />
   </g>

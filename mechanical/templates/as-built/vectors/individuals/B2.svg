@@ -52,12 +52,12 @@
        fill="#000000"
        text-anchor="middle"
        transform="matrix(1.0918686,-0.04537466,-0.08235809,-0.91243854,0,0)"
-       id="text1"
+       id="feather-label"
        style="stroke-width:0.913">B2</text>
     <path
        style="fill:none;stroke:#000000;stroke-width:0.264582px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="M 54.304347,298.81899 C 47.703369,231.96601 35.68334,234.17645 41.462273,9.5469753"
-       id="path1"
+       id="center-line"
        sodipodi:nodetypes="cc"
        transform="matrix(0.99687557,-0.04142704,-0.0751929,-0.83305594,336.80982,285.4761)" />
   </g>

@@ -707,7 +707,7 @@ def verify(source_feathers, text, flip="none", tol=0.01):
             problems.append(f"{label}: {len(out_text)} labels written, {len(src_text)} in the "
                             f"source")
         for a, b in zip(src_text, out_text):
-            # the source's own id (Inkscape's "text1", repeated across files) is stripped:
+            # the source's own id (Inkscape's "feather-label", repeated across files) is stripped:
             # keeping it would put 42 duplicate ids in one document
             a_att = {k: v for k, v in a.attrib.items() if k not in ("id", "transform")}
             b_att = {k: v for k, v in b.attrib.items() if k not in ("id", "transform")}

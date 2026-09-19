@@ -51,11 +51,11 @@
        fill="#000000"
        text-anchor="middle"
        transform="matrix(0.99999292,-0.00376397,-0.00376397,-0.99999292,132.71162,255.01921)"
-       id="text1">A2</text>
+       id="feather-label">A2</text>
     <path
        style="fill:none;stroke:#000000;stroke-width:0.264594px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="M 28.145535,166.28217 C 28.296483,114.68921 32.943841,63.096259 28.597632,11.503303"
-       id="path1"
+       id="center-line"
        sodipodi:nodetypes="cc"
        transform="matrix(0.99999291,-0.00376397,-0.00376397,-0.99999291,132.93254,302.25784)" />
   </g>

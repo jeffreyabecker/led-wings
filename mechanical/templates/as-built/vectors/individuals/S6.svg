@@ -51,12 +51,12 @@
        fill="#000000"
        text-anchor="middle"
        transform="matrix(1.0782823,-0.00482587,0.09933012,-0.92784551,0,0)"
-       id="text1"
+       id="feather-label"
        style="stroke-width:0.912926">S6</text>
     <path
        style="fill:none;stroke:#000000;stroke-width:0.264582px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="M 46.969114,239.35183 C 41.055851,160.54926 39.414974,82.652947 55.746464,8.5689577 l 0.06022,0.00574"
-       id="path1"
+       id="center-line"
        sodipodi:nodetypes="ccc"
        transform="matrix(0.98439145,-0.00440566,0.09068101,-0.84705393,601.82634,580.76883)" />
   </g>

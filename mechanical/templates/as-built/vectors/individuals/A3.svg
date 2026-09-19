@@ -31,7 +31,7 @@
      inkscape:window-x="-11"
      inkscape:window-y="-11"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg1" />
+     inkscape:current-layer="feather" />
   <g
      id="feather"
      transform="matrix(0.99890567,0.04677059,0.04677059,-0.99890567,-222.79253,278.93617)"
@@ -51,11 +51,12 @@
        fill="#000000"
        text-anchor="middle"
        transform="matrix(0.99890564,0.04677059,0.04677059,-0.99890564,195.99559,321.96308)"
-       id="text1">A3</text>
+       id="feather-label">A3</text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.2646px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 28.039171,9.8365903 C 32.730691,51.268346 35.25362,92.618268 30.229074,133.68338"
+       id="center-line"
+       sodipodi:nodetypes="cc"
+       transform="matrix(0.99890565,0.04677059,0.04677059,-0.99890565,209.50271,289.05105)" />
   </g>
-  <path
-     style="fill:none;stroke:#000000;stroke-width:0.2646px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     d="M 28.039171,9.8365903 C 32.730691,51.268346 35.25362,92.618268 30.229074,133.68338"
-     id="path1"
-     sodipodi:nodetypes="cc" />
 </svg>
