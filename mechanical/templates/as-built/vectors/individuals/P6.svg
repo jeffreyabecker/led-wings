@@ -24,14 +24,14 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="1.3518911"
-     inkscape:cx="175.67983"
-     inkscape:cy="671.28189"
+     inkscape:cx="-158.29677"
+     inkscape:cy="620.98197"
      inkscape:window-width="3840"
      inkscape:window-height="2054"
      inkscape:window-x="-11"
      inkscape:window-y="-11"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg1" />
+     inkscape:current-layer="feather" />
   <g
      id="feather"
      transform="matrix(1.0025633,-0.07160938,-0.01745423,-1.1954889,-644.62912,768.36146)"
@@ -52,5 +52,11 @@
        text-anchor="middle"
        transform="matrix(0.9964042,-0.05968427,-0.01454757,-0.83560644,653.50347,570.40413)"
        id="text1">P6</text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264582px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 47.59827,11.325439 C 44.115483,145.60672 54.255855,255.0744 65.101663,363.25717"
+       id="path1"
+       sodipodi:nodetypes="cc"
+       transform="matrix(0.99640417,-0.05968427,-0.01454758,-0.83560646,653.48894,603.57359)" />
   </g>
 </svg>

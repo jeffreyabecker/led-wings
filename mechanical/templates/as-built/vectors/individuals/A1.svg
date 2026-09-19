@@ -23,15 +23,15 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="2.9672439"
-     inkscape:cx="86.780868"
-     inkscape:cy="305.83937"
+     inkscape:zoom="2.0981583"
+     inkscape:cx="7.6257354"
+     inkscape:cy="371.5163"
      inkscape:window-width="3840"
      inkscape:window-height="2054"
      inkscape:window-x="-11"
      inkscape:window-y="-11"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg1" />
+     inkscape:current-layer="feather" />
   <g
      id="feather"
      transform="matrix(0.99938168,-0.03516058,-0.03516058,-0.99938168,-49.602694,306.53257)"
@@ -52,5 +52,11 @@
        d="m 110.57,224.252 c 0,-28.906 2.29,-62.438 -20.054,-84.178 -3.427,-3.335 -7.509,-7.348 -12.879,-5.74 -3.265,0.977 -5.289,9.008 -6.128,11.914 -2.27,7.865 -5.432,15.928 -6.448,24.123 -2.444,19.714 1.836,64.885 4.702,85.504 0.109,0.787 0.307,2.363 0.307,2.363 0.968,5.772 3.834,31.144 6.85,34.322 4.259412,1.01198 7.432766,1.5999 16.231,2.88 7.162,-2.008 14.709,-45.04 15.87,-52.827 0.767,-5.14 1.549,-10.177 1.549,-15.382 z"
        id="A1"
        sodipodi:nodetypes="scccccccccss" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264992;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+       d="M 25.475605,169.835 C 28.589147,120.69697 36.48487,70.660249 25.340949,9.4691448"
+       id="path1"
+       sodipodi:nodetypes="cc"
+       transform="matrix(0.99938166,-0.03516058,-0.03516058,-0.99938166,60.349886,304.59897)" />
   </g>
 </svg>

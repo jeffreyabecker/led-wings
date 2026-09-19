@@ -24,8 +24,8 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="5.7230214"
-     inkscape:cx="70.504716"
-     inkscape:cy="158.57009"
+     inkscape:cx="50.847267"
+     inkscape:cy="115.5858"
      inkscape:window-width="3840"
      inkscape:window-height="2054"
      inkscape:window-x="-11"
@@ -53,4 +53,9 @@
        transform="matrix(0.97809322,-0.20816732,-0.20816732,-0.97809322,859.62923,163.0184)"
        id="text1">LC5</text>
   </g>
+  <path
+     style="fill:none;stroke:#000000;stroke-width:0.264571px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="M 17.807708,8.0435473 C 32.995649,62.519185 30.736327,65.936226 36.198471,91.949776"
+     id="path1"
+     sodipodi:nodetypes="cc" />
 </svg>

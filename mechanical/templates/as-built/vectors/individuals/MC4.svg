@@ -23,15 +23,15 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="3.9690781"
-     inkscape:cx="83.520654"
-     inkscape:cy="228.64252"
+     inkscape:zoom="1.403281"
+     inkscape:cx="98.340958"
+     inkscape:cy="417.23646"
      inkscape:window-width="3840"
      inkscape:window-height="2054"
      inkscape:window-x="-11"
      inkscape:window-y="-11"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg1" />
+     inkscape:current-layer="feather" />
   <g
      id="feather"
      transform="matrix(0.99640966,-0.08466296,-0.08466296,-0.99640966,-782.01894,449.48387)"
@@ -52,5 +52,11 @@
        text-anchor="middle"
        transform="matrix(0.99640965,-0.08466295,-0.08466295,-0.99640965,0,0)"
        id="text1">MC4</text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264579px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 26.130108,8.7928952 C 37.782758,55.174211 29.407497,92.104781 20.929876,128.98705"
+       id="path1"
+       sodipodi:nodetypes="cc"
+       transform="matrix(0.99640963,-0.08466296,-0.08466296,-0.99640963,817.26584,381.66202)" />
   </g>
 </svg>

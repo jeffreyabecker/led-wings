@@ -23,15 +23,15 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="5.251736"
-     inkscape:cx="58.171241"
-     inkscape:cy="172.8"
+     inkscape:zoom="3.7135381"
+     inkscape:cx="3.2314196"
+     inkscape:cy="251.10823"
      inkscape:window-width="3840"
      inkscape:window-height="2054"
      inkscape:window-x="-11"
      inkscape:window-y="-11"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg1" />
+     inkscape:current-layer="feather" />
   <g
      id="feather"
      transform="matrix(0.99802835,-0.06276487,-0.06276487,-0.99802835,-689.33448,192.69901)"
@@ -52,5 +52,11 @@
        text-anchor="middle"
        transform="matrix(0.99802833,-0.06276487,-0.06276487,-0.99802833,698.68947,125.30743)"
        id="text1">LC2</text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264601px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 11.147327,14.236343 c 19.468405,28.998139 15.895311,57.271702 5.358126,85.326269"
+       id="path1"
+       sodipodi:nodetypes="cc"
+       transform="matrix(0.99802833,-0.06276487,-0.06276487,-0.99802833,700.07007,149.05308)" />
   </g>
 </svg>

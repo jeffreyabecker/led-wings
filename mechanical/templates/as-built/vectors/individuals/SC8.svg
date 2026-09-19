@@ -23,15 +23,15 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="2.9687115"
-     inkscape:cx="98.864441"
-     inkscape:cy="305.68818"
+     inkscape:zoom="2.099196"
+     inkscape:cx="170.54148"
+     inkscape:cy="396.10403"
      inkscape:window-width="3840"
      inkscape:window-height="2054"
      inkscape:window-x="-11"
      inkscape:window-y="-11"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg1" />
+     inkscape:current-layer="feather" />
   <g
      id="feather"
      transform="matrix(-0.9995123444,0.03122616408,-0.03122616408,-0.9995123444,647.9352883,510.9197309)"
@@ -52,5 +52,11 @@
        text-anchor="middle"
        transform="rotate(-178.21058)"
        id="text1">SC8</text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264593px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 18.89247,8.2256407 C 31.779238,36.340057 43.560521,98.836794 22.602173,169.75812"
+       id="path1"
+       sodipodi:nodetypes="cc"
+       transform="rotate(-178.21058,319.97815,260.51923)" />
   </g>
 </svg>

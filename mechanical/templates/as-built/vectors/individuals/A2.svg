@@ -23,15 +23,15 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="3.0339825"
-     inkscape:cx="94.43034"
-     inkscape:cy="299.11181"
+     inkscape:zoom="6.067965"
+     inkscape:cx="25.873584"
+     inkscape:cy="151.3687"
      inkscape:window-width="3840"
      inkscape:window-height="2054"
      inkscape:window-x="-11"
      inkscape:window-y="-11"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg1" />
+     inkscape:current-layer="feather" />
   <g
      id="feather"
      transform="matrix(0.99999292,-0.00376397,-0.00376397,-0.99999292,-131.79391,302.75605)"
@@ -52,5 +52,11 @@
        text-anchor="middle"
        transform="matrix(0.99999292,-0.00376397,-0.00376397,-0.99999292,132.71162,255.01921)"
        id="text1">A2</text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264594px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 28.145535,166.28217 C 28.296483,114.68921 32.943841,63.096259 28.597632,11.503303"
+       id="path1"
+       sodipodi:nodetypes="cc"
+       transform="matrix(0.99999291,-0.00376397,-0.00376397,-0.99999291,132.93254,302.25784)" />
   </g>
 </svg>

@@ -24,8 +24,8 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="4.0115174"
-     inkscape:cx="83.384905"
-     inkscape:cy="226.22362"
+     inkscape:cx="83.509547"
+     inkscape:cy="305.8693"
      inkscape:window-width="3840"
      inkscape:window-height="2054"
      inkscape:window-x="-11"
@@ -53,4 +53,8 @@
        transform="matrix(0.99955036,-0.02998442,-0.02998442,-0.99955036,693.36982,334.184)"
        id="text1">MC2</text>
   </g>
+  <path
+     style="fill:none;stroke:#000000;stroke-width:0.264577px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="M 26.45877,8.6264745 26.071513,127.70664"
+     id="path1" />
 </svg>

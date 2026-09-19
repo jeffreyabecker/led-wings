@@ -24,8 +24,8 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="3.8903009"
-     inkscape:cx="88.810612"
-     inkscape:cy="233.27245"
+     inkscape:cx="88.682086"
+     inkscape:cy="274.65742"
      inkscape:window-width="3840"
      inkscape:window-height="2054"
      inkscape:window-x="-11"
@@ -53,4 +53,9 @@
        transform="matrix(0.9999876,-0.00497933,-0.00497933,-0.9999876,34.377356,547.19975)"
        id="text1">SC1</text>
   </g>
+  <path
+     style="fill:none;stroke:#000000;stroke-width:0.264577px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="M 22.66,9.8570834 C 26.557578,16.964589 41.991999,90.158843 30.849274,131.48786"
+     id="path1"
+     sodipodi:nodetypes="cc" />
 </svg>

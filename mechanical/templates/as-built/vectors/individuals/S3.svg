@@ -24,8 +24,8 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="1.4307554"
-     inkscape:cx="164.59837"
-     inkscape:cy="634.28034"
+     inkscape:cx="81.774984"
+     inkscape:cy="745.41043"
      inkscape:window-width="3840"
      inkscape:window-height="2054"
      inkscape:window-x="-11"
@@ -53,5 +53,10 @@
        transform="matrix(1.0862993,-0.11029376,-0.04285755,-0.91620518,0,0)"
        id="text1"
        style="stroke-width:0.912926">S3</text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.241556px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 310.74522,571.34587 C 322.07984,386.6895 308.92444,359.37685 302.28693,290.188"
+       id="path1"
+       sodipodi:nodetypes="cc" />
   </g>
 </svg>
