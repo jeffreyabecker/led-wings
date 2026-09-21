@@ -14,12 +14,18 @@ Usage:
     python tools/make_feather_template_pdf.py --only P1 B5 LC1
     python tools/make_feather_template_pdf.py --scale 0.8      # shrink to fit a smaller printer
     python tools/make_feather_template_pdf.py --out some/other.pdf
+    # poster-tile every logical page onto physical sheets (US Letter, landscape):
+    python tools/make_feather_template_pdf.py --tile-paper letter
+    # the same on A4 with a custom overlap:
+    python tools/make_feather_template_pdf.py --tile-paper a4 --tile-overlap 10
 """
 from __future__ import annotations
 
 import argparse
 import datetime as dt
+import math
 import os
+import re
 import sys
 import zlib
 from dataclasses import dataclass, field
@@ -104,6 +110,22 @@ MIN_PAGE_HEIGHT_MM = 60.0
 SCALE_BAR_MM = 50.0
 MAX_PAGE_HEIGHT_MM = 1050.0     # pages are packed up to about this height
 GROUP_JOIN = (("SC", "PC", "A"), ("MC", "LC"))
+
+# ---------------------------------------------------------------------------
+# paper sizes and tiling (poster mode)
+# ---------------------------------------------------------------------------
+MM_PER_INCH = 25.4
+
+# The two paper sizes the built-in tiling supports, both used in landscape.
+# Values are (display label, portrait width mm, portrait height mm); the
+# portrait dimensions are swapped to landscape when a tile plan is built.
+TILE_PAPER_SIZES = {
+    "letter": ("US Letter", 8.5 * MM_PER_INCH, 11.0 * MM_PER_INCH),
+    "a4": ("A4", 210.0, 297.0),
+}
+
+TILE_MARGIN_MM = 5.0             # non-printable margin kept clear on each sheet
+TILE_OVERLAP_MM = 12.7           # Acrobat's default poster overlap (0.5 in)
 
 HALF_FILL = (0.93, 0.93, 0.93)
 GUIDE_GREY = (0.55, 0.55, 0.55)
@@ -779,10 +801,17 @@ def build_stamp() -> tuple[str, str]:
 
 
 class PdfDocument:
-    """Multi-page PDF with per-page point dimensions."""
+    """Multi-page PDF with per-page point dimensions.
+
+    Pages may be plain (each carrying its own content stream) or tiles that draw
+    a shared form XObject. Forms are emitted before the pages that reference
+    them, so their object numbers are known when a page dictionary is written.
+    """
 
     def __init__(self, title: str) -> None:
         self.pages: list[tuple[float, float, str]] = []
+        self.forms: list[tuple[float, float, str]] = []
+        self.tile_pages: list[tuple[float, float, str, int]] = []
         self.metadata = {
             "Title": title,
             "Creator": "tools/make_feather_template_pdf.py (wings-pcbs)",
@@ -792,6 +821,21 @@ class PdfDocument:
 
     def add_page(self, width_mm: float, height_mm: float, content: str) -> None:
         self.pages.append((width_mm, height_mm, content))
+
+    def add_form(self, width_mm: float, height_mm: float, content: str) -> int:
+        """Register a form XObject and return its 0-based index.
+
+        The form's content stream draws its own millimetre geometry (it already
+        scales by PT_PER_MM), so the form keeps an identity matrix and a BBox in
+        points that encloses the drawn geometry.
+        """
+        self.forms.append((width_mm, height_mm, content))
+        return len(self.forms) - 1
+
+    def add_tile_page(self, width_mm: float, height_mm: float, content: str,
+                      form_index: int) -> None:
+        """Add a page whose content stream draws form `form_index` as ``/F0``."""
+        self.tile_pages.append((width_mm, height_mm, content, form_index))
 
     def build(self) -> bytes:
         objects: list[bytes] = []
@@ -807,26 +851,51 @@ class PdfDocument:
         info_obj = add(b"")
         catalog_obj = add(b"")
 
-        page_objs: list[int] = []
-        for width_mm, height_mm, content in self.pages:
+        form_obj_nums: list[int] = []
+        for width_mm, height_mm, content in self.forms:
+            packed = zlib.compress(content.encode("ascii"), 9)
+            form_obj_nums.append(add(
+                b"<< /Type /XObject /Subtype /Form "
+                b"/BBox [0 0 %s %s] /Matrix [1 0 0 1 0 0] "
+                b"/Resources << /Font << /F1 %d 0 R >> >> "
+                b"/Length %d /Filter /FlateDecode >>\nstream\n"
+                % (
+                    num(width_mm * PT_PER_MM).encode(),
+                    num(height_mm * PT_PER_MM).encode(),
+                    font_obj,
+                    len(packed),
+                )
+                + packed
+                + b"\nendstream"
+            ))
+
+        def emit_page(width_mm: float, height_mm: float, content: str,
+                      extra_resources: bytes) -> int:
             packed = zlib.compress(content.encode("ascii"), 9)
             content_obj = add(
                 b"<< /Length %d /Filter /FlateDecode >>\nstream\n" % len(packed)
                 + packed
                 + b"\nendstream"
             )
-            page_obj = add(
+            return add(
                 b"<< /Type /Page /Parent %d 0 R /MediaBox [0 0 %s %s] "
-                b"/Resources << /Font << /F1 %d 0 R >> >> /Contents %d 0 R >>"
+                b"/Resources << /Font << /F1 %d 0 R >>%s >> /Contents %d 0 R >>"
                 % (
                     pages_obj,
                     num(width_mm * PT_PER_MM).encode(),
                     num(height_mm * PT_PER_MM).encode(),
                     font_obj,
+                    extra_resources,
                     content_obj,
                 )
             )
-            page_objs.append(page_obj)
+
+        page_objs: list[int] = []
+        for width_mm, height_mm, content in self.pages:
+            page_objs.append(emit_page(width_mm, height_mm, content, b""))
+        for width_mm, height_mm, content, form_index in self.tile_pages:
+            xobjects = b" /XObject << /F0 %d 0 R >>" % form_obj_nums[form_index]
+            page_objs.append(emit_page(width_mm, height_mm, content, xobjects))
 
         kids = b" ".join(b"%d 0 R" % n for n in page_objs)
         objects[pages_obj - 1] = b"<< /Type /Pages /Count %d /Kids [%s] >>" % (
@@ -861,6 +930,216 @@ class PdfDocument:
     def write(self, path: Path) -> None:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(self.build())
+
+
+# ---------------------------------------------------------------------------
+# paper parsing + tiling (poster mode)
+# ---------------------------------------------------------------------------
+def tile_paper(spec: str) -> tuple[str, float, float]:
+    """Resolve a paper-size spec to (label, portrait width mm, portrait height mm).
+
+    Only ``letter`` and ``a4`` are supported (case-insensitive); the sheet is
+    always used in landscape, so the portrait dimensions are swapped when the
+    tile plan is built.
+    """
+    key = re.sub(r"[^a-z0-9]", "", spec.strip().lower())
+    if key not in TILE_PAPER_SIZES:
+        raise ValueError(f"paper size must be 'letter' or 'a4', got {spec!r}")
+    return TILE_PAPER_SIZES[key]
+
+
+@dataclass
+class Tile:
+    page_no: int      # 1-based logical (poster) page
+    page_total: int
+    col: int          # 1-based, left -> right
+    row: int          # 1-based, top -> bottom (reading order)
+    cols: int
+    rows: int
+    x0: float         # logical-page mm offset of the tile's bottom-left corner
+    y0: float
+    single: bool = False   # the whole page fits on one sheet (no grid/overlap)
+
+
+@dataclass
+class TilePlan:
+    paper_label: str
+    paper_w: float    # landscape sheet extents
+    paper_h: float
+    margin: float
+    overlap: float
+    tiles: list
+
+
+def tile_grid(page_w: float, page_h: float, pw: float, ph: float,
+              overlap: float) -> tuple[int, int]:
+    """Columns and rows of overlapping tiles needed to cover one logical page.
+
+    `pw`/`ph` are the printable (post-margin) sheet extents. Adjacent tiles
+    share `overlap`, so their stride is the printable extent minus the overlap.
+    """
+    stride_x = pw - overlap
+    stride_y = ph - overlap
+    cols = 1 if page_w <= pw + 1e-9 else int(math.ceil((page_w - pw) / stride_x - 1e-9)) + 1
+    rows = 1 if page_h <= ph + 1e-9 else int(math.ceil((page_h - ph) / stride_y - 1e-9)) + 1
+    return cols, rows
+
+
+def plan_tiles(layouts: list, paper_w: float, paper_h: float,
+               margin: float, overlap: float, paper_label: str) -> TilePlan:
+    """Lay every logical page out as a grid of overlapping printable tiles.
+
+    The sheet is always used in landscape, so the given portrait dimensions are
+    swapped before the printable area is worked out.
+    """
+    paper_w, paper_h = paper_h, paper_w       # landscape
+    pw = paper_w - 2.0 * margin
+    ph = paper_h - 2.0 * margin
+    if pw <= 0 or ph <= 0:
+        raise ValueError(
+            f"margin {margin:g} mm leaves no printable area on "
+            f"{paper_label} landscape"
+        )
+    if overlap < 0:
+        raise ValueError("tile overlap cannot be negative")
+    if overlap >= pw or overlap >= ph:
+        raise ValueError(
+            f"overlap {overlap:g} mm must be smaller than the printable area "
+            f"{pw:g} x {ph:g} mm of {paper_label} landscape"
+        )
+
+    stride_x = pw - overlap
+    stride_y = ph - overlap
+    tiles: list = []
+    for page_no, layout in enumerate(layouts, start=1):
+        cols, rows = tile_grid(layout.page_w, layout.page_h, pw, ph, overlap)
+        if cols == 1 and rows == 1:
+            # The whole page fits on one sheet: centre it in the printable area
+            # and skip the grid/overlap/crop-mark treatment. `x0`/`y0` are the
+            # centring offsets the slide transform subtracts (they come out
+            # negative because the page is smaller than the printable area).
+            tiles.append(Tile(
+                page_no=page_no,
+                page_total=len(layouts),
+                col=1,
+                row=1,
+                cols=1,
+                rows=1,
+                x0=(layout.page_w - pw) / 2.0,
+                y0=(layout.page_h - ph) / 2.0,
+                single=True,
+            ))
+            continue
+        for iy in range(rows):
+            for ix in range(cols):
+                tiles.append(Tile(
+                    page_no=page_no,
+                    page_total=len(layouts),
+                    col=ix + 1,
+                    row=rows - iy,          # row 1 = top, reading order
+                    cols=cols,
+                    rows=rows,
+                    x0=ix * stride_x,
+                    y0=iy * stride_y,
+                ))
+    return TilePlan(paper_label, paper_w, paper_h, margin, overlap, tiles)
+
+
+def _crop_marks(mx: float, my: float, pw: float, ph: float,
+                margin_mm: float) -> list[str]:
+    """Corner crop marks just outside the printable area, sized to the margin."""
+    if margin_mm <= 0.6:
+        return []
+    gap = min(1.5, margin_mm * 0.35)
+    length = min(4.0, margin_mm - gap)
+    if length <= 0.05:
+        return []
+    g = gap * PT_PER_MM
+    ln = length * PT_PER_MM
+    cmds = [f"{rgb(GUIDE_GREY)} RG {num(0.25 * PT_PER_MM, 2)} w"]
+    for cx, hx in ((mx, -1), (mx + pw, 1)):
+        for cy, hy in ((my, -1), (my + ph, 1)):
+            cmds.append(
+                f"{num(cx + hx * g)} {num(cy)} m "
+                f"{num(cx + hx * (g + ln))} {num(cy)} l S"
+            )
+            cmds.append(
+                f"{num(cx)} {num(cy + hy * g)} m "
+                f"{num(cx)} {num(cy + hy * (g + ln))} l S"
+            )
+    return cmds
+
+
+def _tile_labels(tile: Tile, plan: TilePlan, mx: float, my: float,
+                 pw: float, ph: float, paper_w: float, paper_h: float) -> list[str]:
+    """Tile identity and assembly notes, drawn in the sheet margins."""
+    if plan.margin < 3.0:
+        return []
+    size = 6.0
+    if tile.single:
+        head = f"page {tile.page_no} of {tile.page_total}"
+        foot_l = f"{plan.paper_label} landscape"
+        foot_r = "true scale - verify the 50 mm bar"
+    else:
+        head = (f"page {tile.page_no} of {tile.page_total} - "
+                f"tile {tile.col},{tile.row} of {tile.cols},{tile.rows}")
+        foot_l = f"{plan.paper_label} landscape - overlap {num(plan.overlap, 1)} mm"
+        foot_r = "cut on corner marks"
+    top_y = (my + ph + paper_h) / 2.0 - 2.0
+    bot_y = my / 2.0 - 2.0
+    return [
+        text_cmd(paper_w / 2.0, top_y, size, head, color=TEXT_GREY, align="center"),
+        text_cmd(mx, bot_y, size, foot_l, color=TEXT_GREY),
+        text_cmd(mx + pw, bot_y, size, foot_r, color=TEXT_GREY, align="right"),
+    ]
+
+
+def build_tile_page_content(tile: Tile, plan: TilePlan) -> str:
+    """Content stream for one sheet: the tile's slice of the logical page.
+
+    The sheet is clipped to its printable area, then the shared form is slid so
+    the tile's region lands in it. A page that fits whole is centred and gets no
+    crop marks; a tiled page gets corner crop marks plus the tile identity in
+    the margins. All coordinates are points (the page's native space); the form
+    supplies its own millimetre scale.
+    """
+    pt = PT_PER_MM
+    mx = plan.margin * pt
+    my = plan.margin * pt
+    pw = (plan.paper_w - 2.0 * plan.margin) * pt
+    ph = (plan.paper_h - 2.0 * plan.margin) * pt
+    paper_w = plan.paper_w * pt
+    paper_h = plan.paper_h * pt
+
+    cmds: list[str] = [
+        "q",
+        f"{num(mx)} {num(my)} {num(pw)} {num(ph)} re W n",
+        f"1 0 0 1 {num(mx - tile.x0 * pt)} {num(my - tile.y0 * pt)} cm",
+        "/F0 Do",
+        "Q",
+    ]
+    if not tile.single:
+        cmds.extend(_crop_marks(mx, my, pw, ph, plan.margin))
+    cmds.extend(_tile_labels(tile, plan, mx, my, pw, ph, paper_w, paper_h))
+    return "\n".join(cmds)
+
+
+def build_tiled_document(layouts: list, plan: TilePlan, generated: str,
+                         scale: float) -> PdfDocument:
+    """Assemble a tiled PDF: one form per logical page, one sheet per tile."""
+    doc = PdfDocument(
+        f"Feather templates - tiled for {plan.paper_label} landscape"
+    )
+    for index, layout in enumerate(layouts, start=1):
+        content = build_page(layout, index, len(layouts), generated, scale)
+        doc.add_form(layout.page_w, layout.page_h, content)
+    for tile in plan.tiles:
+        doc.add_tile_page(
+            plan.paper_w, plan.paper_h,
+            build_tile_page_content(tile, plan),
+            tile.page_no - 1,
+        )
+    return doc
 
 
 # ---------------------------------------------------------------------------
@@ -912,6 +1191,21 @@ def main(argv: list[str] | None = None) -> int:
                     help="clear space between pairs sharing a row (default "
                          f"{DENSE_GAP_MM:g} mm; a lone pair keeps "
                          f"{SPARSE_GAP_MM:g} mm from its neighbours)")
+    ap.add_argument(
+        "--tile-paper", metavar="letter|a4", default=None,
+        help="tile each logical page onto physical sheets (US Letter or A4, "
+             "always landscape), instead of emitting poster-sized pages",
+    )
+    ap.add_argument(
+        "--tile-margin", type=float, default=TILE_MARGIN_MM, metavar="MM",
+        help=f"non-printable margin kept clear on every sheet "
+             f"(default {TILE_MARGIN_MM:g} mm)",
+    )
+    ap.add_argument(
+        "--tile-overlap", type=float, default=TILE_OVERLAP_MM, metavar="MM",
+        help=f"overlap between adjacent tiles for registering/joining "
+             f"(default {TILE_OVERLAP_MM:g} mm)",
+    )
     args = ap.parse_args(argv)
 
     if args.rotate is not None:
@@ -927,6 +1221,10 @@ def main(argv: list[str] | None = None) -> int:
         raise SystemExit("--max-page-height must be positive")
     if args.scale <= 0:
         raise SystemExit("--scale must be positive")
+    if args.tile_margin < 0:
+        raise SystemExit("--tile-margin cannot be negative")
+    if args.tile_overlap < 0:
+        raise SystemExit("--tile-overlap cannot be negative")
 
     paths = discover(args.src, args.only)
     if not paths:
@@ -936,6 +1234,48 @@ def main(argv: list[str] | None = None) -> int:
     planned = plan_pages(feathers, args.scale, args.max_page_height, args.max_rows)
     layouts = [layout_page(group, rows, by_name, args.scale)
                for group, rows, by_name in planned]
+    generated = build_stamp()[0]
+
+    if args.tile_paper is not None:
+        try:
+            paper_label, paper_w, paper_h = tile_paper(args.tile_paper)
+            plan = plan_tiles(layouts, paper_w, paper_h,
+                              args.tile_margin, args.tile_overlap, paper_label)
+        except ValueError as exc:
+            raise SystemExit(str(exc)) from exc
+
+        if args.list:
+            print(f"tile plan: {plan.paper_label} landscape "
+                  f"(paper {plan.paper_w:g} x {plan.paper_h:g} mm, "
+                  f"margin {plan.margin:g} mm, overlap {plan.overlap:g} mm)")
+            print(f"  {len(layouts)} logical page(s) -> {len(plan.tiles)} sheet(s)")
+            for index, layout in enumerate(layouts, start=1):
+                tiles = [t for t in plan.tiles if t.page_no == index]
+                note = ("1 sheet (fits, not tiled)" if tiles[0].single
+                        else f"{tiles[0].cols} x {tiles[0].rows} tiles")
+                print(f"  page {index:2}: {note} "
+                      f"({layout.page_w:g} x {layout.page_h:g} mm "
+                      f"[{', '.join(layout.names)}])")
+            return 0
+
+        doc = build_tiled_document(layouts, plan, generated, args.scale)
+        doc.write(args.out)
+
+        print(f"wrote {args.out}")
+        print(f"  paper       : {plan.paper_label} landscape "
+              f"({plan.paper_w:g} x {plan.paper_h:g} mm)")
+        print(f"  margin      : {plan.margin:g} mm (non-printable)")
+        print(f"  overlap     : {plan.overlap:g} mm")
+        print(f"  scale       : {args.scale:g} : 1")
+        print(f"  logical     : {len(layouts)} poster page(s) "
+              f"(from {len(feathers)} feather pairs)")
+        print(f"  sheets      : {len(plan.tiles)}")
+        for index, layout in enumerate(layouts, start=1):
+            tiles = [t for t in plan.tiles if t.page_no == index]
+            note = ("1 sheet (fits, not tiled)" if tiles[0].single
+                    else f"{tiles[0].cols} x {tiles[0].rows} tiles")
+            print(f"    page {index:2}: {note} [{', '.join(layout.names)}]")
+        return 0
 
     if args.list:
         for index, layout in enumerate(layouts, start=1):
@@ -945,7 +1285,6 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     doc = PdfDocument("Feather templates - mirrored left/right pairs")
-    generated = build_stamp()[0]
     for index, layout in enumerate(layouts, start=1):
         content = build_page(layout, index, len(layouts), generated, args.scale)
         doc.add_page(layout.page_w, layout.page_h, content)
