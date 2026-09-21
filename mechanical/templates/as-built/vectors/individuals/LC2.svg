@@ -1,62 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   width="30.74mm"
-   height="91.44mm"
-   viewBox="8.000 8.000 30.742 91.435"
-   version="1.1"
-   id="svg1"
-   sodipodi:docname="LC2.svg"
-   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <defs
-     id="defs1" />
-  <sodipodi:namedview
-     id="namedview1"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:document-units="mm"
-     inkscape:zoom="3.7135381"
-     inkscape:cx="3.2314196"
-     inkscape:cy="251.10823"
-     inkscape:window-width="3840"
-     inkscape:window-height="2054"
-     inkscape:window-x="-11"
-     inkscape:window-y="-11"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="feather" />
-  <g
-     id="feather"
-     transform="matrix(0.99802835,-0.06276487,-0.06276487,-0.99802835,-689.33448,192.69901)"
-     data-source="feathers-aggregate.svg">
-    <path
-       fill="none"
-       stroke="#000000"
-       stroke-width="0.5"
-       d="m 711.343,48.772 c -7.094,-1.967 -7.719,19.709 -7.739,23.919 -0.006,1.263 -0.001,3.788 -0.001,3.788 0,8.737 7.33441,41.95881 3.0359,48.8937 1.20794,1.9639 4.21159,10.68376 6.18143,14.74065 4.677,-3.527 22.40767,-39.77035 22.40767,-47.19735 0,-12.115423 -2.54411,-38.227326 -23.885,-44.144 z"
-       sodipodi:nodetypes="cscccsc"
-       id="LC2" />
-    <text
-       x="23.335501"
-       y="41.885399"
-       font-family="sans-serif"
-       font-size="6px"
-       fill="#000000"
-       text-anchor="middle"
-       transform="matrix(0.99802833,-0.06276487,-0.06276487,-0.99802833,698.68947,125.30743)"
-       id="feather-label">LC2</text>
-    <path
-       style="fill:none;stroke:#000000;stroke-width:0.264601px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 11.147327,14.236343 c 19.468405,28.998139 15.895311,57.271702 5.358126,85.326269"
-       id="center-line"
-       sodipodi:nodetypes="cc"
-       transform="matrix(0.99802833,-0.06276487,-0.06276487,-0.99802833,700.07007,149.05308)" />
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:ns2="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" width="30.74mm" height="91.44mm" viewBox="8.000 8.000 30.742 91.435" version="1.1" id="svg1" sodipodi:docname="LC2.svg" ns2:version="1.4 (86a8ad7, 2024-10-11)">
+  <defs id="defs1" />
+  <sodipodi:namedview id="namedview1" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" ns2:showpageshadow="2" ns2:pageopacity="0.0" ns2:pagecheckerboard="0" ns2:deskcolor="#d1d1d1" ns2:document-units="mm" ns2:zoom="3.7135381" ns2:cx="3.2314196" ns2:cy="251.10823" ns2:window-width="3840" ns2:window-height="2054" ns2:window-x="-11" ns2:window-y="-11" ns2:window-maximized="1" ns2:current-layer="feather" />
+  <g id="LC2" transform="matrix(0.99802835,-0.06276487,-0.06276487,-0.99802835,-689.33448,192.69901)" data-source="feathers-aggregate.svg">
+    <path fill="none" stroke="#000000" stroke-width="0.5" d="m 711.343,48.772 c -7.094,-1.967 -7.719,19.709 -7.739,23.919 -0.006,1.263 -0.001,3.788 -0.001,3.788 0,8.737 7.33441,41.95881 3.0359,48.8937 1.20794,1.9639 4.21159,10.68376 6.18143,14.74065 4.677,-3.527 22.40767,-39.77035 22.40767,-47.19735 0,-12.115423 -2.54411,-38.227326 -23.885,-44.144 z" sodipodi:nodetypes="cscccsc" id="LC2-outline" />
+    <text x="23.335501" y="41.885399" font-family="sans-serif" font-size="6px" fill="#000000" text-anchor="middle" transform="matrix(0.99802833,-0.06276487,-0.06276487,-0.99802833,698.68947,125.30743)" id="LC2-label">LC2</text>
+    <path style="fill:none;stroke:#000000;stroke-width:0.264601px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" d="m 11.147327,14.236343 c 19.468405,28.998139 15.895311,57.271702 5.358126,85.326269" id="LC2-center-line" sodipodi:nodetypes="cc" transform="matrix(0.99802833,-0.06276487,-0.06276487,-0.99802833,700.07007,149.05308)" />
   </g>
 </svg>

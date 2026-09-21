@@ -1,62 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   width="40.57mm"
-   height="108.79mm"
-   viewBox="8.000 8.000 40.567 108.791"
-   version="1.1"
-   id="svg1"
-   sodipodi:docname="MC1.svg"
-   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <defs
-     id="defs1" />
-  <sodipodi:namedview
-     id="namedview1"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:document-units="mm"
-     inkscape:zoom="2.2070905"
-     inkscape:cx="-5.8901074"
-     inkscape:cy="298.80968"
-     inkscape:window-width="3840"
-     inkscape:window-height="2054"
-     inkscape:window-x="-11"
-     inkscape:window-y="-11"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="feather" />
-  <g
-     id="feather"
-     transform="matrix(0.99972243,-0.02355994,-0.02355994,-0.99972243,-633.97071,394.60234)"
-     data-source="feathers-aggregate.svg">
-    <path
-       fill="none"
-       stroke="#000000"
-       stroke-width="0.5"
-       d="m 683.356,288.359 c -3.771,-6.669 -15.585,-28.564 -24.694,-25.793 -8.594,2.613 -9.274,30.517 -9.274,38.316 v 2.928 c 0,11.232 1.203,57.882 6.514,65.416 3.79069,0.80575 13.05257,1.17588 17.81206,1.60661 2.59155,-4.70493 3.72294,-8.34761 5.63694,-12.27261 9.933,-20.375 16.075,-47.717 4.605,-69.099 -0.198,-0.369 -0.6,-1.102 -0.6,-1.102 z"
-       id="MC1"
-       sodipodi:nodetypes="ccsscccsc" />
-    <text
-       x="662.33026"
-       y="-321.03122"
-       font-family="sans-serif"
-       font-size="6px"
-       fill="#000000"
-       text-anchor="middle"
-       transform="matrix(0.99972243,-0.02355994,-0.02355994,-0.99972243,0,0)"
-       id="feather-label">MC1</text>
-    <path
-       style="fill:none;stroke:#000000;stroke-width:0.264586px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 21.396493,8.8975537 C 34.466491,67.199643 26.013614,87.022556 19.907551,116.79468 v 0"
-       id="center-line"
-       sodipodi:nodetypes="ccc"
-       transform="matrix(0.99972241,-0.02355994,-0.02355994,-0.99972241,643.09154,379.5565)" />
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:ns2="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" width="40.57mm" height="108.79mm" viewBox="8.000 8.000 40.567 108.791" version="1.1" id="svg1" sodipodi:docname="MC1.svg" ns2:version="1.4 (86a8ad7, 2024-10-11)">
+  <defs id="defs1" />
+  <sodipodi:namedview id="namedview1" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" ns2:showpageshadow="2" ns2:pageopacity="0.0" ns2:pagecheckerboard="0" ns2:deskcolor="#d1d1d1" ns2:document-units="mm" ns2:zoom="2.2070905" ns2:cx="-5.8901074" ns2:cy="298.80968" ns2:window-width="3840" ns2:window-height="2054" ns2:window-x="-11" ns2:window-y="-11" ns2:window-maximized="1" ns2:current-layer="feather" />
+  <g id="MC1" transform="matrix(0.99972243,-0.02355994,-0.02355994,-0.99972243,-633.97071,394.60234)" data-source="feathers-aggregate.svg">
+    <path fill="none" stroke="#000000" stroke-width="0.5" d="m 683.356,288.359 c -3.771,-6.669 -15.585,-28.564 -24.694,-25.793 -8.594,2.613 -9.274,30.517 -9.274,38.316 v 2.928 c 0,11.232 1.203,57.882 6.514,65.416 3.79069,0.80575 13.05257,1.17588 17.81206,1.60661 2.59155,-4.70493 3.72294,-8.34761 5.63694,-12.27261 9.933,-20.375 16.075,-47.717 4.605,-69.099 -0.198,-0.369 -0.6,-1.102 -0.6,-1.102 z" id="MC1-outline" sodipodi:nodetypes="ccsscccsc" />
+    <text x="662.33026" y="-321.03122" font-family="sans-serif" font-size="6px" fill="#000000" text-anchor="middle" transform="matrix(0.99972243,-0.02355994,-0.02355994,-0.99972243,0,0)" id="MC1-label">MC1</text>
+    <path style="fill:none;stroke:#000000;stroke-width:0.264586px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" d="M 21.396493,8.8975537 C 34.466491,67.199643 26.013614,87.022556 19.907551,116.79468 v 0" id="MC1-center-line" sodipodi:nodetypes="ccc" transform="matrix(0.99972241,-0.02355994,-0.02355994,-0.99972241,643.09154,379.5565)" />
   </g>
 </svg>

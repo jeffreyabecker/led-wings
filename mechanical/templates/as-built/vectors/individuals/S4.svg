@@ -1,63 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   width="83.08mm"
-   height="289.35mm"
-   viewBox="8.000 8.000 83.079 289.354"
-   version="1.1"
-   id="svg1"
-   sodipodi:docname="S4.svg"
-   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <defs
-     id="defs1" />
-  <sodipodi:namedview
-     id="namedview1"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:document-units="mm"
-     inkscape:zoom="1.6596466"
-     inkscape:cx="173.53092"
-     inkscape:cy="435.33364"
-     inkscape:window-width="3840"
-     inkscape:window-height="2054"
-     inkscape:window-x="-11"
-     inkscape:window-y="-11"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="feather" />
-  <g
-     id="feather"
-     transform="matrix(1.008322605,-0.1109201592,-0.02132213258,-1.187607274,-355.778667,729.5766673)"
-     data-source="feathers-aggregate.svg">
-    <path
-       fill="none"
-       stroke="#000000"
-       stroke-width="0.5"
-       d="m 452.706,453.685 c 0,-16.76 -1.76,-39.634 -5.229,-55.971 -2.704,-12.732 -16.716,-79.296 -35.993,-71.887 -29.79221,14.6993 -35.81349,49.48187 -39.207,74.808 -2.45882,27.01645 -3.87253,53.53922 0.58,80.452 7.72401,40.35221 24.54023,56.58449 29.051,83.773 0.287,1.732 0.17361,2.71861 0.72436,4.91903 0,0 18.36938,-1.124 20.63768,-2.16487 -0.3692,-6.67149 3.02812,-12.71172 6.09296,-18.06716 14.067,-22.148 20.099,-38.709 22.216,-65.02 0.932,-11.56821 1.14867,-28.70831 1.127,-30.842 z"
-       id="S4"
-       sodipodi:nodetypes="ccccccccccc" />
-    <text
-       x="370.06531"
-       y="-516.67023"
-       font-family="sans-serif"
-       font-size="5.47755px"
-       fill="#000000"
-       text-anchor="middle"
-       transform="matrix(1.0841971,-0.10126185,-0.01946552,-0.92052352,0,0)"
-       id="feather-label"
-       style="stroke-width:0.912926">S4</text>
-    <path
-       style="fill:none;stroke:#000000;stroke-width:0.264587px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 49.608513,8 C 38.50583,104.45569 47.256182,200.91138 54.688641,297.36707"
-       id="center-line"
-       sodipodi:nodetypes="cc"
-       transform="matrix(0.98979125,-0.09244454,-0.01777057,-0.84036946,365.1116,580.22416)" />
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:ns2="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" width="83.08mm" height="289.35mm" viewBox="8.000 8.000 83.079 289.354" version="1.1" id="svg1" sodipodi:docname="S4.svg" ns2:version="1.4 (86a8ad7, 2024-10-11)">
+  <defs id="defs1" />
+  <sodipodi:namedview id="namedview1" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" ns2:showpageshadow="2" ns2:pageopacity="0.0" ns2:pagecheckerboard="0" ns2:deskcolor="#d1d1d1" ns2:document-units="mm" ns2:zoom="1.6596466" ns2:cx="173.53092" ns2:cy="435.33364" ns2:window-width="3840" ns2:window-height="2054" ns2:window-x="-11" ns2:window-y="-11" ns2:window-maximized="1" ns2:current-layer="feather" />
+  <g id="S4" transform="matrix(1.008322605,-0.1109201592,-0.02132213258,-1.187607274,-355.778667,729.5766673)" data-source="feathers-aggregate.svg">
+    <path fill="none" stroke="#000000" stroke-width="0.5" d="m 452.706,453.685 c 0,-16.76 -1.76,-39.634 -5.229,-55.971 -2.704,-12.732 -16.716,-79.296 -35.993,-71.887 -29.79221,14.6993 -35.81349,49.48187 -39.207,74.808 -2.45882,27.01645 -3.87253,53.53922 0.58,80.452 7.72401,40.35221 24.54023,56.58449 29.051,83.773 0.287,1.732 0.17361,2.71861 0.72436,4.91903 0,0 18.36938,-1.124 20.63768,-2.16487 -0.3692,-6.67149 3.02812,-12.71172 6.09296,-18.06716 14.067,-22.148 20.099,-38.709 22.216,-65.02 0.932,-11.56821 1.14867,-28.70831 1.127,-30.842 z" id="S4-outline" sodipodi:nodetypes="ccccccccccc" />
+    <text x="370.06531" y="-516.67023" font-family="sans-serif" font-size="5.47755px" fill="#000000" text-anchor="middle" transform="matrix(1.0841971,-0.10126185,-0.01946552,-0.92052352,0,0)" id="S4-label" style="stroke-width:0.912926">S4</text>
+    <path style="fill:none;stroke:#000000;stroke-width:0.264587px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" d="M 49.608513,8 C 38.50583,104.45569 47.256182,200.91138 54.688641,297.36707" id="S4-center-line" sodipodi:nodetypes="cc" transform="matrix(0.98979125,-0.09244454,-0.01777057,-0.84036946,365.1116,580.22416)" />
   </g>
 </svg>
