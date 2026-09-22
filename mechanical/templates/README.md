@@ -387,6 +387,89 @@ scale, per-feather transforms). For every feather group it writes `individuals/<
 > minimum-area size, the label must end up level, verbatim in text and on its own feather, and the
 > file must read back through `build-feather-aggregate.py` as the same geometry.
 
+### Printable PDF straight from the aggregate
+
+```bash
+python tools/make_feather_template_pdf_from_aggregate.py
+python tools/make_feather_template_pdf_from_aggregate.py --list             # page plan only
+python tools/make_feather_template_pdf_from_aggregate.py --geometry-report  # per-feather audit
+python tools/make_feather_template_pdf_from_aggregate.py --only P1 B5 LC1   # a subset
+python tools/make_feather_template_pdf_from_aggregate.py --scale 0.8 --out half.pdf
+python tools/make_feather_template_pdf_from_aggregate.py --pair-orientation upright
+python tools/make_feather_template_pdf_from_aggregate.py --tile-paper a4    # poster tiles
+```
+
+[tools/make_feather_template_pdf_from_aggregate.py](../../tools/make_feather_template_pdf_from_aggregate.py)
+generates [as-built/print/feathers-from-aggregate.pdf](as-built/print/feathers-from-aggregate.pdf):
+**15 logical pages holding all 42 feathers as left/right mirrored pairs**, 273 mm wide, 404–1044 mm
+tall, at **true scale** (1 user unit = 1 mm, so geometry is emitted unchanged).
+
+> **This is the generator to use.**
+> [tools/make_feather_template_pdf.py](../../tools/make_feather_template_pdf.py) reads one SVG per
+> feather from `as-built/vectors/individuals/`; those files were deleted (`48708ce`), so it cannot
+> run any more. This script shares none of its code — it is self-contained — and takes its paths
+> straight out of the aggregate instead.
+
+What a document built this way has to do, and how it does it:
+
+- **Ignore `toplines`.** The leading-edge guide curves are scaffolding, not cut lines. That group —
+  and any other group hidden by its style — is never entered, so nothing inside it can reach a page.
+- **Straighten every feather.** The aggregate is a *hand arrangement*: each prefix group carries its
+  own rotation and scale and **38 of the 42 feathers are drawn rotated** (B1–B4 are all but
+  horizontal; SC2–SC8 sit at 140–158°). A cutting template is not a wing diagram, so each outline is
+  first turned onto its own long axis. The angle is found by **minimising the across-feather width**
+  of the drawn geometry — *not* the long side of the minimum-area box, which answers a different
+  question (least area) and leaves these curved, hooked outlines leaning by up to 5°. Measured
+  residual lean on this catalogue is **0.00°** for all 42.
+- **Read the quill guide, but never print it.** `*-center-line` says which end of a feather is the
+  base, so it is read and turned with the outline for that test, then dropped: the outline is the
+  only thing drawn. A feather with **no** centre line still prints — the base is then taken from the
+  outline, where the narrower end is the tip (the one property that holds for every shape here).
+  `--geometry-report` shows `quill guide: read | none` per feather.
+- **Pairs are laid per feather, shortest page first.** `--pair-orientation auto` (default) compares
+  the page height each orientation needs and takes the shorter, so **19 pairs print *headless***
+  (halves stacked above and below a horizontal axis: S5, S6, B4, B5, every SC and PC, A1–A2,
+  MC2–MC4) and 23 print *upright* (halves side by side: all P, S1–S4, B1–B3, most small coverts).
+  Either way the feather's own long axis stays vertical — headless turns the *pair*, not the
+  feather. `--pair-orientation upright|headless` forces one convention.
+- **Gap.** 70 mm between the halves of a P, S or B pair, 30 mm for every other pair and between
+  neighbouring pairs, 70 mm around a lone pair. The gap scales with `--scale`. If an upright pair
+  would otherwise exceed the 273 mm page (P1 and P2 come within 1–3 mm of it), its own gap gives
+  first, down to a 30 mm floor; only then does the build fail, loudly.
+
+| page | content | page size |
+| --- | --- | --- |
+| 1–6 | `P1`…`P6`, one pair per page | 273 × 405–567 mm |
+| 7–9 | `S1`…`S6`, two pairs per page | 273 × 563–837 mm |
+| 10–11 | `B1`…`B5` | 273 × 728–793 mm |
+| 12–13 | `SC1`–`SC8`, `PC1`–`PC3` | 273 × 1036 / 1044 mm |
+| 14 | `A1`–`A4` + `PC3` | 273 × 977 mm |
+| 15 | `MC1`–`MC5`, `LC1`–`LC5` | 273 × 739 mm |
+
+Pages tile through Acrobat poster mode exactly as the older documents did: leave the tile scale at
+100% and check the 50 mm bar at the foot of any page once the tiles are joined. Builds are
+reproducible — set `SOURCE_DATE_EPOCH` and a rebuild is byte-identical.
+
+Other options: `--aggregate` (source SVG), `--max-page-height` / `--max-rows` (page splitting),
+`--spacing` (gap between pairs sharing a row), `--tile-paper letter|a4` with `--tile-margin` /
+`--tile-overlap` (poster tiles instead of poster-sized pages).
+
+#### Verification
+
+```bash
+python tools/_verify_aggregate_pdf.py mechanical/templates/as-built/print/feathers-from-aggregate.pdf
+```
+
+[tools/_verify_aggregate_pdf.py](../../tools/_verify_aggregate_pdf.py) rebuilds the layout from the
+aggregate and checks the written file four ways: the PDF's own structure (objects, xref offsets,
+trailer, per-page MediaBox), each page's **emitted geometry stream compared line for line** against
+the layout, the placement rules (as-drawn half on one side of its mirror axis and its reflection on
+the other, exact mirroring, the half-to-half gap, the gap between neighbouring pairs, nothing
+escaping the page), and that **every feather's long axis really is vertical**. It takes the same
+`--aggregate`, `--only`, `--scale`, `--pair-orientation`, `--spacing` and page-split options as the
+generator, so a non-default build can be verified as built. All of those pass for the committed
+document, and for `--only`, `--scale 0.5` and `--scale 0.8` builds.
+
 ### Calibration — X and Y must be scaled separately
 
 These photos are **not metrically rectified**. Measured against the printed 1" grid they
