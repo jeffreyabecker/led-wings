@@ -13,8 +13,8 @@ with a single ``<style>`` block and classes:
     .P .outline { fill: #1f77b4 }   ... one rule per grouping
     .centerline -> the quill guide
 
-Colour, opacity and widths now live in exactly one place, and a class can be restyled in a
-browser. Presentation attributes are removed rather than left as a fallback -- two sources of
+Colour and widths now live in exactly one place, and a class can be restyled in a browser. Fills
+are fully opaque (``FILL_OPACITY = None``), so no ``fill-opacity`` is emitted at all. Presentation attributes are removed rather than left as a fallback -- two sources of
 truth is what the stylesheet is meant to end. Geometry (``d``, ``transform``,
 ``sodipodi:nodetypes``), ids and the ``data-*`` provenance stay attributes, since CSS cannot
 carry them; the six ``toplines`` paths are already style-free and are left alone.
@@ -58,7 +58,7 @@ GROUPS = [
     ("LC", "lesser coverts", "#bcbd22"),
     ("B", "body feathers", "#8c564b"),
 ]
-FILL_OPACITY = "0.45"
+FILL_OPACITY = None      # None = fully opaque: no fill-opacity declaration is emitted
 
 # presentation moved into the stylesheet; anything not listed stays an attribute
 STRIP_PATH = ("fill", "fill-opacity", "stroke", "stroke-width", "style")
@@ -84,7 +84,7 @@ def stylesheet():
         "}",
         ".outline {",
         "  stroke: #000000;",
-        f"  fill-opacity: {FILL_OPACITY};",
+        *([f"  fill-opacity: {FILL_OPACITY};"] if FILL_OPACITY is not None else []),
         "}",
         ".centerline {",
         "  fill: none;",
