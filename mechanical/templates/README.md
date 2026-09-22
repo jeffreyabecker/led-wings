@@ -321,7 +321,7 @@ feathers, 1:1 mm (user units = mm):
 ```xml
 <g id="catalog">
   <g id="P">                      one group per prefix (P, S, A, PC, SC, MC, LC, B)
-    <g id="P1" transform="matrix(...)" data-source="individuals/P1.svg">
+    <g id="P1" transform="matrix(...)" >
       <path id="P1-outline" .../>    verbatim from individuals/P1.svg — d and transform
       <text ...>P1</text>            the source's own label
 ```
