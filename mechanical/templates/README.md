@@ -396,12 +396,14 @@ python tools/make_feather_template_pdf_from_aggregate.py --geometry-report  # pe
 python tools/make_feather_template_pdf_from_aggregate.py --only P1 B5 LC1   # a subset
 python tools/make_feather_template_pdf_from_aggregate.py --scale 0.8 --out half.pdf
 python tools/make_feather_template_pdf_from_aggregate.py --pair-orientation upright
-python tools/make_feather_template_pdf_from_aggregate.py --tile-paper a4    # poster tiles
+python tools/make_feather_template_pdf_from_aggregate.py --small-page-height none  # one long page per group
+python tools/make_feather_template_pdf_from_aggregate.py --tile-paper a4 --list    # precalculate sheets
+python tools/make_feather_template_pdf_from_aggregate.py --tile-paper a4 --out sheets.pdf
 ```
 
 [tools/make_feather_template_pdf_from_aggregate.py](../../tools/make_feather_template_pdf_from_aggregate.py)
 generates [as-built/print/feathers-from-aggregate.pdf](as-built/print/feathers-from-aggregate.pdf):
-**15 logical pages holding all 42 feathers as left/right mirrored pairs**, 273 mm wide, 404–1044 mm
+**31 logical pages holding all 42 feathers as left/right mirrored pairs**, 273 mm wide, 135–837 mm
 tall, at **true scale** (1 user unit = 1 mm, so geometry is emitted unchanged).
 
 > **This is the generator to use.**
@@ -436,23 +438,55 @@ What a document built this way has to do, and how it does it:
   neighbouring pairs, 70 mm around a lone pair. The gap scales with `--scale`. If an upright pair
   would otherwise exceed the 273 mm page (P1 and P2 come within 1–3 mm of it), its own gap gives
   first, down to a 30 mm floor; only then does the build fail, loudly.
+- **The small coverts are held to their own page height.** The long feathers set the document's
+  budget (`--max-page-height`, 1050 mm), and the small ones are capped separately at
+  `--small-page-height` (**200 mm**): SC, PC, A, MC and LC pages come out 135–194 mm tall. That is
+  the same trade the old 200 mm document made, and the reason for it is tiling — a 194 mm page goes
+  into **one row** of sheets where a 1044 mm page needs six. A short-sheet printer that refuses a
+  tall page can print the 20 small-feather pages even though it cannot print the long ones.
+  Pass `--small-page-height none` for one long page per group (15 pages, 405–1044 mm).
 
 | page | content | page size |
 | --- | --- | --- |
 | 1–6 | `P1`…`P6`, one pair per page | 273 × 405–567 mm |
 | 7–9 | `S1`…`S6`, two pairs per page | 273 × 563–837 mm |
 | 10–11 | `B1`…`B5` | 273 × 728–793 mm |
-| 12–13 | `SC1`–`SC8`, `PC1`–`PC3` | 273 × 1036 / 1044 mm |
-| 14 | `A1`–`A4` + `PC3` | 273 × 977 mm |
-| 15 | `MC1`–`MC5`, `LC1`–`LC5` | 273 × 739 mm |
-
+| 12–19 | `SC1`–`SC8`, one pair per page | 273 × 173–194 mm |
+| 20–22 | `PC1`–`PC3` | 273 × 173–187 mm |
+| 23–26 | `A1`–`A4` | 273 × 167–180 mm |
+| 27–31 | `MC1`–`MC5` + `LC1`–`LC5`, two pairs per page | 273 × 135–168 mm |
 Pages tile through Acrobat poster mode exactly as the older documents did: leave the tile scale at
 100% and check the 50 mm bar at the foot of any page once the tiles are joined. Builds are
 reproducible — set `SOURCE_DATE_EPOCH` and a rebuild is byte-identical.
 
-Other options: `--aggregate` (source SVG), `--max-page-height` / `--max-rows` (page splitting),
-`--spacing` (gap between pairs sharing a row), `--tile-paper letter|a4` with `--tile-margin` /
-`--tile-overlap` (poster tiles instead of poster-sized pages).
+#### Precalculated tiling (`--tile-paper`)
+
+`--tile-paper letter|a4` turns the logical pages into physical sheets. The whole plan is worked out
+**before a single tile is drawn**, so the sheet count and every placement are known up front:
+`--list` prints them.
+
+- A page that fits the printable area **whole is placed on one sheet** — no grid, no overlap, no
+  crop marks. That is the common case here and it is what the small-page cap buys: all 20
+  small-feather pages are single sheets.
+- A page too big for one sheet (every P, S and B page, and 273 mm-wide pages on US Letter, whose
+  printable area is 269 mm) is **tiled** on the overlapping grid, and its sheets carry corner crop
+  marks and a `tile 1,3 of 1,3` stamp.
+- Sheets are packed by **first fit** over the rectangles already spoken for, so a page that fits can
+  share a sheet with the first tile of a tiled page instead of wasting it. In this catalogue the
+  pages are all too tall or too wide to pair up on A4, so nothing shares; an earlier draft that
+  ignored the free space managed to spend 59 sheets too, on pages that did not fit. Pages are never
+  rotated to fit: the title and footer would end up on their side.
+- Identical logical pages would share one form XObject, but every page's footer carries its own page
+  number, so in practice each page gets its own form (31 forms for 31 pages).
+
+The A4 landscape default (`--tile-margin 5`, `--tile-overlap 12.7`, `--tile-gap 6`) gives **59
+sheets**: 39 for the tiled long pages (P1–P6 three each, S1 five, S2 four, S3 three, B1 four, B2
+five) plus one for each of the 20 small-feather pages. `--tile-paper letter` tiles differently,
+because a 273 mm page does not fit Letter's 269 mm printable width: those pages go to 2 × 3 grids.
+
+Other options: `--aggregate` (source SVG), `--max-page-height` / `--max-rows` / `--small-page-height`
+(page splitting), `--spacing` (gap between pairs sharing a row), `--tile-margin` / `--tile-overlap` /
+`--tile-gap` (sheet planning).
 
 #### Verification
 
@@ -466,9 +500,15 @@ trailer, per-page MediaBox), each page's **emitted geometry stream compared line
 the layout, the placement rules (as-drawn half on one side of its mirror axis and its reflection on
 the other, exact mirroring, the half-to-half gap, the gap between neighbouring pairs, nothing
 escaping the page), and that **every feather's long axis really is vertical**. It takes the same
-`--aggregate`, `--only`, `--scale`, `--pair-orientation`, `--spacing` and page-split options as the
-generator, so a non-default build can be verified as built. All of those pass for the committed
-document, and for `--only`, `--scale 0.5` and `--scale 0.8` builds.
+`--aggregate`, `--only`, `--scale`, `--pair-orientation`, `--spacing`, `--max-page-height` and
+`--small-page-height` options as the generator, so a non-default build can be verified as built. All
+of those pass for the committed document, for `--only`, `--scale 0.5` and `--scale 0.8` builds, and
+for `--small-page-height none`.
+
+> The verifier covers the logical pages, not the sheet plan: it checks the geometry of every page a
+> tiled document draws, but not the packing of pages onto sheets. The sheet plan is exercised by
+> `--tile-paper ... --list` and by the structure of the written file (every sheet A4 landscape, no
+> two tiles overlapping, every form reference resolving).
 
 ### Calibration — X and Y must be scaled separately
 

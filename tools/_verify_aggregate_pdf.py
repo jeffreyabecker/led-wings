@@ -130,6 +130,9 @@ def main() -> int:
     ap.add_argument("--max-rows", type=int, default=None)
     ap.add_argument("--max-page-height", type=float, default=gen.MAX_PAGE_HEIGHT_MM,
                     metavar="MM")
+    ap.add_argument("--small-page-height", type=float,
+                    default=gen.SMALL_PAGE_HEIGHT_MM, metavar="MM",
+                    help="the cap the small coverts' pages were built to; 0 lifts it")
     ap.add_argument("--pair-orientation", choices=("auto", "upright", "headless"),
                     default="auto")
     ap.add_argument("--spacing", type=float, default=None)
@@ -137,6 +140,7 @@ def main() -> int:
 
     if args.spacing is not None:
         gen.DENSE_GAP_MM = args.spacing
+    small_page_h = args.small_page_height or None
 
     data = args.pdf.read_bytes()
     if not data.startswith(b"%PDF-"):
@@ -147,7 +151,7 @@ def main() -> int:
     feathers = gen.load_aggregate_feathers(args.aggregate, args.only)
     mode = args.pair_orientation
     planned = gen.plan_pages(feathers, args.scale, args.max_page_height,
-                             args.max_rows, mode)
+                             args.max_rows, mode, small_page_h)
     layouts = [gen.layout_page(group, rows, by_name, args.scale, mode)
                for group, rows, by_name in planned]
 

@@ -131,6 +131,17 @@ MIN_PAGE_HEIGHT_MM = 60.0
 SCALE_BAR_MM = 50.0
 MAX_PAGE_HEIGHT_MM = 1050.0     # pages are packed up to about this height
 GROUP_JOIN = (("SC", "PC", "A"), ("MC", "LC"))
+# Families whose pages are capped separately from the long feathers. The primaries,
+# secondaries and body feathers cannot come down to this size -- a single pair is
+# 405-567 mm tall and no amount of spacing changes that -- so they keep the full
+# budget and the small coverts get the short pages. A pair this size tiles into ONE
+# row of sheets rather than a grid, which is what makes the document printable on a
+# machine that refuses a tall sheet.
+SMALL_FAMILIES = ("SC", "PC", "A", "MC", "LC")
+# The same set, named the way a packed *group* is named: `GROUP_JOIN` merges those
+# five families into two groups, and the group name is what the cap is asked about.
+SMALL_PAGE_GROUPS = ("SC / PC / A", "MC / LC")
+SMALL_PAGE_HEIGHT_MM = 200.0
 
 # ---------------------------------------------------------------------------
 # paper sizes and tiling (poster mode)
@@ -144,6 +155,7 @@ TILE_PAPER_SIZES = {
 
 TILE_MARGIN_MM = 5.0             # non-printable margin kept clear on each sheet
 TILE_OVERLAP_MM = 12.7           # Acrobat's default poster overlap (0.5 in)
+TILE_GAP_MM = 6.0                # clear space between two pages sharing one sheet
 
 HALF_FILL = (0.93, 0.93, 0.93)
 GUIDE_GREY = (0.55, 0.55, 0.55)
@@ -593,6 +605,21 @@ def path_points(d: str) -> list:
 # ---------------------------------------------------------------------------
 # reading the aggregate
 # ---------------------------------------------------------------------------
+def family_of(name: str) -> str:
+    """The group a feather belongs to for page packing: its letters, with the
+    families that share a page merged (``GROUP_JOIN``). One definition, used by the
+    packing, the page cap and the page itself, so they cannot disagree.
+    """
+    joins = {member: group for group in GROUP_JOIN for member in group}
+    letters = "".join(c for c in name if c.isalpha())
+    return joins.get(letters, letters)
+
+
+def group_title(group) -> str:
+    """A packing group's name as text: ('SC', 'PC', 'A') -> 'SC / PC / A'."""
+    return " / ".join(group) if isinstance(group, (tuple, list)) else str(group)
+
+
 @dataclass
 class Feather:
     name: str
@@ -604,6 +631,10 @@ class Feather:
     view_box: tuple
     centered_guide: bool = False   # the aggregate carried a quill guide for this feather
     turned_deg: float = 0.0        # rotation applied to bring it upright
+
+    @property
+    def group(self) -> str:
+        return family_of(self.name)
 
     @property
     def width(self) -> float:
@@ -1047,6 +1078,7 @@ class PageLayout:
     title: str
     stroke_scale: float
     margin: float = MARGIN_MM
+    group: str = ""                # the family group this page holds
 
     @property
     def names(self) -> list:
@@ -1297,9 +1329,36 @@ def page_height_for_rows(rows: list) -> float:
     return max(HEAD_MM + body_h + FOOT_MM, MIN_PAGE_HEIGHT_MM)
 
 
+def page_height_cap(group: str, max_page_h: float,
+                    small_page_h: float | None = None) -> float:
+    """The height budget for one family group, in millimetres.
+
+    The small coverts are held to their own, much lower cap so their pages tile into
+    a single row of sheets; the long feathers keep the global budget, because a
+    single P or S pair is taller than any small cap could ever allow and the cap
+    would simply be ignored for them. ``None`` means the small groups are not capped
+    separately.
+    """
+    if small_page_h is None:
+        return max_page_h
+    # `group` is either one family or a merged group's title ("SC / PC / A").
+    if group in SMALL_FAMILIES or group in SMALL_PAGE_GROUPS:
+        return min(max_page_h, small_page_h)
+    return max_page_h
+
+
 def split_rows_by_height(rows: list, max_page_h: float,
                          max_rows: int | None = None) -> list:
-    """Split packed rows into pages, balanced in height and within the budget."""
+    """Split packed rows into pages, balanced in height and within the budget.
+
+    A greedy fill knocks the last page down to a single row whenever the total is
+    not a clean multiple of the budget, which wastes a sheet for one pair. This
+    instead works out how many pages the rows need, then splits them as evenly as
+    possible, so the sheets come out close to the same length.
+
+    A single row taller than the budget still gets its own chunk, so an exceptionally
+    long pair can never prevent the document from being built.
+    """
     row_count = len(rows)
     if row_count == 0:
         return []
@@ -1332,25 +1391,28 @@ def split_rows_by_height(rows: list, max_page_h: float,
 
 def plan_pages(feathers: list, scale: float = 1.0,
                max_page_h: float = MAX_PAGE_HEIGHT_MM,
-               max_rows: int | None = None, mode: str = "auto") -> list:
-    """Group feathers into logical pages, packing several pairs per page."""
-    joins = {name: group for group in GROUP_JOIN for name in group}
+               max_rows: int | None = None, mode: str = "auto",
+               small_page_h: float | None = SMALL_PAGE_HEIGHT_MM) -> list:
+    """Group feathers into logical pages, packing several pairs per page.
 
-    def family(name: str) -> str:
-        letters = "".join(c for c in name if c.isalpha())
-        return joins.get(letters, letters)
-
+    Feathers are grouped by family (the leading letters of the ID), with `GROUP_JOIN`
+    merging the families that share a page, and each group is split against its own
+    height budget -- see ``page_height_cap``.
+    """
     groups: dict = {}
     for feather in feathers:
-        groups.setdefault(family(feather.name), []).append(feather)
+        groups.setdefault(family_of(feather.name), []).append(feather)
 
     pages: list = []
-    for group, members in groups.items():
+    for key, members in groups.items():
         rows = _pack_rows([(f.name, *pair_size(f, scale, mode)) for f in members])
         by_name = {f.name: f for f in members}
-        title = " / ".join(group)
-        for chunk in split_rows_by_height(rows, max_page_h, max_rows):
-            pages.append((title, chunk, by_name))
+        # A merged group may be a tuple of families ('SC', 'PC', 'A'); a single one is
+        # just its string. `page_height_cap` and the page title both want the string.
+        group = group_title(key)
+        cap = page_height_cap(group, max_page_h, small_page_h)
+        for chunk in split_rows_by_height(rows, cap, max_rows):
+            pages.append((group, chunk, by_name))
     return pages
 
 
@@ -1404,6 +1466,7 @@ def layout_page(title: str, rows: list, by_name: dict, scale: float,
         title=title,
         stroke_scale=scale,
         margin=margin,
+        group=by_name[pairs[0]].group if pairs else "",
     )
 
 
@@ -1597,8 +1660,13 @@ class PdfDocument:
         return len(self.forms) - 1
 
     def add_tile_page(self, width_mm: float, height_mm: float, content: str,
-                      form_index: int) -> None:
-        self.tile_pages.append((width_mm, height_mm, content, form_index))
+                      used_forms: list) -> None:
+        """Add a sheet page that draws each form in `used_forms` by its /F name.
+
+        A sheet can hold more than one logical page, so a page's resources have to
+        name every form it draws, not just one.
+        """
+        self.tile_pages.append((width_mm, height_mm, content, used_forms))
 
     def build(self) -> bytes:
         objects: list = []
@@ -1656,8 +1724,12 @@ class PdfDocument:
         page_objs: list = []
         for width_mm, height_mm, content in self.pages:
             page_objs.append(emit_page(width_mm, height_mm, content, b""))
-        for width_mm, height_mm, content, form_index in self.tile_pages:
-            xobjects = b" /XObject << /F0 %d 0 R >>" % form_obj_nums[form_index]
+        for width_mm, height_mm, content, used_forms in self.tile_pages:
+            entries = b" ".join(
+                b"/F%d %d 0 R" % (index, form_obj_nums[index])
+                for index in sorted(set(used_forms))
+            )
+            xobjects = b" /XObject << " + entries + b" >>"
             page_objs.append(emit_page(width_mm, height_mm, content, xobjects))
 
         kids = b" ".join(b"%d 0 R" % n for n in page_objs)
@@ -1708,30 +1780,35 @@ def tile_paper(spec: str) -> tuple:
 
 @dataclass
 class Tile:
-    page_no: int      # 1-based logical (poster) page
+    """One logical page placed on one physical sheet."""
+
+    sheet_no: int     # 1-based sheet, in the order sheets are built
+    page_no: int      # 1-based logical page
     page_total: int
-    col: int          # 1-based, left -> right
-    row: int          # 1-based, top -> bottom (reading order)
-    cols: int
-    rows: int
-    x0: float         # logical-page mm offset of the tile's bottom-left corner
+    x0: float         # sheet mm of the logical page's lower-left corner
     y0: float
-    single: bool = False   # the whole page fits on one sheet (no grid/overlap)
+    tiled: bool = False    # the page is bigger than a sheet and gets crop marks
 
 
 @dataclass
-class TilePlan:
+class SheetPlan:
     paper_label: str
-    paper_w: float    # landscape sheet extents
+    paper_w: float    # landscape sheet extents, mm
     paper_h: float
     margin: float
     overlap: float
-    tiles: list
+    sheet_total: int
+    tiles: list           # one entry per (sheet, logical page) placement
 
 
 def tile_grid(page_w: float, page_h: float, pw: float, ph: float,
               overlap: float) -> tuple:
-    """Columns and rows of overlapping tiles needed to cover one logical page."""
+    """Columns and rows of overlapping tiles that would cover one logical page.
+
+    Adjacent tiles share `overlap`, so their stride is the printable extent minus the
+    overlap. Used for reporting and for deciding whether a page needs a grid at all;
+    the placement itself is done per sheet by ``plan_sheets``.
+    """
     stride_x = pw - overlap
     stride_y = ph - overlap
     cols = 1 if page_w <= pw + 1e-9 else int(math.ceil((page_w - pw) / stride_x - 1e-9)) + 1
@@ -1739,12 +1816,28 @@ def tile_grid(page_w: float, page_h: float, pw: float, ph: float,
     return cols, rows
 
 
-def plan_tiles(layouts: list, paper_w: float, paper_h: float,
-               margin: float, overlap: float, paper_label: str) -> TilePlan:
-    """Lay every logical page out as a grid of overlapping printable tiles.
+def plan_sheets(layouts: list, paper_w: float, paper_h: float,
+                margin: float, overlap: float, paper_label: str,
+                gap: float = 6.0) -> SheetPlan:
+    """Precalculate every physical sheet: which logical pages go on it, and where.
 
     The sheet is always used in landscape, so the given portrait dimensions are
     swapped before the printable area is worked out.
+
+    A logical page that fits the printable area whole is placed on ONE sheet and
+    nothing is cut -- no grid, no overlap, no crop marks. That is the common case
+    here and it is what the small-feather caps exist for: with the small groups held
+    to their own page height, most of their pages are single sheets. A page too big
+    for one sheet is tiled across the overlapping grid ``tile_grid`` works out, and
+    those sheets carry crop marks.
+
+    Fill order is first-fit: a page goes on the earliest sheet whose free strip is
+    tall enough. Pages come in family order, so a sheet tends to hold one family's
+    small pages and stay readable. Pages are never rotated: one is portrait or it is
+    not, and rotating to fit would put the title and footer on their side.
+
+    Everything here is millimetres, and the whole plan is worked out before a single
+    tile is drawn, so the sheet count and every placement are known up front.
     """
     paper_w, paper_h = paper_h, paper_w       # landscape
     pw = paper_w - 2.0 * margin
@@ -1761,38 +1854,100 @@ def plan_tiles(layouts: list, paper_w: float, paper_h: float,
             f"overlap {overlap:g} mm must be smaller than the printable area "
             f"{pw:g} x {ph:g} mm of {paper_label} landscape"
         )
+    if gap < 0:
+        raise ValueError("tile gap cannot be negative")
 
-    stride_x = pw - overlap
-    stride_y = ph - overlap
     tiles: list = []
-    for page_no, layout in enumerate(layouts, start=1):
-        cols, rows = tile_grid(layout.page_w, layout.page_h, pw, ph, overlap)
-        if cols == 1 and rows == 1:
-            tiles.append(Tile(
-                page_no=page_no,
-                page_total=len(layouts),
-                col=1,
-                row=1,
-                cols=1,
-                rows=1,
-                x0=(layout.page_w - pw) / 2.0,
-                y0=(layout.page_h - ph) / 2.0,
-                single=True,
-            ))
-            continue
+    # Per sheet, the rectangles already spoken for. A page is placed on the first
+    # sheet where its own rectangle overlaps none of them -- which lets a small page
+    # sit above or beside a tiled page's first sheet rather than wasting it.
+    used: list = []
+
+    def free_spot(index: int, x: float, y: float, w: float, h: float) -> bool:
+        if x < -1e-9 or y < -1e-9 or x + w > pw + 1e-9 or y + h > ph + 1e-9:
+            return False
+        if index == len(used):
+            return True                      # a sheet that does not exist yet is empty
+        for ux, uy, uw, uh in used[index]:
+            if not (x + w <= ux + 1e-9 or ux + uw <= x + 1e-9
+                    or y + h <= uy + 1e-9 or uy + uh <= y + 1e-9):
+                return False
+        return True
+
+    def place_whole(page_no: int, layout) -> bool:
+        """Put the page on the first sheet it fits on whole, or start a new sheet.
+
+        Worth a real search rather than a stack: on A4 landscape two of the small
+        coverts' pages fit on one sheet, and a page this size is centred, so the only
+        candidate positions are the bottom and each existing rectangle's top edge.
+        """
+        x = (pw - layout.page_w) / 2.0
+        for index in range(len(used) + 1):
+            if index == len(used):
+                if free_spot(index, x, 0.0, layout.page_w, layout.page_h):
+                    used.append([(x, 0.0, layout.page_w, layout.page_h)])
+                    tiles.append(Tile(index + 1, page_no, len(layouts),
+                                      x0=x, y0=0.0))
+                    return True
+                return False
+            candidates = {0.0}
+            for _ux, uy, _uw, uh in used[index]:
+                candidates.add(uy + uh + gap)
+            for y in sorted(candidates):
+                if free_spot(index, x, y, layout.page_w, layout.page_h):
+                    used[index].append((x, y, layout.page_w, layout.page_h))
+                    tiles.append(Tile(index + 1, page_no, len(layouts),
+                                      x0=x, y0=y))
+                    return True
+        return False
+
+    def place_grid(page_no: int, cols: int, rows: int) -> None:
+        stride_x = pw - overlap
+        stride_y = ph - overlap
         for iy in range(rows):
             for ix in range(cols):
-                tiles.append(Tile(
-                    page_no=page_no,
-                    page_total=len(layouts),
-                    col=ix + 1,
-                    row=rows - iy,          # row 1 = top, reading order
-                    cols=cols,
-                    rows=rows,
-                    x0=ix * stride_x,
-                    y0=iy * stride_y,
-                ))
-    return TilePlan(paper_label, paper_w, paper_h, margin, overlap, tiles)
+                if ix == 0 and iy == 0 and used:
+                    # let this sheet's free space take the first tile if it can
+                    for index in range(len(used)):
+                        if free_spot(index, 0.0, 0.0, pw, ph):
+                            used[index].append((0.0, 0.0, pw, ph))
+                            tiles.append(Tile(index + 1, page_no, len(layouts),
+                                              x0=0.0, y0=0.0, tiled=True))
+                            break
+                    else:
+                        used.append([(0.0, 0.0, pw, ph)])
+                        tiles.append(Tile(len(used), page_no, len(layouts),
+                                          x0=0.0, y0=0.0, tiled=True))
+                    continue
+                used.append([(0.0, 0.0, pw, ph)])
+                tiles.append(Tile(len(used), page_no, len(layouts),
+                                  x0=ix * stride_x, y0=iy * stride_y, tiled=True))
+
+    for page_no, layout in enumerate(layouts, start=1):
+        if layout.page_w <= pw + 1e-9 and layout.page_h <= ph + 1e-9:
+            if place_whole(page_no, layout):
+                continue
+            if layout.page_h > ph + 1e-9:
+                cols, rows = 1, 1
+            else:
+                cols, rows = tile_grid(layout.page_w, layout.page_h, pw, ph, overlap)
+        else:
+            cols, rows = tile_grid(layout.page_w, layout.page_h, pw, ph, overlap)
+
+        if cols == 1 and rows == 1:
+            # a page that fits no sheet but is no bigger than one -- give it its own
+            used.append([(0.0, 0.0, pw, ph)])
+            tiles.append(Tile(len(used), page_no, len(layouts),
+                              x0=(pw - layout.page_w) / 2.0, y0=0.0))
+            continue
+        place_grid(page_no, cols, rows)
+
+    return SheetPlan(paper_label, paper_w, paper_h, margin, overlap,
+                     len(used), tiles)
+
+
+def tiles_on_sheet(plan: SheetPlan, sheet_no: int) -> list:
+    return [t for t in plan.tiles if t.sheet_no == sheet_no]
 
 
 def _crop_marks(mx: float, my: float, pw: float, ph: float,
@@ -1820,21 +1975,42 @@ def _crop_marks(mx: float, my: float, pw: float, ph: float,
     return cmds
 
 
-def _tile_labels(tile: Tile, plan: TilePlan, mx: float, my: float,
-                 pw: float, ph: float, paper_w: float, paper_h: float) -> list:
-    """Tile identity and assembly notes, drawn in the sheet margins."""
+def _sheet_labels(sheet_no: int, sheet_tiles: list, plan: SheetPlan,
+                  mx: float, my: float, pw: float, ph: float,
+                  paper_w: float, paper_h: float) -> list:
+    """Sheet identity and assembly notes, drawn in the sheet margins."""
     if plan.margin < 3.0:
         return []
     size = 6.0
-    if tile.single:
-        head = f"page {tile.page_no} of {tile.page_total}"
-        foot_l = f"{plan.paper_label} landscape"
+    pages = sorted({t.page_no for t in sheet_tiles})
+    total = sheet_tiles[0].page_total
+    tiled = [t for t in sheet_tiles if t.tiled]
+    if len(pages) > 1:
+        head = (f"sheet {sheet_no} of {plan.sheet_total} - "
+                + "page " + (f"{pages[0]} of {total}" if len(pages) == 1
+                             else "/".join(str(p) for p in pages)))
+        foot_l = f"{plan.paper_label} landscape - {len(pages)} pages"
         foot_r = "true scale - verify the 50 mm bar"
-    else:
-        head = (f"page {tile.page_no} of {tile.page_total} - "
-                f"tile {tile.col},{tile.row} of {tile.cols},{tile.rows}")
+    elif tiled:
+        # Which cell of the page's grid this sheet is. The grid comes from every tile
+        # of that page, not just the ones on this sheet -- a sheet holds one cell, so
+        # its own tile alone would always look like "1,1 of 1,1".
+        here = sheet_tiles[0]
+        grid = [t for t in plan.tiles if t.page_no == here.page_no]
+        cols = sorted({round(t.x0, 3) for t in grid})
+        rows = sorted({round(t.y0, 3) for t in grid}, reverse=True)
+        head = (f"sheet {sheet_no} of {plan.sheet_total} - "
+                f"page {here.page_no} of {total} - "
+                f"tile {cols.index(round(here.x0, 3)) + 1},"
+                f"{rows.index(round(here.y0, 3)) + 1} "
+                f"of {len(cols)},{len(rows)}")
         foot_l = f"{plan.paper_label} landscape - overlap {num(plan.overlap, 1)} mm"
         foot_r = "cut on corner marks"
+    else:
+        head = (f"sheet {sheet_no} of {plan.sheet_total} - "
+                f"page {pages[0]} of {total}")
+        foot_l = f"{plan.paper_label} landscape"
+        foot_r = "true scale - verify the 50 mm bar"
     top_y = (my + ph + paper_h) / 2.0 - 2.0
     bot_y = my / 2.0 - 2.0
     return [
@@ -1844,43 +2020,77 @@ def _tile_labels(tile: Tile, plan: TilePlan, mx: float, my: float,
     ]
 
 
-def build_tile_page_content(tile: Tile, plan: TilePlan) -> str:
-    """Content stream for one sheet: the tile's slice of the logical page."""
-    pt = PT_PER_MM
+def build_sheet_content(sheet_no: int, plan: SheetPlan, form_names: dict,
+                        pt: float) -> str:
+    """Content stream for one sheet: every page placed on it, clipped to the margin.
+
+    Each logical page is drawn by referencing its form, slid so the part of it that
+    belongs on this sheet lands in the printable area. A page placed whole is
+    centred; a tiled page is one cell of its grid, and only tiled sheets get crop
+    marks. `form_names` maps a logical page number to the /F name of its form.
+    """
     mx = plan.margin * pt
     my = plan.margin * pt
     pw = (plan.paper_w - 2.0 * plan.margin) * pt
     ph = (plan.paper_h - 2.0 * plan.margin) * pt
     paper_w = plan.paper_w * pt
     paper_h = plan.paper_h * pt
+    sheet_tiles = tiles_on_sheet(plan, sheet_no)
+    if not sheet_tiles:
+        raise ValueError(f"sheet {sheet_no} has no pages")
 
+    # Sheet space is y-up from the printable area's lower-left, and so is page space,
+    # so `y0` is used directly. Every form is drawn inside its own q/Q: a form's
+    # content must not leak graphics state into the next page's placement.
     cmds: list = [
         "q",
         f"{num(mx)} {num(my)} {num(pw)} {num(ph)} re W n",
-        f"1 0 0 1 {num(mx - tile.x0 * pt)} {num(my - tile.y0 * pt)} cm",
-        "/F0 Do",
-        "Q",
+        f"1 0 0 1 {num(mx)} {num(my)} cm",
     ]
-    if not tile.single:
+    for tile in sheet_tiles:
+        cmds.append("q")
+        cmds.append(f"1 0 0 1 {num(-tile.x0 * pt)} {num(-tile.y0 * pt)} cm")
+        cmds.append(f"{form_names[tile.page_no]} Do")
+        cmds.append("Q")
+    cmds.append("Q")
+
+    if any(t.tiled for t in sheet_tiles):
         cmds.extend(_crop_marks(mx, my, pw, ph, plan.margin))
-    cmds.extend(_tile_labels(tile, plan, mx, my, pw, ph, paper_w, paper_h))
+    cmds.extend(_sheet_labels(sheet_no, sheet_tiles, plan, mx, my, pw, ph,
+                              paper_w, paper_h))
     return "\n".join(cmds)
 
 
-def build_tiled_document(layouts: list, plan: TilePlan, generated: str,
+def build_tiled_document(layouts: list, plan: SheetPlan, generated: str,
                          scale: float) -> PdfDocument:
-    """Assemble a tiled PDF: one form per logical page, one sheet per tile."""
+    """Assemble a tiled PDF.
+
+    Identical logical pages share ONE form XObject: pages split from the same family
+    with the same rows are the same drawing, and the tile form of a small group is a
+    page after page of the same group's pairs. Text differs between pages, though --
+    the footer carries the page number -- so a form is only shared when the whole
+    rendered page is equal, not merely its geometry.
+    """
     doc = PdfDocument(
         f"Feather templates from the aggregate - tiled for {plan.paper_label} landscape"
     )
-    for index, layout in enumerate(layouts, start=1):
-        content = build_page(layout, index, len(layouts), generated, scale)
-        doc.add_form(layout.page_w, layout.page_h, content)
-    for tile in plan.tiles:
+    form_of: dict = {}
+    by_content: dict = {}
+    for page_no, layout in enumerate(layouts, start=1):
+        content = build_page(layout, page_no, len(layouts), generated, scale)
+        if content in by_content:
+            form_of[page_no] = by_content[content]
+        else:
+            index = doc.add_form(layout.page_w, layout.page_h, content)
+            by_content[content] = index
+            form_of[page_no] = index
+    for sheet_no in range(1, plan.sheet_total + 1):
+        sheet_tiles = tiles_on_sheet(plan, sheet_no)
+        form_names = {p: f"/F{index}" for p, index in form_of.items()}
         doc.add_tile_page(
             plan.paper_w, plan.paper_h,
-            build_tile_page_content(tile, plan),
-            tile.page_no - 1,
+            build_sheet_content(sheet_no, plan, form_names, PT_PER_MM),
+            [form_of[t.page_no] for t in sheet_tiles],
         )
     return doc
 
@@ -1916,6 +2126,12 @@ def main(argv: list[str] | None = None) -> int:
         help=f"fill each logical page up to about this height (default "
              f"{MAX_PAGE_HEIGHT_MM:.0f} mm)",
     )
+    ap.add_argument(
+        "--small-page-height", default=SMALL_PAGE_HEIGHT_MM, metavar="MM",
+        help=f"hold the small coverts ({'/'.join(SMALL_FAMILIES)}) to this much "
+             f"shorter pages, so they tile into a single row of sheets (default "
+             f"{SMALL_PAGE_HEIGHT_MM:.0f} mm); 'none' or 0 to lift the cap",
+    )
     ap.add_argument("--max-rows", type=int, default=None, metavar="N",
                     help="also cap the rows stacked on one logical page")
     ap.add_argument("--spacing", type=float, default=None, metavar="MM",
@@ -1924,8 +2140,9 @@ def main(argv: list[str] | None = None) -> int:
                          f"{SPARSE_GAP_MM:g} mm from its neighbours)")
     ap.add_argument(
         "--tile-paper", metavar="letter|a4", default=None,
-        help="tile each logical page onto physical sheets (US Letter or A4, always "
-             "landscape), instead of emitting poster-sized pages",
+        help="precalculate every physical sheet (US Letter or A4, always landscape) "
+             "and pack the logical pages onto them, instead of emitting "
+             "poster-sized pages",
     )
     ap.add_argument("--tile-margin", type=float, default=TILE_MARGIN_MM, metavar="MM",
                     help=f"non-printable margin kept clear on every sheet "
@@ -1933,6 +2150,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--tile-overlap", type=float, default=TILE_OVERLAP_MM, metavar="MM",
                     help=f"overlap between adjacent tiles (default "
                          f"{TILE_OVERLAP_MM:g} mm)")
+    ap.add_argument("--tile-gap", type=float, default=TILE_GAP_MM, metavar="MM",
+                    help=f"clear space between two pages sharing one sheet "
+                         f"(default {TILE_GAP_MM:g} mm)")
     args = ap.parse_args(argv)
 
     if args.spacing is not None:
@@ -1944,12 +2164,26 @@ def main(argv: list[str] | None = None) -> int:
         raise SystemExit("--max-rows must be at least 1")
     if args.max_page_height <= 0:
         raise SystemExit("--max-page-height must be positive")
+    small_page_h = args.small_page_height
+    if isinstance(small_page_h, str):
+        if small_page_h.strip().lower() in ("none", "off"):
+            small_page_h = None
+        else:
+            try:
+                small_page_h = float(small_page_h)
+            except ValueError:
+                raise SystemExit("--small-page-height takes a number of mm, "
+                                 "or 'none'") from None
+    if small_page_h is not None and small_page_h <= 0:
+        small_page_h = None
     if args.scale <= 0:
         raise SystemExit("--scale must be positive")
     if args.tile_margin < 0:
         raise SystemExit("--tile-margin cannot be negative")
     if args.tile_overlap < 0:
         raise SystemExit("--tile-overlap cannot be negative")
+    if args.tile_gap < 0:
+        raise SystemExit("--tile-gap cannot be negative")
 
     feathers = load_aggregate_feathers(args.aggregate, args.only)
     mode = args.pair_orientation
@@ -1975,7 +2209,8 @@ def main(argv: list[str] | None = None) -> int:
         if args.list:
             print()
 
-    planned = plan_pages(feathers, args.scale, args.max_page_height, args.max_rows, mode)
+    planned = plan_pages(feathers, args.scale, args.max_page_height, args.max_rows,
+                         mode, small_page_h)
     layouts = [layout_page(group, rows, by_name, args.scale, mode)
                for group, rows, by_name in planned]
     generated = build_stamp()[0]
@@ -1983,23 +2218,38 @@ def main(argv: list[str] | None = None) -> int:
     if args.tile_paper is not None:
         try:
             paper_label, paper_w, paper_h = tile_paper(args.tile_paper)
-            plan = plan_tiles(layouts, paper_w, paper_h,
-                              args.tile_margin, args.tile_overlap, paper_label)
+            plan = plan_sheets(layouts, paper_w, paper_h, args.tile_margin,
+                               args.tile_overlap, paper_label, args.tile_gap)
         except ValueError as exc:
             raise SystemExit(str(exc)) from exc
 
+        def page_note(index: int) -> str:
+            """How the page is laid out across sheets, as text."""
+            tiles = plan.tiles
+            mine = [t for t in tiles if t.page_no == index]
+            if mine[0].tiled:
+                cols = len({round(t.x0, 3) for t in mine})
+                rows = len({round(t.y0, 3) for t in mine})
+                return f"{cols} x {rows} tiles"
+            sheets = len({t.sheet_no for t in mine})
+            return "1 sheet" if sheets == 1 else f"shares {sheets} sheet(s)"
+
         if args.list:
-            print(f"tile plan: {plan.paper_label} landscape "
+            print(f"sheet plan: {plan.paper_label} landscape "
                   f"(paper {plan.paper_w:g} x {plan.paper_h:g} mm, "
-                  f"margin {plan.margin:g} mm, overlap {plan.overlap:g} mm)")
-            print(f"  {len(layouts)} logical page(s) -> {len(plan.tiles)} sheet(s)")
+                  f"margin {plan.margin:g} mm, overlap {plan.overlap:g} mm, "
+                  f"gap {args.tile_gap:g} mm)")
+            print(f"  {len(layouts)} logical page(s) -> {plan.sheet_total} sheet(s)")
             for index, layout in enumerate(layouts, start=1):
-                tiles = [t for t in plan.tiles if t.page_no == index]
-                note = ("1 sheet (fits, not tiled)" if tiles[0].single
-                        else f"{tiles[0].cols} x {tiles[0].rows} tiles")
-                print(f"  page {index:2}: {note} "
+                print(f"  page {index:2}: {page_note(index):16} "
                       f"({layout.page_w:g} x {layout.page_h:g} mm "
                       f"[{', '.join(layout.names)}])")
+            for sheet_no in range(1, plan.sheet_total + 1):
+                on = tiles_on_sheet(plan, sheet_no)
+                pages = sorted({t.page_no for t in on})
+                print(f"  sheet {sheet_no:2}: page(s) "
+                      + ", ".join(str(p) for p in pages)
+                      + ("   [tiled]" if any(t.tiled for t in on) else ""))
             return 0
 
         doc = build_tiled_document(layouts, plan, generated, args.scale)
@@ -2010,16 +2260,19 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  paper       : {plan.paper_label} landscape "
               f"({plan.paper_w:g} x {plan.paper_h:g} mm)")
         print(f"  margin      : {plan.margin:g} mm (non-printable)")
-        print(f"  overlap     : {plan.overlap:g} mm")
+        print(f"  overlap     : {plan.overlap:g} mm (tiled pages only)")
         print(f"  scale       : {args.scale:g} : 1")
         print(f"  logical     : {len(layouts)} poster page(s) "
               f"(from {len(feathers)} feather pairs)")
-        print(f"  sheets      : {len(plan.tiles)}")
+        print(f"  sheets      : {plan.sheet_total}")
+        tiled = [p for p in range(1, len(layouts) + 1)
+                 if any(t.tiled for t in plan.tiles if t.page_no == p)]
+        print(f"                {len(layouts) - len(tiled)} page(s) fit a single "
+              f"sheet whole; {len(tiled)} tiled: "
+              + (", ".join(str(p) for p in tiled) if tiled else "none"))
         for index, layout in enumerate(layouts, start=1):
-            tiles = [t for t in plan.tiles if t.page_no == index]
-            note = ("1 sheet (fits, not tiled)" if tiles[0].single
-                    else f"{tiles[0].cols} x {tiles[0].rows} tiles")
-            print(f"    page {index:2}: {note} [{', '.join(layout.names)}]")
+            print(f"    page {index:2}: {page_note(index):16} "
+                  f"[{', '.join(layout.names)}]")
         return 0
 
     if args.list:
