@@ -8,7 +8,7 @@ This generator takes its paths straight from the aggregate SVG kept in
 Both sheet documents live beside it as ``feathers-from-aggregate.pdf`` and
 ``feathers-from-aggregate-8.5x11.pdf``.
 
-Three things the aggregate needs that the per-file source did not:
+Four things the aggregate needs that the per-file source did not:
 
 * **The ``toplines`` group is ignored.** The guide curves that run along the leading
   edge of each feather group are scaffolding, not cut lines, so neither the group nor
@@ -19,6 +19,10 @@ Three things the aggregate needs that the per-file source did not:
   where the aggregate carries it; a feather group with no ``*-center-line`` path just
   falls back to reading the base off the outline. Nothing is drawn either way: the
   outline is the only thing this document is for.
+* **Visibility lines print, dashed.** A feather's ``*-visibility-line`` paths say where
+  it slides under the feathers in front of it once the wing is assembled. They ride the
+  same transform as the outline and print as a fine grey dash -- information to mark,
+  not a line to cut or score.
 * **Every feather is turned upright first.** The aggregate is a *hand arrangement* --
   each prefix group carries its own rotation and scale, and 38 of the 42 feathers are
   drawn rotated (B1-B4 are all but horizontal, SC2-SC8 sit at 140-158 degrees). The
@@ -173,6 +177,12 @@ DEFAULT_TOPLINES_PAPER = "a4"    # what --toplines assumes when --tile-paper is 
 HALF_FILL = (0.93, 0.93, 0.93)
 GUIDE_GREY = (0.55, 0.55, 0.55)
 TEXT_GREY = (0.25, 0.25, 0.25)
+# Visibility lines (where a feather slides under the ones in front of it). Dashed and
+# finer than the cut line, and in their own grey, so they read as information to mark
+# rather than something to cut or score along.
+VIS_GREY = (0.45, 0.45, 0.45)
+VIS_WIDTH_MM = 0.25
+VIS_DASH = "[2.5 1.5] 0 d"
 
 HELVETICA_WIDTHS = {
     " ": 278, "!": 278, '"': 355, "#": 556, "$": 556, "%": 889, "&": 667,
@@ -644,6 +654,7 @@ class Feather:
     view_box: tuple
     centered_guide: bool = False   # the aggregate carried a quill guide for this feather
     turned_deg: float = 0.0        # rotation applied to bring it upright
+    visibility_lines: list = field(default_factory=list)  # upright mm; [] when none
 
     @property
     def group(self) -> str:
@@ -722,6 +733,16 @@ def _outline_and_centreline(group) -> tuple:
         outline = candidates[0] if candidates else None
     lines = [el for el in paths if (el.get("id") or "").strip().endswith("-center-line")]
     return outline, lines
+
+
+def _visibility_paths(group) -> list:
+    """The group's own ``*-visibility-line`` paths, if it has any.
+
+    Same rule as the outline: only the group's direct paths count, so a prefix group
+    wrapping several feathers is never mistaken for one of them.
+    """
+    return [el for el in _direct_paths(group)
+            if (el.get("id") or "").strip().endswith("-visibility-line")]
 
 
 @dataclass
@@ -1120,9 +1141,17 @@ def load_aggregate_feathers(path: Path, only=None) -> list:
             guide_raw.extend(flatten_path(transform_path(parse_path(el.get("d", "")), lm)))
         guide_hint = [p for poly in guide_raw for p in poly]
 
+        # Visibility lines ride the same transform as the outline: they are children of
+        # the feather group, so their own composed matrix is the group's.
+        vis_raw: list = []
+        for el in _visibility_paths(group):
+            vm = element_matrix(el, parents)
+            vis_raw.extend(flatten_path(transform_path(parse_path(el.get("d", "")), vm)))
+
         turn, deg = upright_matrix(raw_polys, raw_box, guide_hint)
         polys = [[mat_apply(turn, x, y) for x, y in poly] for poly in raw_polys]
         box = bbox_of_polys(polys)
+        vis_polys = [[mat_apply(turn, x, y) for x, y in poly] for poly in vis_raw]
 
         stroke_raw = outline.get("stroke-width")
         stroke = DEFAULT_STROKE_MM
@@ -1141,6 +1170,7 @@ def load_aggregate_feathers(path: Path, only=None) -> list:
             view_box=tuple(vb) if len(vb) == 4 else (0.0, 0.0, 0.0, 0.0),
             centered_guide=bool(guide_hint),
             turned_deg=deg,
+            visibility_lines=vis_polys,
         ))
 
     if wanted is not None:
@@ -1823,6 +1853,19 @@ def compute_layout_geometry(layout: PageLayout) -> str:
             cmds.append("1 J 1 j")
             cmds.append(geometry)
             cmds.append("S")
+
+    # The visibility lines: where each feather slides under the feathers in front of
+    # it. Drawn over the fill, dashed and finer than the cut line, so they read as
+    # information to mark rather than a line to cut or score along.
+    cmds.append(f"{rgb(VIS_GREY)} RG {num(VIS_WIDTH_MM)} w 0 J 0 j {VIS_DASH}")
+    for slot in layout.slots:
+        for to_page in (slot.left_to_page, slot.right_to_page):
+            vis_geometry = path_cmd(
+                transform_polys(slot.feather.visibility_lines, to_page), close=False)
+            if vis_geometry:
+                cmds.append(vis_geometry)
+                cmds.append("S")
+    cmds.append("[] 0 d")
 
     # The quill centre line is deliberately NOT drawn. The aggregate's guides are
     # read (they say which end of a feather is the base, see ``upright_matrix``) but
