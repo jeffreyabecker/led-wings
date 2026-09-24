@@ -110,6 +110,16 @@ def _poly_area_mm2(polys):
     return abs(0.5 * float(np.sum(xs * np.roll(ys, -1) - np.roll(xs, -1) * ys)))
 
 
+def mat_inv(m):
+    """Inverse of an affine (a, b, c, d, e, f); raises on a singular matrix."""
+    a, b, c, d, e, f = m
+    det = a * d - b * c
+    if abs(det) < 1e-12:
+        raise ValueError("cannot invert a singular matrix")
+    return (d / det, -b / det, -c / det, a / det,
+            (c * f - d * e) / det, (b * e - a * f) / det)
+
+
 def douglas_peucker(pts, tol):
     """Simplify a polyline (Nx2) so no point deviates from the line by > tol."""
     pts = np.asarray(pts, dtype=float)
@@ -155,6 +165,7 @@ class Feather:
     visible: np.ndarray = None
     hidden: np.ndarray = None
     lines_mm: list = None  # visibility lines, mm polylines
+    group_matrix: tuple = None  # composed transform of the feather's own group
     visible_frac: float = 0.0
     area_mm2: float = 0.0
     visible_area_mm2: float = 0.0
@@ -183,6 +194,7 @@ def load_feathers(src: Path) -> list[Feather]:
         if outline_el is None:
             continue
         m = svg_util.element_matrix(outline_el, parents)
+        m_group = svg_util.element_matrix(fg, parents)
         sp = svg_util.parse_path(outline_el.get("d") or "")
         sp = svg_util.transform_path(sp, m)
         polys = svg_util.flatten_path(sp, tol=0.05)
@@ -190,6 +202,7 @@ def load_feathers(src: Path) -> list[Feather]:
         if not polys:
             continue
         feathers.append(Feather(id=fid, family=family, polys=polys,
+                                group_matrix=m_group,
                                 area_mm2=_poly_area_mm2(polys)))
     return feathers
 
@@ -348,10 +361,10 @@ def extract_interface(visible: np.ndarray, hidden: np.ndarray) -> list[np.ndarra
 # SVG / report / preview output
 # ---------------------------------------------------------------------------
 
-def _poly_to_d(poly_mm, closed_eps=0.01):
+def _poly_to_d(poly_mm, closed_eps=0.01, prec=3):
     if len(poly_mm) < 2:
         return ""
-    pts = [f"{x:.3f},{y:.3f}" for (x, y) in poly_mm]
+    pts = [f"{x:.{prec}f},{y:.{prec}f}" for (x, y) in poly_mm]
     d = "M " + pts[0] + " L " + " ".join(pts[1:])
     first = poly_mm[0]
     last = poly_mm[-1]
@@ -463,6 +476,66 @@ def write_preview(out: Path, feathers: list[Feather], x0, y0, res, w, h):
     img.save(out)
 
 
+VIS_STYLE = """/* generated visibility lines -- see tools/generate_visibility_lines.py */
+.visibility-line {
+  fill: none;
+  stroke: #e41a1c;
+  stroke-width: 0.264583;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+"""
+
+
+def integrate_into_source(src: Path, feathers: list[Feather]) -> int:
+    """Write the visibility lines into the aggregate source, beside each feather.
+
+    The lines are computed in absolute mm, but the source stores every feather in
+    its own transformed local frame, so each polyline is mapped back through the
+    inverse of its feather group's composed transform and inserted as a
+    ``<path class="visibility-line">`` immediately after that feather's outline --
+    inside the feather group, so it inherits the same transform. Idempotent: lines
+    and the stylesheet rule from a previous run are replaced, not stacked.
+    """
+    text = src.read_text(encoding="utf-8")
+
+    # drop whatever a previous run wrote
+    text = re.sub(r"\n[ \t]*<path\b[^>]*?-visibility-line[^>]*?/>", "", text)
+    text = text.replace(VIS_STYLE, "")
+    if "</style>" not in text:
+        raise SystemExit("no <style> block found in " + str(src))
+    text = text.replace("</style>", VIS_STYLE + "</style>", 1)
+
+    inserted = 0
+    for f in feathers:
+        if not f.lines_mm or f.group_matrix is None:
+            continue
+        inv = mat_inv(f.group_matrix)
+        d = " ".join(
+            _poly_to_d([svg_util.mat_apply(inv, x, y) for (x, y) in line], prec=4)
+            for line in f.lines_mm)
+        el = (f'\n      <path'
+              f'\n         class="visibility-line"'
+              f'\n         id="{f.id}-visibility-line"'
+              f'\n         inkscape:label="{f.id} visibility"'
+              f'\n         d="{d}" />')
+        m = re.search(
+            r'<path\b[^>]*?id="' + re.escape(f.id) + r'-outline"[^>]*?/>', text)
+        if not m:
+            print(f"warning: no outline for {f.id}; not integrated", file=sys.stderr)
+            continue
+        text = text[:m.end()] + el + text[m.end():]
+        inserted += 1
+
+    try:
+        ET.fromstring(text)
+    except ET.ParseError as exc:
+        raise SystemExit(f"integrated file would not parse: {exc}")
+
+    src.write_text(text, encoding="utf-8", newline="\n")
+    return inserted
+
+
 # ---------------------------------------------------------------------------
 # main
 # ---------------------------------------------------------------------------
@@ -479,6 +552,9 @@ def main(argv=None):
                     help="raster resolution in mm/pixel (default %(default)s)")
     ap.add_argument("--order-file", type=Path, default=None,
                     help="text file of feather ids, front-to-back, one per line")
+    ap.add_argument("--integrate", action="store_true",
+                    help="write the lines into the source SVG (--src), inside each "
+                         "feather group; replaces any it wrote before")
     args = ap.parse_args(argv)
 
     feathers = load_feathers(args.src)
@@ -530,6 +606,10 @@ def main(argv=None):
     print(f"wrote {args.report}")
     if args.preview:
         print(f"wrote {args.preview}")
+
+    if args.integrate:
+        n = integrate_into_source(args.src, feathers)
+        print(f"integrated {n} visibility-line paths into {args.src}")
 
     print("\nper-feather visibility:")
     for r in rows:
