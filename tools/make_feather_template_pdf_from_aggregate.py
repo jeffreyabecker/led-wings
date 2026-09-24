@@ -48,6 +48,11 @@ wide as the sheet prints, so the margin the sheet keeps is what sets it. 8.5x11 
 15 mm -- 10 mm more per edge than the 5 mm floor -- which makes its pages 249.4 mm
 against A4's 269.4 mm; ``--tile-margin`` overrides it.
 
+The calibration bar at the foot is printed in the paper's own unit: 2 in on 8.5x11,
+50 mm on A4 and on an untiled poster page. It is the one measurement that proves the
+print came out at true scale, so it is drawn in the unit the sheet was bought in
+rather than one the operator has to convert first.
+
 Usage:
     python tools/make_feather_template_pdf_from_aggregate.py
     python tools/make_feather_template_pdf_from_aggregate.py --only P1 B5 LC1
@@ -143,6 +148,10 @@ GUIDE_HEAD_MM = 15.2
 GUIDE_FOOT_MM = 9.0
 GUIDE_LABEL_MM = 4.2
 MIN_PAGE_HEIGHT_MM = 60.0
+# The calibration bar at the foot of a page, in millimetres. 50 mm is the poster
+# default; a paper registers its own so a sheet is checked in the unit it was bought
+# in -- 8.5x11 keeps 2 in (50.8 mm), which is also its own width twice over. See
+# ``SCALE_BARS`` and ``scale_bar``.
 SCALE_BAR_MM = 50.0
 MAX_PAGE_HEIGHT_MM = 1050.0     # pages are packed up to about this height
 GROUP_JOIN = (("SC", "PC", "A"), ("MC", "LC"))
@@ -179,6 +188,15 @@ TILE_PAPER_SIZES = {
 }
 
 TILE_PAPER_NAMES = "8.5x11|a4"   # what the CLI advertises
+
+# The calibration bar each paper prints, as (length mm, label). US Letter is checked
+# in inches -- 2 in is 50.8 mm -- and A4 in millimetres at 50 mm. Keyed like
+# TILE_PAPER_SIZES, so both spellings of 8.5x11 land on the inch bar.
+SCALE_BARS = {
+    "85x11": (2.0 * MM_PER_INCH, "2 in"),
+    "letter": (2.0 * MM_PER_INCH, "2 in"),
+    "a4": (50.0, "50 mm"),
+}
 
 TILE_MARGIN_MM = 5.0             # fallback non-printable margin, mm (per paper above)
 TILE_OVERLAP_MM = 12.7           # Acrobat's default poster overlap (0.5 in)
@@ -1924,7 +1942,8 @@ def _check_text_fits(layout: PageLayout, scale: float) -> None:
 
 
 def build_page(layout: PageLayout, page_no: int, page_total: int,
-               generated: str, scale: float, clip_to_page: bool = False) -> str:
+               generated: str, scale: float, clip_to_page: bool = False,
+               calibration: tuple | None = None) -> str:
     """One logical page's content stream, optionally clipped to its own page box.
 
     A tiled document draws a logical page as a form on a sheet of a different size --
@@ -1933,6 +1952,9 @@ def build_page(layout: PageLayout, page_no: int, page_total: int,
     hides it. Clipping the page to its own box makes the page safe on its own: a
     viewer or exporter that honours the MediaBox but not the sheet clip then still
     shows 8.5x11 (or A4) rather than the whole overflow.
+
+    `calibration` is the (length mm, label) of the scale bar at the foot, from
+    ``scale_bar``; it defaults to the 50 mm poster bar.
     """
     cmds: list = [compute_layout_geometry(layout)]
 
@@ -1952,12 +1974,14 @@ def build_page(layout: PageLayout, page_no: int, page_total: int,
 
     bar_y = MARGIN_BOTTOM_MM + 3.0
     bar_x = MARGIN_MM
+    bar_mm, bar_label = calibration if calibration is not None \
+        else (SCALE_BAR_MM, f"{num(SCALE_BAR_MM)} mm")
     if scale == 1.0:
         cmds.append(f"{rgb((0, 0, 0))} RG {num(0.3)} w")
-        cmds.append(f"{num(bar_x)} {num(bar_y)} m {num(bar_x + SCALE_BAR_MM)} {num(bar_y)} l S")
-        for x in (bar_x, bar_x + SCALE_BAR_MM):
+        cmds.append(f"{num(bar_x)} {num(bar_y)} m {num(bar_x + bar_mm)} {num(bar_y)} l S")
+        for x in (bar_x, bar_x + bar_mm):
             cmds.append(f"{num(x)} {num(bar_y)} m {num(x)} {num(bar_y + 2.5)} l S")
-        bar_note = f"{num(SCALE_BAR_MM)} mm - verify before cutting"
+        bar_note = f"{bar_label} - verify before cutting"
     else:
         bar_note = (f"reduced print: 1 mm here = {num(1.0 / scale, 2)} mm actual - "
                     f"not full size")
@@ -2191,6 +2215,26 @@ def tile_margin(spec: str) -> float:
     return _paper_spec(spec)[3]
 
 
+def scale_bar(spec: str | None) -> tuple:
+    """(length mm, label) for the calibration bar `spec` prints.
+
+    ``None`` -- an untiled poster page, which is not tied to a sheet -- keeps the
+    50 mm default. A paper prints the bar it is bought in: 8.5x11 prints 2 in, A4
+    prints 50 mm. The bar is a print check, not part of the template, but printing an
+    inch paper's check in millimetres makes the one measurement that proves true
+    scale the one measurement the operator has to convert first.
+    """
+    if spec is None:
+        return SCALE_BAR_MM, f"{num(SCALE_BAR_MM)} mm"
+    key = re.sub(r"[^a-z0-9]", "", spec.strip().lower())
+    if key not in SCALE_BARS:
+        raise ValueError(
+            f"paper size must be {TILE_PAPER_NAMES.replace('|', ' or ')} "
+            f"(letter is accepted for 8.5x11), got {spec!r}"
+        )
+    return SCALE_BARS[key]
+
+
 @dataclass
 class Tile:
     """One logical page placed on one physical sheet."""
@@ -2212,6 +2256,7 @@ class SheetPlan:
     overlap: float
     sheet_total: int
     tiles: list           # one entry per (sheet, logical page) placement
+    calibration: tuple = (SCALE_BAR_MM, "50 mm")   # the (length mm, label) of the bar
 
 
 def tile_rows(page_h: float, ph: float, overlap: float) -> int:
@@ -2252,7 +2297,7 @@ def tile_grid(page_w: float, page_h: float, pw: float, ph: float,
 
 def plan_sheets(layouts: list, paper_w: float, paper_h: float,
                 margin: float, overlap: float, paper_label: str,
-                gap: float = 6.0) -> SheetPlan:
+                gap: float = 6.0, calibration: tuple | None = None) -> SheetPlan:
     """Precalculate every physical sheet: which logical pages go on it, and where.
 
     The sheet is always used in landscape, so the given portrait dimensions are
@@ -2272,6 +2317,10 @@ def plan_sheets(layouts: list, paper_w: float, paper_h: float,
 
     Everything here is millimetres, and the whole plan is worked out before a single
     tile is drawn, so the sheet count and every placement are known up front.
+
+    `calibration` is the paper's scale bar, as (length mm, label) from ``scale_bar``;
+    the plan carries it so the pages built from the plan print the same one. It
+    defaults to the 50 mm poster bar.
     """
     paper_w, paper_h = paper_h, paper_w       # landscape
     pw = paper_w - 2.0 * margin
@@ -2388,7 +2437,9 @@ def plan_sheets(layouts: list, paper_w: float, paper_h: float,
         place_grid(page_no, cols, rows)
 
     return SheetPlan(paper_label, paper_w, paper_h, margin, overlap,
-                     len(used), tiles)
+                     len(used), tiles,
+                     calibration if calibration is not None
+                     else (SCALE_BAR_MM, f"{num(SCALE_BAR_MM)} mm"))
 
 
 def tiles_on_sheet(plan: SheetPlan, sheet_no: int) -> list:
@@ -2448,6 +2499,7 @@ def _sheet_labels(sheet_no: int, sheet_tiles: list, plan: SheetPlan,
     if plan.margin < 3.0:
         return []
     size = 6.0
+    bar_label = plan.calibration[1]
     pages = sorted({t.page_no for t in sheet_tiles})
     total = sheet_tiles[0].page_total
     tiled = [t for t in sheet_tiles if t.tiled]
@@ -2456,7 +2508,7 @@ def _sheet_labels(sheet_no: int, sheet_tiles: list, plan: SheetPlan,
                 + "page " + (f"{pages[0]} of {total}" if len(pages) == 1
                              else "/".join(str(p) for p in pages)))
         foot_l = f"{plan.paper_label} landscape - {len(pages)} pages"
-        foot_r = "true scale - verify the 50 mm bar"
+        foot_r = f"true scale - verify the {bar_label} bar"
     elif tiled:
         # Which cell of the page's grid this sheet is. The grid comes from every tile
         # of that page, not just the ones on this sheet -- a sheet holds one cell, so
@@ -2476,7 +2528,7 @@ def _sheet_labels(sheet_no: int, sheet_tiles: list, plan: SheetPlan,
         head = (f"sheet {sheet_no} of {plan.sheet_total} - "
                 f"page {pages[0]} of {total}")
         foot_l = f"{plan.paper_label} landscape"
-        foot_r = "true scale - verify the 50 mm bar"
+        foot_r = f"true scale - verify the {bar_label} bar"
     top_y = (my + ph + paper_h) / 2.0 - 2.0
     bot_y = my / 2.0 - 2.0
     return [
@@ -2545,11 +2597,12 @@ def build_tiled_document(layouts: list, plan: SheetPlan, generated: str,
     doc = PdfDocument(
         f"Feather templates from the aggregate - tiled for {plan.paper_label} landscape"
     )
+    calibration = plan.calibration
     form_of: dict = {}
     by_content: dict = {}
     for page_no, layout in enumerate(layouts, start=1):
         content = build_page(layout, page_no, len(layouts), generated, scale,
-                             clip_to_page=True)
+                             clip_to_page=True, calibration=calibration)
         if content in by_content:
             form_of[page_no] = by_content[content]
         else:
@@ -2778,7 +2831,8 @@ def main(argv: list[str] | None = None) -> int:
         try:
             paper_label, paper_w, paper_h = tile_paper(args.tile_paper)
             plan = plan_sheets(layouts, paper_w, paper_h, tile_margin_mm,
-                               args.tile_overlap, paper_label, args.tile_gap)
+                               args.tile_overlap, paper_label, args.tile_gap,
+                               scale_bar(args.tile_paper))
         except ValueError as exc:
             raise SystemExit(str(exc)) from exc
 
