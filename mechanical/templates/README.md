@@ -399,6 +399,7 @@ python tools/make_feather_template_pdf_from_aggregate.py --pair-orientation upri
 python tools/make_feather_template_pdf_from_aggregate.py --small-page-height none  # one long page per group
 python tools/make_feather_template_pdf_from_aggregate.py --tile-paper a4 --list    # precalculate sheets
 python tools/make_feather_template_pdf_from_aggregate.py --tile-paper a4 --out sheets.pdf
+python tools/make_feather_template_pdf_from_aggregate.py --tile-paper 8.5x11 --out sheets-letter.pdf
 ```
 
 [tools/make_feather_template_pdf_from_aggregate.py](../../tools/make_feather_template_pdf_from_aggregate.py)
@@ -486,28 +487,42 @@ reproducible — set `SOURCE_DATE_EPOCH` and a rebuild is byte-identical.
 
 #### Precalculated tiling (`--tile-paper`)
 
-`--tile-paper letter|a4` turns the logical pages into physical sheets. The whole plan is worked out
-**before a single tile is drawn**, so the sheet count and every placement are known up front:
-`--list` prints them.
+`--tile-paper 8.5x11|a4` turns the logical pages into physical sheets, always **landscape**.
+(`letter` is accepted as another name for `8.5x11`; the dot is optional, so `8.5 x 11` works too.)
+The whole plan is worked out **before a single tile is drawn**, so the sheet count and every
+placement are known up front: `--list` prints them.
 
-- A page that fits the printable area **whole is placed on one sheet** — no grid, no overlap, no
-  crop marks. That is the common case here and it is what the small-page cap buys: all 20
-  small-feather pages are single sheets.
-- A page too big for one sheet (every P, S and B page) is **tiled** on the overlapping grid, and its
-  sheets carry corner crop marks and a `tile 1,3 of 1,3` stamp.
+- A page that fits the printable area **whole is printed natively on one landscape sheet** — no
+  grid, no overlap, no crop marks. That is the point of the small-page cap: 13 of the 20 pages come
+  out this way on A4, each centred in the sheet with its own header and footer.
+- A page too big for one sheet is **tiled down a single column of landscape sheets**, one
+  full-printable-width sheet per step, `--tile-overlap` shared between neighbours and trimmed at
+  each join. Those sheets carry corner crop marks and a `tile 1,3 of 1,3` stamp.
+- A page **wider than the paper can print** cannot be covered by one column — its right-hand strip
+  would print nowhere — so it falls back to as many columns as it takes. The build says so:
+
+  ```
+  note: 20 page(s) are wider than 8.5x11 landscape can print (269.4 mm against
+  277.1 mm), so they tile across two columns as well as down: page(s) 1, 2, ...
+  ```
+
+  This is the one place paper and document disagree: the min aggregate's pages are 277.1 mm and
+  8.5x11 prints 269.4 mm, so **A4 is the paper that gives this document the intended one-column
+  tiling** (287 mm printable). Scaling the page down instead would print the templates undersized,
+  and quietly dropping the strip would lose the edge of a cut line.
 - Sheets are packed by **first fit** over the rectangles already spoken for, so a page that fits can
   share a sheet with the first tile of a tiled page instead of wasting it. In this catalogue the
-  pages are all too tall to pair up on A4, so nothing shares. Pages are never rotated to fit: the
-  title and footer would end up on their side.
+  pages are all too tall to pair up, so nothing shares. Pages are never rotated: one is portrait or
+  it is not, and rotating to fit would put the title and footer on their side.
 - Identical logical pages would share one form XObject, but every page's footer carries its own page
   number, so in practice each page gets its own form (20 forms for 20 pages).
 
-The A4 landscape default (`--tile-margin 5`, `--tile-overlap 12.7`, `--tile-gap 6`) gives **43
-sheets** for the 20 pages: 30 to tile the seven long pages (P1, P2 and P5 three each, P3+P4 six,
-S1+S2 five, S3+S4 four, B1–B3 six) and one each for the 13 small-feather pages, which fit a sheet
-whole. `--tile-paper letter` tiles more aggressively, because a 277 mm page does not fit Letter's
-269 mm printable width: those pages go to 2-column grids, and a page tall enough needs several rows
-on top of that.
+| paper (landscape) | printable | sheets for the 20 pages | tiling |
+| --- | ---: | ---: | --- |
+| `a4` | 287 × 200 mm | **43** | one column: 7 long pages tiled (30 sheets), 13 pages whole |
+| `8.5x11` | 269.4 × 205.9 mm | 86 | two columns: every page splits across the width |
+
+Margin 5 mm, overlap 12.7 mm, gap 6 mm in both.
 
 Other options: `--aggregate` (source SVG), `--page-width` (nominal page width), `--max-page-height` /
 `--max-rows` / `--small-page-height` (page splitting), `--spacing` (gap between pairs sharing a row),

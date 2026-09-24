@@ -149,10 +149,16 @@ SMALL_PAGE_HEIGHT_MM = 200.0
 # ---------------------------------------------------------------------------
 MM_PER_INCH = 25.4
 
+# Landscape sheet extents are what matter here -- the sheet is never used portrait.
+# Keyed on the spec with everything but letters and digits removed, so `8.5x11`,
+# `8.5 x 11` and `85x11` all land on the same sheet.
 TILE_PAPER_SIZES = {
-    "letter": ("US Letter", 8.5 * MM_PER_INCH, 11.0 * MM_PER_INCH),
+    "85x11": ("8.5x11", 8.5 * MM_PER_INCH, 11.0 * MM_PER_INCH),
+    "letter": ("8.5x11", 8.5 * MM_PER_INCH, 11.0 * MM_PER_INCH),
     "a4": ("A4", 210.0, 297.0),
 }
+
+TILE_PAPER_NAMES = "8.5x11|a4"   # what the CLI advertises
 
 TILE_MARGIN_MM = 5.0             # non-printable margin kept clear on each sheet
 TILE_OVERLAP_MM = 12.7           # Acrobat's default poster overlap (0.5 in)
@@ -1839,10 +1845,18 @@ class PdfDocument:
 # paper parsing + tiling (poster mode)
 # ---------------------------------------------------------------------------
 def tile_paper(spec: str) -> tuple:
-    """Resolve a paper-size spec to (label, portrait width mm, portrait height mm)."""
+    """Resolve a paper-size spec to (label, portrait width mm, portrait height mm).
+
+    ``8.5x11`` and ``letter`` are the same sheet, and both spellings are accepted
+    because both get used out loud; ``a4`` is the other. Punctuation is ignored, so
+    the dot in ``8.5x11`` does not have to be remembered or escaped.
+    """
     key = re.sub(r"[^a-z0-9]", "", spec.strip().lower())
     if key not in TILE_PAPER_SIZES:
-        raise ValueError(f"paper size must be 'letter' or 'a4', got {spec!r}")
+        raise ValueError(
+            f"paper size must be {TILE_PAPER_NAMES.replace('|', ' or ')} "
+            f"(letter is accepted for 8.5x11), got {spec!r}"
+        )
     return TILE_PAPER_SIZES[key]
 
 
@@ -1869,18 +1883,38 @@ class SheetPlan:
     tiles: list           # one entry per (sheet, logical page) placement
 
 
+def tile_rows(page_h: float, ph: float, overlap: float) -> int:
+    """How many overlapping landscape sheets tall a page takes."""
+    if page_h <= ph + 1e-9:
+        return 1
+    stride_y = ph - overlap
+    return int(math.ceil((page_h - ph) / stride_y - 1e-9)) + 1
+
+
+def sheet_fits_whole(page_w: float, page_h: float, pw: float, ph: float) -> bool:
+    """Whether a logical page fits one landscape sheet uncut."""
+    return page_w <= pw + 1e-9 and page_h <= ph + 1e-9
+
+
 def tile_grid(page_w: float, page_h: float, pw: float, ph: float,
               overlap: float) -> tuple:
-    """Columns and rows of overlapping tiles that would cover one logical page.
+    """(columns, rows) a logical page needs, in landscape sheets.
 
-    Adjacent tiles share `overlap`, so their stride is the printable extent minus the
-    overlap. Used for reporting and for deciding whether a page needs a grid at all;
-    the placement itself is done per sheet by ``plan_sheets``.
+    **One column whenever one column can hold it**, which is the intended case: a
+    logical page is 273-277 mm, a landscape 8.5x11 sheet prints 269.4 mm of width and
+    A4 prints 287, so a page that fits a sheet whole tiles straight down a column of
+    sheets with the overlap trimmed at each join.
+
+    A page *wider* than the printable width cannot be covered by one column -- the
+    right-hand strip would print nowhere -- so it falls back to as many columns as it
+    takes. Silently dropping that strip would lose the edge of a template, and
+    scaling the page down instead would print it at the wrong size.
     """
     stride_x = pw - overlap
     stride_y = ph - overlap
-    cols = 1 if page_w <= pw + 1e-9 else int(math.ceil((page_w - pw) / stride_x - 1e-9)) + 1
-    rows = 1 if page_h <= ph + 1e-9 else int(math.ceil((page_h - ph) / stride_y - 1e-9)) + 1
+    cols = 1 if page_w <= pw + 1e-9 \
+        else int(math.ceil((page_w - pw) / stride_x - 1e-9)) + 1
+    rows = tile_rows(page_h, ph, overlap)
     return cols, rows
 
 
@@ -1948,7 +1982,13 @@ def plan_sheets(layouts: list, paper_w: float, paper_h: float,
         Worth a real search rather than a stack: on A4 landscape two of the small
         coverts' pages fit on one sheet, and a page this size is centred, so the only
         candidate positions are the bottom and each existing rectangle's top edge.
+
+        A page wider than the printable area is refused outright: it is going to be
+        cut along a join, not placed on one sheet, and `free_spot` alone only guards
+        the position it is asked about.
         """
+        if layout.page_w > pw + 1e-9 or layout.page_h > ph + 1e-9:
+            return False
         x = (pw - layout.page_w) / 2.0
         for index in range(len(used) + 1):
             if index == len(used):
@@ -1970,12 +2010,21 @@ def plan_sheets(layouts: list, paper_w: float, paper_h: float,
         return False
 
     def place_grid(page_no: int, cols: int, rows: int) -> None:
+        """Lay the page down `cols` x `rows` overlapping landscape sheets.
+
+        One column is the intended case (see ``tile_grid``): each sheet takes the
+        full printable width, `x0` is 0, and the page walks up `stride_y` per sheet
+        with `overlap` shared between neighbours. A second column only appears when
+        the page is wider than a sheet can print, and then `x0` walks across too.
+
+        A tiled page prefers the first sheet that has the whole printable area free,
+        so it can start on a sheet a whole page already sits under.
+        """
         stride_x = pw - overlap
         stride_y = ph - overlap
         for iy in range(rows):
             for ix in range(cols):
                 if ix == 0 and iy == 0 and used:
-                    # let this sheet's free space take the first tile if it can
                     for index in range(len(used)):
                         if free_spot(index, 0.0, 0.0, pw, ph):
                             used[index].append((0.0, 0.0, pw, ph))
@@ -1992,18 +2041,14 @@ def plan_sheets(layouts: list, paper_w: float, paper_h: float,
                                   x0=ix * stride_x, y0=iy * stride_y, tiled=True))
 
     for page_no, layout in enumerate(layouts, start=1):
-        if layout.page_w <= pw + 1e-9 and layout.page_h <= ph + 1e-9:
-            if place_whole(page_no, layout):
-                continue
-            if layout.page_h > ph + 1e-9:
-                cols, rows = 1, 1
-            else:
-                cols, rows = tile_grid(layout.page_w, layout.page_h, pw, ph, overlap)
-        else:
-            cols, rows = tile_grid(layout.page_w, layout.page_h, pw, ph, overlap)
-
+        # A page that fits a landscape sheet whole is printed natively: one sheet,
+        # centred, nothing cut, no crop marks. That is the whole point of the small
+        # coverts' page cap.
+        if place_whole(page_no, layout):
+            continue
+        cols, rows = tile_grid(layout.page_w, layout.page_h, pw, ph, overlap)
         if cols == 1 and rows == 1:
-            # a page that fits no sheet but is no bigger than one -- give it its own
+            # No sheet would take it, yet it is no bigger than one -- give it its own.
             used.append([(0.0, 0.0, pw, ph)])
             tiles.append(Tile(len(used), page_no, len(layouts),
                               x0=(pw - layout.page_w) / 2.0, y0=0.0))
@@ -2016,6 +2061,27 @@ def plan_sheets(layouts: list, paper_w: float, paper_h: float,
 
 def tiles_on_sheet(plan: SheetPlan, sheet_no: int) -> list:
     return [t for t in plan.tiles if t.sheet_no == sheet_no]
+
+
+def tiling_note(plan: SheetPlan, layouts: list) -> str:
+    """A sentence about how the sheets came out, or "" when it is the plain case.
+
+    Worth saying out loud when a page needs more than one column, because that means
+    the paper is narrower than the page: the template survives (the columns cover it)
+    but it is cut along a vertical join as well as the horizontal ones, which is not
+    the single-column print the small pages get.
+    """
+    pw = plan.paper_w - 2.0 * plan.margin
+    wide = [i for i, L in enumerate(layouts, start=1)
+            if L.page_w > pw + 1e-9]
+    if not wide:
+        return ""
+    return (f"{len(wide)} page(s) are wider than {plan.paper_label} landscape can "
+            f"print ({pw:g} mm against {layouts[wide[0] - 1].page_w:g} mm), so they "
+            f"tile across two columns as well as down: page(s) "
+            + ", ".join(str(i) for i in wide[:6])
+            + ("..." if len(wide) > 6 else "")
+            + ". Use a wider sheet or --scale to keep it to one column.")
 
 
 def _crop_marks(mx: float, my: float, pw: float, ph: float,
@@ -2207,10 +2273,12 @@ def main(argv: list[str] | None = None) -> int:
                          f"{DENSE_GAP_MM:g} mm; a lone pair keeps "
                          f"{SPARSE_GAP_MM:g} mm from its neighbours)")
     ap.add_argument(
-        "--tile-paper", metavar="letter|a4", default=None,
-        help="precalculate every physical sheet (US Letter or A4, always landscape) "
-             "and pack the logical pages onto them, instead of emitting "
-             "poster-sized pages",
+        "--tile-paper", metavar=TILE_PAPER_NAMES, default=None,
+        help="precalculate every physical sheet as a landscape "
+             f"{TILE_PAPER_NAMES.replace('|', ' or ')} and place the logical pages on "
+             "them, instead of emitting poster-sized pages. A page that fits one "
+             "sheet is printed natively and uncut; a larger page is tiled down a "
+             "single column of sheets",
     )
     ap.add_argument("--tile-margin", type=float, default=TILE_MARGIN_MM, metavar="MM",
                     help=f"non-printable margin kept clear on every sheet "
@@ -2309,10 +2377,13 @@ def main(argv: list[str] | None = None) -> int:
         except ValueError as exc:
             raise SystemExit(str(exc)) from exc
 
+        note = tiling_note(plan, layouts)
+        if note:
+            print(f"note: {note}")
+
         def page_note(index: int) -> str:
             """How the page is laid out across sheets, as text."""
-            tiles = plan.tiles
-            mine = [t for t in tiles if t.page_no == index]
+            mine = [t for t in plan.tiles if t.page_no == index]
             if mine[0].tiled:
                 cols = len({round(t.x0, 3) for t in mine})
                 rows = len({round(t.y0, 3) for t in mine})
