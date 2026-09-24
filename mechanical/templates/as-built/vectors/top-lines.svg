@@ -23,12 +23,12 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="3.2337963"
-     inkscape:cx="429.83536"
-     inkscape:cy="309.69792"
+     inkscape:zoom="1.1433196"
+     inkscape:cx="316.62187"
+     inkscape:cy="423.76601"
      inkscape:window-width="3840"
      inkscape:window-height="2054"
-     inkscape:window-x="3829"
+     inkscape:window-x="-11"
      inkscape:window-y="-11"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1" />
@@ -41,117 +41,40 @@
      transform="translate(-15.094508,-14.954924)">
     <path
        style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 66.535995,91.44269 C 67.860891,89.238136 85.966369,83.816134 93.617147,75.732316 104.38558,65.541589 138.55002,50.413637 198.17731,44.688979"
+       d="m 76.06541,116.39708 c 21.24984,-7.91075 33.8362,-20.909843 41.48698,-28.993661 11.9845,-7.290852 44.3716,-19.986651 63.30711,-23.092068"
        id="top-line_P"
-       sodipodi:nodetypes="ccc"
-       transform="translate(2.5423273,18.395734)" />
-    <path
-       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 287.37953,117.49513 c 16.99106,-6.02262 39.64289,-9.34725 60.73508,-13.41523 16.33462,-6.620456 31.2926,-15.566579 50.54681,-17.254781"
-       id="topline_pc_a"
-       transform="rotate(-17,202.13445,727.21264)"
        sodipodi:nodetypes="ccc" />
     <path
        style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 54.357788,99.402206 167.92992,81.533949"
+       d="M 166.91086,85.176784 C 180.5961,74.069829 192.28489,61.141319 210.2042,53.897498"
+       id="topline_pc_a"
+       sodipodi:nodetypes="cc"
+       inkscape:label="topline_A" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 51.56138,63.547361 C 85.39442,53.957579 129.48396,44.761429 165.00122,41.743427"
        id="top-line_S"
-       transform="translate(2.5423273,18.395734)" />
+       sodipodi:nodetypes="cc" />
     <path
        style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 54.891744,104.78343 C 60.60403,90.798893 61.918685,76.347787 70.836832,62.836999 81.03435,20.891707 88.527673,17.336566 94.189557,8.5764551"
+       d="M 73.44397,93.357286 C 77.62858,78.231461 82.49366,77.336508 87.32659,55.541102 89.91446,41.884054 98.22061,31.580399 104.09315,23.52161"
        id="top-line_SC"
-       sodipodi:nodetypes="ccc"
-       transform="translate(2.5423273,18.395734)" />
+       sodipodi:nodetypes="ccc" />
     <path
        style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 49.574732,106.90196 76.426678,-0.67218"
+       d="M 27.953883,89.15337 C 43.116922,88.668125 61.90744,85.501703 85.67169,78.659035"
        id="topline_B"
-       transform="translate(2.5423273,18.395734)" />
+       sodipodi:nodetypes="cc" />
     <path
        style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 25.438858,36.789322 52.065785,104.20128"
+       d="M 35.34245,51.734477 C 49.03104,64.233624 55.5082,91.760628 61.96938,119.14643"
        id="topline_MC"
-       transform="translate(2.5423273,18.395734)" />
-    <text
-       xml:space="preserve"
-       style="font-weight:300;font-size:4.23333px;line-height:1.25;font-family:'League Spartan';-inkscape-font-specification:'League Spartan, Light';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
-       x="95.774857"
-       y="118.35954"
-       id="feather-label"
-       transform="rotate(-22)"><tspan
-         sodipodi:role="line"
-         id="tspan1"
-         style="stroke-width:0.264583"
-         x="95.774857"
-         y="118.35954">P1-6</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-weight:300;font-size:4.23333px;line-height:1.25;font-family:'League Spartan';-inkscape-font-specification:'League Spartan, Light';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
-       x="50.718884"
-       y="160.30029"
-       id="text2"
-       transform="rotate(-35)"><tspan
-         sodipodi:role="line"
-         id="tspan2"
-         style="stroke-width:0.264583"
-         x="50.718884"
-         y="160.30029">PC1-3</tspan><tspan
-         sodipodi:role="line"
-         style="stroke-width:0.264583"
-         x="50.718884"
-         y="165.59195"
-         id="tspan3" /></text>
-    <text
-       xml:space="preserve"
-       style="font-weight:300;font-size:4.23333px;line-height:1.25;font-family:'League Spartan';-inkscape-font-specification:'League Spartan, Light';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
-       x="86.277786"
-       y="170.21587"
-       id="text4"
-       transform="rotate(-40)"><tspan
-         sodipodi:role="line"
-         id="tspan4"
-         style="stroke-width:0.264583"
-         x="86.277786"
-         y="170.21587">A1-4</tspan><tspan
-         sodipodi:role="line"
-         style="stroke-width:0.264583"
-         x="86.277786"
-         y="175.50752"
-         id="tspan5" /></text>
-    <text
-       xml:space="preserve"
-       style="font-weight:300;font-size:4.23333px;line-height:1.25;font-family:'League Spartan';-inkscape-font-specification:'League Spartan, Light';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
-       x="76.029449"
-       y="5.4757867"
-       id="text6"
-       transform="rotate(60)"><tspan
-         sodipodi:role="line"
-         id="tspan6"
-         style="stroke-width:0.264583"
-         x="76.029449"
-         y="5.4757867">MC1-5</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-weight:300;font-size:4.23333px;line-height:1.25;font-family:'League Spartan';-inkscape-font-specification:'League Spartan, Light';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
-       x="77.439964"
-       y="124.44243"
-       id="text7"><tspan
-         sodipodi:role="line"
-         id="tspan7"
-         style="stroke-width:0.264583"
-         x="77.439964"
-         y="124.44243">B-15</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-weight:300;font-size:4.23333px;line-height:1.25;font-family:'League Spartan';-inkscape-font-specification:'League Spartan, Light';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
-       x="-49.312763"
-       y="94.138672"
-       id="text8"
-       transform="rotate(-70)"><tspan
-         sodipodi:role="line"
-         id="tspan8"
-         style="stroke-width:0.264583"
-         x="-49.312763"
-         y="94.138672">SC1-8</tspan></text>
+       sodipodi:nodetypes="cc" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 148.65105,117.75037 c 10.81244,-8.79128 22.43337,-16.80775 35.35976,-23.573165 l 0.28063,-0.09354"
+       id="path8"
+       sodipodi:nodetypes="ccc"
+       inkscape:label="topline_PC" />
   </g>
 </svg>

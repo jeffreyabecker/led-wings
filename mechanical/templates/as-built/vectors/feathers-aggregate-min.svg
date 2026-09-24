@@ -85,7 +85,7 @@
      inkscape:window-x="-11"
      inkscape:window-y="-11"
      inkscape:window-maximized="1"
-     inkscape:current-layer="P"
+     inkscape:current-layer="svg42"
      showguides="true" />
   <title
      id="title1">As-built feather templates - 42 feathers, 1:1 mm, vertical flip</title>
@@ -172,7 +172,7 @@
          y="459.12"
          transform="matrix(-1,0,0,1,410,-4.2)"
          id="P1-label"
-         class="label">P1</text>
+         class="label">P2</text>
     </g>
     <g
        id="P2"
@@ -190,7 +190,7 @@
          y="445.54999"
          transform="matrix(-1,0,0,1,670.3,-4.2)"
          id="P2-label"
-         class="label">P2</text>
+         class="label">P1</text>
     </g>
     <g
        id="P3"
@@ -208,7 +208,7 @@
          y="493.06"
          transform="matrix(-1,0,0,1,914.44,-4.2)"
          id="P3-label"
-         class="label">P3</text>
+         class="label">P2</text>
     </g>
     <g
        id="P4"
@@ -638,11 +638,11 @@
   </g>
   <g
      id="LC"
-     transform="rotate(-175,21.504439,876.27136)"
+     transform="rotate(-175,21.917887,868.56805)"
      style="display:inline">
     <g
        id="LC1"
-       transform="matrix(0.86602541,-0.50000001,-0.50000001,-0.86602541,-540.57536,2135.5191)"
+       transform="matrix(0.86602541,-0.50000001,-0.50000001,-0.86602541,-541.19042,2137.0753)"
        data-fill="#bcbd22"
        class="group LC">
       <path
@@ -662,7 +662,7 @@
        transform="matrix(0.70710679,-0.70710679,-0.70710679,-0.70710679,-437.16222,2298.8298)"
        data-fill="#bcbd22"
        class="group LC"
-       style="display:none">
+       style="display:inline">
       <path
          d="m 821.62032,136.97693 c 0,0 11.26209,-10.27036 15.54876,-18.54282 C 844.69808,98.628112 846.695,85.147 835.563,65.602 830.69958,59.56543 822.20782,49.410025 815.177,47.048 c -3.124,-0.766 -5.569,15.923 -6.03,18.863 -0.148,0.945 -0.423,2.838 -0.423,2.838 -3.366,23.824 3.21978,53.58202 3.21978,53.58202 5.56118,8.16227 8.50397,12.73695 9.67654,14.64591 z"
          sodipodi:nodetypes="cccccccc"
@@ -680,7 +680,7 @@
        transform="matrix(0.70710679,-0.70710679,-0.70710679,-0.70710679,-473.35789,2324.7192)"
        data-fill="#bcbd22"
        class="group LC"
-       style="display:none">
+       style="display:inline">
       <path
          d="m 892.641,97.844 c -0.90355,-7.821986 -9.127,-41.956 -17.58,-42.127 -5.401,-0.11 -13.393,23.627 -14.806,28.031 -1.499,4.673 -3.916,11.925 -3.991,16.601 -0.017,1.083 -0.004,3.251 -0.004,3.251 0,7.267 7.95103,24.00986 9.26109,26.0893 2.07669,2.30269 5.15427,8.12244 8.53943,11.97437 5.92,-3.156 18.72348,-22.25567 19.09148,-28.66367 0.33657,-5.8728 0.15228,-9.41405 -0.511,-15.156 z"
          sodipodi:nodetypes="scccccccs"
