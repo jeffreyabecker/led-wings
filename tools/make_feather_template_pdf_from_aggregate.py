@@ -43,6 +43,11 @@ Pages print at TRUE SCALE: user units are millimetres, so geometry is emitted
 unchanged and the PDF MediaBox uses that grain. Every page is 273 mm wide (the
 requested maximum) with a height that adapts to its pairs.
 
+Tiled onto sheets, the page width comes from the paper instead: a logical page is as
+wide as the sheet prints, so the margin the sheet keeps is what sets it. 8.5x11 keeps
+15 mm -- 10 mm more per edge than the 5 mm floor -- which makes its pages 249.4 mm
+against A4's 269.4 mm; ``--tile-margin`` overrides it.
+
 Usage:
     python tools/make_feather_template_pdf_from_aggregate.py
     python tools/make_feather_template_pdf_from_aggregate.py --only P1 B5 LC1
@@ -161,15 +166,21 @@ MM_PER_INCH = 25.4
 # Landscape sheet extents are what matter here -- the sheet is never used portrait.
 # Keyed on the spec with everything but letters and digits removed, so `8.5x11`,
 # `8.5 x 11` and `85x11` all land on the same sheet.
+#
+# The last figure is the non-printable margin that paper keeps, in mm, and it is the
+# one number that differs between the two: 8.5x11 keeps 15 mm (10 mm of it asked for
+# on top of the 5 mm floor), A4 keeps 5 mm. A logical page is never wider than its
+# paper's printable width, so this margin is what decides how wide the templates come
+# out on each sheet -- `tile_margin` is how it is read back.
 TILE_PAPER_SIZES = {
-    "85x11": ("8.5x11", 8.5 * MM_PER_INCH, 11.0 * MM_PER_INCH),
-    "letter": ("8.5x11", 8.5 * MM_PER_INCH, 11.0 * MM_PER_INCH),
-    "a4": ("A4", 210.0, 297.0),
+    "85x11": ("8.5x11", 8.5 * MM_PER_INCH, 11.0 * MM_PER_INCH, 15.0),
+    "letter": ("8.5x11", 8.5 * MM_PER_INCH, 11.0 * MM_PER_INCH, 15.0),
+    "a4": ("A4", 210.0, 297.0, 5.0),
 }
 
 TILE_PAPER_NAMES = "8.5x11|a4"   # what the CLI advertises
 
-TILE_MARGIN_MM = 5.0             # non-printable margin kept clear on each sheet
+TILE_MARGIN_MM = 5.0             # fallback non-printable margin, mm (per paper above)
 TILE_OVERLAP_MM = 12.7           # Acrobat's default poster overlap (0.5 in)
 TILE_GAP_MM = 6.0                # clear space between two pages sharing one sheet
 DEFAULT_TOPLINES_PAPER = "a4"    # what --toplines assumes when --tile-paper is absent
@@ -1452,18 +1463,24 @@ def settle_page_width(feathers: list, scale: float = 1.0, mode: str = "auto",
                    f"(the page is {nominal:g} mm unless a pair needs more)")
 
 
-def nominal_page_width(page_width: float | None, tile_paper_spec: str | None) -> float:
+def nominal_page_width(page_width: float | None, tile_paper_spec: str | None,
+                       margin: float | None = None) -> float:
     """The nominal logical page width for a build.
 
     An explicit `--page-width` wins. Otherwise a tiled build starts from the paper's
     printable width -- the page has to live on that sheet, so that is the width worth
-    asking for -- and a poster build starts from the 273 mm default.
+    asking for -- and a poster build starts from the 273 mm default. `margin` is the
+    margin that paper keeps on each edge (see ``tile_margin``); it has to be the same
+    figure ``plan_sheets`` is handed, or the logical page and the sheet it tiles onto
+    disagree about how much of the sheet is printable.
     """
     if page_width is not None:
         return page_width
     if tile_paper_spec is not None:
         _label, portrait_w, portrait_h = tile_paper(tile_paper_spec)
-        return portrait_h - 2.0 * TILE_MARGIN_MM     # landscape printable width
+        if margin is None:
+            margin = tile_margin(tile_paper_spec)
+        return portrait_h - 2.0 * margin              # landscape printable width
     return PAGE_WIDTH_MM
     """Decide how this feather's pair is laid on the page.
 
@@ -1907,7 +1924,16 @@ def _check_text_fits(layout: PageLayout, scale: float) -> None:
 
 
 def build_page(layout: PageLayout, page_no: int, page_total: int,
-               generated: str, scale: float) -> str:
+               generated: str, scale: float, clip_to_page: bool = False) -> str:
+    """One logical page's content stream, optionally clipped to its own page box.
+
+    A tiled document draws a logical page as a form on a sheet of a different size --
+    an 8.5x11 landscape sheet is 279.4 x 215.9 mm against a logical page 249.4 x
+    569.8 mm -- so the geometry runs far past the sheet and only the sheet's clip
+    hides it. Clipping the page to its own box makes the page safe on its own: a
+    viewer or exporter that honours the MediaBox but not the sheet clip then still
+    shows 8.5x11 (or A4) rather than the whole overflow.
+    """
     cmds: list = [compute_layout_geometry(layout)]
 
     for slot in layout.slots:
@@ -1943,6 +1969,12 @@ def build_page(layout: PageLayout, page_no: int, page_total: int,
     _check_text_fits(layout, scale)
     cmds.append(text_cmd(layout.page_w / 2.0, bar_y + 4.6, FOOT_SIZE_MM,
                          footer_pair_line(layout), color=TEXT_GREY, align="center"))
+    if clip_to_page:
+        # The two `cm`s at the head of the geometry end in millimetres, so the clip
+        # belongs there too; `q`/`Q` keeps it from leaking into anything drawn after.
+        cmds.insert(2, "q")
+        cmds.insert(3, f"0 0 {num(layout.page_w)} {num(layout.page_h)} re W n")
+        cmds.append("Q")
     return "\n".join(cmds)
 
 
@@ -2126,13 +2158,8 @@ class PdfDocument:
 # ---------------------------------------------------------------------------
 # paper parsing + tiling (poster mode)
 # ---------------------------------------------------------------------------
-def tile_paper(spec: str) -> tuple:
-    """Resolve a paper-size spec to (label, portrait width mm, portrait height mm).
-
-    ``8.5x11`` and ``letter`` are the same sheet, and both spellings are accepted
-    because both get used out loud; ``a4`` is the other. Punctuation is ignored, so
-    the dot in ``8.5x11`` does not have to be remembered or escaped.
-    """
+def _paper_spec(spec: str) -> tuple:
+    """The registered (label, portrait w, portrait h, margin) for a paper spec."""
     key = re.sub(r"[^a-z0-9]", "", spec.strip().lower())
     if key not in TILE_PAPER_SIZES:
         raise ValueError(
@@ -2140,6 +2167,28 @@ def tile_paper(spec: str) -> tuple:
             f"(letter is accepted for 8.5x11), got {spec!r}"
         )
     return TILE_PAPER_SIZES[key]
+
+
+def tile_paper(spec: str) -> tuple:
+    """Resolve a paper-size spec to (label, portrait width mm, portrait height mm).
+
+    ``8.5x11`` and ``letter`` are the same sheet, and both spellings are accepted
+    because both get used out loud; ``a4`` is the other. Punctuation is ignored, so
+    the dot in ``8.5x11`` does not have to be remembered or escaped.
+    """
+    label, portrait_w, portrait_h, _margin = _paper_spec(spec)
+    return label, portrait_w, portrait_h
+
+
+def tile_margin(spec: str) -> float:
+    """The non-printable margin `spec` keeps on every sheet edge, in mm.
+
+    Separate from ``tile_paper`` so the size and the margin can be read independently;
+    this is the figure ``--tile-margin`` overrides and the one ``plan_sheets`` and the
+    nominal logical page width both have to agree on. 8.5x11 keeps 15 mm, A4 keeps
+    5 mm -- see ``TILE_PAPER_SIZES``.
+    """
+    return _paper_spec(spec)[3]
 
 
 @dataclass
@@ -2183,9 +2232,10 @@ def tile_grid(page_w: float, page_h: float, pw: float, ph: float,
     """(columns, rows) a logical page needs, in landscape sheets.
 
     **One column whenever one column can hold it**, which is the intended case: a
-    logical page is 273-277 mm, a landscape 8.5x11 sheet prints 269.4 mm of width and
-    A4 prints 287, so a page that fits a sheet whole tiles straight down a column of
-    sheets with the overlap trimmed at each join.
+    tiled logical page is as wide as its paper prints -- 249.4 mm on 8.5x11 with its
+    15 mm margin, 269.4 mm on A4 with 5 mm -- so it tiles straight down a column of
+    sheets with the overlap trimmed at each join. (An untiled poster page is 273-277
+    mm and only stays in one column where the paper prints that much.)
 
     A page *wider* than the printable width cannot be covered by one column -- the
     right-hand strip would print nowhere -- so it falls back to as many columns as it
@@ -2486,6 +2536,11 @@ def build_tiled_document(layouts: list, plan: SheetPlan, generated: str,
     page after page of the same group's pairs. Text differs between pages, though --
     the footer carries the page number -- so a form is only shared when the whole
     rendered page is equal, not merely its geometry.
+
+    Each logical page is emitted clipped to its own page box: a logical page is taller
+    than the sheet it tiles onto, so without that the sheet carries geometry far past
+    itself and only looks like 8.5x11 (or A4) because the sheet clip hides the rest --
+    see ``build_page``.
     """
     doc = PdfDocument(
         f"Feather templates from the aggregate - tiled for {plan.paper_label} landscape"
@@ -2493,7 +2548,8 @@ def build_tiled_document(layouts: list, plan: SheetPlan, generated: str,
     form_of: dict = {}
     by_content: dict = {}
     for page_no, layout in enumerate(layouts, start=1):
-        content = build_page(layout, page_no, len(layouts), generated, scale)
+        content = build_page(layout, page_no, len(layouts), generated, scale,
+                             clip_to_page=True)
         if content in by_content:
             form_of[page_no] = by_content[content]
         else:
@@ -2573,9 +2629,10 @@ def main(argv: list[str] | None = None) -> int:
              "sheet is printed natively and uncut; a larger page is tiled down a "
              "single column of sheets",
     )
-    ap.add_argument("--tile-margin", type=float, default=TILE_MARGIN_MM, metavar="MM",
-                    help=f"non-printable margin kept clear on every sheet "
-                         f"(default {TILE_MARGIN_MM:g} mm)")
+    ap.add_argument("--tile-margin", type=float, default=None, metavar="MM",
+                    help="non-printable margin kept clear on every sheet edge, and "
+                         "therefore the width the logical pages come out (default is "
+                         "the paper's own: 15 mm for 8.5x11, 5 mm for A4)")
     ap.add_argument("--tile-overlap", type=float, default=TILE_OVERLAP_MM, metavar="MM",
                     help=f"overlap between adjacent tiles (default "
                          f"{TILE_OVERLAP_MM:g} mm)")
@@ -2614,7 +2671,7 @@ def main(argv: list[str] | None = None) -> int:
         small_page_h = None
     if args.scale <= 0:
         raise SystemExit("--scale must be positive")
-    if args.tile_margin < 0:
+    if args.tile_margin is not None and args.tile_margin < 0:
         raise SystemExit("--tile-margin cannot be negative")
     if args.tile_overlap < 0:
         raise SystemExit("--tile-overlap cannot be negative")
@@ -2623,6 +2680,15 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.page_width is not None and args.page_width <= 0:
         raise SystemExit("--page-width must be positive")
+
+    # The margin a sheet keeps is a property of the paper (8.5x11 keeps 15 mm, A4
+    # keeps 5 mm) unless the caller names one. Resolving it once here is what keeps the
+    # logical page width, the guide sheets and the sheet plan on the same figure.
+    paper_spec = args.tile_paper or DEFAULT_TOPLINES_PAPER
+    tile_margin_mm = args.tile_margin if args.tile_margin is not None \
+        else tile_margin(paper_spec)
+    if tile_margin_mm < 0:
+        raise SystemExit("--tile-margin cannot be negative")
 
     generated = build_stamp()[0]
 
@@ -2642,9 +2708,9 @@ def main(argv: list[str] | None = None) -> int:
         # landscape: the drawing is about 2:1 across, so that is the sheet it wants
         sheet_w, sheet_h = portrait_h, portrait_w
         return [
-            layout_guide(drawing, "right", sheet_w, sheet_h, args.tile_margin),
+            layout_guide(drawing, "right", sheet_w, sheet_h, tile_margin_mm),
             layout_guide(mirror_drawing(drawing), "left", sheet_w, sheet_h,
-                         args.tile_margin),
+                         tile_margin_mm),
         ]
 
     # --toplines on its own: just the guide, two pages, nothing else.
@@ -2675,7 +2741,8 @@ def main(argv: list[str] | None = None) -> int:
 
     # A pair that does not fit the page cannot be cut, so the width is the source's
     # question, not one feather's: every page gets the width the widest pair needs.
-    nominal_width = nominal_page_width(args.page_width, args.tile_paper)
+    nominal_width = nominal_page_width(args.page_width, args.tile_paper,
+                                       tile_margin_mm if args.tile_paper else None)
     PAGE_WIDTH_MM, width_note = settle_page_width(feathers, args.scale, mode,
                                                   nominal_width)
     if width_note:
@@ -2710,7 +2777,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.tile_paper is not None:
         try:
             paper_label, paper_w, paper_h = tile_paper(args.tile_paper)
-            plan = plan_sheets(layouts, paper_w, paper_h, args.tile_margin,
+            plan = plan_sheets(layouts, paper_w, paper_h, tile_margin_mm,
                                args.tile_overlap, paper_label, args.tile_gap)
         except ValueError as exc:
             raise SystemExit(str(exc)) from exc

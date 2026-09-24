@@ -88,14 +88,14 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="2"
-     inkscape:cx="554"
-     inkscape:cy="1637.75"
+     inkscape:cx="169"
+     inkscape:cy="428.25"
      inkscape:window-width="3840"
      inkscape:window-height="2054"
      inkscape:window-x="-11"
      inkscape:window-y="-11"
      inkscape:window-maximized="1"
-     inkscape:current-layer="P"
+     inkscape:current-layer="MC"
      showguides="true" />
   <title
      id="title1">As-built feather templates - 42 feathers, 1:1 mm, vertical flip</title>
@@ -860,6 +860,11 @@
            x="900.98999"
            y="317.95999">MC4</tspan></text>
     </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 106.63063,1558.7375 c 4.40418,-52.9774 -7.385455,-73.0426 -15.963263,-99.6354"
+       id="path3"
+       sodipodi:nodetypes="cc" />
   </g>
   <g
      id="LC"
@@ -887,6 +892,13 @@
          transform="matrix(-1,0,0,1,1544.84,-4.2)"
          id="LC1-label"
          class="label">LC1</text>
+      <path
+         style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 101.08365,1713.2098 c -7.429121,-25.6622 -20.017527,-48.6106 -49.355536,-67.7906"
+         id="path2"
+         sodipodi:nodetypes="cc"
+         transform="matrix(0.86602539,-0.5,-0.5,-0.86602539,1537.2223,1580.1663)"
+         inkscape:label="LC1-centerline" />
     </g>
     <g
        id="LC2"
@@ -895,7 +907,7 @@
        class="group LC"
        style="display:inline">
       <path
-         d="m 821.62032,136.97693 c 0,0 11.26209,-10.27036 15.54876,-18.54282 C 844.69808,98.628112 846.695,85.147 835.563,65.602 830.69958,59.56543 822.20782,49.410025 815.177,47.048 c -3.124,-0.766 -5.569,15.923 -6.03,18.863 -0.148,0.945 -0.423,2.838 -0.423,2.838 -3.366,23.824 3.21978,53.58202 3.21978,53.58202 5.56118,8.16227 8.50397,12.73695 9.67654,14.64591 z"
+         d="m 821.62032,136.97693 c 0,0 11.26209,-10.27036 15.54876,-18.54282 C 844.69808,98.628112 846.695,85.147 835.563,65.602 830.69958,59.56543 822.20782,49.410025 815.177,47.048 c -3.124,-0.766 -5.569,15.923 -6.03,18.863 -0.148,0.945 -0.423,2.838 -0.423,2.838 -3.366,23.824 -0.813,48.15851 -0.813,48.15851 5.56118,8.16227 12.53675,18.16046 13.70932,20.06942 z"
          sodipodi:nodetypes="cccccccc"
          id="LC2-outline"
          class="outline" />
@@ -910,6 +922,13 @@
          transform="matrix(-1,0,0,1,1648.64,-4.2)"
          id="LC2-label"
          class="label">LC2</text>
+      <path
+         style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 859.06871,40.115527 c 12.28964,25.114335 3.89179,55.858974 2.92939,84.579983"
+         id="path1"
+         transform="translate(-43.900772,7.2876415)"
+         sodipodi:nodetypes="cc"
+         inkscape:label="LC2-centerline" />
     </g>
     <g
        id="LC3"
@@ -928,6 +947,12 @@
          transform="matrix(-1,0,0,1,1749.28,-4.2)"
          id="LC3-label"
          class="label">LC3</text>
+      <path
+         style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 44.997474,1606.4345 c 21.34301,19.555 42.978443,38.9936 61.012286,59.8654"
+         id="LC3-centerline"
+         sodipodi:nodetypes="cc"
+         transform="matrix(0.70710677,-0.70710677,-0.70710677,-0.70710677,1978.5393,1309.1101)" />
     </g>
   </g>
   <metadata
