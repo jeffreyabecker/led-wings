@@ -405,13 +405,13 @@ python tools/make_feather_template_pdf_from_aggregate.py                    # po
 python tools/make_feather_template_pdf_from_aggregate.py --tile-paper a4 --list    # precalculate sheets
 ```
 
-Two sheet documents are committed, one per paper, both from the same source and both **43 sheets** for
-the 20 logical pages:
+Two sheet documents are committed, one per paper, both from the same source. Each holds the templates
+plus the two guide pages at the end:
 
-| file | paper | logical pages | sheets |
-| --- | --- | ---: | ---: |
-| [feathers-from-aggregate.pdf](as-built/print/feathers-from-aggregate.pdf) | A4 landscape | 20 | 43 |
-| [feathers-from-aggregate-8.5x11.pdf](as-built/print/feathers-from-aggregate-8.5x11.pdf) | 8.5x11 landscape | 21 | 43 |
+| file | paper | logical pages | sheets | pages |
+| --- | --- | ---: | ---: | ---: |
+| [feathers-from-aggregate.pdf](as-built/print/feathers-from-aggregate.pdf) | A4 landscape | 20 | 43 | 45 |
+| [feathers-from-aggregate-8.5x11.pdf](as-built/print/feathers-from-aggregate-8.5x11.pdf) | 8.5x11 landscape | 21 | 43 | 45 |
 
 [tools/make_feather_template_pdf_from_aggregate.py](../../tools/make_feather_template_pdf_from_aggregate.py)
 generates [as-built/print/feathers-from-aggregate.pdf](as-built/print/feathers-from-aggregate.pdf)
@@ -540,47 +540,51 @@ placement are known up front: `--list` prints them.
 - Identical logical pages would share one form XObject, but every page's footer carries its own page
   number, so in practice each page gets its own form (20 forms for 20 pages).
 
-| paper (landscape) | printable | logical pages | sheets | tiling |
+| paper (landscape) | printable | logical pages | sheet pages | tiling |
 | --- | ---: | ---: | ---: | --- |
-| `a4` | 287 × 200 mm | 20 | **43** | one column: 7 long pages tiled (30 sheets), 13 pages whole |
-| `8.5x11` | 269.4 × 205.9 mm | 21 | **43** | one column: 8 long pages tiled (30 sheets), 13 pages whole |
+| `a4` | 287 × 200 mm | 20 | **45** (43 + 2 guides) | one column: 7 long pages tiled (30 sheets), 13 pages whole |
+| `8.5x11` | 269.4 × 205.9 mm | 21 | **45** (43 + 2 guides) | one column: 8 long pages tiled (30 sheets), 13 pages whole |
 
 Margin 5 mm, overlap 12.7 mm, gap 6 mm in both, and the same 30 tiled sheets either way — the
 narrower sheet simply packs the long feathers into 8 pages instead of 7 (B1+B2 and B3 split apart,
-and MC1+MC4 / MC2+MC3 pair up differently).
+and MC1+MC4 / MC2+MC3 pair up differently). The two guide pages are added after the sheets; see
+below, or `--no-toplines` to leave them out.
 
 Other options: `--aggregate` (source SVG), `--page-width` (nominal page width), `--max-page-height` /
 `--max-rows` / `--small-page-height` (page splitting), `--spacing` (gap between pairs sharing a row),
 `--tile-margin` / `--tile-overlap` / `--tile-gap` (sheet planning).
 
-#### Guide sheets: the `toplines` group (`--toplines`)
-
-```bash
-python tools/make_feather_template_pdf_from_aggregate.py --toplines --list
-python tools/make_feather_template_pdf_from_aggregate.py --toplines \
-    --out mechanical/templates/as-built/print/feathers-toplines.pdf
-python tools/make_feather_template_pdf_from_aggregate.py --toplines --tile-paper 8.5x11 --out top-8.5x11.pdf
-```
+#### Guide sheets: the `toplines` group
 
 The `toplines` group is the leading-edge curve drawn along each feather group, with a label naming the
-group it belongs to. It is **skipped when reading templates** — it is not a cut line — but
-`--toplines` draws it on its own: **two pages, one side each**, the right side as the aggregate holds
-it and its mirror for the left.
+group it belongs to. It is **skipped when reading templates** — it is not a cut line — but it is
+printed at the **end of both sheet documents**, two pages, one side each: the right side as the
+aggregate holds it and its mirror for the left.
 
 | | |
 | --- | --- |
 | drawing | **182 × 96 mm** in the aggregate's own frame |
 | A4 landscape | 287 × 200 mm printable — **fits true size**, as it does on 8.5x11 |
-| pages | 2: `Top lines - right`, then `Top lines - left` |
+| pages | the last 2 of 45: `Top lines - right`, then `Top lines - left` |
 | prints at | **1 : 1** unless a sheet is too small, in which case it is reduced to fit and says so |
 
 - **It prints at true size because it is a size reference as much as a picture.** The aggregate
   authors it 1 unit = 1 mm, so a 1:1 sheet can be laid over the templates it describes. It is only
   ever *reduced* to get inside the sheet, never enlarged, and the scale is printed under the title.
 - **The left sheet is the right one mirrored** about the drawing's own bounding-box centre, so the
-  two sit exactly over each other when flipped. The labels ride the drawing and are re-centred
-  rather than mirrored, so both sheets read the right way round.
-- The sheet is marked `guide only - not a cutting template`.
+  two line up when one is flipped. The labels ride the drawing and are re-centred rather than
+  mirrored, so both sheets read the right way round.
+- Guide pages are marked `guide only - not a cutting template`, and they take the same paper as the
+  templates, so a sheet document is one paper size throughout.
+
+```bash
+# already in the committed documents; --no-toplines leaves them out
+python tools/make_feather_template_pdf_from_aggregate.py --tile-paper a4 --no-toplines
+
+# the guides on their own, as a two-page document
+python tools/make_feather_template_pdf_from_aggregate.py --toplines --out top-lines.pdf
+python tools/make_feather_template_pdf_from_aggregate.py --toplines --tile-paper 8.5x11 --list
+```
 
 Both papers take it: the drawing needs 182 × 96 mm and 8.5x11 prints 269.4 × 205.9 mm.
 

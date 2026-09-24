@@ -1935,6 +1935,7 @@ class PdfDocument:
     def __init__(self, title: str) -> None:
         self.pages: list = []
         self.forms: list = []
+        self.form_pages: list = []
         self.tile_pages: list = []
         self.metadata = {
             "Title": title,
@@ -1958,6 +1959,26 @@ class PdfDocument:
         name every form it draws, not just one.
         """
         self.tile_pages.append((width_mm, height_mm, content, used_forms))
+
+    def set_page_footer(self, text: str) -> None:
+        """Set the footer note drawn in the margin band of a plain page."""
+        self.footer_note = text
+
+    def set_page_footer(self, text: str) -> None:
+        """Set the footer note drawn in the margin band of a plain page."""
+        self.footer_note = text
+
+    def add_form_page(self, width_mm: float, height_mm: float, content: str,
+                      form_index: int) -> None:
+        """Add a plain page that draws one form, keeping the page order asked for.
+
+        `add_page` carries its content inline, which is simpler but means the page
+        must be added before any forms are registered -- forms are written earlier in
+        the file and would end up first in the page tree. A page that wants to sit
+        *after* the sheets therefore takes this route: register the form first, then
+        the page that draws it.
+        """
+        self.form_pages.append((width_mm, height_mm, content, form_index))
 
     def build(self) -> bytes:
         objects: list = []
@@ -2021,6 +2042,10 @@ class PdfDocument:
                 for index in sorted(set(used_forms))
             )
             xobjects = b" /XObject << " + entries + b" >>"
+            page_objs.append(emit_page(width_mm, height_mm, content, xobjects))
+        for width_mm, height_mm, content, form_index in self.form_pages:
+            xobjects = b" /XObject << /F%d %d 0 R >>" % (
+                form_index, form_obj_nums[form_index])
             page_objs.append(emit_page(width_mm, height_mm, content, xobjects))
 
         kids = b" ".join(b"%d 0 R" % n for n in page_objs)
@@ -2468,9 +2493,14 @@ def main(argv: list[str] | None = None) -> int:
                          "orientation")
     ap.add_argument(
         "--toplines", action="store_true",
-        help="draw the aggregate's leading-edge guides instead of the templates: two "
-             "sheets, the right side as the file holds it and its mirror for the left, "
-             "one side per page. Uses --tile-paper (default A4) and --tile-margin",
+        help="draw the aggregate's leading-edge guides INSTEAD of the templates: two "
+             "pages, the right side as the file holds it and its mirror for the left. "
+             "Without this the same two guide pages are added to the end of the normal "
+             "document, on the same paper",
+    )
+    ap.add_argument(
+        "--no-toplines", action="store_true",
+        help="leave the guide pages out of the normal document",
     )
     ap.add_argument(
         "--pair-orientation", choices=("auto", "upright", "headless"), default="auto",
@@ -2556,48 +2586,49 @@ def main(argv: list[str] | None = None) -> int:
 
     generated = build_stamp()[0]
 
-    # The guide document is its own thing: two sheets, one per side, of the
-    # leading-edge curves. Nothing about the templates changes, so it is handled
-    # before any of that work.
-    if args.toplines:
+    def read_guide() -> list:
+        """The guide sheets, right then left, or [] when the source has no toplines."""
         try:
             drawing = load_toplines(args.aggregate)
         except ET.ParseError as exc:
             raise SystemExit(f"{args.aggregate}: not a readable SVG ({exc})") from exc
         if drawing is None:
-            raise SystemExit(f"{args.aggregate}: no {TOPLINES_GROUP!r} group to draw")
+            if args.toplines:
+                raise SystemExit(
+                    f"{args.aggregate}: no {TOPLINES_GROUP!r} group to draw")
+            return []
         paper_label, portrait_w, portrait_h = tile_paper(
             args.tile_paper or DEFAULT_TOPLINES_PAPER)
         # landscape: the drawing is about 2:1 across, so that is the sheet it wants
         sheet_w, sheet_h = portrait_h, portrait_w
-        layouts = [
+        return [
             layout_guide(drawing, "right", sheet_w, sheet_h, args.tile_margin),
             layout_guide(mirror_drawing(drawing), "left", sheet_w, sheet_h,
                          args.tile_margin),
         ]
+
+    # --toplines on its own: just the guide, two pages, nothing else.
+    if args.toplines:
+        layouts = read_guide()
         if args.list:
-            print(f"toplines: {len(drawing.paths)} path(s), "
-                  f"{len(drawing.labels)} label(s), "
-                  f"{drawing.box[2] - drawing.box[0]:.1f} x "
-                  f"{drawing.box[3] - drawing.box[1]:.1f} mm in the aggregate")
             for index, layout in enumerate(layouts, start=1):
-                print(f"  page {index}: {layout.title:18} on {paper_label} "
-                      f"landscape {sheet_w:g} x {sheet_h:g} mm at "
+                print(f"  page {index}: {layout.title:18} "
+                      f"{layout.page_w:g} x {layout.page_h:g} mm at "
                       f"{abs(layout.to_page[0]):.3f} : 1")
             return 0
         build_guide_document(layouts, generated).write(args.out)
+        printed = "true size" if abs(layouts[0].to_page[0] - 1.0) < 1e-9 \
+            else f"{layouts[0].to_page[0]:.3f} : 1"
         print(f"wrote {args.out}")
         print(f"  source      : {args.aggregate}")
         print(f"  group       : {TOPLINES_GROUP} "
-              f"({len(drawing.paths)} path(s), {len(drawing.labels)} label(s))")
-        print(f"  drawing     : {drawing.box[2] - drawing.box[0]:.1f} x "
-              f"{drawing.box[3] - drawing.box[1]:.1f} mm in the aggregate")
-        print(f"  paper       : {paper_label} landscape "
-              f"({sheet_w:g} x {sheet_h:g} mm), margin {args.tile_margin:g} mm")
-        printed = "true size" if abs(layouts[0].to_page[0] - 1.0) < 1e-9 \
-            else f"{layouts[0].to_page[0]:.3f} : 1"
+              f"({len(layouts[0].drawing.paths)} path(s), "
+              f"{len(layouts[0].drawing.labels)} label(s))")
         print(f"  pages       : {len(layouts)} (right, then left) at {printed}")
         return 0
+
+    # Otherwise the guides ride along in the same document, after the templates.
+    guides = [] if args.no_toplines else read_guide()
 
     feathers = load_aggregate_feathers(args.aggregate, args.only)
     mode = args.pair_orientation
@@ -2674,9 +2705,17 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"  sheet {sheet_no:2}: page(s) "
                       + ", ".join(str(p) for p in pages)
                       + ("   [tiled]" if any(t.tiled for t in on) else ""))
+            for offset, layout in enumerate(guides, start=1):
+                print(f"  sheet {plan.sheet_total + offset:2}: {layout.title} "
+                      f"(guide, {layout.page_w:g} x {layout.page_h:g} mm, "
+                      f"{abs(layout.to_page[0]):.3f} : 1)")
             return 0
 
         doc = build_tiled_document(layouts, plan, generated, args.scale)
+        for offset, layout in enumerate(guides, start=1):
+            content = build_guide_page(layout, offset, len(guides), generated)
+            index = doc.add_form(layout.page_w, layout.page_h, content)
+            doc.add_form_page(layout.page_w, layout.page_h, "/F%d Do" % index, index)
         doc.write(args.out)
 
         print(f"wrote {args.out}")
@@ -2688,7 +2727,9 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  scale       : {args.scale:g} : 1")
         print(f"  logical     : {len(layouts)} poster page(s) "
               f"(from {len(feathers)} feather pairs)")
-        print(f"  sheets      : {plan.sheet_total}")
+        print(f"  sheets      : {plan.sheet_total}"
+              + (f" + {len(guides)} guide sheet(s): "
+                 + ", ".join(g.title for g in guides) if guides else ""))
         tiled = [p for p in range(1, len(layouts) + 1)
                  if any(t.tiled for t in plan.tiles if t.page_no == p)]
         print(f"                {len(layouts) - len(tiled)} page(s) fit a single "
@@ -2697,6 +2738,10 @@ def main(argv: list[str] | None = None) -> int:
         for index, layout in enumerate(layouts, start=1):
             print(f"    page {index:2}: {page_note(index):16} "
                   f"[{', '.join(layout.names)}]")
+        for offset, layout in enumerate(guides, start=1):
+            print(f"    sheet {plan.sheet_total + offset:2}: "
+                  f"{abs(layout.to_page[0]):.3f} : 1          "
+                  f"[{layout.title}]")
         return 0
 
     if args.list:
@@ -2704,18 +2749,27 @@ def main(argv: list[str] | None = None) -> int:
             names = ", ".join(layout.names)
             print(f"page {index:2}  {layout.page_w:6.1f} x {layout.page_h:7.1f} mm  "
                   f"{len(layout.slots)} pair(s)  {names}")
+        for offset, layout in enumerate(guides, start=1):
+            print(f"page {len(layouts) + offset:2}  {layout.page_w:6.1f} x "
+                  f"{layout.page_h:7.1f} mm  guide  {layout.title} "
+                  f"({abs(layout.to_page[0]):.3f} : 1)")
         return 0
 
     doc = PdfDocument("Feather templates from the aggregate - mirrored left/right pairs")
     for index, layout in enumerate(layouts, start=1):
         content = build_page(layout, index, len(layouts), generated, args.scale)
         doc.add_page(layout.page_w, layout.page_h, content)
+    for offset, layout in enumerate(guides, start=1):
+        doc.add_page(layout.page_w, layout.page_h,
+                     build_guide_page(layout, offset, len(guides), generated))
     doc.write(args.out)
 
     heights = [l.page_h for l in layouts]
     print(f"wrote {args.out}")
     print(f"  source      : {args.aggregate}")
-    print(f"  pages       : {len(layouts)} (from {len(feathers)} feather pairs)")
+    print(f"  pages       : {len(layouts)} (from {len(feathers)} feather pairs)"
+          + (f" + {len(guides)} guide page(s): "
+             + ", ".join(g.title for g in guides) if guides else ""))
     print(f"  scale       : {args.scale:g} : 1")
     print(f"  page width  : {PAGE_WIDTH_MM:g} mm (max)")
     print(f"  page height : {min(heights):.1f} .. {max(heights):.1f} mm")
@@ -2725,10 +2779,12 @@ def main(argv: list[str] | None = None) -> int:
     print(f"                {DENSE_GAP_MM:g} mm between pairs in a row, "
           f"{SPARSE_GAP_MM:g} mm around a lone pair")
     for index, layout in enumerate(layouts, start=1):
-        note = " ".join("headless" if s.headless else "upright" for s in layout.slots)
         print(f"    page {index:2}: {len(layout.slots)} pair(s) "
               f"{layout.page_w:.0f}x{layout.page_h:.0f} mm  "
               f"[{', '.join(layout.names)}]")
+    for offset, layout in enumerate(guides, start=1):
+        print(f"    page {len(layouts) + offset:2}: guide              "
+              f"{layout.page_w:.0f}x{layout.page_h:.0f} mm  [{layout.title}]")
     return 0
 
 

@@ -140,6 +140,77 @@ def _looks_tiled(pages: list, layouts: list) -> bool:
     return (abs(w_mm - layout.page_w) > 5e-3 or abs(h_mm - layout.page_h) > 5e-3)
 
 
+def _is_guide_page(body: bytes, objects: dict) -> bool:
+    """Whether a page object draws a toplines guide rather than a template.
+
+    The guides are added after the sheets and carry their own title, so the page's
+    text is the reliable mark. Anything without a readable content stream is treated
+    as a template page, so a malformed guide still fails the normal checks.
+    """
+    cref = re.search(rb"/Contents (\d+) 0 R", body)
+    if not cref:
+        return False
+    content = objects.get(int(cref.group(1)))
+    if content is None:
+        return False
+    stream = extract_stream(content)
+    if stream is None:
+        return False
+    try:
+        text = zlib.decompress(stream)
+    except Exception:  # noqa: BLE001
+        return False
+    return b"Top lines -" in text
+
+
+def _page_text(body: bytes, objects: dict) -> str:
+    """A page's content stream decoded, or "" when it cannot be read."""
+    cref = re.search(rb"/Contents (\d+) 0 R", body)
+    if not cref:
+        return ""
+    content = objects.get(int(cref.group(1)))
+    if content is None:
+        return ""
+    stream = extract_stream(content)
+    if stream is None:
+        return ""
+    try:
+        return zlib.decompress(stream).decode("ascii")
+    except Exception:  # noqa: BLE001
+        return ""
+
+
+def check_guides(guides: list, objects: dict, args) -> list:
+    """Check the guide pages: one per side, true size where the sheet allows.
+
+    The guides are not templates, so the template checks do not apply. What matters is
+    that both sides are there, in order, that the drawing carries its labels, that it
+    is marked as a guide, and that it is not printed larger than 1:1.
+    """
+    errors: list = []
+    if not guides:
+        return errors
+    expected = ("Top lines - right", "Top lines - left")
+    found = []
+    for index, (_num, body) in enumerate(guides, start=1):
+        text = _page_text(body, objects)
+        title = next((t for t in expected if t in text), None)
+        found.append(title)
+        if title is None:
+            errors.append(f"guide page {index}: has no 'Top lines - ...' title")
+            continue
+        if "guide only - not a cutting template" not in text:
+            errors.append(f"guide page {index} ({title}): not marked as a guide")
+        scale = re.search(r"(\d+\.\d+) : 1", text)
+        if scale and float(scale.group(1)) > 1.0001:
+            errors.append(
+                f"guide page {index} ({title}): printed at {scale.group(1)} : 1, "
+                f"larger than true size")
+    if found != list(expected):
+        errors.append(f"guide pages are {found}, expected {list(expected)}")
+    return errors
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("pdf", type=Path)
@@ -190,6 +261,14 @@ def main() -> int:
     print(f"{args.pdf.name}: {len(data) / 1024:.1f} KiB, {len(objects)} objects, "
           f"{len(pages)} page object(s)")
 
+    # The guide pages, if the document carries them, are not templates: they draw the
+    # toplines group and are checked separately. Splitting them out here keeps every
+    # check below one-to-one with the layouts.
+    guides = [p for p in pages if _is_guide_page(p[1], objects)]
+    if guides:
+        print(f"  {len(guides)} guide page(s) at the end, checked separately")
+    pages = [p for p in pages if p not in guides]
+
     # This verifier checks the logical pages, not the sheets they are placed on, so a
     # tiled sheet document is refused before anything else is judged: its pages are
     # sheets at paper size, and every check below would report a mismatch that is not
@@ -204,6 +283,8 @@ def main() -> int:
             f"    python {Path(__file__).name.replace('_verify_aggregate_pdf', 'make_feather_template_pdf_from_aggregate')}"
             f" --tile-paper a4 --list"
         )
+
+    errors.extend(check_guides(guides, objects, args))
 
     print(f"  {len(feathers)} feathers from {args.aggregate.name} planned onto "
           f"{len(layouts)} logical page(s), --pair-orientation {mode}")
