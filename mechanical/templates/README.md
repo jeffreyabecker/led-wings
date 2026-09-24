@@ -390,17 +390,28 @@ scale, per-feather transforms). For every feather group it writes `individuals/<
 ### Printable PDF straight from the aggregate
 
 ```bash
-python tools/make_feather_template_pdf_from_aggregate.py
+# the two committed sheet documents
+python tools/make_feather_template_pdf_from_aggregate.py --tile-paper a4
+python tools/make_feather_template_pdf_from_aggregate.py --tile-paper 8.5x11 \
+    --out mechanical/templates/as-built/print/feathers-from-aggregate-8.5x11.pdf
+
 python tools/make_feather_template_pdf_from_aggregate.py --list             # page plan only
 python tools/make_feather_template_pdf_from_aggregate.py --geometry-report  # per-feather audit
 python tools/make_feather_template_pdf_from_aggregate.py --only P1 B5 LC1   # a subset
 python tools/make_feather_template_pdf_from_aggregate.py --scale 0.8 --out half.pdf
 python tools/make_feather_template_pdf_from_aggregate.py --pair-orientation upright
 python tools/make_feather_template_pdf_from_aggregate.py --small-page-height none  # one long page per group
+python tools/make_feather_template_pdf_from_aggregate.py                    # poster pages, no tiling
 python tools/make_feather_template_pdf_from_aggregate.py --tile-paper a4 --list    # precalculate sheets
-python tools/make_feather_template_pdf_from_aggregate.py --tile-paper a4 --out sheets.pdf
-python tools/make_feather_template_pdf_from_aggregate.py --tile-paper 8.5x11 --out sheets-letter.pdf
 ```
+
+Two sheet documents are committed, one per paper, both from the same source and both **43 sheets** for
+the 20 logical pages:
+
+| file | paper | logical pages | sheets |
+| --- | --- | ---: | ---: |
+| [feathers-from-aggregate.pdf](as-built/print/feathers-from-aggregate.pdf) | A4 landscape | 20 | 43 |
+| [feathers-from-aggregate-8.5x11.pdf](as-built/print/feathers-from-aggregate-8.5x11.pdf) | 8.5x11 landscape | 21 | 43 |
 
 [tools/make_feather_template_pdf_from_aggregate.py](../../tools/make_feather_template_pdf_from_aggregate.py)
 generates [as-built/print/feathers-from-aggregate.pdf](as-built/print/feathers-from-aggregate.pdf)
@@ -408,22 +419,30 @@ from **[as-built/vectors/feathers-aggregate-min.svg](as-built/vectors/feathers-a
 the minified aggregate is the source of truth for the print documents. `--aggregate` points it at
 any other catalog instead.
 
-> **The two aggregates are not the same drawing, and the min one is smaller.**
-> `feathers-aggregate-min.svg` holds **28 of the 42 feathers** — no `P6`, `S5`, `S6`, `B4`, `B5`,
-> `A4`, `PC3`, `MC5`, `LC4`, `LC5`, `SC2`, `SC6`, `SC7` or `SC8` — and carries **no quill guides**,
-> so the base of each feather is read off the outline instead. Several of the feathers it does hold
-> are drawn at different sizes from the full catalog (`P4` is 416 mm long against 502 mm, `S4` 232
-> against 289, `SC1` 168 against 123). Printing from it therefore produces a different document from
-> printing from `feathers-aggregate.svg`; that is a property of the source, not of this script.
+> **The two aggregates are not the same drawing.** `feathers-aggregate-min.svg` holds **28 of the
+> 42 feathers** — no `P6`, `S5`, `S6`, `B4`, `B5`, `A4`, `PC3`, `MC5`, `LC4`, `LC5`, `SC2`, `SC6`,
+> `SC7` or `SC8` — and carries **no quill guides**, so the base of each feather is read off the
+> outline instead. Several of the feathers it does hold are drawn at different sizes from the full
+> catalog (`P1` is 98.7 mm across against 95.1, `P4` 417 mm long against 502). Printing from it
+> therefore produces a different document from printing from `feathers-aggregate.svg`; that is a
+> property of the source, not of this script. `--geometry-report` lists exactly what a source holds.
 
-**Page width is settled from the source.** A logical page is 273 mm because that tiles well, and a
-pair that does not fit it cannot be cut, so the document widens to the widest pair it holds and every
-page takes that width (`--page-width` sets the nominal figure instead). The min aggregate needs it:
-its `P1` is 118.5 mm across, so an upright pair wants 307 mm at the ideal 70 mm gap. At 273 mm it
-cannot fit at all; the build settles on **277.1 mm**, where `P1`'s pair fits with its gap closed to
-the 30 mm floor. The full aggregate needs no widening and its pages stay 273 mm.
+> **A hidden group does not print.** The generator honours `display:none`, so a group Inkscape has
+> switched off is skipped along with its feathers — deliberately, since that is what hiding a layer
+> means. This is worth checking first if feathers go missing: the file can hold 28 feather groups
+> while the document shows 8. `--geometry-report` prints the count it found.
 
-The document built from the min aggregate: **20 logical pages, 277.1 mm wide, 134–1043 mm tall**,
+**Page width is settled from the source, starting from the paper.** An explicit `--page-width` wins;
+otherwise a tiled build starts from the paper's printable width (287 mm on A4 landscape, 269.4 mm on
+8.5x11) and a poster build from the 273 mm default. A pair that needs more widens the document to the
+widest pair it holds, because every page takes the same width; a pair that fits is simply laid out at
+that width, its gap down to a 30 mm floor if the page is tight.
+
+On the current source nothing needs widening: A4 packs the 20 logical pages into 43 sheets at 287 mm,
+and 8.5x11 packs 21 pages into the same 43 sheets at 269.4 mm — one extra logical page, because a
+narrower page fits one fewer pair per row.
+
+The document built from the min aggregate: **20 logical pages on A4**, 287 mm wide, 134–1043 mm tall,
 28 mirrored pairs, true scale.
 
 > **This is the generator to use.**
@@ -456,31 +475,33 @@ What a document built this way has to do, and how it does it:
   feather. `--pair-orientation upright|headless` forces one convention.
 - **Gap.** 70 mm between the halves of a P, S or B pair, 30 mm for every other pair and between
   neighbouring pairs, 70 mm around a lone pair. The gap scales with `--scale`. If an upright pair
-  would otherwise exceed the 273 mm page (P1 and P2 come within 1–3 mm of it), its own gap gives
-  first, down to a 30 mm floor; only then does the build fail, loudly.
+  would otherwise exceed the page (P1 is the one that comes close), its own gap gives first, down to
+  a 30 mm floor; only then does the build fail, loudly.
 - **The small coverts are held to their own page height.** The long feathers set the document's
   budget (`--max-page-height`, 1050 mm), and the small ones are capped separately at
-  `--small-page-height` (**200 mm**): SC, PC, A, MC and LC pages come out 135–194 mm tall. That is
+  `--small-page-height` (**200 mm**): SC, PC, A, MC and LC pages come out 134–200 mm tall. That is
   the same trade the old 200 mm document made, and the reason for it is tiling — a 194 mm page goes
   into **one row** of sheets where a 1044 mm page needs six. A short-sheet printer that refuses a
-  tall page can print the 20 small-feather pages even though it cannot print the long ones.
-  Pass `--small-page-height none` for one long page per group (15 pages, 405–1044 mm).
+  tall page can print the small-feather pages even though it cannot print the long ones.
+  Pass `--small-page-height none` for one long page per group.
+
+A4 sheet plan for the current source — 20 logical pages, in this order:
 
 | page | content | page size |
 | --- | --- | --- |
-| 1–2 | `P1`, `P2`, one pair each | 277 × 560–567 mm |
-| 3 | `P3` + `P4` | 277 × 1043 mm |
-| 4 | `P5` | 277 × 405 mm |
-| 5–6 | `S1`–`S4`, two pairs per page | 277 × 635–840 mm |
-| 7 | `B1`–`B3` | 277 × 1004 mm |
-| 8–11 | `SC1`, `SC3`, `SC4`, `SC5` | 277 × 163–200 mm |
-| 12–13 | `PC1`, `PC2` | 277 × 180–187 mm |
-| 14–16 | `A1`–`A3` | 277 × 172–179 mm |
-| 17–18 | `MC1`–`MC4`, two pairs per page | 277 × 168 mm |
-| 19–20 | `LC1` alone, then `LC2` + `LC3` | 277 × 134–140 mm |
+| 1–2 | `P1`, `P2`, one pair each | 287 × 560–570 mm |
+| 3 | `P3` + `P4` | 287 × 1043 mm |
+| 4 | `P5` | 287 × 405 mm |
+| 5–6 | `S1`–`S4`, two pairs per page | 287 × 634–840 mm |
+| 7 | `B1`–`B3` | 287 × 1004 mm |
+| 8–11 | `SC1`, `SC3`, `SC4`, `SC5` | 287 × 163–200 mm |
+| 12–13 | `PC1`, `PC2` | 287 × 180–187 mm |
+| 14–16 | `A1`–`A3` | 287 × 171–179 mm |
+| 17–18 | `MC1`–`MC4`, two pairs per page | 287 × 154–168 mm |
+| 19–20 | `LC1` alone, then `LC2` + `LC3` | 287 × 134–139 mm |
 
 The small-feather pages are the ones the 200 mm cap produces; the long pages are packed to the
-1050 mm budget (`--max-page-height`).
+1050 mm budget (`--max-page-height`). Tell the generator to list its own plan with `--list`.
 Pages tile through Acrobat poster mode exactly as the older documents did: leave the tile scale at
 100% and check the 50 mm bar at the foot of any page once the tiles are joined. Builds are
 reproducible — set `SOURCE_DATE_EPOCH` and a rebuild is byte-identical.
@@ -494,21 +515,23 @@ placement are known up front: `--list` prints them.
 
 - A page that fits the printable area **whole is printed natively on one landscape sheet** — no
   grid, no overlap, no crop marks. That is the point of the small-page cap: 13 of the 20 pages come
-  out this way on A4, each centred in the sheet with its own header and footer.
+  out this way, each centred in the sheet with its own header and footer.
 - A page too big for one sheet is **tiled down a single column of landscape sheets**, one
-  full-printable-width sheet per step, `--tile-overlap` shared between neighbours and trimmed at
+  full-printable-width sheet step, `--tile-overlap` shared between neighbours and trimmed at
   each join. Those sheets carry corner crop marks and a `tile 1,3 of 1,3` stamp.
 - A page **wider than the paper can print** cannot be covered by one column — its right-hand strip
-  would print nowhere — so it falls back to as many columns as it takes. The build says so:
+  would print nowhere — so it falls back to as many columns as it takes, and the build says so:
 
   ```
   note: 20 page(s) are wider than 8.5x11 landscape can print (269.4 mm against
   277.1 mm), so they tile across two columns as well as down: page(s) 1, 2, ...
   ```
 
-  This is the one place paper and document disagree: the min aggregate's pages are 277.1 mm and
-  8.5x11 prints 269.4 mm, so **A4 is the paper that gives this document the intended one-column
-  tiling** (287 mm printable). Scaling the page down instead would print the templates undersized,
+  That is the one place paper and document can disagree, and the reason the page width is settled
+  *from the paper* rather than from a fixed 273 mm: starting from a page wider than the sheet forces
+  a two-column tile even when the pairs would have fitted one column at a slightly smaller gap. If
+  it does happen, use a wider sheet or `--scale` — scaling down would print the templates
+  undersized, and dropping the strip would lose the edge of a cut line.
   and quietly dropping the strip would lose the edge of a cut line.
 - Sheets are packed by **first fit** over the rectangles already spoken for, so a page that fits can
   share a sheet with the first tile of a tiled page instead of wasting it. In this catalogue the
@@ -517,12 +540,14 @@ placement are known up front: `--list` prints them.
 - Identical logical pages would share one form XObject, but every page's footer carries its own page
   number, so in practice each page gets its own form (20 forms for 20 pages).
 
-| paper (landscape) | printable | sheets for the 20 pages | tiling |
-| --- | ---: | ---: | --- |
-| `a4` | 287 × 200 mm | **43** | one column: 7 long pages tiled (30 sheets), 13 pages whole |
-| `8.5x11` | 269.4 × 205.9 mm | 86 | two columns: every page splits across the width |
+| paper (landscape) | printable | logical pages | sheets | tiling |
+| --- | ---: | ---: | ---: | --- |
+| `a4` | 287 × 200 mm | 20 | **43** | one column: 7 long pages tiled (30 sheets), 13 pages whole |
+| `8.5x11` | 269.4 × 205.9 mm | 21 | **43** | one column: 8 long pages tiled (30 sheets), 13 pages whole |
 
-Margin 5 mm, overlap 12.7 mm, gap 6 mm in both.
+Margin 5 mm, overlap 12.7 mm, gap 6 mm in both, and the same 30 tiled sheets either way — the
+narrower sheet simply packs the long feathers into 8 pages instead of 7 (B1+B2 and B3 split apart,
+and MC1+MC4 / MC2+MC3 pair up differently).
 
 Other options: `--aggregate` (source SVG), `--page-width` (nominal page width), `--max-page-height` /
 `--max-rows` / `--small-page-height` (page splitting), `--spacing` (gap between pairs sharing a row),
