@@ -121,6 +121,25 @@ def long_axis_angle(polys) -> float:
     return gen.min_width_angle([p for poly in polys for p in poly])
 
 
+def _looks_tiled(pages: list, layouts: list) -> bool:
+    """Whether the file has paper-sized pages holding the logical pages not one-to-one.
+
+    A tiled sheet document has more page objects than logical pages and every page is
+    a sheet size, so its first MediaBox will not match the layout it was built from.
+    """
+    if not pages or not layouts:
+        return False
+    if len(pages) == len(layouts):
+        return False
+    mb = re.search(rb"/MediaBox \[([^\]]+)\]", pages[0][1])
+    if not mb:
+        return False
+    vals = [float(v) for v in mb.group(1).split()]
+    w_mm, h_mm = vals[2] / gen.PT_PER_MM, vals[3] / gen.PT_PER_MM
+    layout = layouts[0]
+    return (abs(w_mm - layout.page_w) > 5e-3 or abs(h_mm - layout.page_h) > 5e-3)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("pdf", type=Path)
@@ -138,8 +157,8 @@ def main() -> int:
     ap.add_argument("--spacing", type=float, default=None)
     ap.add_argument("--page-width", type=float, default=None, metavar="MM",
                     help="nominal logical page width the build used (default "
-                         f"{gen.PAGE_WIDTH_MM:g} mm); a build that widened its "
-                         "pages settles the same way the generator does")
+                         f"{gen.PAGE_WIDTH_MM:g} mm); a build that widened its pages "
+                         "settles the same way the generator does")
     args = ap.parse_args()
 
     if args.spacing is not None:
@@ -156,7 +175,7 @@ def main() -> int:
     mode = args.pair_orientation
     # The generator widens the page when a pair needs more, so the verifier has to
     # settle the same width or it would rebuild a layout the file was not made from.
-    nominal = gen.PAGE_WIDTH_MM if args.page_width is None else args.page_width
+    nominal = gen.nominal_page_width(args.page_width, None)
     gen.PAGE_WIDTH_MM, width_note = gen.settle_page_width(feathers, args.scale,
                                                           mode, nominal)
     if width_note:
@@ -170,6 +189,22 @@ def main() -> int:
              if b"/Type /Page" in body and b"/Type /Pages" not in body]
     print(f"{args.pdf.name}: {len(data) / 1024:.1f} KiB, {len(objects)} objects, "
           f"{len(pages)} page object(s)")
+
+    # This verifier checks the logical pages, not the sheets they are placed on, so a
+    # tiled sheet document is refused before anything else is judged: its pages are
+    # sheets at paper size, and every check below would report a mismatch that is not
+    # a defect.
+    if _looks_tiled(pages, layouts):
+        raise SystemExit(
+            f"{args.pdf.name} is a tiled sheet document ({len(pages)} sheet(s) for "
+            f"{len(layouts)} logical page(s)). This verifier covers the logical pages "
+            f"only -- it rebuilds each page from the aggregate and compares it to the "
+            f"page object, which is one-to-one only for a poster build. Check a "
+            f"sheet document with the sheet plan instead:\n"
+            f"    python {Path(__file__).name.replace('_verify_aggregate_pdf', 'make_feather_template_pdf_from_aggregate')}"
+            f" --tile-paper a4 --list"
+        )
+
     print(f"  {len(feathers)} feathers from {args.aggregate.name} planned onto "
           f"{len(layouts)} logical page(s), --pair-orientation {mode}")
     if len(pages) != len(layouts):

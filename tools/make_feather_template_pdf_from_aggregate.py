@@ -1203,12 +1203,17 @@ def settle_page_width(feathers: list, scale: float = 1.0, mode: str = "auto",
                       nominal: float = PAGE_WIDTH_MM) -> tuple:
     """(page width, explanation) that every pair in the document fits on.
 
-    A logical page is 273 mm because that is what tiles well, not for its own sake.
-    A source whose feathers are drawn a little broader can need more: the minified
-    aggregate's P1 is 118.5 mm across, so its upright pair is 307 mm and nothing
-    about spacing rescues it. Rather than fail, the document widens to the widest
-    pair it holds -- which is a property of the source, not of one feather, so every
-    page gets the same width and the geometry stays comparable between them.
+    A logical page is as wide as it needs to be, and no wider. `nominal` is where
+    the search starts: 273 mm by default because that is what tiles well, or the
+    printable width of the paper when a tiled document is being made -- a logical
+    page squeezed onto paper cannot be *wider* than the paper prints, and starting
+    from 273 mm against an 8.5x11 sheet (269.4 mm) both forces a multi-column tile
+    and hides that a pair could have fitted one column at a slightly smaller gap.
+
+    A source whose feathers are drawn a little broader needs more than the nominal
+    width, and a pair that does not fit cannot be cut, so the document widens to the
+    widest pair it holds. That is a property of the source, not of one feather, so
+    every page gets the same width and the geometry stays comparable between them.
 
     Returns the nominal width when everything already fits, so the common case is
     unchanged and byte-identical.
@@ -1221,6 +1226,21 @@ def settle_page_width(feathers: list, scale: float = 1.0, mode: str = "auto",
              if minimum_page_width(f, scale, mode) > nominal + 1e-9]
     return width, (f"widened to {width:g} mm for {', '.join(names)} "
                    f"(the page is {nominal:g} mm unless a pair needs more)")
+
+
+def nominal_page_width(page_width: float | None, tile_paper_spec: str | None) -> float:
+    """The nominal logical page width for a build.
+
+    An explicit `--page-width` wins. Otherwise a tiled build starts from the paper's
+    printable width -- the page has to live on that sheet, so that is the width worth
+    asking for -- and a poster build starts from the 273 mm default.
+    """
+    if page_width is not None:
+        return page_width
+    if tile_paper_spec is not None:
+        _label, portrait_w, portrait_h = tile_paper(tile_paper_spec)
+        return portrait_h - 2.0 * TILE_MARGIN_MM     # landscape printable width
+    return PAGE_WIDTH_MM
     """Decide how this feather's pair is laid on the page.
 
     ``auto`` takes the shortest page; headless and upright are usually far enough
@@ -2336,7 +2356,7 @@ def main(argv: list[str] | None = None) -> int:
 
     # A pair that does not fit the page cannot be cut, so the width is the source's
     # question, not one feather's: every page gets the width the widest pair needs.
-    nominal_width = PAGE_WIDTH_MM if args.page_width is None else args.page_width
+    nominal_width = nominal_page_width(args.page_width, args.tile_paper)
     PAGE_WIDTH_MM, width_note = settle_page_width(feathers, args.scale, mode,
                                                   nominal_width)
     if width_note:
