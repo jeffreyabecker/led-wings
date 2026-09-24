@@ -64,7 +64,9 @@
 
 /* B -- body feathers */
 .B .outline { fill: #8c564b; }
-/* generated visibility lines -- see tools/generate_visibility_lines.py */
+
+/* Visibility lines: where each feather passes under the ones in front of it,
+   i.e. the edge of the part that is still exposed when the wing is assembled. */
 .visibility-line {
   fill: none;
   stroke: #e41a1c;
