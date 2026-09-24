@@ -1,11 +1,12 @@
 """Generate a printable, multi-page PDF of feather templates from the AGGREGATE SVG.
 
-This is a separate document from ``tools/make_feather_template_pdf.py`` (which reads one
-SVG per feather from ``as-built/vectors/individuals``, now removed). This generator
-takes its paths straight from the aggregate SVG that ``mechanical/templates/`` still
-keeps, which is its source of truth:
+This generator takes its paths straight from the aggregate SVG kept in
+``mechanical/templates/``, which is its source of truth:
 
-    mechanical/templates/as-built/vectors/feathers-aggregate-min.svg
+    mechanical/templates/feathers-aggregate-min.svg
+
+Both sheet documents live beside it as ``feathers-from-aggregate.pdf`` and
+``feathers-from-aggregate-8.5x11.pdf``.
 
 Three things the aggregate needs that the per-file source did not:
 
@@ -63,13 +64,9 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_SRC = (
-    REPO_ROOT / "mechanical" / "templates" / "as-built" / "vectors"
-    / "feathers-aggregate-min.svg"
-)
-DEFAULT_OUT = (
-    REPO_ROOT / "mechanical" / "templates" / "as-built" / "print" / "feathers-from-aggregate.pdf"
-)
+TEMPLATES_DIR = REPO_ROOT / "mechanical" / "templates"
+DEFAULT_SRC = TEMPLATES_DIR / "feathers-aggregate-min.svg"
+DEFAULT_OUT = TEMPLATES_DIR / "feathers-from-aggregate.pdf"
 SVG_NS = "http://www.w3.org/2000/svg"
 
 FLATTEN_TOL_MM = 0.02           # max chord deviation when flattening curves
