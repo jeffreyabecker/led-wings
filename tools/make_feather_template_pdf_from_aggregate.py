@@ -2,10 +2,10 @@
 
 This is a separate document from ``tools/make_feather_template_pdf.py`` (which reads one
 SVG per feather from ``as-built/vectors/individuals``, now removed). This generator
-takes its paths straight from the catalog built by
-``mechanical/templates/build-feather-aggregate.py``:
+takes its paths straight from the aggregate SVG that ``mechanical/templates/`` still
+keeps, which is its source of truth:
 
-    mechanical/templates/as-built/vectors/feathers-aggregate.svg
+    mechanical/templates/as-built/vectors/feathers-aggregate-min.svg
 
 Three things the aggregate needs that the per-file source did not:
 
