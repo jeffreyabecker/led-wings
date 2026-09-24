@@ -136,6 +136,10 @@ def main() -> int:
     ap.add_argument("--pair-orientation", choices=("auto", "upright", "headless"),
                     default="auto")
     ap.add_argument("--spacing", type=float, default=None)
+    ap.add_argument("--page-width", type=float, default=None, metavar="MM",
+                    help="nominal logical page width the build used (default "
+                         f"{gen.PAGE_WIDTH_MM:g} mm); a build that widened its "
+                         "pages settles the same way the generator does")
     args = ap.parse_args()
 
     if args.spacing is not None:
@@ -150,6 +154,13 @@ def main() -> int:
 
     feathers = gen.load_aggregate_feathers(args.aggregate, args.only)
     mode = args.pair_orientation
+    # The generator widens the page when a pair needs more, so the verifier has to
+    # settle the same width or it would rebuild a layout the file was not made from.
+    nominal = gen.PAGE_WIDTH_MM if args.page_width is None else args.page_width
+    gen.PAGE_WIDTH_MM, width_note = gen.settle_page_width(feathers, args.scale,
+                                                          mode, nominal)
+    if width_note:
+        print(f"  page width {width_note}")
     planned = gen.plan_pages(feathers, args.scale, args.max_page_height,
                              args.max_rows, mode, small_page_h)
     layouts = [gen.layout_page(group, rows, by_name, args.scale, mode)

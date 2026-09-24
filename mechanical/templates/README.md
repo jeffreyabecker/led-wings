@@ -402,9 +402,28 @@ python tools/make_feather_template_pdf_from_aggregate.py --tile-paper a4 --out s
 ```
 
 [tools/make_feather_template_pdf_from_aggregate.py](../../tools/make_feather_template_pdf_from_aggregate.py)
-generates [as-built/print/feathers-from-aggregate.pdf](as-built/print/feathers-from-aggregate.pdf):
-**31 logical pages holding all 42 feathers as left/right mirrored pairs**, 273 mm wide, 135–837 mm
-tall, at **true scale** (1 user unit = 1 mm, so geometry is emitted unchanged).
+generates [as-built/print/feathers-from-aggregate.pdf](as-built/print/feathers-from-aggregate.pdf)
+from **[as-built/vectors/feathers-aggregate-min.svg](as-built/vectors/feathers-aggregate-min.svg)** —
+the minified aggregate is the source of truth for the print documents. `--aggregate` points it at
+any other catalog instead.
+
+> **The two aggregates are not the same drawing, and the min one is smaller.**
+> `feathers-aggregate-min.svg` holds **28 of the 42 feathers** — no `P6`, `S5`, `S6`, `B4`, `B5`,
+> `A4`, `PC3`, `MC5`, `LC4`, `LC5`, `SC2`, `SC6`, `SC7` or `SC8` — and carries **no quill guides**,
+> so the base of each feather is read off the outline instead. Several of the feathers it does hold
+> are drawn at different sizes from the full catalog (`P4` is 416 mm long against 502 mm, `S4` 232
+> against 289, `SC1` 168 against 123). Printing from it therefore produces a different document from
+> printing from `feathers-aggregate.svg`; that is a property of the source, not of this script.
+
+**Page width is settled from the source.** A logical page is 273 mm because that tiles well, and a
+pair that does not fit it cannot be cut, so the document widens to the widest pair it holds and every
+page takes that width (`--page-width` sets the nominal figure instead). The min aggregate needs it:
+its `P1` is 118.5 mm across, so an upright pair wants 307 mm at the ideal 70 mm gap. At 273 mm it
+cannot fit at all; the build settles on **277.1 mm**, where `P1`'s pair fits with its gap closed to
+the 30 mm floor. The full aggregate needs no widening and its pages stay 273 mm.
+
+The document built from the min aggregate: **20 logical pages, 277.1 mm wide, 134–1043 mm tall**,
+28 mirrored pairs, true scale.
 
 > **This is the generator to use.**
 > [tools/make_feather_template_pdf.py](../../tools/make_feather_template_pdf.py) reads one SVG per
@@ -448,13 +467,19 @@ What a document built this way has to do, and how it does it:
 
 | page | content | page size |
 | --- | --- | --- |
-| 1–6 | `P1`…`P6`, one pair per page | 273 × 405–567 mm |
-| 7–9 | `S1`…`S6`, two pairs per page | 273 × 563–837 mm |
-| 10–11 | `B1`…`B5` | 273 × 728–793 mm |
-| 12–19 | `SC1`–`SC8`, one pair per page | 273 × 173–194 mm |
-| 20–22 | `PC1`–`PC3` | 273 × 173–187 mm |
-| 23–26 | `A1`–`A4` | 273 × 167–180 mm |
-| 27–31 | `MC1`–`MC5` + `LC1`–`LC5`, two pairs per page | 273 × 135–168 mm |
+| 1–2 | `P1`, `P2`, one pair each | 277 × 560–567 mm |
+| 3 | `P3` + `P4` | 277 × 1043 mm |
+| 4 | `P5` | 277 × 405 mm |
+| 5–6 | `S1`–`S4`, two pairs per page | 277 × 635–840 mm |
+| 7 | `B1`–`B3` | 277 × 1004 mm |
+| 8–11 | `SC1`, `SC3`, `SC4`, `SC5` | 277 × 163–200 mm |
+| 12–13 | `PC1`, `PC2` | 277 × 180–187 mm |
+| 14–16 | `A1`–`A3` | 277 × 172–179 mm |
+| 17–18 | `MC1`–`MC4`, two pairs per page | 277 × 168 mm |
+| 19–20 | `LC1` alone, then `LC2` + `LC3` | 277 × 134–140 mm |
+
+The small-feather pages are the ones the 200 mm cap produces; the long pages are packed to the
+1050 mm budget (`--max-page-height`).
 Pages tile through Acrobat poster mode exactly as the older documents did: leave the tile scale at
 100% and check the 50 mm bar at the foot of any page once the tiles are joined. Builds are
 reproducible — set `SOURCE_DATE_EPOCH` and a rebuild is byte-identical.
@@ -468,25 +493,25 @@ reproducible — set `SOURCE_DATE_EPOCH` and a rebuild is byte-identical.
 - A page that fits the printable area **whole is placed on one sheet** — no grid, no overlap, no
   crop marks. That is the common case here and it is what the small-page cap buys: all 20
   small-feather pages are single sheets.
-- A page too big for one sheet (every P, S and B page, and 273 mm-wide pages on US Letter, whose
-  printable area is 269 mm) is **tiled** on the overlapping grid, and its sheets carry corner crop
-  marks and a `tile 1,3 of 1,3` stamp.
+- A page too big for one sheet (every P, S and B page) is **tiled** on the overlapping grid, and its
+  sheets carry corner crop marks and a `tile 1,3 of 1,3` stamp.
 - Sheets are packed by **first fit** over the rectangles already spoken for, so a page that fits can
   share a sheet with the first tile of a tiled page instead of wasting it. In this catalogue the
-  pages are all too tall or too wide to pair up on A4, so nothing shares; an earlier draft that
-  ignored the free space managed to spend 59 sheets too, on pages that did not fit. Pages are never
-  rotated to fit: the title and footer would end up on their side.
+  pages are all too tall to pair up on A4, so nothing shares. Pages are never rotated to fit: the
+  title and footer would end up on their side.
 - Identical logical pages would share one form XObject, but every page's footer carries its own page
-  number, so in practice each page gets its own form (31 forms for 31 pages).
+  number, so in practice each page gets its own form (20 forms for 20 pages).
 
-The A4 landscape default (`--tile-margin 5`, `--tile-overlap 12.7`, `--tile-gap 6`) gives **59
-sheets**: 39 for the tiled long pages (P1–P6 three each, S1 five, S2 four, S3 three, B1 four, B2
-five) plus one for each of the 20 small-feather pages. `--tile-paper letter` tiles differently,
-because a 273 mm page does not fit Letter's 269 mm printable width: those pages go to 2 × 3 grids.
+The A4 landscape default (`--tile-margin 5`, `--tile-overlap 12.7`, `--tile-gap 6`) gives **43
+sheets** for the 20 pages: 30 to tile the seven long pages (P1, P2 and P5 three each, P3+P4 six,
+S1+S2 five, S3+S4 four, B1–B3 six) and one each for the 13 small-feather pages, which fit a sheet
+whole. `--tile-paper letter` tiles more aggressively, because a 277 mm page does not fit Letter's
+269 mm printable width: those pages go to 2-column grids, and a page tall enough needs several rows
+on top of that.
 
-Other options: `--aggregate` (source SVG), `--max-page-height` / `--max-rows` / `--small-page-height`
-(page splitting), `--spacing` (gap between pairs sharing a row), `--tile-margin` / `--tile-overlap` /
-`--tile-gap` (sheet planning).
+Other options: `--aggregate` (source SVG), `--page-width` (nominal page width), `--max-page-height` /
+`--max-rows` / `--small-page-height` (page splitting), `--spacing` (gap between pairs sharing a row),
+`--tile-margin` / `--tile-overlap` / `--tile-gap` (sheet planning).
 
 #### Verification
 

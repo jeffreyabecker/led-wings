@@ -64,7 +64,8 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_SRC = (
-    REPO_ROOT / "mechanical" / "templates" / "as-built" / "vectors" / "feathers-aggregate.svg"
+    REPO_ROOT / "mechanical" / "templates" / "as-built" / "vectors"
+    / "feathers-aggregate-min.svg"
 )
 DEFAULT_OUT = (
     REPO_ROOT / "mechanical" / "templates" / "as-built" / "print" / "feathers-from-aggregate.pdf"
@@ -1110,7 +1111,8 @@ class Pairing:
     height_mm: float
 
 
-def _pair_candidates(feather: Feather, scale: float, mode: str) -> list:
+def _pair_candidates(feather: Feather, scale: float, mode: str,
+                     page_w: float | None = None) -> list:
     """The pair layouts worth considering, each fitted to the page width.
 
     An upright pair is `2 * across + gap` wide, so the gap is the one dimension that
@@ -1124,13 +1126,16 @@ def _pair_candidates(feather: Feather, scale: float, mode: str) -> list:
     pair with its halves overlapping.
 
     Every figure on a Pairing is at TRUE size, including the gap; `--scale` is
-    applied once, when the pair is laid onto a page.
+    applied once, when the pair is laid onto a page. `page_w` defaults to the
+    document's page width (`PAGE_WIDTH_MM`); it is passed explicitly while the page
+    width itself is being decided, since that is the question being answered.
     """
     cut = feather.cut_box
     across = cut[2] - cut[0]         # across the feather (long axis vertical)
     along = cut[3] - cut[1]          # along the feather
     ideal = partner_gap(feather)     # true size; scales with the document
-    usable = (PAGE_WIDTH_MM - 2.0 * MIN_MARGIN_MM) * scale
+    width = PAGE_WIDTH_MM if page_w is None else page_w
+    usable = (width - 2.0 * MIN_MARGIN_MM) * scale
     candidates: list = []
 
     if mode in ("auto", "upright"):
@@ -1146,7 +1151,70 @@ def _pair_candidates(feather: Feather, scale: float, mode: str) -> list:
                                       along * scale, (2.0 * across + ideal) * scale))
     return candidates
 
+
 def pairing(feather: Feather, scale: float = 1.0, mode: str = "auto") -> Pairing:
+    """Decide how this feather's pair is laid on the page.
+
+    ``auto`` takes the shortest page; headless and upright are usually far enough
+    apart (S3: 88 mm of page height) that the choice is unambiguous, and where they
+    are close it hardly matters.
+    """
+    candidates = _pair_candidates(feather, scale, mode)
+    if not candidates:
+        cut = feather.cut_box
+        raise ValueError(
+            f"{feather.name}: no pair layout fits the {PAGE_WIDTH_MM:g} mm page "
+            f"(feather {cut[2] - cut[0]:.1f} x {cut[3] - cut[1]:.1f} mm across x "
+            f"along, {MIN_PARTNER_GAP_MM:g} mm minimum partner gap)"
+        )
+    return min(candidates, key=lambda p: p.height_mm)
+
+
+def minimum_page_width(feather: Feather, scale: float = 1.0,
+                       mode: str = "auto") -> float:
+    """The narrowest page this feather's pair can be laid on, in millimetres.
+
+    Found by searching, not by formula: `_pair_candidates` is the only thing that
+    knows what a pair needs (an upright pair can give up gap down to the floor, a
+    headless one cannot give up anything), so the question is simply the smallest
+    width at which it returns anything at all.
+    """
+    lo, hi = 0.0, 1.0
+    while not _pair_candidates(feather, scale, mode, hi):
+        hi *= 2.0
+        if hi > 1e5:
+            raise ValueError(f"{feather.name}: no page width can hold this pair")
+    for _ in range(40):
+        mid = (lo + hi) / 2.0
+        if _pair_candidates(feather, scale, mode, mid):
+            hi = mid
+        else:
+            lo = mid
+    return hi
+
+
+def settle_page_width(feathers: list, scale: float = 1.0, mode: str = "auto",
+                      nominal: float = PAGE_WIDTH_MM) -> tuple:
+    """(page width, explanation) that every pair in the document fits on.
+
+    A logical page is 273 mm because that is what tiles well, not for its own sake.
+    A source whose feathers are drawn a little broader can need more: the minified
+    aggregate's P1 is 118.5 mm across, so its upright pair is 307 mm and nothing
+    about spacing rescues it. Rather than fail, the document widens to the widest
+    pair it holds -- which is a property of the source, not of one feather, so every
+    page gets the same width and the geometry stays comparable between them.
+
+    Returns the nominal width when everything already fits, so the common case is
+    unchanged and byte-identical.
+    """
+    needed = max(minimum_page_width(f, scale, mode) for f in feathers)
+    if needed <= nominal + 1e-9:
+        return nominal, None
+    width = math.ceil(needed * 10.0) / 10.0
+    names = [f.name for f in feathers
+             if minimum_page_width(f, scale, mode) > nominal + 1e-9]
+    return width, (f"widened to {width:g} mm for {', '.join(names)} "
+                   f"(the page is {nominal:g} mm unless a pair needs more)")
     """Decide how this feather's pair is laid on the page.
 
     ``auto`` takes the shortest page; headless and upright are usually far enough
@@ -2099,7 +2167,7 @@ def build_tiled_document(layouts: list, plan: SheetPlan, generated: str,
 # CLI
 # ---------------------------------------------------------------------------
 def main(argv: list[str] | None = None) -> int:
-    global DENSE_GAP_MM, SPARSE_GAP_MM
+    global DENSE_GAP_MM, SPARSE_GAP_MM, PAGE_WIDTH_MM
 
     ap = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -2153,6 +2221,13 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--tile-gap", type=float, default=TILE_GAP_MM, metavar="MM",
                     help=f"clear space between two pages sharing one sheet "
                          f"(default {TILE_GAP_MM:g} mm)")
+    ap.add_argument(
+        "--page-width", type=float, default=None, metavar="MM",
+        help=f"nominal logical page width (default {PAGE_WIDTH_MM:g} mm). A source "
+             f"whose pairs need more widens the document to the widest of them, since "
+             f"a pair that does not fit cannot be cut; pass a value to set it "
+             f"yourself",
+    )
     args = ap.parse_args(argv)
 
     if args.spacing is not None:
@@ -2185,8 +2260,19 @@ def main(argv: list[str] | None = None) -> int:
     if args.tile_gap < 0:
         raise SystemExit("--tile-gap cannot be negative")
 
+    if args.page_width is not None and args.page_width <= 0:
+        raise SystemExit("--page-width must be positive")
+
     feathers = load_aggregate_feathers(args.aggregate, args.only)
     mode = args.pair_orientation
+
+    # A pair that does not fit the page cannot be cut, so the width is the source's
+    # question, not one feather's: every page gets the width the widest pair needs.
+    nominal_width = PAGE_WIDTH_MM if args.page_width is None else args.page_width
+    PAGE_WIDTH_MM, width_note = settle_page_width(feathers, args.scale, mode,
+                                                  nominal_width)
+    if width_note:
+        print(f"note: page width {width_note}")
 
     if args.geometry_report:
         print(f"{args.aggregate.name}: {len(feathers)} feather(s)")
