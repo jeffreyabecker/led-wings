@@ -553,6 +553,37 @@ Other options: `--aggregate` (source SVG), `--page-width` (nominal page width), 
 `--max-rows` / `--small-page-height` (page splitting), `--spacing` (gap between pairs sharing a row),
 `--tile-margin` / `--tile-overlap` / `--tile-gap` (sheet planning).
 
+#### Guide sheets: the `toplines` group (`--toplines`)
+
+```bash
+python tools/make_feather_template_pdf_from_aggregate.py --toplines --list
+python tools/make_feather_template_pdf_from_aggregate.py --toplines \
+    --out mechanical/templates/as-built/print/feathers-toplines.pdf
+python tools/make_feather_template_pdf_from_aggregate.py --toplines --tile-paper 8.5x11 --out top-8.5x11.pdf
+```
+
+The `toplines` group is the leading-edge curve drawn along each feather group, with a label naming the
+group it belongs to. It is **skipped when reading templates** — it is not a cut line — but
+`--toplines` draws it on its own: **two pages, one side each**, the right side as the aggregate holds
+it and its mirror for the left.
+
+| | |
+| --- | --- |
+| drawing | **182 × 96 mm** in the aggregate's own frame |
+| A4 landscape | 287 × 200 mm printable — **fits true size**, as it does on 8.5x11 |
+| pages | 2: `Top lines - right`, then `Top lines - left` |
+| prints at | **1 : 1** unless a sheet is too small, in which case it is reduced to fit and says so |
+
+- **It prints at true size because it is a size reference as much as a picture.** The aggregate
+  authors it 1 unit = 1 mm, so a 1:1 sheet can be laid over the templates it describes. It is only
+  ever *reduced* to get inside the sheet, never enlarged, and the scale is printed under the title.
+- **The left sheet is the right one mirrored** about the drawing's own bounding-box centre, so the
+  two sit exactly over each other when flipped. The labels ride the drawing and are re-centred
+  rather than mirrored, so both sheets read the right way round.
+- The sheet is marked `guide only - not a cutting template`.
+
+Both papers take it: the drawing needs 182 × 96 mm and 8.5x11 prints 269.4 × 205.9 mm.
+
 #### Verification
 
 ```bash

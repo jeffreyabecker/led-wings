@@ -77,8 +77,11 @@ PT_PER_MM = 72.0 / 25.4
 DEFAULT_STROKE_MM = 0.5         # the aggregate's `.group` stylesheet
 
 # Groups that are scaffolding rather than feather geometry, matched on the `id` of a
-# top-level group in the aggregate. Everything inside them is ignored.
+# top-level group in the aggregate. Everything inside them is ignored when reading
+# feathers -- but the toplines group can be asked for on its own with --toplines,
+# which is what TOPLINES_GROUP is for.
 SKIP_GROUPS = ("toplines",)
+TOPLINES_GROUP = "toplines"
 
 # Feather order: inner primary (P1) through to the small lower coverts.
 FEATHER_ORDER = (
@@ -128,6 +131,11 @@ LABEL_SIZE_MM = 4.4
 ID_SIZE_MM = 6.0
 FOOT_SIZE_MM = 3.0
 LABEL_GAP_MM = 0.9              # gap from the pair to its ID line
+# Guide sheets: the bands the title and footer need, and the size of the labels that
+# ride the toplines drawing.
+GUIDE_HEAD_MM = 15.2
+GUIDE_FOOT_MM = 9.0
+GUIDE_LABEL_MM = 4.2
 MIN_PAGE_HEIGHT_MM = 60.0
 SCALE_BAR_MM = 50.0
 MAX_PAGE_HEIGHT_MM = 1050.0     # pages are packed up to about this height
@@ -163,6 +171,7 @@ TILE_PAPER_NAMES = "8.5x11|a4"   # what the CLI advertises
 TILE_MARGIN_MM = 5.0             # non-printable margin kept clear on each sheet
 TILE_OVERLAP_MM = 12.7           # Acrobat's default poster overlap (0.5 in)
 TILE_GAP_MM = 6.0                # clear space between two pages sharing one sheet
+DEFAULT_TOPLINES_PAPER = "a4"    # what --toplines assumes when --tile-paper is absent
 
 HALF_FILL = (0.93, 0.93, 0.93)
 GUIDE_GREY = (0.55, 0.55, 0.55)
@@ -716,6 +725,194 @@ def _outline_and_centreline(group) -> tuple:
         outline = candidates[0] if candidates else None
     lines = [el for el in paths if (el.get("id") or "").strip().endswith("-center-line")]
     return outline, lines
+
+
+@dataclass
+class GuideDrawing:
+    """The toplines group, lifted out of the aggregate as drawable geometry.
+
+    A guide drawing, not a template: these are the leading-edge curves the aggregate
+    draws along each feather group, with a label naming the group they belong to.
+    They live in the aggregate's own frame and are small -- 182 x 96 mm on the current
+    source, against 287 x 200 mm of A4 landscape -- so they fit ONE sheet with room to
+    spare, which is what ``fit_guide_to_page`` scales them onto.
+    """
+
+    paths: list           # flat polylines, aggregate mm
+    labels: list          # (text, x, y), aggregate mm
+    box: tuple            # bbox of paths and labels together
+    stroke_mm: float
+
+
+def load_toplines(path: Path) -> GuideDrawing | None:
+    """Read the ``toplines`` group, or None if the file has none.
+
+    Reads it even when the group is hidden: the generator skips hidden *feather* groups
+    because hiding one means "not in this document", but the toplines group is the
+    thing being asked for here, and asking for it is the point.
+    """
+    root = ET.parse(path).getroot()
+    parents = _matrix_chain(root)
+    group = next((g for g in root.iter(f"{{{SVG_NS}}}g")
+                  if (g.get("id") or "") == TOPLINES_GROUP), None)
+    if group is None:
+        return None
+
+    base = element_matrix(group, parents)
+    polys: list = []
+    labels: list = []
+    stroke = 0.3
+    for el in group:
+        kind = _local(el.tag)
+        m = mat_mul(base, parse_transform(el.get("transform", "")))
+        if kind == "path":
+            d = el.get("d")
+            if not d:
+                continue
+            polys.extend(flatten_path(transform_path(parse_path(d), m)))
+            raw = el.get("stroke-width")
+            if raw:
+                nums = NUMBER_RE.findall(raw)
+                if nums:
+                    stroke = max(stroke, float(nums[0]))
+        elif kind == "text":
+            text = "".join(t.text or "" for t in el.iter()
+                           if _local(t.tag) == "tspan").strip()
+            if not text:
+                text = (el.text or "").strip()
+            if not text:
+                continue
+            try:
+                x = float(el.get("x"))
+                y = float(el.get("y"))
+            except (TypeError, ValueError):
+                continue
+            labels.append((text, *mat_apply(m, x, y)))
+
+    if not polys and not labels:
+        return None
+    xs = [p[0] for poly in polys for p in poly] + [lab[1] for lab in labels]
+    ys = [p[1] for poly in polys for p in poly] + [lab[2] for lab in labels]
+    return GuideDrawing(polys, labels, (min(xs), min(ys), max(xs), max(ys)), stroke)
+
+
+def mirror_drawing(drawing: GuideDrawing) -> GuideDrawing:
+    """The same drawing reflected, for the other side.
+
+    The aggregate draws ONE side of the wing -- the right, as built. The left is its
+    mirror, and the mirror line is the drawing's own bounding-box centre so the left
+    version sits exactly over the right one rather than drifting with the frame.
+    """
+    x0, _y0, x1, _y1 = drawing.box
+    axis = (x0 + x1) / 2.0
+    paths = [[(2.0 * axis - x, y) for x, y in poly] for poly in drawing.paths]
+    labels = [(text, 2.0 * axis - x, y) for text, x, y in drawing.labels]
+    xs = [p[0] for poly in paths for p in poly] + [lab[1] for lab in labels]
+    ys = [p[1] for poly in paths for p in poly] + [lab[2] for lab in labels]
+    return GuideDrawing(paths, labels, (min(xs), min(ys), max(xs), max(ys)),
+                        drawing.stroke_mm)
+
+
+@dataclass
+class GuideLayout:
+    """One sheet holding a guide drawing, scaled to sit whole on it."""
+
+    page_w: float
+    page_h: float
+    margin: float
+    title: str
+    subtitle: str
+    drawing: GuideDrawing
+    to_page: tuple        # aggregate mm -> page mm
+
+    @property
+    def names(self) -> list:
+        return [self.title]
+
+
+def layout_guide(drawing: GuideDrawing, side: str, paper_w: float, paper_h: float,
+                 margin: float = MARGIN_MM, max_scale: float = 1.0) -> GuideLayout:
+    """Lay a guide drawing on one sheet, centred, at true size where it fits.
+
+    **1:1 by default**, because the drawing is a size reference as much as a picture:
+    printed at true size it can be laid over the templates it describes, and the
+    aggregate authors it 1 unit = 1 mm. It is only ever reduced (never enlarged) to
+    get inside the sheet -- a 182 x 96 mm drawing has room to spare on either paper,
+    so the default prints it exactly as drawn. `max_scale` above 1 allows enlarging
+    for reading, and the scale always goes on the page so the sheet cannot be
+    mistaken for true size when it is not.
+    """
+    usable_w = paper_w - 2.0 * margin
+    usable_h = paper_h - 2.0 * margin - GUIDE_HEAD_MM - GUIDE_FOOT_MM
+    if usable_w <= 0 or usable_h <= 0:
+        raise ValueError(
+            f"margin {margin:g} mm leaves no room for the toplines on a "
+            f"{paper_w:g} x {paper_h:g} mm sheet"
+        )
+    x0, y0, x1, y1 = drawing.box
+    w, h = x1 - x0, y1 - y0
+    if w <= 0 or h <= 0:
+        raise ValueError("the toplines drawing is empty")
+    scale = min(usable_w / w, usable_h / h, max_scale)
+    body_bottom = margin + GUIDE_FOOT_MM
+    centre_x = paper_w / 2.0
+    centre_y = body_bottom + usable_h / 2.0
+    to_page = (
+        scale, 0.0, 0.0, -scale,
+        centre_x - scale * (x0 + x1) / 2.0,
+        centre_y + scale * (y0 + y1) / 2.0,
+    )
+    fit = "true size" if abs(scale - 1.0) < 1e-9 else f"{scale:.3f} : 1"
+    return GuideLayout(
+        page_w=paper_w, page_h=paper_h, margin=margin,
+        title=f"Top lines - {side}",
+        subtitle=f"leading-edge guides from the aggregate, {fit} "
+                 f"({side} side; the aggregate holds the right)",
+        drawing=drawing, to_page=to_page,
+    )
+
+
+def build_guide_page(layout: GuideLayout, page_no: int, page_total: int,
+                     generated: str) -> str:
+    """One sheet of the guide document: the drawing, its title and its labels."""
+    cmds: list = [
+        "1 0 0 1 0 0 cm",
+        f"{num(PT_PER_MM)} 0 0 {num(PT_PER_MM)} 0 0 cm",
+    ]
+
+    stroke = layout.drawing.stroke_mm * abs(layout.to_page[0])
+    for poly in transform_polys(layout.drawing.paths, layout.to_page):
+        cmds.append(f"{rgb((0, 0, 0))} RG {num(stroke)} w")
+        cmds.append(path_cmd([poly], close=False))
+        cmds.append("S")
+
+    # The labels ride the drawing, so the mirrored sheet reads the right way round.
+    for text, x, y in layout.drawing.labels:
+        px, py = mat_apply(layout.to_page, x, y)
+        cmds.append(text_cmd(px, py, GUIDE_LABEL_MM, text, color=(0, 0, 0),
+                             align="center"))
+
+    header_y = layout.page_h - MARGIN_TOP_MM - ID_SIZE_MM
+    cmds.append(text_cmd(layout.page_w / 2.0, header_y, ID_SIZE_MM,
+                         layout.title, color=(0, 0, 0), align="center"))
+    cmds.append(text_cmd(layout.page_w / 2.0, header_y - 4.6, FOOT_SIZE_MM,
+                         layout.subtitle, color=TEXT_GREY, align="center"))
+    cmds.append(text_cmd(layout.margin, MARGIN_BOTTOM_MM + 1.2, FOOT_SIZE_MM,
+                         f"page {page_no} of {page_total}   generated {generated}",
+                         color=TEXT_GREY))
+    cmds.append(text_cmd(layout.page_w - layout.margin, MARGIN_BOTTOM_MM + 1.2,
+                         FOOT_SIZE_MM, "guide only - not a cutting template",
+                         color=TEXT_GREY, align="right"))
+    return "\n".join(cmds)
+
+
+def build_guide_document(layouts: list, generated: str) -> PdfDocument:
+    """The guide document: one side per page, each on its own sheet."""
+    doc = PdfDocument("Feather top lines - left and right")
+    for index, layout in enumerate(layouts, start=1):
+        doc.add_page(layout.page_w, layout.page_h,
+                     build_guide_page(layout, index, len(layouts), generated))
+    return doc
 
 
 def _feather_groups(root) -> list:
@@ -2270,6 +2467,12 @@ def main(argv: list[str] | None = None) -> int:
                     help="list each feather's aggregate size, turn applied and pair "
                          "orientation")
     ap.add_argument(
+        "--toplines", action="store_true",
+        help="draw the aggregate's leading-edge guides instead of the templates: two "
+             "sheets, the right side as the file holds it and its mirror for the left, "
+             "one side per page. Uses --tile-paper (default A4) and --tile-margin",
+    )
+    ap.add_argument(
         "--pair-orientation", choices=("auto", "upright", "headless"), default="auto",
         help="how a pair is laid on the page: 'headless' turns it a quarter turn so "
              "the halves stack (shortest page height), 'upright' keeps them side by "
@@ -2351,6 +2554,51 @@ def main(argv: list[str] | None = None) -> int:
     if args.page_width is not None and args.page_width <= 0:
         raise SystemExit("--page-width must be positive")
 
+    generated = build_stamp()[0]
+
+    # The guide document is its own thing: two sheets, one per side, of the
+    # leading-edge curves. Nothing about the templates changes, so it is handled
+    # before any of that work.
+    if args.toplines:
+        try:
+            drawing = load_toplines(args.aggregate)
+        except ET.ParseError as exc:
+            raise SystemExit(f"{args.aggregate}: not a readable SVG ({exc})") from exc
+        if drawing is None:
+            raise SystemExit(f"{args.aggregate}: no {TOPLINES_GROUP!r} group to draw")
+        paper_label, portrait_w, portrait_h = tile_paper(
+            args.tile_paper or DEFAULT_TOPLINES_PAPER)
+        # landscape: the drawing is about 2:1 across, so that is the sheet it wants
+        sheet_w, sheet_h = portrait_h, portrait_w
+        layouts = [
+            layout_guide(drawing, "right", sheet_w, sheet_h, args.tile_margin),
+            layout_guide(mirror_drawing(drawing), "left", sheet_w, sheet_h,
+                         args.tile_margin),
+        ]
+        if args.list:
+            print(f"toplines: {len(drawing.paths)} path(s), "
+                  f"{len(drawing.labels)} label(s), "
+                  f"{drawing.box[2] - drawing.box[0]:.1f} x "
+                  f"{drawing.box[3] - drawing.box[1]:.1f} mm in the aggregate")
+            for index, layout in enumerate(layouts, start=1):
+                print(f"  page {index}: {layout.title:18} on {paper_label} "
+                      f"landscape {sheet_w:g} x {sheet_h:g} mm at "
+                      f"{abs(layout.to_page[0]):.3f} : 1")
+            return 0
+        build_guide_document(layouts, generated).write(args.out)
+        print(f"wrote {args.out}")
+        print(f"  source      : {args.aggregate}")
+        print(f"  group       : {TOPLINES_GROUP} "
+              f"({len(drawing.paths)} path(s), {len(drawing.labels)} label(s))")
+        print(f"  drawing     : {drawing.box[2] - drawing.box[0]:.1f} x "
+              f"{drawing.box[3] - drawing.box[1]:.1f} mm in the aggregate")
+        print(f"  paper       : {paper_label} landscape "
+              f"({sheet_w:g} x {sheet_h:g} mm), margin {args.tile_margin:g} mm")
+        printed = "true size" if abs(layouts[0].to_page[0] - 1.0) < 1e-9 \
+            else f"{layouts[0].to_page[0]:.3f} : 1"
+        print(f"  pages       : {len(layouts)} (right, then left) at {printed}")
+        return 0
+
     feathers = load_aggregate_feathers(args.aggregate, args.only)
     mode = args.pair_orientation
 
@@ -2387,7 +2635,6 @@ def main(argv: list[str] | None = None) -> int:
                          mode, small_page_h)
     layouts = [layout_page(group, rows, by_name, args.scale, mode)
                for group, rows, by_name in planned]
-    generated = build_stamp()[0]
 
     if args.tile_paper is not None:
         try:
