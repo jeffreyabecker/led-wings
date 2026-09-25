@@ -66,6 +66,9 @@ B1 B2 B3
 
 28 total. These IDs map directly to `individuals/<ID>.svg`.
 
+> **Orientation:** every feather is stored right-hand with its long axis vertical,
+> except `B1`–`B3`, which are stored horizontal and are rotated 90° clockwise (§7).
+
 ---
 
 ## 4. Outputs
@@ -130,10 +133,11 @@ sheets. Its own coordinate system is also top-left origin, in mm.
 
 ## 7. The pair (mirror) geometry — the exact rule
 
-For one feather of size `W` × `H` (width × height, from the individual's
-`width`/`height` attributes):
+For one feather, let **`W` × `H`** be its *placed* size — the outline's width ×
+height **after** any rotation below — derived from the individual's
+`width`/`height` attributes.
 
-- **Right half** is drawn in its native orientation.
+- **Right half** is drawn in its placed orientation.
 - **Mirror axis** is a vertical line at `AX`.
 - **Left half** is the same drawing reflected across `AX`.
 
@@ -152,6 +156,26 @@ Pair box (for packing/tiling):
 pair_w = 2*W + GAP
 pair_h = H
 ```
+
+### Rotation (B group only)
+
+Every feather is stored with its **long axis vertical**, except the **B group**
+(`B1`–`B3`), which is stored **horizontal**. The B feathers are rotated **90°
+clockwise** before pairing; after that they are handled exactly like the rest.
+
+For a B feather with file size `Wf × Hf` (wide × short) and viewBox origin
+`(x0, y0)`:
+
+```
+placed W = Hf      placed H = Wf
+right inner = translate(Hf/2, Wf/2) rotate(90) translate(-(x0+Wf/2), -(y0+Hf/2))
+```
+
+`rotate(90)` is clockwise on screen (y-down), so the wide axis becomes vertical.
+The mirror and labels then use the placed `W, H` unchanged.
+
+For every other feather the right inner transform is just
+`translate(-x0, -y0)` (the viewBox origin), with placed `W, H` = file `Wf, Hf`.
 
 ### Worked example (W = 50, GAP = 10, RX = 5)
 
@@ -222,11 +246,11 @@ sheet_y = ly − r·stride_y + MARGIN
 | P5 | 209.1 × 235.0 | 1 × 2 | 2 |
 | S1 | 180.9 × 255.9 | 1 × 2 | 2 |
 | S2 | 176.0 × 251.4 | 1 × 2 | 2 |
-| B1 | 396.3 × 81.8 | 2 × 1 | 2 |
-| B2 | 429.0 × 76.1 | 2 × 1 | 2 |
-| B3 | 459.7 × 72.3 | 2 × 1 | 2 |
+| B2 | 162.2 × 209.5 | 1 × 2 | 2 |
+| B3 | 154.7 × 224.9 | 1 × 2 | 2 |
 
-`S3` (176.0 × 202.4) and everything smaller **fit whole** and are packed.
+`B1` (173.5 × 193.2), `S3` (176.0 × 202.4) and everything smaller **fit whole** and
+are packed.
 
 ---
 
@@ -338,8 +362,9 @@ read individuals   → 28 (id → W,H,viewBox, inner <g> + ns decls)
 - ❌ No hand-written PDF bytes (`zlib`, xref, trailer) — cairosvg + pypdf own PDF.
 - ❌ No custom SVG path parser, cubic flattener, or transform matrix library — the
   individuals are already clean, axis-aligned, identity-scaled.
-- ❌ No upright-rotation / `min_width_angle` / anisotropy calibration — no rotation
-  is needed; the mirror axis is always vertical and oversized pairs tile instead.
+- ❌ No automatic orientation detection (`min_width_angle` / `upright_matrix`) or
+  anisotropy calibration — the only rotation is a hard-coded 90° clockwise for the
+  B group, and the mirror axis is always vertical.
 - ❌ No centerline / quill-guide / visibility-line handling — those concepts are gone.
 - ❌ No page-width "settling", partner-gap search, headless quarter-turn mode, or
   scale parameter — one fixed set of constants, one run.
