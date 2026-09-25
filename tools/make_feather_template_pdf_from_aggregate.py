@@ -1,4 +1,8 @@
-"""Generate a printable, multi-page PDF of feather templates from the AGGREGATE SVG.
+"""
+IGNORE THIS SCRIPT FOR NOW. The feather template generator is being rewritten to use a different approach.
+
+
+Generate a printable, multi-page PDF of feather templates from the AGGREGATE SVG.
 
 This generator takes its paths straight from the aggregate SVG kept in
 ``mechanical/templates/``, which is its source of truth:
