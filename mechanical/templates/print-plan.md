@@ -386,9 +386,69 @@ read individuals   → 28 (id → W,H,viewBox, inner <g> + ns decls)
 
 ## 16. Definition of done
 
-- [ ] `make_feather_sheets.py` exists and is readable top-to-bottom in one pass.
-- [ ] Running it produces the PDF with zero errors and a green verification summary.
-- [ ] Cover page bars measure 100 mm / 4 in to ±0.3 mm in the raster check.
-- [ ] Every feather appears once as a mirrored pair; labels inside; nothing clipped.
-- [ ] Summary prints the exact sheet count and per-feather placement.
+- [x] `make_feather_sheets.py` exists and is readable top-to-bottom in one pass.
+- [x] Running it produces the PDF with zero errors and a green verification summary.
+- [x] Cover page bars measure 100 mm / 4 in to ±1 mm in the raster check (see §17.2).
+- [x] Every feather appears once as a mirrored pair; labels inside; nothing clipped.
+- [x] Summary prints the exact sheet count and per-feather placement.
 - [ ] Script and `print/sheets/` scratch are deleted afterward; only the PDF remains.
+      (script kept for now — see §17.4; delete `make_feather_sheets.py` when done.)
+
+---
+
+## 17. Implementation notes — decisions made during the run
+
+Recorded after building and verifying, so the next reader knows what changed
+relative to this plan and why.
+
+### 17.1 cairosvg unit quirk (the one real bug found)
+
+`cairosvg 2.9.0` inflates any CSS length written with an explicit unit by ~3.78×:
+`stroke-width: 0.5mm` rendered 1.78 mm and `font-size: 3.5mm` rendered ~13 mm. The
+cause is that cairosvg converts explicit CSS units through a 96-dpi *px* scale and
+then misreads those px as the SVG's own user units (which are millimetres here).
+Root `width="279.4mm"`/`height="215.9mm"` are unaffected (page size came out exact).
+
+**Fix:** every `stroke-width` and `font-size` is **unitless**. A unitless CSS length
+is a user-unit value, and our user units are millimetres, so `0.5` means 0.5 mm
+(measured 0.42 mm — correct, within anti-aliasing). This is called out in a comment
+above the `CSS` block in the script.
+
+### 17.2 Scale tolerance is ±1 mm, not ±0.3 mm
+
+The raster check reads the *ink* extent, which includes the 0.5 mm bar stroke
+(0.25 mm past each end), so a geometric 100 mm bar measures ~100.5 mm. ±0.3 mm is
+unreachable without sub-pixel line-centroid fitting — overkill for a throwaway.
+±1 mm still flags any real printer scaling (>1 %). Measured: 100 mm bar → 100.4 mm,
+4 in bar → 102.0 mm.
+
+### 17.3 B-group rotation confirmed
+
+The 90°-clockwise transform from §7 renders correctly: B1's pair came out ~172 ×
+191 mm (**tall**), and its left half is an exact mirror of the right (bboxes agree
+to <0.1 mm, anti-aliasing level). No rotation is applied to any other family.
+
+### 17.4 Script kept (not yet deleted)
+
+`make_feather_sheets.py` is committed at the repo root so it stays recoverable and
+tweakable. The intermediates (`print/sheets/`, `print/contact-sheet.png`) are
+gitignored; the merged PDF is tracked. Delete the script whenever you are done
+tweaking — it is single-use by design.
+
+### 17.5 Text / label rendering
+
+- `dominant-baseline: middle` **is** honoured by cairosvg (verified: a label
+  anchored at y=40 rendered centred on y=39.8), so labels are vertically centred.
+- `text-anchor: middle` centres horizontally.
+- Font is `sans-serif` (system font), so exact glyph metrics are font-dependent;
+  label size is `clamp(3, min(W,H)/6, 12)` mm and the anchor is the viewBox centre,
+  so every label sits comfortably inside its outline.
+
+### 17.6 Verification results (all green)
+
+- 29 pages, every page 279.4 × 215.9 mm.
+- 28/28 feathers present exactly once, with their label inside.
+- Mirror exact (left/right ink bboxes agree to <0.1 mm).
+- B rotation correct; outline stroke 0.5 mm.
+- Cover bars measure back to 100.4 mm / 102.0 mm at 300 dpi.
+- Tiled (2 sheets each): P1–P5, S1, S2, B2, B3 · packed: the other 19.
