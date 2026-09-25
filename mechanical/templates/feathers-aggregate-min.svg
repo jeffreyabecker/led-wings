@@ -17,6 +17,8 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs1" />
   <style
      type="text/css"
      id="style1">
@@ -86,20 +88,74 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="4"
-     inkscape:cx="170.5"
-     inkscape:cy="298.875"
+     inkscape:zoom="1"
+     inkscape:cx="141"
+     inkscape:cy="826.5"
      inkscape:window-width="3840"
      inkscape:window-height="2054"
      inkscape:window-x="-11"
      inkscape:window-y="-11"
      inkscape:window-maximized="1"
-     inkscape:current-layer="LC"
+     inkscape:current-layer="svg42"
      showguides="true" />
   <title
      id="title1">As-built feather templates - 42 feathers, 1:1 mm, vertical flip</title>
   <desc
-     id="desc1">Aggregate of as-built/vectors/individuals/*.svg, one group per feather prefix. Each outline is copied verbatim from its individual file and only translated and mirrored (vertical) about its own centre, so it stays 1:1 (user units = mm) and keeps its label. Each feather's geometry now lives once in &lt;defs&gt; as a vertical definition (id + "-def"); the &lt;use&gt; that places it carries only the rotation the arrangement needs.</desc>
+     id="desc1">Aggregate of as-built/vectors/individuals/*.svg, one group per feather prefix. Each outline is copied verbatim from its individual file and only translated and mirrored (vertical) about its own centre, so it stays 1:1 (user units = mm) and keeps its label. Each feather's geometry now lives once in &lt;defs&gt; as a vertical definition (id + &quot;-def&quot;); the &lt;use&gt; that places it carries only the rotation the arrangement needs.</desc>
+  <g
+     id="top-lines"
+     transform="matrix(1.0060486,0.09641559,-0.01794757,1.1907292,44.965615,-2005.3888)"
+     style="display:inline">
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 17.191849,73.9245 33.86305,107.95017 53.507351,-3.74178"
+       id="path10-4"
+       inkscape:label="B-topline"
+       transform="matrix(0.99255402,-0.08036897,0.01496052,0.83861014,-14.629631,1685.3532)" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 51.075206,176.98588 210.10057,155.0965"
+       id="P-topline"
+       transform="matrix(0.99255402,-0.08036897,0.01496052,0.83861014,-14.629631,1685.3532)" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 62.446065,81.315032 c -5.915268,30.499158 0.584955,34.465788 2.036252,49.785358"
+       id="LC-topline"
+       sodipodi:nodetypes="cc"
+       transform="matrix(0.99255402,-0.08036897,0.01496052,0.83861014,-14.629631,1685.3532)" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 189.97083,166.42291 220.92708,70.908332"
+       id="A-topline"
+       transform="matrix(0.99255402,-0.08036897,0.01496052,0.83861014,-14.62963,1685.3532)" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 28.635866,625.62209 24.44498,99.8207"
+       id="SC-topline"
+       transform="matrix(0.82163364,0.41517259,-0.55705064,0.73304695,425.90848,1209.7361)" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 28.124985,27.043356 55.252841,105.24642"
+       id="MC-topline"
+       transform="matrix(0.99255402,-0.08036897,0.01496052,0.83861014,-14.62964,1685.3533)" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 147.50521,156.23646 65.88125,-15.34584"
+       id="PC-topline"
+       transform="matrix(0.99255402,-0.08036897,0.01496052,0.83861014,-14.629627,1685.3533)"
+       inkscape:label="PC-topline" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.241545px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 863.20611,265.20014 164.76869,7.32287"
+       id="S-topline"
+       transform="matrix(0.98862708,-0.15036039,0.08713051,0.99841597,-862.78009,1634.7161)" />
+    <path
+       id="upper-outline"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.228236;stroke-dasharray:none"
+       class="outline"
+       d="m 573.31207,668.94578 c -14.50091,-0.15347 -31.00091,-3.54691 -38.7086,-5.38803 l -1.93579,-0.46245 c 0,0 -3.90655,-0.85668 -5.79911,-1.41364 -3.62649,-1.0681 -15.1951,-7.67144 -22.77618,-13.8914 -3.74972,2.4215 -7.71727,4.27009 -11.85873,5.25023 -5.49572,-0.75021 -6.32817,-10.13435 -6.83601,-13.54305 0,0 -0.15635,-1.19604 -0.21451,-1.79601 -0.15275,-1.55473 -0.24345,-3.13756 -0.16024,-4.70811 -0.0248,-3.2e-4 -0.0529,0.003 -0.077,0.002 -0.34902,-0.0163 -0.6214,-0.11809 -0.79964,-0.32079 -3.86866,-5.27342 -3.84586,-16.30402 -3.69119,-22.76207 0.0788,-0.0835 0.13835,-0.14823 0.21658,-0.23123 0.11315,-3.37934 1.7707,-8.09961 3.98324,-12.92429 -1.44879,-3.27669 -2.74878,-6.39462 -3.16653,-7.54444 -11.84465,-32.60121 -6.60703,-92.28836 3.93723,-132.47661 l 224.72969,2.02422 c 0.0506,0.2324 0.13616,0.39463 0.17988,0.6403 4.62799,16.17118 3.59443,30.45934 -1.38581,46.30136 2.75487,1.48761 4.55313,4.17049 6.12682,6.55709 15.01547,22.76676 3.01883,48.92869 -5.43469,71.96219 l -0.8715,2.37387 c -0.38,1.0354 -1.25764,2.78317 -2.3948,4.88251 2.76629,3.11932 1.89447,8.41554 -4.4748,17.69612 -13.65194,20.98115 -39.66776,40.8761 -66.3788,49.47313 -4.23284,1.36241 -8.60254,2.29203 -13.00574,3.16745 -0.79933,0.1587 -2.39738,0.48054 -2.39738,0.48054 -8.47193,1.72064 -17.05236,2.65201 -25.59742,2.64945 -4.95535,3.07502 -12.74023,4.09158 -21.20895,4.00194 z"
+       transform="matrix(0.99229269,-0.08034782,-0.0179544,-1.0064321,-473.41543,2396.9387)" />
+  </g>
   <g
      id="B"
      transform="matrix(1.0060486,0.09641559,-0.01794757,1.1907292,44.966115,-2005.3888)"
@@ -109,27 +165,21 @@
        href="individuals/B1.svg#B1-def"
        width="193.15454"
        height="81.754908"
-       transform="matrix(0.03489949670250103,0.9993908270190958,0.9993908270190958,-0.03489949670250103,-32.562499927337925,1696.7031930239784)"/>
+       transform="matrix(0.03489949670250103,0.9993908270190958,0.9993908270190958,-0.03489949670250103,-32.562499927337925,1696.7031930239784)" />
     <use
        id="B2"
        href="individuals/B2.svg#B2-def"
        width="209.48487"
        height="76.090112"
        transform="matrix(0.15643446504023092,0.9876883405951378,0.9876883405951378,-0.15643446504023092,-103.57972425526168,1417.6160525948737)"
-       style="display:inline"/>
+       style="display:inline" />
     <use
        id="B3"
        href="individuals/B3.svg#B3-def"
        width="224.86853"
        height="72.334697"
        transform="matrix(0.24192189559966779,0.9702957262759965,0.9702957262759965,-0.24192189559966779,-225.07233778609282,1179.1216006231548)"
-       style="display:inline"/>
-    <path
-       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 17.191849,73.9245 33.86305,107.95017 53.507351,-3.74178"
-       id="path10-4"
-       inkscape:label="B-topline"
-       transform="matrix(0.99255402,-0.08036897,0.01496052,0.83861014,-14.629631,1685.3532)" />
+       style="display:inline" />
   </g>
   <g
      id="P"
@@ -141,39 +191,34 @@
        width="107.70177"
        height="348.70091"
        style="display:inline"
-       transform="matrix(1.0,0,0,-1.0,-135.6171,554.80515)"/>
+       transform="matrix(1.0,0,0,-1.0,-135.6171,554.80515)" />
     <use
        id="P2"
        href="individuals/P2.svg#P2-def"
        width="75.5858"
        height="344.39168"
        style="display:inline"
-       transform="matrix(1.0,0,0,-1.0,-280.98908,561.24822)"/>
+       transform="matrix(1.0,0,0,-1.0,-280.98908,561.24822)" />
     <use
        id="P3"
        href="individuals/P3.svg#P3-def"
        width="79.49479"
        height="333.37338"
        transform="matrix(0.9961946980917455,-0.08715574274765817,-0.08715574274765817,-0.9961946980917455,-392.2094304176306,604.9440299373538)"
-       style="display:inline"/>
+       style="display:inline" />
     <use
        id="P4"
        href="individuals/P4.svg#P4-def"
        width="87.47454"
        height="271.90582"
        style="display:inline"
-       transform="matrix(1.0,0,0,-1.0,-563.71707,581.93122)"/>
+       transform="matrix(1.0,0,0,-1.0,-563.71707,581.93122)" />
     <use
        id="P5"
        href="individuals/P5.svg#P5-def"
        width="99.55308"
        height="235.00908"
-       transform="matrix(0.9876883405951378,-0.15643446504023087,-0.15643446504023087,-0.9876883405951378,-615.3534204176133,686.5038600096884)"/>
-    <path
-       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 51.075206,176.98588 210.10057,155.0965"
-       id="P-topline"
-       transform="matrix(1.0002634,0,0,0.83325064,-89.260125,-87.228576)" />
+       transform="matrix(0.9876883405951378,-0.15643446504023087,-0.15643446504023087,-0.9876883405951378,-615.3534204176133,686.5038600096884)" />
   </g>
   <g
      id="PC"
@@ -184,18 +229,13 @@
        href="individuals/PC1.svg#PC1-def"
        width="58.76447"
        height="126.5327"
-       transform="matrix(0.9961203378817368,0.08800154804532967,0.08800154804532967,-0.9961203378817368,258.5106403369222,420.8672096611415)"/>
+       transform="matrix(0.9961203378817368,0.08800154804532967,0.08800154804532967,-0.9961203378817368,258.5106403369222,420.8672096611415)" />
     <use
        id="PC2"
        href="individuals/PC2.svg#PC2-def"
        width="52.9346"
        height="113.27434"
-       transform="matrix(0.984807753012208,-0.17364817766693033,-0.17364817766693033,-0.984807753012208,226.31864957126527,541.9759897019198)"/>
-    <path
-       style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 147.50521,156.23646 65.88125,-15.34584"
-       id="PC-topline"
-       transform="rotate(20.653374,204.52375,1562.199)" />
+       transform="matrix(0.984807753012208,-0.17364817766693033,-0.17364817766693033,-0.984807753012208,226.31864957126527,541.9759897019198)" />
   </g>
   <g
      id="A"
@@ -207,26 +247,21 @@
        width="50.675146"
        height="127.48804"
        style="display:inline"
-       transform="matrix(1.0,0,0,-1.0,305.51042,382.26512)"/>
+       transform="matrix(1.0,0,0,-1.0,305.51042,382.26512)" />
     <use
        id="A2"
        href="individuals/A2.svg#A2-def"
        width="51.94701"
        height="115.06012"
        style="display:inline"
-       transform="matrix(1.0,0,0,-1.0,212.53136,383.75158)"/>
+       transform="matrix(1.0,0,0,-1.0,212.53136,383.75158)" />
     <use
        id="A3"
        href="individuals/A3.svg#A3-def"
        width="44.89576"
        height="72.09929"
        transform="matrix(0.9961946980917455,-0.08715574274765817,-0.08715574274765817,-0.9961946980917455,144.22726993224228,400.4637795735083)"
-       style="display:inline"/>
-    <path
-       style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 189.97083,166.42291 220.92708,70.908332"
-       id="A-topline"
-       transform="rotate(17,137.9943,735.38395)" />
+       style="display:inline" />
   </g>
   <g
      id="S"
@@ -237,32 +272,28 @@
        href="individuals/S1.svg#S1-def"
        width="85.429457"
        height="255.85581"
-       transform="matrix(1.0,0,0,-1.0,874.14214,786.27179)"/>
+       transform="matrix(1.0,0,0,-1.0,874.14214,786.27179)" />
     <use
        id="S2"
        href="individuals/S2.svg#S2-def"
        width="82.99347"
        height="251.44178"
        transform="matrix(0.9876883405951378,-0.15643446504023087,-0.15643446504023087,-0.9876883405951378,726.3211498276617,827.6140602019848)"
-       inkscape:label="S2"/>
+       inkscape:label="S2" />
     <use
        id="S3"
        href="individuals/S3.svg#S3-def"
        width="83.02697"
        height="202.35308"
        transform="matrix(0.981627183447664,-0.1908089953765448,-0.1908089953765448,-0.981627183447664,622.1971297480463,853.9782495799473)"
-       inkscape:label="S3"/>
+       inkscape:label="S3" />
     <use
        id="S4"
        href="individuals/S4.svg#S4-def"
        width="87.07341"
        height="159.63931"
        transform="matrix(0.9781476007338057,-0.20791169081775934,-0.20791169081775934,-0.9781476007338057,360.2844499611943,917.452939931867)"
-       inkscape:label="S4"/>
-    <path
-       style="fill:none;stroke:#000000;stroke-width:0.241545px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 863.20611,265.20014 164.76869,7.32287"
-       id="S-topline" />
+       inkscape:label="S4" />
   </g>
   <g
      id="SC"
@@ -274,33 +305,28 @@
        width="48.29216"
        height="156.79638"
        transform="matrix(0.052335956242943966,-0.9986295347545738,-0.9986295347545738,-0.052335956242943966,533.2750898426406,884.6567000545567)"
-       inkscape:label="SC1"/>
+       inkscape:label="SC1" />
     <use
        id="SC2"
        href="individuals/SC2.svg#SC2-def"
        width="50.42131"
        height="151.85843"
        transform="matrix(0,-1.0,-1.0,0,530.3679300000001,1052.6169)"
-       inkscape:label="SC2"/>
+       inkscape:label="SC2" />
     <use
        id="SC3"
        href="individuals/SC3.svg#SC3-def"
        width="61.13184"
        height="142.16922"
        transform="matrix(-0.1736481776669303,-0.984807753012208,-0.984807753012208,0.1736481776669303,585.6820198843527,1019.7653000229399)"
-       style="display:inline"/>
+       style="display:inline" />
     <use
        id="SC4"
        href="individuals/SC4.svg#SC4-def"
        width="73.11066"
        height="150.06556"
        transform="matrix(0.12186934340514749,0.992546151641322,-0.992546151641322,0.12186934340514749,454.15399987881125,-20.167277041514126)"
-       inkscape:label="SC4"/>
-    <path
-       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 28.635866,625.62209 24.44498,99.8207"
-       id="SC-topline"
-       transform="translate(1.3906286e-5)" />
+       inkscape:label="SC4" />
   </g>
   <g
      id="MC"
@@ -311,30 +337,25 @@
        href="individuals/MC1.svg#MC1-def"
        width="45.82714"
        height="117.25539"
-       transform="matrix(1.0,0,0,-1.0,-629.16783,1839.0354)"/>
+       transform="matrix(1.0,0,0,-1.0,-629.16783,1839.0354)" />
     <use
        id="MC2"
        href="individuals/MC2.svg#MC2-def"
        width="64.03815"
        height="130.07202"
-       transform="matrix(0.9975640502598242,-0.0697564737441253,-0.0697564737441253,-0.9975640502598242,-640.3041996823836,1886.49850025367)"/>
+       transform="matrix(0.9975640502598242,-0.0697564737441253,-0.0697564737441253,-0.9975640502598242,-640.3041996823836,1886.49850025367)" />
     <use
        id="MC3"
        href="individuals/MC3.svg#MC3-def"
        width="55.54579"
        height="120.3335"
-       transform="matrix(0.9659258262890683,-0.25881904510252074,-0.25881904510252074,-0.9659258262890683,-650.8557000263384,2041.9164002284363)"/>
+       transform="matrix(0.9659258262890683,-0.25881904510252074,-0.25881904510252074,-0.9659258262890683,-650.8557000263384,2041.9164002284363)" />
     <use
        id="MC4"
        href="individuals/MC4.svg#MC4-def"
        width="45.25327"
        height="101.07756"
-       transform="matrix(0.992546151641322,-0.12186934340514748,-0.12186934340514748,-0.992546151641322,-754.5178704106579,1930.8473998913628)"/>
-    <path
-       style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 28.124985,27.043356 55.252841,105.24642"
-       id="MC-topline"
-       transform="rotate(99,-545.09446,777.3191)" />
+       transform="matrix(0.992546151641322,-0.12186934340514748,-0.12186934340514748,-0.992546151641322,-754.5178704106579,1930.8473998913628)" />
   </g>
   <g
      id="LC"
@@ -346,27 +367,21 @@
        href="individuals/LC1.svg#LC1-def"
        width="41.54244"
        height="87.828302"
-       transform="matrix(0.8660254037844387,-0.49999999999999994,-0.49999999999999994,-0.8660254037844387,-541.1904201185199,2137.0753001302073)"/>
+       transform="matrix(0.8660254037844387,-0.49999999999999994,-0.49999999999999994,-0.8660254037844387,-541.1904201185199,2137.0753001302073)" />
     <use
        id="LC2"
        href="individuals/LC2.svg#LC2-def"
        width="34.55349"
        height="83.612829"
        transform="matrix(0.7071067811865476,-0.7071067811865476,-0.7071067811865476,-0.7071067811865476,-437.16221994414093,2298.829799578178)"
-       style="display:inline"/>
+       style="display:inline" />
     <use
        id="LC3"
        href="individuals/LC3.svg#LC3-def"
        width="39.24136"
        height="87.997267"
        transform="matrix(0.7071067811865476,-0.7071067811865476,-0.7071067811865476,-0.7071067811865476,-473.35789000969896,2324.719200467363)"
-       style="display:inline"/>
-    <path
-       style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 62.446065,81.315032 c -5.915268,30.499158 0.584955,34.465788 2.036252,49.785358"
-       id="LC-topline"
-       sodipodi:nodetypes="cc"
-       transform="rotate(175,21.917887,868.56805)" />
+       style="display:inline" />
   </g>
   <metadata
      id="metadata42">
