@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- A1: one feather, broken out of feathers-aggregate-min.svg.
+     The outline's coordinates are unchanged from the aggregate; they are only
+     placed by this file's viewBox, which is the outline's bounding box plus
+     1 mm of margin so the cut line's stroke is not clipped.
+     The aggregate references this file with a <use> whose width/height match the
+     viewBox exactly, which makes the viewBox-to-viewport mapping the identity and
+     leaves the aggregate's own placement matrix as the only thing positioning it.
+     Stroke only, as `.outline`: the fill is the aggregate's to state, not this
+     file's. The group keeps its class because that is what the aggregate's
+     `.P .outline { fill: ... }` rules select through. -->
+
+<svg
+   version="1.1"
+   id="A1"
+   width="50.675146mm"
+   height="127.48804mm"
+   viewBox="63.184674 131.72587 50.675146 127.48804"
+   inkscape:label="A1"
+   sodipodi:docname="A1.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="3.766775"
+     inkscape:cx="95.837952"
+     inkscape:cy="240.92227"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="3829"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="A1" />
+  <title
+     id="title-A1">A1 - single feather outline, 1:1 mm, no fill</title>
+  <style
+     type="text/css"
+     id="style-A1">
+  .outline {
+    stroke: #000000;
+    stroke-width: 0.5;
+    fill:none;
+  }
+  </style>
+  <g
+     id="A1-def"
+     class="group A">
+    <path
+       id="A1-outline"
+       class="outline"
+       d="m 64.631121,198.38479 41.487169,59.77406 -41.487169,-59.77406 c -0.446447,-11.02415 -0.427581,-21.09712 0.429895,-28.01377 1.016,-8.195 4.178205,-16.25805 6.448205,-24.12305 0.839,-2.906 2.862498,-10.9371 6.127498,-11.9141 5.37,-1.608 9.452097,2.40507 12.879097,5.74007 22.344004,21.74 20.054304,55.27207 20.054304,84.17807 l -2.5e-4,2.97917 c 0,5.205 -3.62074,25.84273 -4.38774,30.98273 -1.43349,-2.12405 -3.92458,-5.46009 -9.84654,-14.39291 -1.940848,-15.09172 -2.06343,-15.82531 -7.17236,-59.00329 -6.913694,-9.9795 -10.919722,33.64364 -24.532109,13.56708 z"
+       sodipodi:nodetypes="cccsccccccccc"
+        />
+  </g>
+  <metadata
+     id="metadata1">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>A1 - single feather outline, 1:1 mm, no fill</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

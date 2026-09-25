@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- LC3: one feather, broken out of feathers-aggregate-min.svg.
+     The outline's coordinates are unchanged from the aggregate; they are only
+     placed by this file's viewBox, which is the outline's bounding box plus
+     1 mm of margin so the cut line's stroke is not clipped.
+     The aggregate references this file with a <use> whose width/height match the
+     viewBox exactly, which makes the viewBox-to-viewport mapping the identity and
+     leaves the aggregate's own placement matrix as the only thing positioning it.
+     Stroke only, as `.outline`: the fill is the aggregate's to state, not this
+     file's. The group keeps its class because that is what the aggregate's
+     `.P .outline { fill: ... }` rules select through. -->
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    version="1.1"
+    id="LC3"
+    width="39.24136mm"
+    height="87.997267mm"
+    viewBox="855.24724 54.703203 39.24136 87.997267"
+    inkscape:label="LC3">
+  <title id="title-LC3">LC3 - single feather outline, 1:1 mm, no fill</title>
+  <style
+     type="text/css"
+     id="style-LC3">
+  .outline {
+    stroke: #000000;
+    stroke-width: 0.5;
+    fill:none;
+  }
+  </style>
+  <g
+    id="LC3-def"
+    class="group LC">
+    <path
+    id="LC3-outline"
+    class="outline"
+    d="M 872.93205 56.709578 C 873.67024 56.062445 874.38613 55.703203 875.06126 55.716953 C 883.51426 55.887953 891.73713 90.021959 892.64068 97.843945 C 893.30396 103.58589 893.4886 107.12708 893.15203 112.99988 C 892.78403 119.40788 879.06159 138.54447 873.14159 141.70047 C 873.09093 141.64282 873.04296 141.58093 872.99285 141.5224 C 868.28094 134.5869 866.56154 128.99057 861.85582 122.05785 C 859.2425 116.04315 856.26005 108.05242 856.26005 103.60005 C 856.26005 103.60005 856.24724 101.43207 856.26424 100.34907 C 856.33924 95.673071 858.7559 88.421226 860.2549 83.748226 C 861.49128 79.894726 867.76477 61.239508 872.93205 56.709578 z " />
+  </g>
+</svg>

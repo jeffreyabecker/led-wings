@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- P1: one feather, broken out of feathers-aggregate-min.svg.
+     The outline's coordinates are unchanged from the aggregate; they are only
+     placed by this file's viewBox, which is the outline's bounding box plus
+     1 mm of margin so the cut line's stroke is not clipped.
+     The aggregate references this file with a <use> whose width/height match the
+     viewBox exactly, which makes the viewBox-to-viewport mapping the identity and
+     leaves the aggregate's own placement matrix as the only thing positioning it.
+     Stroke only, as `.outline`: the fill is the aggregate's to state, not this
+     file's. The group keeps its class because that is what the aggregate's
+     `.P .outline { fill: ... }` rules select through. -->
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    version="1.1"
+    id="P1"
+    width="107.70177mm"
+    height="348.70091mm"
+    viewBox="171.95 164.833 107.70177 348.70091"
+    inkscape:label="P1">
+  <title id="title-P1">P1 - single feather outline, 1:1 mm, no fill</title>
+  <style
+     type="text/css"
+     id="style-P1">
+  .outline {
+    stroke: #000000;
+    stroke-width: 0.5;
+  }
+  </style>
+  <g
+    id="P1-def"
+    class="group P">
+    <path
+    d="m 277.06577,454.44682 c 1.586,-19.457 -0.15068,-29.42696 -1.97972,-49.07419 -5.52563,-51.175 -35.73927,-165.84508 -58.73028,-214.21383 -2.921,-4.101 -14.19777,-25.3258 -20.25577,-23.9078 -2.025,0.474 -3.353,2.326 -4.575,3.876 -12.255,15.536 -14.022,165.924 -18.575,197.721 6.5548,55.27457 7.63062,109.49398 15.07168,136.47394 37.72724,4.04497 44.70067,4.81949 67.8771,7.21197 9.6579,-11.66994 16.36393,-43.21793 21.16699,-58.08709 z"
+    id="P1-outline"
+    sodipodi:nodetypes="cccsccccc"
+    class="outline" />
+  </g>
+</svg>
