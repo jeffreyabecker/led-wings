@@ -316,14 +316,34 @@ def measure_ink(svg, dpi=150):
     return (min(xs) / PPM, min(ys) / PPM, max(xs) / PPM, max(ys) / PPM)
 
 
+def _group_content(g):
+    """Serialise a guide <g>'s children as normalised geometry.
+
+    Topline groups hold a <path> (the guide line) and a <circle> (the origin
+    marker). The path's stroke is normalised to the .guide class; the circle is
+    kept as a small filled dot. The path may still carry a transform (baked out
+    in the toplines but present in upper-outline), which is preserved verbatim.
+    """
+    out = []
+    for el in g:
+        if el.tag == f"{SVG_NS}path":
+            t = el.get("transform")
+            tr = f' transform="{t}"' if t else ""
+            out.append(f'<path class="guide" d="{el.get("d")}"{tr}/>')
+        elif el.tag == f"{SVG_NS}circle":
+            out.append(f'<circle cx="{el.get("cx")}" cy="{el.get("cy")}" '
+                       f'r="{el.get("r")}" fill="#000000" stroke="none"/>')
+    return "".join(out)
+
+
 def read_topline(name):
     """One *-topline.svg alignment guide as an Item.
 
-    Unlike a feather, the guide's <path> carries its own transform (which places
-    it in the aggregate's space) and an inline stroke. The viewBox is still the
-    transformed path's bbox + 1 mm margin, so translate(-x0,-y0) puts it in the
-    local frame exactly like a feather. The stroke is normalised to the .guide
-    class (the source wrote px, which cairosvg inflates).
+    The guide is a vertical line plus a small origin marker (a filled circle at
+    the base). Transforms are baked into the path data, so the viewBox is the
+    content bbox + 1 mm margin and translate(-x0,-y0) puts it in the local frame
+    exactly like a feather. Strokes are normalised to the .guide class (the
+    source wrote px, which cairosvg inflates).
     """
     root = ET.parse(IND_DIR / f"{name}.svg").getroot()
     W = parse_mm(root.get("width"))
@@ -332,11 +352,9 @@ def read_topline(name):
     assert abs(vw - W) < 1e-3 and abs(vh - H) < 1e-3, (
         f"{name}: viewBox {vw}x{vh} != width/height {W}x{H} — not identity")
 
-    path = root.find(f".//{SVG_NS}path")
-    d = " ".join(path.get("d").split())
-    t = path.get("transform") or ""
+    g = root.find(f".//{SVG_NS}g")
     body = (f'<g transform="translate({fmt(-x0)} {fmt(-y0)})">'
-            f'<path class="guide" d="{d}" transform="{t}"/></g>')
+            f'{_group_content(g)}</g>')
     return Item(name, W, H, body, inside_label=False)
 
 
@@ -359,9 +377,11 @@ def read_placement():
                 fname, frag = href.split("#", 1)
                 ref = ET.parse(IND_DIR / fname).getroot()
                 target = ref.find(f".//*[@id='{frag}']")
-                for p in target.iter(f"{SVG_NS}path"):
-                    inner.append(f'<path class="guide" d="{p.get("d")}" '
-                                 f'transform="{p.get("transform") or ""}"/>')
+                # the <use> may carry its own transform (a rotate), which must
+                # be kept around the expanded content.
+                ut = child.get("transform")
+                wrap = f' transform="{ut}"' if ut else ""
+                inner.append(f'<g{wrap}>{_group_content(target)}</g>')
         parts.append(f'<g transform="{gt}">{"".join(inner)}</g>')
     content = "".join(parts)
 
