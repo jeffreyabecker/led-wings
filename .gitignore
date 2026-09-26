@@ -39,6 +39,7 @@ mechanical/templates/as-built/scratch/
 # PDF at print/feathers-letter-landscape.pdf IS tracked).
 mechanical/templates/print/sheets/
 mechanical/templates/print/contact-sheet.png
+mechanical/templates/print/logical-pages/
 
 mechanical/templates/reference_feathers_no_scale.xcf
 mechanical/templates/eagle-feathers_color_no_scale.png
