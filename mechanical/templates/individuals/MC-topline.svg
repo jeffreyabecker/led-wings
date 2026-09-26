@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- MC-topline: one top line, broken out of individuals/outline-toplines.svg.
+     The coordinates and the element's own transform are unchanged; this file's
+     viewBox is the line's bounding box plus 1 mm of margin so the
+     stroke is not clipped. outline-toplines.svg references this file with a <use>
+     whose width/height match the viewBox, so its own group transform still places
+     the line exactly where it used to. -->
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    version="1.1"
+    id="MC-topline"
+    width="30.095821mm"
+    height="65.401645mm"
+    viewBox="12.69051 1704.771756 30.095821 65.401645"
+    inkscape:label="MC-topline">
+  <title id="title-MC-topline">MC-topline - single top line, 1:1 mm</title>
+  <style
+     type="text/css"
+     id="style-MC-topline">
+  .outline {
+    stroke: #000000;
+    stroke-width: 0.5;
+    fill:none;
+  }
+  </style>
+  <g
+    id="MC-topline-def">
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 28.124985,27.043356 55.252841,105.24642"
+       id="MC-topline-outline"
+       transform="matrix(0.99255402,-0.08036897,0.01496052,0.83861014,-14.62964,1685.3533)" />
+  </g>
+</svg>

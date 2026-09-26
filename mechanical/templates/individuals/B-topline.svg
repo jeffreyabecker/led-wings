@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- B-topline: one top line, broken out of individuals/outline-toplines.svg.
+     The coordinates and the element's own transform are unchanged; this file's
+     viewBox is the line's bounding box plus 1 mm of margin so the
+     stroke is not clipped. outline-toplines.svg references this file with a <use>
+     whose width/height match the viewBox, so its own group transform still places
+     the line exactly where it used to. -->
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    version="1.1"
+    id="B-topline"
+    width="90.278854mm"
+    height="89.806569mm"
+    viewBox="2.540157 1744.965344 90.278854 89.806569"
+    inkscape:label="B-topline">
+  <title id="title-B-topline">B-topline - single top line, 1:1 mm</title>
+  <style
+     type="text/css"
+     id="style-B-topline">
+  .outline {
+    stroke: #000000;
+    stroke-width: 0.5;
+    fill:none;
+  }
+  </style>
+  <g
+    id="B-topline-def">
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 17.191849,73.9245 33.86305,107.95017 53.507351,-3.74178"
+       id="B-topline-outline"
+       inkscape:label="B-topline"
+       transform="matrix(0.99255402,-0.08036897,0.01496052,0.83861014,-14.629631,1685.3532)" />
+  </g>
+</svg>

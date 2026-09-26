@@ -105,61 +105,57 @@
      id="top-lines"
      transform="matrix(1.0060486,0.09641559,-0.01794757,1.1907292,78.158134,-1978.5147)"
      style="display:inline">
-    <path
-       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 17.191849,73.9245 33.86305,107.95017 53.507351,-3.74178"
-       id="path10-4"
-       inkscape:label="B-topline"
-       transform="matrix(0.99255402,-0.08036897,0.01496052,0.83861014,-14.629631,1685.3532)" />
-    <path
-       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 51.075206,176.98588 210.10057,155.0965"
+    <use
+       id="B-topline"
+       href="B-topline.svg#B-topline-def"
+       width="90.278854"
+       height="89.806569" />
+    <use
        id="P-topline"
-       transform="matrix(0.99255402,-0.08036897,0.01496052,0.83861014,-14.629631,1685.3532)" />
-    <path
-       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 62.446065,81.315032 c -5.915268,30.499158 0.584955,34.465788 2.036252,49.785358"
+       href="P-topline.svg#P-topline-def"
+       width="159.513788"
+       height="33.137361" />
+    <use
        id="LC-topline"
-       sodipodi:nodetypes="cc"
-       transform="matrix(0.99255402,-0.08036897,0.01496052,0.83861014,-14.629631,1685.3532)" />
-    <path
-       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 189.97083,166.42291 220.92708,70.908332"
+       href="LC-topline.svg#LC-topline-def"
+       width="10.180845"
+       height="43.586855" />
+    <use
        id="A-topline"
-       transform="matrix(0.99255402,-0.08036897,0.01496052,0.83861014,-14.62963,1685.3532)" />
-    <path
-       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 28.635866,625.62209 24.44498,99.8207"
+       href="A-topline.svg#A-topline-def"
+       width="31.296803"
+       height="84.587416" />
+    <use
        id="SC-topline"
-       transform="matrix(0.82163364,0.41517259,-0.55705064,0.73304695,425.90848,1209.7361)" />
-    <path
-       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 28.124985,27.043356 55.252841,105.24642"
+       href="SC-topline.svg#SC-topline-def"
+       width="37.520367"
+       height="85.322145" />
+    <use
        id="MC-topline"
-       transform="matrix(0.99255402,-0.08036897,0.01496052,0.83861014,-14.62964,1685.3533)" />
-    <path
-       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 147.50521,156.23646 65.88125,-15.34584"
+       href="MC-topline.svg#MC-topline-def"
+       width="30.095821"
+       height="65.401645" />
+    <use
        id="PC-topline"
-       transform="matrix(0.99255402,-0.08036897,0.01496052,0.83861014,-14.629627,1685.3533)"
-       inkscape:label="PC-topline" />
-    <path
-       style="display:inline;fill:none;stroke:#000000;stroke-width:0.241545px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 863.20611,265.20014 164.76869,7.32287"
+       href="PC-topline.svg#PC-topline-def"
+       width="67.161118"
+       height="20.163985" />
+    <use
        id="S-topline"
-       transform="matrix(0.98862708,-0.15036039,0.08713051,0.99841597,-862.78009,1634.7161)" />
-    <path
-       id="upper-outline"
-       style="display:inline;fill:none;stroke-width:0.228236;stroke-dasharray:none"
-       class="outline"
-       d="m 573.31207,668.94578 c -14.50091,-0.15347 -31.00091,-3.54691 -38.7086,-5.38803 l -1.93579,-0.46245 c 0,0 -3.90655,-0.85668 -5.79911,-1.41364 -3.62649,-1.0681 -15.1951,-7.67144 -22.77618,-13.8914 -3.74972,2.4215 -7.71727,4.27009 -11.85873,5.25023 -5.49572,-0.75021 -6.32817,-10.13435 -6.83601,-13.54305 0,0 -0.15635,-1.19604 -0.21451,-1.79601 -0.15275,-1.55473 -0.24345,-3.13756 -0.16024,-4.70811 -0.0248,-3.2e-4 -0.0529,0.003 -0.077,0.002 -0.34902,-0.0163 -0.6214,-0.11809 -0.79964,-0.32079 -3.86866,-5.27342 -3.84586,-16.30402 -3.69119,-22.76207 0.0788,-0.0835 0.13835,-0.14823 0.21658,-0.23123 0.11315,-3.37934 1.7707,-8.09961 3.98324,-12.92429 -1.44879,-3.27669 -2.74878,-6.39462 -3.16653,-7.54444 -11.84465,-32.60121 -6.60703,-92.28836 3.93723,-132.47661 l 224.72969,2.02422 c 0.0506,0.2324 0.13616,0.39463 0.17988,0.6403 4.62799,16.17118 3.59443,30.45934 -1.38581,46.30136 2.75487,1.48761 4.55313,4.17049 6.12682,6.55709 15.01547,22.76676 3.01883,48.92869 -5.43469,71.96219 l -0.8715,2.37387 c -0.38,1.0354 -1.25764,2.78317 -2.3948,4.88251 2.76629,3.11932 1.89447,8.41554 -4.4748,17.69612 -13.65194,20.98115 -39.66776,40.8761 -66.3788,49.47313 -4.23284,1.36241 -8.60254,2.29203 -13.00574,3.16745 -0.79933,0.1587 -2.39738,0.48054 -2.39738,0.48054 -8.47193,1.72064 -17.05236,2.65201 -25.59742,2.64945 -4.95535,3.07502 -12.74023,4.09158 -21.20895,4.00194 z"
-       transform="matrix(0.99229269,-0.08034782,-0.0179544,-1.0064321,-473.41543,2396.9387)" />
+       href="S-topline.svg#S-topline-def"
+       width="165.532834"
+       height="19.463414" />
   </g>
   <g
-     id="LC"
-     transform="rotate(-175,21.842672,868.51455)"
-     style="display:inline"
-     inkscape:label="LC" />
+     id="total-outline"
+     transform="matrix(1.0060486,0.09641559,-0.01794757,1.1907292,78.158134,-1978.5147)"
+     style="display:inline">
+    <use
+       id="upper-outline"
+       href="upper-outline.svg#upper-outline-def"
+       width="260.828135"
+       height="223.407275" />     
+</g>
   <metadata
      id="metadata42">
     <rdf:RDF>

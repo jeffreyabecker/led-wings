@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- PC-topline: one top line, broken out of individuals/outline-toplines.svg.
+     The coordinates and the element's own transform are unchanged; this file's
+     viewBox is the line's bounding box plus 1 mm of margin so the
+     stroke is not clipped. outline-toplines.svg references this file with a <use>
+     whose width/height match the viewBox, so its own group transform still places
+     the line exactly where it used to. -->
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    version="1.1"
+    id="PC-topline"
+    width="67.161118mm"
+    height="20.163985mm"
+    viewBox="133.114641 1785.355953 67.161118 20.163985"
+    inkscape:label="PC-topline">
+  <title id="title-PC-topline">PC-topline - single top line, 1:1 mm</title>
+  <style
+     type="text/css"
+     id="style-PC-topline">
+  .outline {
+    stroke: #000000;
+    stroke-width: 0.5;
+    fill:none;
+  }
+  </style>
+  <g
+    id="PC-topline-def">
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 147.50521,156.23646 65.88125,-15.34584"
+       id="PC-topline-outline"
+       transform="matrix(0.99255402,-0.08036897,0.01496052,0.83861014,-14.629627,1685.3533)"
+       inkscape:label="PC-topline" />
+  </g>
+</svg>
