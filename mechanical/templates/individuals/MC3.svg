@@ -1,29 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- MC3: one feather, broken out of feathers-aggregate-min.svg.
-     The outline's coordinates are unchanged from the aggregate; they are only
-     placed by this file's viewBox, which is the outline's bounding box plus
-     1 mm of margin so the cut line's stroke is not clipped.
-     The aggregate references this file with a <use> whose width/height match the
-     viewBox exactly, which makes the viewBox-to-viewport mapping the identity and
-     leaves the aggregate's own placement matrix as the only thing positioning it.
-     Stroke only, as `.outline`: the fill is the aggregate's to state, not this
-     file's. The group keeps its class because that is what the aggregate's
-     `.P .outline { fill: ... }` rules select through. -->
 <svg
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    version="1.1"
-    id="MC3"
-    width="55.54579mm"
-    height="120.3335mm"
-    viewBox="817.57705 249.90802 55.54579 120.3335"
-    inkscape:label="MC3">
-  <title id="title-MC3">MC3 - single feather outline, 1:1 mm, no fill</title>
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="MC3"
+   width="55.54579mm"
+   height="120.3335mm"
+   viewBox="817.57705 249.90802 55.54579 120.3335"
+   inkscape:label="MC3">
   <style
-     type="text/css"
-     id="style-MC3">
+   type="text/css"
+   id="style-MC3">
   .outline {
     stroke: #000000;
     stroke-width: 0.5;
@@ -31,12 +17,11 @@
   }
   </style>
   <g
-    id="MC3-def"
-    class="group MC">
+   id="MC3-def"
+   class="group MC">
     <path
-    id="MC3-outline"
-    class="outline"
-    d="m 854.6615,277.73813 c 17.46134,39.84329 3.76057,79.6205 0.0852,89.9747 l -19.20944,1.52869 c -6.73659,-23.42675 -16.84378,-47.9964 -16.8473,-73.05828 0,-8.952 -0.11291,-38.61422 6.85509,-44.23222 1.293,-1.043 3.91785,-0.51983 5.40385,-0.13083 10.25859,2.67891 18.18557,13.30633 23.7126,25.91794 z"
-    sodipodi:nodetypes="scccccs" />
+   id="MC3-outline"
+   class="outline"
+   d="m 854.6615,277.73813 c 17.46134,39.84329 3.76057,79.6205 0.0852,89.9747 l -19.20944,1.52869 c -6.73659,-23.42675 -16.84378,-47.9964 -16.8473,-73.05828 0,-8.952 -0.11291,-38.61422 6.85509,-44.23222 1.293,-1.043 3.91785,-0.51983 5.40385,-0.13083 10.25859,2.67891 18.18557,13.30633 23.7126,25.91794 z" />
   </g>
 </svg>

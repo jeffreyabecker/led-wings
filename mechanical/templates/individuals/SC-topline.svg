@@ -1,25 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- SC-topline: one top line, broken out of individuals/outline-toplines.svg.
-     The coordinates and the element's own transform are unchanged; this file's
-     viewBox is the line's bounding box plus 1 mm of margin so the
-     stroke is not clipped. outline-toplines.svg references this file with a <use>
-     whose width/height match the viewBox, so its own group transform still places
-     the line exactly where it used to. -->
 <svg
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    version="1.1"
-    id="SC-topline"
-    width="37.520367mm"
-    height="85.322145mm"
-    viewBox="64.413118 1679.235292 37.520367 85.322145"
-    inkscape:label="SC-topline">
-  <title id="title-SC-topline">SC-topline - single top line, 1:1 mm</title>
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="SC-topline"
+   width="37.520367mm"
+   height="85.322145mm"
+   viewBox="64.413118 1679.235292 37.520367 85.322145"
+   inkscape:label="SC-topline">
   <style
-     type="text/css"
-     id="style-SC-topline">
+   type="text/css"
+   id="style-SC-topline">
   .outline {
     stroke: #000000;
     stroke-width: 0.5;
@@ -27,11 +17,11 @@
   }
   </style>
   <g
-    id="SC-topline-def">
+   id="SC-topline-def">
     <path
-       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 28.635866,625.62209 24.44498,99.8207"
-       id="SC-topline-outline"
-       transform="matrix(0.82163364,0.41517259,-0.55705064,0.73304695,425.90848,1209.7361)" />
+   style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   d="m 28.635866,625.62209 24.44498,99.8207"
+   id="SC-topline-outline"
+   transform="matrix(0.82163364,0.41517259,-0.55705064,0.73304695,425.90848,1209.7361)" />
   </g>
 </svg>

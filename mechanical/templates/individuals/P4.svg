@@ -1,29 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- P4: one feather, broken out of feathers-aggregate-min.svg.
-     The outline's coordinates are unchanged from the aggregate; they are only
-     placed by this file's viewBox, which is the outline's bounding box plus
-     1 mm of margin so the cut line's stroke is not clipped.
-     The aggregate references this file with a <use> whose width/height match the
-     viewBox exactly, which makes the viewBox-to-viewport mapping the identity and
-     leaves the aggregate's own placement matrix as the only thing positioning it.
-     Stroke only, as `.outline`: the fill is the aggregate's to state, not this
-     file's. The group keeps its class because that is what the aggregate's
-     `.P .outline { fill: ... }` rules select through. -->
 <svg
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    version="1.1"
-    id="P4"
-    width="87.47454mm"
-    height="271.90582mm"
-    viewBox="531.67867 260.43111 87.47454 271.90582"
-    inkscape:label="P4">
-  <title id="title-P4">P4 - single feather outline, 1:1 mm, no fill</title>
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="P4"
+   width="87.47454mm"
+   height="271.90582mm"
+   viewBox="531.67867 260.43111 87.47454 271.90582"
+   inkscape:label="P4">
   <style
-     type="text/css"
-     id="style-P4">
+   type="text/css"
+   id="style-P4">
   .outline {
     stroke: #000000;
     stroke-width: 0.5;
@@ -31,11 +17,11 @@
   }
   </style>
   <g
-    id="P4-def"
-    class="group P">
+   id="P4-def"
+   class="group P">
     <path
-    id="P4-outline"
-    class="outline"
-    d="M 608.77042 531.33693 L 542.54152 523.93286 C 535.88605 481.27804 532.67867 423.16796 546.52114 354.02685 C 562.29238 304.88507 560.93147 310.36956 584.16389 274.68814 C 586.93989 271.46214 593.64681 261.43111 598.35281 261.66611 C 606.60478 262.08064 614.71132 298.66475 615.44516 302.05585 C 618.12316 314.43328 618.14493 435.52044 618.14493 438.78286 L 618.14493 442.45496 C 618.14493 448.97396 618.15321 455.52179 617.87821 462.03279 C 616.90236 485.15724 614.22976 508.69861 608.77042 531.33693 z " />
+   id="P4-outline"
+   class="outline"
+   d="M 608.77042 531.33693 L 542.54152 523.93286 C 535.88605 481.27804 532.67867 423.16796 546.52114 354.02685 C 562.29238 304.88507 560.93147 310.36956 584.16389 274.68814 C 586.93989 271.46214 593.64681 261.43111 598.35281 261.66611 C 606.60478 262.08064 614.71132 298.66475 615.44516 302.05585 C 618.12316 314.43328 618.14493 435.52044 618.14493 438.78286 L 618.14493 442.45496 C 618.14493 448.97396 618.15321 455.52179 617.87821 462.03279 C 616.90236 485.15724 614.22976 508.69861 608.77042 531.33693 z " />
   </g>
 </svg>

@@ -1,29 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- A2: one feather, broken out of feathers-aggregate-min.svg.
-     The outline's coordinates are unchanged from the aggregate; they are only
-     placed by this file's viewBox, which is the outline's bounding box plus
-     1 mm of margin so the cut line's stroke is not clipped.
-     The aggregate references this file with a <use> whose width/height match the
-     viewBox exactly, which makes the viewBox-to-viewport mapping the identity and
-     leaves the aggregate's own placement matrix as the only thing positioning it.
-     Stroke only, as `.outline`: the fill is the aggregate's to state, not this
-     file's. The group keeps its class because that is what the aggregate's
-     `.P .outline { fill: ... }` rules select through. -->
 <svg
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    version="1.1"
-    id="A2"
-    width="51.94701mm"
-    height="115.06012mm"
-    viewBox="139.28014 131.51189 51.94701 115.06012"
-    inkscape:label="A2">
-  <title id="title-A2">A2 - single feather outline, 1:1 mm, no fill</title>
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="A2"
+   width="51.94701mm"
+   height="115.06012mm"
+   viewBox="139.28014 131.51189 51.94701 115.06012"
+   inkscape:label="A2">
   <style
-     type="text/css"
-     id="style-A2">
+   type="text/css"
+   id="style-A2">
   .outline {
     stroke: #000000;
     stroke-width: 0.5;
@@ -31,12 +17,11 @@
   }
   </style>
   <g
-    id="A2-def"
-    class="group A">
+   id="A2-def"
+   class="group A">
     <path
-    id="A2-outline"
-    class="outline"
-    d="m 189.32934,245.57201 -9.22092,-13.45802 -8.70367,-42.30109 -31.10581,-16.78903 c -0.0188,-2.99125 0.24056,-3.84066 0.88881,-6.44284 1.403,-5.629 13.06817,-34.06914 20.66517,-30.46414 5.64703,2.67927 19.1181,13.83263 21.25326,22.13514 4.59587,18.33623 7.12097,49.87378 7.12097,68.95478 l -2.6e-4,1.18513 c 0,4.91555 -0.28648,10.96932 -0.89755,17.18007 z"
-    sodipodi:nodetypes="cccccccccc" />
+   id="A2-outline"
+   class="outline"
+   d="m 189.32934,245.57201 -9.22092,-13.45802 -8.70367,-42.30109 -31.10581,-16.78903 c -0.0188,-2.99125 0.24056,-3.84066 0.88881,-6.44284 1.403,-5.629 13.06817,-34.06914 20.66517,-30.46414 5.64703,2.67927 19.1181,13.83263 21.25326,22.13514 4.59587,18.33623 7.12097,49.87378 7.12097,68.95478 l -2.6e-4,1.18513 c 0,4.91555 -0.28648,10.96932 -0.89755,17.18007 z" />
   </g>
 </svg>

@@ -1,29 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- SC1: one feather, broken out of feathers-aggregate-min.svg.
-     The outline's coordinates are unchanged from the aggregate; they are only
-     placed by this file's viewBox, which is the outline's bounding box plus
-     1 mm of margin so the cut line's stroke is not clipped.
-     The aggregate references this file with a <use> whose width/height match the
-     viewBox exactly, which makes the viewBox-to-viewport mapping the identity and
-     leaves the aggregate's own placement matrix as the only thing positioning it.
-     Stroke only, as `.outline`: the fill is the aggregate's to state, not this
-     file's. The group keeps its class because that is what the aggregate's
-     `.P .outline { fill: ... }` rules select through. -->
 <svg
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    version="1.1"
-    id="SC1"
-    width="48.29216mm"
-    height="156.79638mm"
-    viewBox="123.79073 337.49563 48.29216 156.79638"
-    inkscape:label="SC1">
-  <title id="title-SC1">SC1 - single feather outline, 1:1 mm, no fill</title>
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="SC1"
+   width="48.29216mm"
+   height="156.79638mm"
+   viewBox="123.79073 337.49563 48.29216 156.79638"
+   inkscape:label="SC1">
   <style
-     type="text/css"
-     id="style-SC1">
+   type="text/css"
+   id="style-SC1">
   .outline {
     stroke: #000000;
     stroke-width: 0.5;
@@ -31,13 +17,12 @@
   }
   </style>
   <g
-    id="SC1-def"
-    class="group SC">
+   id="SC1-def"
+   class="group SC">
     <path
-    id="SC1-outline"
-    class="outline"
-    inkscape:label="SC1-outline"
-    d="m 152.67306,493.29201 -18.51203,-5.33375 c -9.3703,-52.17681 -9.1921,-109.63846 1.48884,-124.44947 27.14076,-25.01316 35.43302,-3.0681 30.16947,49.66919 -3.81393,37.41265 -4.27505,49.46702 -13.14628,80.11403 z"
-    sodipodi:nodetypes="ccccc" />
+   id="SC1-outline"
+   class="outline"
+   inkscape:label="SC1-outline"
+   d="m 152.67306,493.29201 -18.51203,-5.33375 c -9.3703,-52.17681 -9.1921,-109.63846 1.48884,-124.44947 27.14076,-25.01316 35.43302,-3.0681 30.16947,49.66919 -3.81393,37.41265 -4.27505,49.46702 -13.14628,80.11403 z" />
   </g>
 </svg>

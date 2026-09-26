@@ -1,25 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- LC-topline: one top line, broken out of individuals/outline-toplines.svg.
-     The coordinates and the element's own transform are unchanged; this file's
-     viewBox is the line's bounding box plus 1 mm of margin so the
-     stroke is not clipped. outline-toplines.svg references this file with a <use>
-     whose width/height match the viewBox, so its own group transform still places
-     the line exactly where it used to. -->
 <svg
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    version="1.1"
-    id="LC-topline"
-    width="10.180845mm"
-    height="43.586855mm"
-    viewBox="42.153037 1747.526084 10.180845 43.586855"
-    inkscape:label="LC-topline">
-  <title id="title-LC-topline">LC-topline - single top line, 1:1 mm</title>
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="LC-topline"
+   width="10.180845mm"
+   height="43.586855mm"
+   viewBox="42.153037 1747.526084 10.180845 43.586855"
+   inkscape:label="LC-topline">
   <style
-     type="text/css"
-     id="style-LC-topline">
+   type="text/css"
+   id="style-LC-topline">
   .outline {
     stroke: #000000;
     stroke-width: 0.5;
@@ -27,12 +17,11 @@
   }
   </style>
   <g
-    id="LC-topline-def">
+   id="LC-topline-def">
     <path
-       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 62.446065,81.315032 c -5.915268,30.499158 0.584955,34.465788 2.036252,49.785358"
-       id="LC-topline-outline"
-       sodipodi:nodetypes="cc"
-       transform="matrix(0.99255402,-0.08036897,0.01496052,0.83861014,-14.629631,1685.3532)" />
+   style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   d="m 62.446065,81.315032 c -5.915268,30.499158 0.584955,34.465788 2.036252,49.785358"
+   id="LC-topline-outline"
+   transform="matrix(0.99255402,-0.08036897,0.01496052,0.83861014,-14.629631,1685.3532)" />
   </g>
 </svg>

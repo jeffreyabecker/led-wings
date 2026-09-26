@@ -1,27 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
+   xmlns="http://www.w3.org/2000/svg"
    width="300mm"
    height="300mm"
    viewBox="0 0 300 300.00001"
    version="1.1"
-   id="svg42"
-   sodipodi:docname="feathers-aggregate-flat.svg"
-   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
-   inkscape:export-filename="feathers-aggregate-min.jpg"
-   inkscape:export-xdpi="96"
-   inkscape:export-ydpi="96"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:dc="http://purl.org/dc/elements/1.1/">
-  <defs
-     id="defs1" />
+   id="svg42">
   <style
-     type="text/css"
-     id="style1">
+   type="text/css"
+   id="style1">
 /* As-built feather catalog. Presentation lives here; elements carry classes only. */
 .group {
   stroke: #000000;
@@ -76,93 +62,60 @@
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-</style>
-  <sodipodi:namedview
-     id="namedview42"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:document-units="mm"
-     inkscape:zoom="1"
-     inkscape:cx="113"
-     inkscape:cy="672.5"
-     inkscape:window-width="3840"
-     inkscape:window-height="2054"
-     inkscape:window-x="3829"
-     inkscape:window-y="-11"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg42"
-     showguides="true" />
-  <title
-     id="title1">As-built feather templates - 42 feathers, 1:1 mm, vertical flip</title>
-  <desc
-     id="desc1">Aggregate of as-built/vectors/individuals/*.svg, one group per feather prefix. Each outline is copied verbatim from its individual file and only translated and mirrored (vertical) about its own centre, so it stays 1:1 (user units = mm) and keeps its label. Each feather's geometry now lives once in &lt;defs&gt; as a vertical definition (id + &quot;-def&quot;); the &lt;use&gt; that places it carries only the rotation the arrangement needs.</desc>
+  </style>
   <g
-     id="top-lines"
-     transform="matrix(1.0060486,0.09641559,-0.01794757,1.1907292,78.158134,-1978.5147)"
-     style="display:inline">
+   id="top-lines"
+   transform="matrix(1.0060486,0.09641559,-0.01794757,1.1907292,78.158134,-1978.5147)"
+   style="display:inline">
     <use
-       id="B-topline"
-       href="B-topline.svg#B-topline-def"
-       width="90.278854"
-       height="89.806569" />
+   id="B-topline"
+   href="B-topline.svg#B-topline-def"
+   width="90.278854"
+   height="89.806569" />
     <use
-       id="P-topline"
-       href="P-topline.svg#P-topline-def"
-       width="159.513788"
-       height="33.137361" />
+   id="P-topline"
+   href="P-topline.svg#P-topline-def"
+   width="159.513788"
+   height="33.137361" />
     <use
-       id="LC-topline"
-       href="LC-topline.svg#LC-topline-def"
-       width="10.180845"
-       height="43.586855" />
+   id="LC-topline"
+   href="LC-topline.svg#LC-topline-def"
+   width="10.180845"
+   height="43.586855" />
     <use
-       id="A-topline"
-       href="A-topline.svg#A-topline-def"
-       width="31.296803"
-       height="84.587416" />
+   id="A-topline"
+   href="A-topline.svg#A-topline-def"
+   width="31.296803"
+   height="84.587416" />
     <use
-       id="SC-topline"
-       href="SC-topline.svg#SC-topline-def"
-       width="37.520367"
-       height="85.322145" />
+   id="SC-topline"
+   href="SC-topline.svg#SC-topline-def"
+   width="37.520367"
+   height="85.322145" />
     <use
-       id="MC-topline"
-       href="MC-topline.svg#MC-topline-def"
-       width="30.095821"
-       height="65.401645" />
+   id="MC-topline"
+   href="MC-topline.svg#MC-topline-def"
+   width="30.095821"
+   height="65.401645" />
     <use
-       id="PC-topline"
-       href="PC-topline.svg#PC-topline-def"
-       width="67.161118"
-       height="20.163985" />
+   id="PC-topline"
+   href="PC-topline.svg#PC-topline-def"
+   width="67.161118"
+   height="20.163985" />
     <use
-       id="S-topline"
-       href="S-topline.svg#S-topline-def"
-       width="165.532834"
-       height="19.463414" />
+   id="S-topline"
+   href="S-topline.svg#S-topline-def"
+   width="165.532834"
+   height="19.463414" />
   </g>
   <g
-     id="total-outline"
-     transform="matrix(1.0060486,0.09641559,-0.01794757,1.1907292,78.158134,-1978.5147)"
-     style="display:inline">
+   id="total-outline"
+   transform="matrix(1.0060486,0.09641559,-0.01794757,1.1907292,78.158134,-1978.5147)"
+   style="display:inline">
     <use
-       id="upper-outline"
-       href="upper-outline.svg#upper-outline-def"
-       width="260.828135"
-       height="223.407275" />     
-</g>
-  <metadata
-     id="metadata42">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:title>As-built feather templates - 42 feathers, 1:1 mm, vertical flip</dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
+   id="upper-outline"
+   href="upper-outline.svg#upper-outline-def"
+   width="260.828135"
+   height="223.407275" />
+  </g>
 </svg>

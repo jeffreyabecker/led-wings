@@ -1,25 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- A-topline: one top line, broken out of individuals/outline-toplines.svg.
-     The coordinates and the element's own transform are unchanged; this file's
-     viewBox is the line's bounding box plus 1 mm of margin so the
-     stroke is not clipped. outline-toplines.svg references this file with a <use>
-     whose width/height match the viewBox, so its own group transform still places
-     the line exactly where it used to. -->
 <svg
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    version="1.1"
-    id="A-topline"
-    width="31.296803mm"
-    height="84.587416mm"
-    viewBox="175.416454 1726.061964 31.296803 84.587416"
-    inkscape:label="A-topline">
-  <title id="title-A-topline">A-topline - single top line, 1:1 mm</title>
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="A-topline"
+   width="31.296803mm"
+   height="84.587416mm"
+   viewBox="175.416454 1726.061964 31.296803 84.587416"
+   inkscape:label="A-topline">
   <style
-     type="text/css"
-     id="style-A-topline">
+   type="text/css"
+   id="style-A-topline">
   .outline {
     stroke: #000000;
     stroke-width: 0.5;
@@ -27,11 +17,11 @@
   }
   </style>
   <g
-    id="A-topline-def">
+   id="A-topline-def">
     <path
-       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 189.97083,166.42291 220.92708,70.908332"
-       id="A-topline-outline"
-       transform="matrix(0.99255402,-0.08036897,0.01496052,0.83861014,-14.62963,1685.3532)" />
+   style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   d="M 189.97083,166.42291 220.92708,70.908332"
+   id="A-topline-outline"
+   transform="matrix(0.99255402,-0.08036897,0.01496052,0.83861014,-14.62963,1685.3532)" />
   </g>
 </svg>

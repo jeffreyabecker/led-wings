@@ -1,29 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- LC1: one feather, broken out of feathers-aggregate-min.svg.
-     The outline's coordinates are unchanged from the aggregate; they are only
-     placed by this file's viewBox, which is the outline's bounding box plus
-     1 mm of margin so the cut line's stroke is not clipped.
-     The aggregate references this file with a <use> whose width/height match the
-     viewBox exactly, which makes the viewBox-to-viewport mapping the identity and
-     leaves the aggregate's own placement matrix as the only thing positioning it.
-     Stroke only, as `.outline`: the fill is the aggregate's to state, not this
-     file's. The group keeps its class because that is what the aggregate's
-     `.P .outline { fill: ... }` rules select through. -->
 <svg
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    version="1.1"
-    id="LC1"
-    width="41.54244mm"
-    height="87.828302mm"
-    viewBox="746.69154 43.089838 41.54244 87.828302"
-    inkscape:label="LC1">
-  <title id="title-LC1">LC1 - single feather outline, 1:1 mm, no fill</title>
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="LC1"
+   width="41.54244mm"
+   height="87.828302mm"
+   viewBox="746.69154 43.089838 41.54244 87.828302"
+   inkscape:label="LC1">
   <style
-     type="text/css"
-     id="style-LC1">
+   type="text/css"
+   id="style-LC1">
   .outline {
     stroke: #000000;
     stroke-width: 0.5;
@@ -31,12 +17,11 @@
   }
   </style>
   <g
-    id="LC1-def"
-    class="group LC">
+   id="LC1-def"
+   class="group LC">
     <path
-    id="LC1-outline"
-    class="outline"
-    d="m 766.77999,45.595838 c 5.36,-1.506 10.87382,8.349205 13.06282,11.842205 0,0 0.74829,1.234844 1.10529,1.862844 1.598,2.804 3.08668,5.770988 3.78868,8.937988 0.94,4.239 2.4972,8.285262 2.3032,12.706262 -0.41868,9.548533 -19.22707,47.498423 -28.2123,48.973003 -1.75874,-2.9949 -3.22294,-5.00807 -5.84772,-8.70711 -0.0932,-0.21981 -0.20643,-0.45712 -0.29423,-0.67132 -3.94136,-12.4388 -4.99419,-58.432328 14.09426,-74.943872 z"
-    sodipodi:nodetypes="ccccccccc" />
+   id="LC1-outline"
+   class="outline"
+   d="m 766.77999,45.595838 c 5.36,-1.506 10.87382,8.349205 13.06282,11.842205 0,0 0.74829,1.234844 1.10529,1.862844 1.598,2.804 3.08668,5.770988 3.78868,8.937988 0.94,4.239 2.4972,8.285262 2.3032,12.706262 -0.41868,9.548533 -19.22707,47.498423 -28.2123,48.973003 -1.75874,-2.9949 -3.22294,-5.00807 -5.84772,-8.70711 -0.0932,-0.21981 -0.20643,-0.45712 -0.29423,-0.67132 -3.94136,-12.4388 -4.99419,-58.432328 14.09426,-74.943872 z" />
   </g>
 </svg>

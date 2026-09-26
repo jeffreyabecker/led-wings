@@ -1,29 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- A3: one feather, broken out of feathers-aggregate-min.svg.
-     The outline's coordinates are unchanged from the aggregate; they are only
-     placed by this file's viewBox, which is the outline's bounding box plus
-     1 mm of margin so the cut line's stroke is not clipped.
-     The aggregate references this file with a <use> whose width/height match the
-     viewBox exactly, which makes the viewBox-to-viewport mapping the identity and
-     leaves the aggregate's own placement matrix as the only thing positioning it.
-     Stroke only, as `.outline`: the fill is the aggregate's to state, not this
-     file's. The group keeps its class because that is what the aggregate's
-     `.P .outline { fill: ... }` rules select through. -->
 <svg
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-    version="1.1"
-    id="A3"
-    width="44.89576mm"
-    height="72.09929mm"
-    viewBox="225.07431 155.06263 44.89576 72.09929"
-    inkscape:label="A3">
-  <title id="title-A3">A3 - single feather outline, 1:1 mm, no fill</title>
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="A3"
+   width="44.89576mm"
+   height="72.09929mm"
+   viewBox="225.07431 155.06263 44.89576 72.09929"
+   inkscape:label="A3">
   <style
-     type="text/css"
-     id="style-A3">
+   type="text/css"
+   id="style-A3">
   .outline {
     stroke: #000000;
     stroke-width: 0.5;
@@ -31,11 +17,11 @@
   }
   </style>
   <g
-    id="A3-def"
-    class="group A">
+   id="A3-def"
+   class="group A">
     <path
-    id="A3-outline"
-    class="outline"
-    d="M 268.97007 226.16192 L 226.07431 174.60915 C 228.78912 165.66182 233.01589 158.68721 239.71828 156.97263 C 243.27328 156.06263 254.78912 157.84336 257.24012 160.67636 C 267.47312 172.50336 268.96546 210.28517 268.96546 225.66217 C 268.96546 225.66217 268.96855 226.05656 268.97007 226.16192 z " />
+   id="A3-outline"
+   class="outline"
+   d="M 268.97007 226.16192 L 226.07431 174.60915 C 228.78912 165.66182 233.01589 158.68721 239.71828 156.97263 C 243.27328 156.06263 254.78912 157.84336 257.24012 160.67636 C 267.47312 172.50336 268.96546 210.28517 268.96546 225.66217 C 268.96546 225.66217 268.96855 226.05656 268.97007 226.16192 z " />
   </g>
 </svg>
