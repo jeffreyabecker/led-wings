@@ -71,42 +71,50 @@
    id="B-topline"
    href="B-topline.svg#B-topline-def"
    width="90.278854"
-   height="89.806569" />
+   height="89.806569"
+   transform="rotate(-47.685529 47.679584 1789.868628)" />
     <use
    id="P-topline"
    href="P-topline.svg#P-topline-def"
    width="159.513788"
-   height="33.137361" />
+   height="33.137361"
+   transform="rotate(-101.182074 117.469965 1814.101812)" />
     <use
    id="LC-topline"
    href="LC-topline.svg#LC-topline-def"
    width="10.180845"
-   height="43.586855" />
+   height="43.586855"
+   transform="rotate(-3.805088 47.24346 1769.319512)" />
     <use
    id="A-topline"
    href="A-topline.svg#A-topline-def"
    width="31.296803"
-   height="84.587416" />
+   height="84.587416"
+   transform="rotate(-160.468527 191.064856 1768.355672)" />
     <use
    id="SC-topline"
    href="SC-topline.svg#SC-topline-def"
    width="37.520367"
-   height="85.322145" />
+   height="85.322145"
+   transform="rotate(23.088631 83.173302 1721.896364)" />
     <use
    id="MC-topline"
    href="MC-topline.svg#MC-topline-def"
    width="30.095821"
-   height="65.401645" />
+   height="65.401645"
+   transform="rotate(-23.90006 27.73842 1737.472579)" />
     <use
    id="PC-topline"
    href="PC-topline.svg#PC-topline-def"
    width="67.161118"
-   height="20.163985" />
+   height="20.163985"
+   transform="rotate(-105.576076 166.6952 1795.437945)" />
     <use
    id="S-topline"
    href="S-topline.svg#S-topline-def"
    width="165.532834"
-   height="19.463414" />
+   height="19.463414"
+   transform="rotate(-96.095426 95.482287 1760.972441)" />
   </g>
   <g
    id="total-outline"
