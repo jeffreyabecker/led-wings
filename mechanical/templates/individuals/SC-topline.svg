@@ -3,9 +3,9 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
    id="SC-topline"
-   width="37.520367mm"
-   height="85.322145mm"
-   viewBox="64.413118 1679.235292 37.520367 85.322145"
+   width="2mm"
+   height="92.577461mm"
+   viewBox="82.173302 1675.607634 2 92.577461"
    inkscape:label="SC-topline">
   <style
    type="text/css"
@@ -20,7 +20,13 @@
    id="SC-topline-def">
     <path
    style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-   d="M 100.933485183,1680.235291581 L 65.41311826,1763.557436922"
+   d="M 83.173301721,1676.607633946 L 83.173301722,1767.185094557"
    id="SC-topline-outline" />
+    <circle
+   id="SC-topline-origin"
+   cx="83.173301722"
+   cy="1767.185094557"
+   r="0.5"
+   style="fill:#000000;stroke:none" />
   </g>
 </svg>

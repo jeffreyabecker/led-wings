@@ -3,9 +3,9 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
    id="B-topline"
-   width="90.278854mm"
-   height="89.806569mm"
-   viewBox="2.540157 1744.965344 90.278854 89.806569"
+   width="43.215492mm"
+   height="121.38269mm"
+   viewBox="8.214231 1726.673579 43.215492 121.38269"
    inkscape:label="B-topline">
   <style
    type="text/css"
@@ -20,8 +20,14 @@
    id="B-topline-def">
     <path
    style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-   d="M 3.540156797,1745.965344098 L 38.766053881,1833.771912825 L 91.819011241,1826.333687488"
+   d="M 50.42972313,1727.673579235 L 9.214231241,1812.83307997 L 50.42972313,1847.05626961"
    id="B-topline-outline"
    inkscape:label="B-topline" />
+    <circle
+   id="B-topline-origin"
+   cx="50.42972313"
+   cy="1847.05626961"
+   r="0.5"
+   style="fill:#000000;stroke:none" />
   </g>
 </svg>

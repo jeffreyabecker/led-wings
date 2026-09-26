@@ -3,9 +3,9 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
    id="PC-topline"
-   width="67.161118mm"
-   height="20.163985mm"
-   viewBox="133.114641 1785.355953 67.161118 20.163985"
+   width="2mm"
+   height="69.645411mm"
+   viewBox="165.6952 1760.61524 2 69.645411"
    inkscape:label="PC-topline">
   <style
    type="text/css"
@@ -20,8 +20,14 @@
    id="PC-topline-def">
     <path
    style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-   d="M 134.114640841,1804.519937796 L 199.275758625,1786.355952561"
+   d="M 166.695199733,1761.615239674 L 166.695199733,1829.260650683"
    id="PC-topline-outline"
    inkscape:label="PC-topline" />
+    <circle
+   id="PC-topline-origin"
+   cx="166.695199733"
+   cy="1829.260650683"
+   r="0.5"
+   style="fill:#000000;stroke:none" />
   </g>
 </svg>
