@@ -5,13 +5,17 @@ make_feather_sheets.py
 
 Generate a true-scale printable PDF of the feather templates.
 
-Reads the 28 individual feather SVGs in mechanical/templates/individuals/
-(each is a single outline path, right-hand orientation, millimetre units) and
-writes one US Letter LANDSCAPE PDF where every feather appears as a mirrored
-pair: the right-hand outline and its left-hand mirror, side by side.
+Reads the individual feather SVGs in mechanical/templates/individuals/ (each a
+single outline path, right-hand orientation, millimetre units) and writes one US
+Letter LANDSCAPE PDF where every item appears as a mirrored pair: the right-hand
+version and its left-hand mirror, side by side.
 
-Feathers too big for one sheet are tiled across multiple sheets with an overlap
-so they can be joined after printing. The rest are packed several to a sheet.
+Items are the 28 feather outlines, plus the wing placement template
+(outline-toplines.svg) and the eight per-family alignment templates
+(*-topline.svg), each printed in left and right versions.
+
+Items too big for one sheet are tiled across multiple sheets with an overlap so
+they can be joined after printing. The rest are packed several to a sheet.
 Page 1 is a cover sheet with a calibration bar in both inches and millimetres.
 
 This script is single-use scaffolding: written for clarity, run once, then
@@ -42,8 +46,16 @@ OUT_PDF = PRINT_DIR / "feathers-letter-landscape.pdf"
 CONTACT_PNG = PRINT_DIR / "contact-sheet.png"
 
 # cairosvg needs the cairo DLL that ships inside GStreamer. Point at it
-# explicitly so the build does not depend on GStreamer staying on PATH.
+# explicitly so the build does not depend on GStreamer staying on PATH. The
+# environment must be set BEFORE importing cairosvg (it dlopens cairo on import).
 CAIRO_BIN = r"C:\Program Files\gstreamer\1.0\msvc_x86_64\bin"
+os.environ["PATH"] = CAIRO_BIN + os.pathsep + os.environ.get("PATH", "")
+os.environ["CAIRO_PATH"] = CAIRO_BIN
+
+import cairosvg
+import pypdf
+import pypdfium2 as pdfium
+from PIL import Image
 
 # --------------------------------------------------------------------------
 # Constants (all in one place — see print-plan.md §5)
@@ -74,6 +86,12 @@ FEATHERS = [
     "B1", "B2", "B3",
 ]
 
+# Per-family alignment templates (leading-edge guides), in the order printed.
+TOPLINES = [
+    "A-topline", "B-topline", "LC-topline", "MC-topline",
+    "P-topline", "PC-topline", "S-topline", "SC-topline",
+]
+
 SVG_NS = "{http://www.w3.org/2000/svg}"
 
 # NOTE: stroke-width and font-size are UNITLESS on purpose. Our user units are
@@ -82,6 +100,7 @@ SVG_NS = "{http://www.w3.org/2000/svg}"
 # then misreads those px as user units, inflating them ~3.78x (0.5mm -> 1.78mm).
 CSS = """
 .outline { stroke: #000000; stroke-width: 0.5; fill: none; }
+.guide   { stroke: #000000; stroke-width: 0.264583; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .label   { font-family: sans-serif; fill: #000000; text-anchor: middle; dominant-baseline: middle; }
 .crop    { stroke: #999999; stroke-width: 0.25; }
 .note    { font-family: sans-serif; fill: #555555; font-size: 4; text-anchor: middle; }
@@ -128,6 +147,16 @@ class Feather:
     y0: float
     d: str          # outline path data
     rotate90: bool  # B group is stored horizontal
+
+
+@dataclass
+class Item:
+    """Anything printed as a mirrored pair: a feather or a guide template."""
+    name: str
+    W: float        # placed width  (mm)
+    H: float        # placed height (mm)
+    body: str       # right-half SVG content, already in local [0,W]x[0,H]
+    inside_label: bool = True   # feathers label each half; templates label the pair once
 
 
 # --------------------------------------------------------------------------
@@ -179,26 +208,37 @@ def right_transform(f):
     return f"translate({fmt(-f.x0)} {fmt(-f.y0)})"
 
 
-def build_pair(f):
-    """Return (fragment, pair_w, pair_h) in the pair's local frame."""
+def feather_item(f):
+    """Turn a Feather into an Item: right-half body at placed size."""
     Wp, Hp = placed_size(f)
     rt = right_transform(f)
-    size = fmt(label_size(Wp, Hp))
+    body = f'<g transform="{rt}"><path class="outline" d="{f.d}"/></g>'
+    return Item(f.name, Wp, Hp, body, inside_label=True)
 
-    right = f'<g transform="{rt}"><path class="outline" d="{f.d}"/></g>'
-    # Mirror about the vertical axis at x = Wp + GAP/2:
-    #   translate(2*Wp + GAP, 0) scale(-1, 1)  then the same right placement.
-    left = (f'<g transform="translate({fmt(2.0 * Wp + GAP)} 0) scale(-1 1)">'
-            f'<g transform="{rt}"><path class="outline" d="{f.d}"/></g></g>')
 
-    labels = (
-        f'<text class="label" font-size="{size}" '
-        f'x="{fmt(Wp / 2.0)}" y="{fmt(Hp / 2.0)}">{f.name}</text>'
-        f'<text class="label" font-size="{size}" '
-        f'x="{fmt(Wp + GAP + Wp / 2.0)}" y="{fmt(Hp / 2.0)}">{f.name}</text>'
-    )
+def build_pair(item):
+    """Return (fragment, pair_w, pair_h) in the pair's local frame."""
+    W, H = item.W, item.H
+    right = item.body
+    # Mirror about the vertical axis at x = W + GAP/2:
+    #   translate(2*W + GAP, 0) scale(-1, 1)  then the same right content.
+    left = (f'<g transform="translate({fmt(2.0 * W + GAP)} 0) scale(-1 1)">'
+            f'{item.body}</g>')
 
-    return right + left + labels, 2.0 * Wp + GAP, Hp
+    if item.inside_label:
+        # A cut piece: one label per half, inside the outline so it is cut out.
+        size = fmt(label_size(W, H))
+        labels = (
+            f'<text class="label" font-size="{size}" x="{fmt(W / 2.0)}" y="{fmt(H / 2.0)}">{item.name}</text>'
+            f'<text class="label" font-size="{size}" x="{fmt(W + GAP + W / 2.0)}" y="{fmt(H / 2.0)}">{item.name}</text>'
+        )
+    else:
+        # A guide has no closed outline to cut, so one label across the pair top.
+        size = fmt(min(6.0, max(3.0, W / 12.0)))
+        labels = (f'<text class="label" font-size="{size}" '
+                  f'x="{fmt(W + GAP / 2.0)}" y="{fmt(3.0)}">{item.name}</text>')
+
+    return right + left + labels, 2.0 * W + GAP, H
 
 
 # --------------------------------------------------------------------------
@@ -256,6 +296,102 @@ def mirror_check(f):
         and abs(lbox[1] - 0.0) < 1e-3 and abs(lbox[3] - Hp) < 1e-3
     )
     return ok, (rbox, lbox)
+
+
+# --------------------------------------------------------------------------
+# Template items (placement + alignment guides)
+# --------------------------------------------------------------------------
+
+def measure_ink(svg, dpi=150):
+    """Render an SVG and return its ink bounding box (x0, y0, x1, y1) in mm."""
+    pdf_bytes = cairosvg.svg2pdf(bytestring=svg.encode())
+    img = pdfium.PdfDocument(pdf_bytes)[0].render(scale=dpi / 72.0).to_pil().convert("L")
+    px = img.load()
+    Wpx, Hpx = img.size
+    PPM = dpi / 25.4
+    xs = [x for y in range(Hpx) for x in range(Wpx) if px[x, y] < 128]
+    ys = [y for y in range(Hpx) for x in range(Wpx) if px[x, y] < 128]
+    if not xs:
+        raise SystemExit("rendered SVG produced no ink")
+    return (min(xs) / PPM, min(ys) / PPM, max(xs) / PPM, max(ys) / PPM)
+
+
+def read_topline(name):
+    """One *-topline.svg alignment guide as an Item.
+
+    Unlike a feather, the guide's <path> carries its own transform (which places
+    it in the aggregate's space) and an inline stroke. The viewBox is still the
+    transformed path's bbox + 1 mm margin, so translate(-x0,-y0) puts it in the
+    local frame exactly like a feather. The stroke is normalised to the .guide
+    class (the source wrote px, which cairosvg inflates).
+    """
+    root = ET.parse(IND_DIR / f"{name}.svg").getroot()
+    W = parse_mm(root.get("width"))
+    H = parse_mm(root.get("height"))
+    x0, y0, vw, vh = (float(v) for v in root.get("viewBox").split())
+    assert abs(vw - W) < 1e-3 and abs(vh - H) < 1e-3, (
+        f"{name}: viewBox {vw}x{vh} != width/height {W}x{H} — not identity")
+
+    path = root.find(f".//{SVG_NS}path")
+    d = " ".join(path.get("d").split())
+    t = path.get("transform") or ""
+    body = (f'<g transform="translate({fmt(-x0)} {fmt(-y0)})">'
+            f'<path class="guide" d="{d}" transform="{t}"/></g>')
+    return Item(name, W, H, body, inside_label=False)
+
+
+def read_placement():
+    """outline-toplines.svg — the whole-wing placement template — as an Item.
+
+    cairosvg does not follow external <use href="file.svg#id"> references (it
+    renders a blank page), so each is expanded inline here. The file's 300x300
+    canvas has empty margin around the wing, so the content is measured and the
+    item cropped to its ink bbox + 1 mm margin.
+    """
+    root = ET.parse(IND_DIR / "outline-toplines.svg").getroot()
+    parts = []
+    for g in root.findall(f".//{SVG_NS}g"):
+        gt = g.get("transform") or ""
+        inner = []
+        for child in g:
+            if child.tag == f"{SVG_NS}use":
+                href = child.get("href") or ""
+                fname, frag = href.split("#", 1)
+                ref = ET.parse(IND_DIR / fname).getroot()
+                target = ref.find(f".//*[@id='{frag}']")
+                for p in target.iter(f"{SVG_NS}path"):
+                    inner.append(f'<path class="guide" d="{p.get("d")}" '
+                                 f'transform="{p.get("transform") or ""}"/>')
+        parts.append(f'<g transform="{gt}">{"".join(inner)}</g>')
+    content = "".join(parts)
+
+    svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="300mm" height="300mm" '
+           f'viewBox="0 0 300 300"><style>{CSS}</style>'
+           f'<rect width="300" height="300" fill="#fff"/>{content}</svg>')
+    bx0, by0, bx1, by1 = measure_ink(svg)
+
+    m = 1.0                                     # 1 mm margin, like the feathers
+    W = (bx1 - bx0) + 2.0 * m
+    H = (by1 - by0) + 2.0 * m
+    body = (f'<g transform="translate({fmt(-(bx0 - m))} {fmt(-(by0 - m))})">'
+            f'{content}</g>')
+    return Item("outline-toplines", W, H, body, inside_label=False)
+
+
+def verify_body(item):
+    """Render an item's right-half body and confirm it lands in [0,W]x[0,H].
+
+    This is the trustworthy check for templates, whose bodies carry arbitrary
+    matrix transforms that the feather-only mirror_check does not understand.
+    """
+    svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{fmt(item.W)}mm" '
+           f'height="{fmt(item.H)}mm" viewBox="0 0 {fmt(item.W)} {fmt(item.H)}">'
+           f'<style>{CSS}</style>'
+           f'<rect width="{fmt(item.W)}" height="{fmt(item.H)}" fill="#fff"/>'
+           f'{item.body}</svg>')
+    x0, y0, x1, y1 = measure_ink(svg)
+    ok = x0 >= -0.5 and y0 >= -0.5 and x1 <= item.W + 0.5 and y1 <= item.H + 0.5
+    return ok, (x0, y0, x1, y1)
 
 
 # --------------------------------------------------------------------------
@@ -380,11 +516,6 @@ def cover_sheet():
 # --------------------------------------------------------------------------
 
 def render_sheets(sheets):
-    os.environ["PATH"] = CAIRO_BIN + os.pathsep + os.environ.get("PATH", "")
-    os.environ["CAIRO_PATH"] = CAIRO_BIN
-    import cairosvg
-    import pypdf
-
     SHEETS_DIR.mkdir(parents=True, exist_ok=True)
     PRINT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -404,9 +535,6 @@ def render_sheets(sheets):
 
 
 def contact_sheet(n_pages):
-    import pypdfium2 as pdfium
-    from PIL import Image
-
     doc = pdfium.PdfDocument(str(OUT_PDF))
     cols = 6
     rows = math.ceil(n_pages / cols)
@@ -425,8 +553,6 @@ def contact_sheet(n_pages):
 
 def verify_scale():
     """Rasterise the cover page at 300 dpi and measure both bars back."""
-    import pypdfium2 as pdfium
-
     doc = pdfium.PdfDocument(str(OUT_PDF))
     img = doc[0].render(scale=300.0 / 72.0).to_pil().convert("L")
     px = img.load()
@@ -459,25 +585,41 @@ def main():
     feathers = read_feathers()
     print(f"read {len(feathers)} feathers")
 
-    # Build every pair, verify the mirror is exact, and split big / small.
-    big, small = [], []
+    # Feathers: verify the mirror is exact, then split big (tiled) / small (packed).
+    f_big, f_small = [], []
     for f in feathers:
         ok, boxes = mirror_check(f)
         assert ok, f"{f.name}: mirror check failed {boxes}"
-        frag, w, h = build_pair(f)
-        if w <= pw and h <= ph:
-            small.append((f.name, frag, w, h))
-        else:
-            big.append((f.name, frag, w, h))
+        item = feather_item(f)
+        frag, w, h = build_pair(item)
+        (f_big if (w > pw or h > ph) else f_small).append((item.name, frag, w, h))
 
-    # Assemble sheets: cover first, then tiled big feathers, then packed smalls.
+    # Templates: the placement template first, then the per-family alignment
+    # guides. Their bodies carry matrix transforms, so verify by rendering.
+    templates = [read_placement()] + [read_topline(n) for n in TOPLINES]
+    t_big, t_small = [], []
+    for t in templates:
+        ok, box = verify_body(t)
+        assert ok, f"{t.name}: body outside its box {box}"
+        frag, w, h = build_pair(t)
+        (t_big if (w > pw or h > ph) else t_small).append((t.name, frag, w, h))
+    print(f"read {len(templates)} templates")
+
+    # Assemble: cover, then feathers (tiled then packed), then templates.
     sheet_labels = ["cover"]
     sheets = [cover_sheet()]
-    for name, frag, w, h in big:
+    for name, frag, w, h in f_big:
         for label, svg in tiled_sheets(name, frag, w, h):
             sheet_labels.append(label)
             sheets.append(svg)
-    for label, svg in pack_small(small):
+    for label, svg in pack_small(f_small):
+        sheet_labels.append(label)
+        sheets.append(svg)
+    for name, frag, w, h in t_big:
+        for label, svg in tiled_sheets(name, frag, w, h):
+            sheet_labels.append(label)
+            sheets.append(svg)
+    for label, svg in pack_small(t_small):
         sheet_labels.append(label)
         sheets.append(svg)
 
@@ -495,9 +637,11 @@ def main():
     print(f"  cover 4 in  bar measured {in_len} mm   -> {'OK' if ok_in else 'FAIL'}")
     assert ok_mm and ok_in, "scale verification FAILED"
 
-    print(f"\n{len(feathers)} feathers, {n} pages:")
-    print("  tiled (oversized):", ", ".join(name for name, *_ in big) or "none")
-    print("  packed (fit whole):", ", ".join(name for name, *_ in small) or "none")
+    big = [name for name, *_ in f_big + t_big]
+    small = [name for name, *_ in f_small + t_small]
+    print(f"\n{len(feathers)} feathers + {len(templates)} templates, {n} pages:")
+    print("  tiled (oversized):", ", ".join(big) or "none")
+    print("  packed (fit whole):", ", ".join(small) or "none")
     print("\nall checks passed")
 
 

@@ -452,3 +452,27 @@ tweaking — it is single-use by design.
 - B rotation correct; outline stroke 0.5 mm.
 - Cover bars measure back to 100.4 mm / 102.0 mm at 300 dpi.
 - Tiled (2 sheets each): P1–P5, S1, S2, B2, B3 · packed: the other 19.
+
+### 17.7 Guides: placement + alignment templates (added later)
+
+The script also prints the **wing placement template** (`outline-toplines.svg`) and
+the eight per-family **alignment templates** (`A/B/LC/MC/P/PC/S/SC-topline.svg`),
+each as a left + right mirrored pair, after the feathers. Two things had to be
+handled that the feathers did not need:
+
+1. **External `<use>` references.** `outline-toplines.svg` is a composite of
+   `<use href="X-topline.svg#…">` references; cairosvg renders those **blank**
+   (it does not resolve cross-file `use`), so `read_placement()` expands each
+   reference to the referenced `<path>` inline (8 toplines + `upper-outline`).
+2. **Path transforms + px strokes.** The guide paths carry a `transform="matrix(…)"`
+   (preserved verbatim) and an inline `stroke-width:…px` (normalised to the unitless
+   `.guide` class — 0.264583 mm — to dodge the cairosvg unit-inflation quirk).
+
+`outline-toplines.svg`'s 300×300 canvas is mostly empty margin around the wing, so
+`read_placement()` renders the expanded content once, measures the ink bbox, and
+crops the item to that bbox + 1 mm (≈249 × 257 mm, tiling 2×2 = 4 sheets). Guide
+items carry a single label across the pair top (they have no closed outline to cut,
+unlike feathers). Guide bodies are verified by **rendering** and checking the ink
+bbox lands in `[0,W]×[0,H]` (`verify_body`), since their matrix transforms are not
+covered by the feather-only `mirror_check`. Result: 39 pages total; all 9 template
+labels present; template mirrors verified exact.
