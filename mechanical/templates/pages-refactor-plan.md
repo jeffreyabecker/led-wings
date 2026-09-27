@@ -140,10 +140,22 @@ SECTIONS = [
     MirroredPairs("SC1", "SC2"), MirroredPairs("SC3"), MirroredPairs("SC4"),
     MirroredPairs("MC1", "MC2"), MirroredPairs("MC3", "MC4"),
     MirroredPairs("LC1", "LC2", "LC3"),
-    AlignmentGuides(*TOPLINES),
     MirroredWholePage("outline-toplines"),
+    # Print order for the guides strip (deliberately not TOPLINES' read order).
+    AlignmentGuides("A-topline", "PC-topline", "SC-topline", "LC-topline",
+                    "MC-topline", "B-topline", "P-topline", "S-topline"),
 ]
 ```
+
+Two ordering traps, both caught by the byte-identical test:
+
+- **Section order.** `MirroredWholePage("outline-toplines")` comes *before*
+  `AlignmentGuides(...)`, matching the current output (its two pages are
+  22–23, the guides strip is 24).
+- **`TOPLINES` is not the print order.** The read list is
+  `A, B, LC, MC, P, PC, S, SC`; the strip prints
+  `A, PC, SC, LC, MC, B, P, S`. The manifest therefore names the guides
+  explicitly rather than splatting `TOPLINES`.
 
 `main()` collapses to one homogeneous loop — no name sniffing anywhere:
 

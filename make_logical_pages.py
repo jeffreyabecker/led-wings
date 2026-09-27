@@ -18,6 +18,7 @@ import math
 import os
 import re
 import xml.etree.ElementTree as ET
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -61,28 +62,8 @@ TOPLINES = [
     "P-topline", "PC-topline", "S-topline", "SC-topline",
 ]
 
-# Ordered pages. Each entry is ONE logical page: a list of item specs.
-# An item spec is a bare name, or a (name, rotation, x, y) tuple:
-#   "P1"                -> auto-layout, no rotation
-#   ("S4", 90)          -> auto-layout, rotated 90 deg clockwise
-#   ("S3", 0, 10, 20)   -> placed at x=10, y=20 mm (top-left), no rotation
-#   ("S3", 90, 10, 20)  -> placed at x=10, y=20, rotated 90 deg
-# rotation: degrees clockwise about the pair's centre. x/y: None -> auto row
-# layout (wrap at MAX_WIDTH); a number -> place exactly there. The cover is
-# always page 1. Every item appears exactly once.
-PAGES = [
-    ["P1"], ["P2"], ["P3"], ["P4"], ["P5"],
-    [("S1", 90)], [("S2", 90)], ["S3"], ["S4"], 
-    ["B1"], [("B2",90)], [("B3",90)],
-    ["A1", "A2", "A3"], ["PC1", "PC2"],
-    ["SC1", "SC2"], ["SC3"], ["SC4"],
-    ["MC1", "MC2"], ["MC3", "MC4"], 
-    ["LC1", "LC2", "LC3"], 
-
-    ["outline-toplines"],
-    
-    ["A-topline", "PC-topline", "SC-topline","LC-topline", "MC-topline", "B-topline", "P-topline",  "S-topline" ],
-]
+# The print manifest (SECTIONS) is defined below the section classes, because
+# each entry is an instance of one of them -- see "The manifest".
 
 SVG_NS = "{http://www.w3.org/2000/svg}"
 
@@ -145,6 +126,126 @@ class Item:
     body: str       # right-half SVG content, already in local [0,W]x[0,H]
     inside_label: bool = True   # feathers label each half; templates label the pair once
     mirror: bool = True         # False for items that should NOT be a left/right pair
+
+
+# --------------------------------------------------------------------------
+# Sections: one manifest entry, one or more logical pages
+# --------------------------------------------------------------------------
+#
+# Every entry in SECTIONS is an object that owns its own layout. It reports the
+# pages it contributes via pages(ctx) -- one for the shelf kinds, two for a
+# whole-wing template (right, then left). So main() never inspects names or
+# sizes to decide what a page is; the section knows.
+
+@dataclass(frozen=True)
+class Page:
+    """One built logical page, ready to write."""
+    title: str
+    content: str
+    w: float
+    h: float
+
+
+@dataclass(frozen=True)
+class Context:
+    """What a section needs in order to lay itself out."""
+    frags: dict     # name -> (built fragment, w, h)
+    raw: dict       # name -> source Item (needed by MirroredWholePage)
+
+
+class Section(ABC):
+    """One entry in SECTIONS: owns a layout, emits one or more logical pages.
+
+    `items` names the items the section is responsible for; the manifest is
+    checked to cover every item that was read, exactly once."""
+
+    items: tuple = ()
+
+    @abstractmethod
+    def pages(self, ctx: Context) -> list[Page]:
+        """Return the logical pages this section contributes, in print order."""
+
+
+class Shelf(Section):
+    """Items placed left-to-right, wrapping at MAX_WIDTH. The one shared layout.
+
+    `rotate` and `pad` are class knobs, not constructor arguments: a rotation is
+    a kind of page here, not an option on a generic one."""
+
+    rotate = 0.0
+    pad = PAD
+
+    def __init__(self, *items):
+        assert items, f"{type(self).__name__} needs at least one item"
+        self.items = tuple(items)
+
+    def pages(self, ctx):
+        content, w, h = shelf(self.items, ctx.frags, self.rotate, self.pad)
+        return [Page("/".join(self.items), content, w, h)]
+
+
+class MirroredPairs(Shelf):
+    """Feather pairs, side by side. Emits 1 page."""
+
+
+class MirroredPairsRot90(Shelf):
+    """Feather pairs rotated 90 deg, so an oversized pair fits one sheet.
+    Emits 1 page."""
+    rotate = 90.0
+
+
+class AlignmentGuides(Shelf):
+    """The *-topline strip: wider spacing between the guides. Emits 1 page."""
+    pad = TOP_LINE_PAD
+
+
+class MirroredWholePage(Section):
+    """A whole-wing drawing, drawn whole rather than as a pair.
+    Emits 2 pages: right, then left."""
+
+    def __init__(self, item):
+        self.items = (item,)
+
+    def pages(self, ctx):
+        return placement_halves(ctx.raw[self.items[0]])
+
+
+class Cover(Section):
+    """The calibration cover. Emits 1 page."""
+
+    def pages(self, ctx):
+        return [cover_page()]
+
+
+# The manifest: the ordered list of sections, top to bottom, cover first.
+# Every item that was read must appear here exactly once.
+SECTIONS = [
+    Cover(),
+    MirroredPairs("P1"),
+    MirroredPairs("P2"),
+    MirroredPairs("P3"),
+    MirroredPairs("P4"),
+    MirroredPairs("P5"),
+    MirroredPairsRot90("S1"),
+    MirroredPairsRot90("S2"),
+    MirroredPairs("S3"),
+    MirroredPairs("S4"),
+    MirroredPairs("B1"),
+    MirroredPairsRot90("B2"),
+    MirroredPairsRot90("B3"),
+    MirroredPairs("A1", "A2", "A3"),
+    MirroredPairs("PC1", "PC2"),
+    MirroredPairs("SC1", "SC2"),
+    MirroredPairs("SC3"),
+    MirroredPairs("SC4"),
+    MirroredPairs("MC1", "MC2"),
+    MirroredPairs("MC3", "MC4"),
+    MirroredPairs("LC1", "LC2", "LC3"),
+    MirroredWholePage("outline-toplines"),
+    # Print order for the guides strip (deliberately not TOPLINES' read order).
+    AlignmentGuides("A-topline", "PC-topline", "SC-topline", "LC-topline",
+                    "MC-topline", "B-topline", "P-topline", "S-topline"),
+]
 
 
 # --------------------------------------------------------------------------
@@ -379,21 +480,6 @@ def verify_body(item):
     return ok, (x0, y0, x1, y1)
 
 
-def placement_halves(item):
-    """outline-toplines gets no side-by-side pair: the left and right versions are
-    two separate single-half pages (right first, then left)."""
-    W, H = item.W, item.H
-    size = fmt(min(6.0, max(3.0, W / 12.0)))
-    right = (item.body
-             + f'<text class="label" font-size="{size}" x="{fmt(W / 2)}" y="{fmt(3)}">'
-               f'outline-toplines right</text>')
-    left = (f'<g transform="translate({fmt(W)} 0) scale(-1 1)">{item.body}</g>'
-            + f'<text class="label" font-size="{size}" x="{fmt(W / 2)}" y="{fmt(3)}">'
-              f'outline-toplines left</text>')
-    return [("outline-toplines-right", right, MAX_WIDTH, H),
-            ("outline-toplines-left", left, MAX_WIDTH, H)]
-
-
 # --------------------------------------------------------------------------
 # Logical-page assembly
 # --------------------------------------------------------------------------
@@ -427,44 +513,44 @@ def placed_transform(w, h, deg, x, y):
     return f"translate({fmt(tx)} {fmt(ty)}) rotate({fmt(deg)} {fmt(cx)} {fmt(cy)})"
 
 
-def normalize_item(spec):
-    """A bare name -> (name, 0, None, None); a tuple -> (name, rotation, x, y)."""
-    if isinstance(spec, str):
-        return (spec, 0.0, None, None)
-    name = spec[0]
-    rot = float(spec[1])
-    x = spec[2] if len(spec) >= 4 else None
-    y = spec[3] if len(spec) >= 4 else None
-    return (name, rot, x, y)
+def shelf(names, frags, rotate, pad):
+    """Lay named fragments out left-to-right, wrapping at MAX_WIDTH.
 
-
-def layout_group(specs, items):
-    """Place pairs (rotation + optional x/y) and return (content, w, h).
-
-    x/y None -> auto row layout (wrap at MAX_WIDTH, using the rotated size);
-    x/y given -> placed exactly there. Rotation is clockwise degrees about the
-    pair's centre. Page size is the union of the placed boxes."""
+    Returns (content, MAX_WIDTH, page_height); the page is the union of the
+    placed boxes. `rotate` is clockwise about each fragment's centre; `pad` is
+    the gap between neighbours (the wrap gap is always PAD)."""
     placed = []
     x = y = 0.0
     row_h = 0.0
     max_y = 0.0
-    for spec in specs:
-        name, rot, px, py = normalize_item(spec)
-        frag, w, h = items[name]
-        RW, RH = rotated_bbox(w, h, rot)
-        pad = TOP_LINE_PAD if name.endswith("-topline") else PAD
-        if px is None and py is None:
-            if x > 0 and x + RW > MAX_WIDTH:
-                y += row_h + PAD
-                x = 0.0
-                row_h = 0.0
-            px, py = x, y
-            x += RW + pad
-            row_h = max(row_h, RH)
-        placed.append((frag, placed_transform(w, h, rot, px, py)))
-        max_y = max(max_y, py + RH)
+    for name in names:
+        frag, w, h = frags[name]
+        RW, RH = rotated_bbox(w, h, rotate)
+        if x > 0 and x + RW > MAX_WIDTH:      # no room in this row -> wrap
+            y += row_h + PAD
+            x = 0.0
+            row_h = 0.0
+        placed.append((frag, placed_transform(w, h, rotate, x, y)))
+        x += RW + pad
+        row_h = max(row_h, RH)
+        max_y = max(max_y, y + RH)
     content = "".join(f'<g transform="{tr}">{frag}</g>' for frag, tr in placed)
     return content, MAX_WIDTH, max_y
+
+
+def placement_halves(item):
+    """A whole-wing drawing gets no side-by-side pair: the right and left
+    versions are two separate whole pages (right first, then left)."""
+    W, H = item.W, item.H
+    size = fmt(min(6.0, max(3.0, W / 12.0)))
+    right = (item.body
+             + f'<text class="label" font-size="{size}" x="{fmt(W / 2)}" y="{fmt(3)}">'
+               f'{item.name} right</text>')
+    left = (f'<g transform="translate({fmt(W)} 0) scale(-1 1)">{item.body}</g>'
+            + f'<text class="label" font-size="{size}" x="{fmt(W / 2)}" y="{fmt(3)}">'
+              f'{item.name} left</text>')
+    return [Page(f"{item.name}-right", right, MAX_WIDTH, H),
+            Page(f"{item.name}-left", left, MAX_WIDTH, H)]
 
 
 def cover_page():
@@ -497,7 +583,7 @@ def cover_page():
     bar(70.0, 100.0, 10.0, 10, 1.0, 100, [str(i * 10) for i in range(11)], "100 mm")
     bar(115.0, 101.6, 25.4, 4, 25.4 / 8.0, 32, ["0", "1", "2", "3", "4"],
         "4 in  (101.6 mm)")
-    return "cover", "".join(e), COVER_W, COVER_H
+    return Page("cover", "".join(e), COVER_W, COVER_H)
 
 
 # --------------------------------------------------------------------------
@@ -505,54 +591,51 @@ def cover_page():
 # --------------------------------------------------------------------------
 
 def main():
-    # Build every item -> (frag, w, h), verifying as we go.
-    items = {}
+    # Build every item -> (frag, w, h), verifying as we go. `raw` keeps the
+    # source Item too, which MirroredWholePage needs to rebuild its halves.
+    frags = {}
+    raw = {}
     for f in read_feathers():
         ok, boxes = mirror_check(f)
         assert ok, f"{f.name}: mirror check failed {boxes}"
         item = feather_item(f)
         frag, w, h = build_pair(item)
-        items[f.name] = (frag, w, h)
+        frags[f.name] = (frag, w, h)
+        raw[f.name] = item
 
     for n in TOPLINES:
         t = read_topline(n)
         ok, box = verify_body(t)
         assert ok, f"{t.name}: body outside its box {box}"
         frag, w, h = build_pair(t)
-        items[t.name] = (frag, w, h)
+        frags[t.name] = (frag, w, h)
+        raw[t.name] = t
 
     t = read_placement()
     ok, box = verify_body(t)
     assert ok, f"{t.name}: body outside its box {box}"
-    halves = placement_halves(t)   # left + right, each its own page
+    raw[t.name] = t
 
-    # PAGES must list every item exactly once.
-    listed = [normalize_item(s)[0] for page in PAGES for s in page]
-    expected = set(FEATHERS) | set(TOPLINES) | {"outline-toplines"}
-    assert len(listed) == len(set(listed)), "PAGES has a duplicate item"
-    assert set(listed) == expected, f"PAGES mismatch: {expected ^ set(listed)}"
+    # The manifest must list every item exactly once.
+    listed = [name for section in SECTIONS for name in section.items]
+    assert len(listed) == len(set(listed)), "the manifest lists an item twice"
+    assert set(listed) == set(raw), f"manifest mismatch: {set(raw) ^ set(listed)}"
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     for p in OUT_DIR.glob("page-*.svg"):
         p.unlink()
 
-    pages = [cover_page()]
-    for group in PAGES:
-        specs = [normalize_item(s) for s in group]
-        if len(specs) == 1 and specs[0][0] == "outline-toplines":
-            pages.extend(halves)   # two dedicated pages: right, then left
-            continue
-        title = "/".join(s[0] for s in specs)
-        content, pw, ph = layout_group(specs, items)
-        pages.append((title, content, pw, ph))
+    ctx = Context(frags=frags, raw=raw)
+    pages = [page for section in SECTIONS for page in section.pages(ctx)]
 
-    for i, (title, content, pw, ph) in enumerate(pages, 1):
+    for i, page in enumerate(pages, 1):
         path = OUT_DIR / f"page-{i:03d}.svg"
-        path.write_text(page_svg(title, content, pw, ph), encoding="utf-8")
+        path.write_text(page_svg(page.title, page.content, page.w, page.h),
+                        encoding="utf-8")
 
     print(f"wrote {len(pages)} logical pages -> {OUT_DIR}")
-    for i, (title, _, pw, ph) in enumerate(pages, 1):
-        print(f"  page-{i:03d}  {pw:7.1f} x {ph:7.1f} mm  {title}")
+    for i, page in enumerate(pages, 1):
+        print(f"  page-{i:03d}  {page.w:7.1f} x {page.h:7.1f} mm  {page.title}")
 
 
 if __name__ == "__main__":
