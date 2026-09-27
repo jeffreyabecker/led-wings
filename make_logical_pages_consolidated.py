@@ -58,25 +58,15 @@ MAX_WIDTH = 260.0  # mm, a grouped page wraps into a new row beyond this width
 PAD = 8.0          # mm, space between items on a shared page (raise if too tight)
 TOP_LINE_PAD = 25.0  # mm, horizontal space between the (non-mirrored) toplines
 
-# Hard-coded item ids (right-hand orientation; the mirror is added by build_pair).
-FEATHERS = [
-    "P1", "P2", "P3", "P4", "P5",
-    "S1", "S2", "S3", "S4",
-    "A1", "A2", "A3",
-    "PC1", "PC2",
-    "SC1", "SC2", "SC3", "SC4",
-    "MC1", "MC2", "MC3", "MC4",
-    "LC1", "LC2", "LC3",
-    "B1", "B2", "B3",
-]
-TOPLINES = [
-    "A-topline", "B-topline", "LC-topline", "MC-topline",
-    "P-topline", "PC-topline", "S-topline", "SC-topline",
-]
-
-# The two aggregate groups the whole-wing placement page is measured from: the
-# eight guides as arranged, then the built-wing silhouette.
-PLACEMENT_GROUPS = ["toplines", "upper-outline"]
+# There are deliberately no FEATHERS / TOPLINES lists here any more. Both were
+# only ever used to say which ids to read, and both duplicated what the manifest
+# and the aggregate already say: SECTIONS names every item the pipeline prints,
+# and the aggregate's <g id="outline-toplines"> holds the guides and the
+# silhouette. The readers now derive both -- see "Reading the source files".
+#
+# This one id is still named, because it is the hinge the derivation turns on:
+# it is both the list of guides and the placement template.
+PLACEMENT_GROUP = "outline-toplines"
 
 # The print manifest (SECTIONS) is defined below the section classes, because
 # each entry is an instance of one of them -- see "The manifest".
@@ -284,7 +274,8 @@ SECTIONS = [
     MirroredPairs("MC3", "MC4"),
     MirroredPairs("LC1", "LC2", "LC3"),
     MirroredWholePage("outline-toplines"),
-    # Print order for the guides strip (deliberately not TOPLINES' read order).
+    # Print order for the guides strip. The read order is now the aggregate's
+    # document order (see topline_children()), and this is deliberately not it.
     AlignmentGuides("A-topline", "PC-topline", "SC-topline", "LC-topline",
                     "MC-topline", "B-topline", "P-topline", "S-topline"),
 ]
@@ -294,18 +285,24 @@ SECTIONS = [
 # Reading the source files
 # --------------------------------------------------------------------------
 #
-# Everything is read out of feathers-aggregate-min.svg. Each feather and topline
-# is a <g id="X-def"> in the hidden #geometry-source group, holding the outline
-# exactly as the old individuals/X.svg held it, plus two data attributes
-# standing in for that file's root <svg>:
+# Everything is read out of feathers-aggregate-conslidated.svg. Each feather is
+# a <g id="X"> nested in a prefix group (<g id="P">, <g id="B">, ...), holding
+# the outline and two data attributes standing in for the source file's root
+# <svg>:
 #
 #   data-wh   the file's width and height   (placed size / scale)
 #   data-vb   the file's viewBox            (x0 y0 W H -- the frame the outline
 #                                            was drawn in, which right_transform
 #                                            and mirror_check need)
 #
-# The <use> elements that place the defs are irrelevant here: the pair layout
-# is built from the geometry, not from the aggregate's arrangement.
+# The eight alignment guides and the whole-wing silhouette live together in
+# <g id="outline-toplines">, so both the set of guides and the placement page
+# are read from that one group rather than from lists kept here.
+#
+# Nothing in this file enumerates the items: SECTIONS (the manifest) names every
+# item the pipeline prints, and each name is read by shape -- a group with a
+# <circle> is a guide, the outline-toplines group is the placement template,
+# anything else with geometry is a feather.
 
 _AGG_CACHE = {}
 
@@ -358,18 +355,33 @@ def _path_d(name, el):
     return " ".join(path_el.get("d").split())   # normalise internal whitespace
 
 
-def read_feathers():
-    feathers = []
-    for name in FEATHERS:
-        el = _def_group(name)
-        x0, y0, W, H = _frame(name, el)
-        d = _path_d(name, el)
+def read_feather(name):
+    """One feather as a Feather, read by id.
 
-        # B group is stored with its long axis horizontal; rotate 90 CW.
-        rotate90 = name.startswith("B")
+    The B group is stored with its long axis horizontal and must be rotated 90
+    deg clockwise; that is a property of the arrangement, not of the item, so it
+    stays a name-prefix rule rather than a declaration."""
+    el = _def_group(name)
+    x0, y0, W, H = _frame(name, el)
+    d = _path_d(name, el)
+    return Feather(name, W, H, x0, y0, d, rotate90=name.startswith("B"))
 
-        feathers.append(Feather(name, W, H, x0, y0, d, rotate90))
-    return feathers
+
+def placement_group():
+    """The <g id="outline-toplines"> the guides and the silhouette live in."""
+    el = aggregate_by_id().get(PLACEMENT_GROUP)
+    assert el is not None, f"no <g id=\"{PLACEMENT_GROUP}\"> in {AGG_SVG.name}"
+    return el
+
+
+def topline_children():
+    """The guide groups in <g id="outline-toplines">, in document order.
+
+    This is the read list that TOPLINES used to declare. Membership is by
+    shape: a guide carries an origin <circle>; the silhouette (upper-outline)
+    does not, and is what makes the placement page."""
+    return [c for c in placement_group()
+            if c.tag == f"{SVG_NS}g" and c.get("data-wh")]
 
 
 # --------------------------------------------------------------------------
@@ -531,9 +543,11 @@ def _group_content(g):
     return "".join(out)
 
 
-def read_topline(name):
-    """One *-topline alignment guide as an Item (line + origin marker)."""
-    el = _def_group(f"{name}s")   # the id is "A-toplines", one group per line
+def read_topline(name, el):
+    """One *-topline alignment guide as an Item (line + origin marker).
+
+    `el` is the guide's group inside <g id="outline-toplines">, id "X-toplines".
+    Whose children are guides is decided by topline_children(), not here."""
     x0, y0, W, H = _frame(name, el)
 
     body = (f'<g transform="translate({fmt(-x0)} {fmt(-y0)})">'
@@ -545,20 +559,22 @@ def read_placement():
     """The whole-wing placement template as an Item.
 
     It used to be a document of its own (outline-toplines.svg) built from
-    <use>s into sibling files, then lived in the aggregate's hidden
-    #geometry-source group as the placement-* groups whose <use>s pointed at
-    the inlined *-topline defs. The consolidated aggregate has no <use>s left:
-    the groups are simply placed where they sit, so the walk is over ids rather
-    than over references.
-    """
-    index = aggregate_by_id()
+    <use>s into sibling files, then the aggregate's placement-* groups whose
+    <use>s pointed at the inlined *-topline defs. The consolidated aggregate has
+    no <use>s left: the guides and the silhouette sit together in one group and
+    are read from it directly.
+
+    That group is placed with its own transform, exactly as the two groups it
+    replaced were -- both carried the same matrix, so wrapping the pair once is
+    the same geometry as wrapping each."""
+    g = placement_group()
     parts = []
-    for gid in PLACEMENT_GROUPS:
-        g = index.get(gid)
-        assert g is not None, f"no <g id=\"{gid}\"> in {AGG_SVG.name}"
-        gt = g.get("transform") or ""
-        parts.append(f'<g transform="{gt}">{_group_content(g)}</g>')
-    content = "".join(parts)
+    for child in g:
+        if child.tag != f"{SVG_NS}g":
+            continue
+        ct = child.get("transform") or ""
+        parts.append(f'<g transform="{ct}">{_group_content(child)}</g>')
+    content = f'<g transform="{g.get("transform") or ""}">{"".join(parts)}</g>'
 
     svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="300mm" height="300mm" '
            f'viewBox="0 0 300 300"><style>{CSS}</style>'
@@ -704,35 +720,45 @@ def cover_page():
 # --------------------------------------------------------------------------
 
 def main():
-    # Build every item -> (frag, w, h), verifying as we go. `raw` keeps the
-    # source Item too, which MirroredWholePage needs to rebuild its halves.
-    frags = {}
-    raw = {}
-    for f in read_feathers():
-        ok, boxes = mirror_check(f)
-        assert ok, f"{f.name}: mirror check failed {boxes}"
-        item = feather_item(f)
-        frag, w, h = build_pair(item)
-        frags[f.name] = (frag, w, h)
-        raw[f.name] = item
-
-    for n in TOPLINES:
-        t = read_topline(n)
-        ok, box = verify_body(t)
-        assert ok, f"{t.name}: body outside its box {box}"
-        frag, w, h = build_pair(t)
-        frags[t.name] = (frag, w, h)
-        raw[t.name] = t
-
-    t = read_placement()
-    ok, box = verify_body(t)
-    assert ok, f"{t.name}: body outside its box {box}"
-    raw[t.name] = t
-
-    # The manifest must list every item exactly once.
+    # Read every item the manifest names, dispatching on what the aggregate
+    # says each one is, and build it -> (frag, w, h), verifying as we go.
+    # `raw` keeps the source Item too, which MirroredWholePage needs.
     listed = [name for section in SECTIONS for name in section.items]
     assert len(listed) == len(set(listed)), "the manifest lists an item twice"
-    assert set(listed) == set(raw), f"manifest mismatch: {set(raw) ^ set(listed)}"
+
+    guides = {c.get("id")[:-1]: c for c in topline_children()}   # "A-toplines" -> "A-topline"
+    assert len(guides) == len(topline_children()), (
+        "two guides in <g id=\"%s\"> share a name" % PLACEMENT_GROUP)
+
+    frags = {}
+    raw = {}
+    for name in listed:
+        if name == PLACEMENT_GROUP:
+            # The placement template: read the group the guides also come from.
+            item = read_placement()
+            ok, box = verify_body(item)
+            assert ok, f"{item.name}: body outside its box {box}"
+            raw[name] = item                      # no pair fragment: its own pages
+            continue
+
+        if name in guides:
+            item = read_topline(name, guides[name])
+        else:
+            f = read_feather(name)
+            ok, boxes = mirror_check(f)
+            assert ok, f"{f.name}: mirror check failed {boxes}"
+            item = feather_item(f)
+
+        ok, box = verify_body(item)
+        assert ok, f"{item.name}: body outside its box {box}"
+        frag, w, h = build_pair(item)
+        frags[name] = (frag, w, h)
+        raw[name] = item
+
+    # Every item the manifest names must have been read. The old assertion also
+    # checked the other direction (nothing read that the manifest omits), which
+    # cannot happen now: the manifest is what drives the reading.
+    assert set(listed) == set(raw), f"manifest mismatch: {set(listed) ^ set(raw)}"
 
     ctx = Context(frags=frags, raw=raw)
     pages = [page for section in SECTIONS for page in section.pages(ctx)]

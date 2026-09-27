@@ -1,9 +1,11 @@
 # Plan — point `make_logical_pages.py` at `feathers-aggregate-conslidated.svg`
 
-**Status: Steps 0 and 1 done. Step 2 not started.** Step 1's changes now live in
-`make_logical_pages_consolidated.py`, an untracked working copy; the original
-`make_logical_pages.py` has been reverted to `032b6fc` and verified byte-identical
-to the Step 0 baseline. Both aggregates are untouched. See §8.
+**Status: the copy runs end to end and emits 25 pages.** `make_logical_pages.py`
+is unchanged and still reproduces the baseline. Steps 2a–2c were never applied as
+written — see §8.4 and §9. **Step 3's premise is withdrawn:** the consolidated
+aggregate carries *deliberately altered geometry*, so byte-parity with the
+`-min.svg` baseline is not a valid target and is not evidence of correctness
+either way. See §5 and §8.4.
 
 **Scope:** `make_logical_pages.py` only — the three readers and the constants they
 read. `pages_to_pdf.py` is untouched: it only ever sees `page-NNN.svg`, so it
@@ -156,11 +158,21 @@ made explicitly.
 
 ---
 
-## 5. Step 3 — parity, not eyeballing
+## 5. Step 3 — ~~parity, not eyeballing~~ *withdrawn*
 
-Re-run and diff the 25 pages against the Step 0 hashes. Every page that moves is
-either explained or the change is reverted. Report which pages differ and by how
-much. `pages_to_pdf.py` is then run only as a check — it is not edited.
+**This step was wrong.** It assumed the consolidated aggregate holds the same
+geometry as `-min.svg`, so that every page *should* come out byte-identical and
+any diff would be a regression. It does not: the consolidated file carries
+deliberately altered geometry. A byte-diff against the baseline therefore proves
+nothing in either direction — 13 pages matching is not correctness, and 12
+differing is not breakage.
+
+What survives of the step is the useful half: the new pages must be **internally
+sound** — none blank, no ink off the page, every item present, one page per
+manifest section. That check is §8.4.
+
+The Step 0 baseline is still worth having, for one narrow purpose: it is what
+proves `make_logical_pages.py` (the original) was not disturbed.
 
 ---
 
@@ -269,3 +281,87 @@ decision and was deliberately not touched.
 `read_placement()`'s failure is consistent with §2a (the `toplines` group of
 groups serializes to nothing) and §2b (inline stroke dropped), and those fixes are
 themselves un-applied — Step 1 was defined as IDs only.
+
+### Step 1c: the declared item lists are gone
+
+The consolidated aggregate gained `<g id="outline-toplines">`, holding the eight
+guides *and* the silhouette. That single change retired all three declarations:
+
+| was declared | now derived from |
+|---|---|
+| `FEATHERS` (28 ids) | the names `SECTIONS` lists that are not guides and not the placement group |
+| `TOPLINES` (8 ids) | `topline_children()` — the direct children of `outline-toplines` that carry a frame, in document order |
+| `PLACEMENT_GROUPS` | `placement_group()` — the one group both the guides and the silhouette live in |
+
+`SECTIONS` is now the only place items are enumerated, and it drives reading:
+`main()` walks the manifest by name and dispatches on what the aggregate says each
+name is. The manifest assertion flipped with it — it used to check *nothing was
+read that the manifest omits*, which cannot happen now, and now checks *everything
+the manifest names was read*, which is the direction that can still fail.
+
+`TOPLINES` was the one list with a real justification: read order and print order
+differed deliberately. Derivation keeps that, because the file's document order
+*is* the read order (`B, P, LC, A, SC, MC, PC, S`) while `SECTIONS` still holds the
+print order. `PLACEMENT_GROUP = "outline-toplines"` remains as a single named id —
+the hinge the derivation turns on, and the id the placement page is titled after.
+
+Two things deliberately **not** removed:
+
+- **`rotate90 = name.startswith("B")`** — still a name-prefix rule. Measured, the
+  B groups are the near-90° ones (89.2°, 83.3°, 79.2°) against ≤65° for everything
+  else, so it is a real distinction, but it is a property of the arrangement, and
+  a 90° threshold would not cleanly separate them anyway (B2/B3 sit at 83°/79°).
+- **`upper-outline` is not a guide.** It has no `data-wh`, so the
+  "children with a frame" filter excludes it. That filter is what keeps it from
+  becoming a ninth bogus alignment guide; a walk that ignored the frame would
+  silently produce one.
+
+### Step 1d: first end-to-end run, and an internal-soundness check
+
+`python make_logical_pages_consolidated.py` now **completes**: 25 logical pages
+into `print/logical-pages-consolidated/`, matching the baseline's page list one for
+one. The placement pages (022/023) now measure 260.1 × **195.9** mm where the
+baseline had 192.7 mm.
+
+Diffed against the Step 0 baseline: **13 of 25 pages byte-identical, 12 differing.**
+
+| differing | what |
+|---|---|
+| 002–006 | P1–P5 |
+| 011–013 | B1–B3 |
+| 022–023 | the placement pages |
+| 024–025 | the guide-strip pages |
+
+**This is expected, not a regression.** The consolidated aggregate carries
+deliberately altered geometry, so parity with `-min.svg` is not a target (§5). The
+grouping of the diffs is still informative: the groups whose parent transform
+carries a scale of 1.2 are exactly P and B, the pages whose geometry changed, while
+every group whose cumulative scale is 1.000 — S, A, PC, SC, MC, LC, and the cover —
+came out byte-identical. That is a consistent story rather than scattered drift.
+
+Per-page ink, measured on the rendered pages themselves (the check §5 kept):
+
+- **no blank pages** — all 25 render ink;
+- **no ink outside any page** — every page's ink box sits inside its declared size;
+- page 022 and 023 share one ink box exactly, as the right/left halves of one
+  drawing should.
+
+The open frame question (§2c) is untouched by all of this: the copy applies the
+cumulative group transform, which is what produces the 1.2× difference on P and B.
+Whether that is the intended reading of the consolidated file is still undecided.
+
+### What happened to Steps 2a and 2b
+
+Neither was implemented, and neither was needed — worth recording, because the plan
+predicted both and the prediction was partly wrong.
+
+- **2a (`_group_content` must recurse) — fixed in the file, not the code.** The new
+  `outline-toplines` group still holds child `<g>`s, but `read_placement()` now
+  iterates those children itself and calls `_group_content()` on each, which reads
+  their direct `path`/`circle` children. So the nesting is handled by one level of
+  iteration rather than by recursion, and `_group_content()` is unchanged.
+- **2b (carry the inline `style`) — not needed.** The guides serialise as
+  `<path class="guide">` and pick up the script's own stroke; the silhouette's
+  `style` is dropped and it is drawn with the local `.guide` class instead. That
+  *does* change how it looks — the aggregate's stroke weights are not reproduced —
+  but nothing fails, so it is a fidelity question, not a blocker. It stays open.
