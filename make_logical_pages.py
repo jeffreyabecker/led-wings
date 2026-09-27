@@ -1,21 +1,18 @@
 #!/usr/bin/env python3
 """
-make_logical_pages_consolidated.py
-==================================
+make_logical_pages.py
+=====================
 
-Script 1 of the print pipeline, reading the CONSOLIDATED aggregate
-(feathers-aggregate-conslidated.svg) instead of feathers-aggregate-min.svg.
-A working copy of make_logical_pages.py while that switch is brought up; it
-does not yet run to completion (read_placement() still fails).
+Script 1 of the print pipeline: build the mirrored-pair content and lay it out
+into LOGICAL page SVGs, reading the feather geometry from
+mechanical/templates/feathers-aggregate.svg.
 
 Each page is self-contained, true scale (millimetres), sized to its content, and
 labelled with a <title>. This script knows nothing about paper size, margins, or
 tiling -- that is pages_to_pdf.py's job. The two scripts meet only at the
 filesystem: a directory of page-NNN.svg files.
 
-Output: mechanical/templates/print/logical-pages-consolidated/page-NNN.svg
-(cover first) -- a separate directory from the original script's, so the
-known-good pages are never overwritten.
+Output: mechanical/templates/print/logical-pages/page-NNN.svg (cover first).
 """
 
 import math
@@ -32,14 +29,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 TEMPLATES_DIR = ROOT / "mechanical" / "templates"
-# The aggregate is the single source of truth for feather geometry. In the
-# consolidated file each feather and topline is one <g id="X"> holding its
-# outline (and its frame, as data-wh/data-vb); the transform that arranges it
-# sits on that group rather than on a separate <use>.
+# The aggregate is the single source of truth for feather geometry: each feather
+# and topline is one <g id="X"> holding its outline (and its frame, as
+# data-wh/data-vb), with the transform that arranges it on that group rather than
+# on a separate <use>.
 AGG_SVG = TEMPLATES_DIR / "feathers-aggregate.svg"
-# Deliberately NOT the original's "logical-pages": that directory holds the
-# known-good pages built from feathers-aggregate-min.svg, and this script must
-# not overwrite them while it is still being brought up.
 OUT_DIR = TEMPLATES_DIR / "print" / "logical-pages"
 
 CAIRO_BIN = r"C:\Program Files\gstreamer\1.0\msvc_x86_64\bin"
