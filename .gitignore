@@ -46,3 +46,4 @@ mechanical/templates/print/logical-pages/
 # known-good logical-pages/ output).
 mechanical/templates/print/logical-pages-consolidated/
 
+.tmp*/
