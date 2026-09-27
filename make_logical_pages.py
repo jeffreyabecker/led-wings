@@ -43,6 +43,7 @@ import pypdfium2 as pdfium
 GAP = 10.0         # mm, clear space between the two halves of a pair
 MAX_WIDTH = 260.0  # mm, a grouped page wraps into a new row beyond this width
 PAD = 8.0          # mm, space between items on a shared page (raise if too tight)
+TOP_LINE_PAD = 25.0  # mm, horizontal space between the (non-mirrored) toplines
 
 # Hard-coded item ids (right-hand orientation; the mirror is added by build_pair).
 FEATHERS = [
@@ -71,18 +72,16 @@ TOPLINES = [
 # always page 1. Every item appears exactly once.
 PAGES = [
     ["P1"], ["P2"], ["P3"], ["P4"], ["P5"],
-    ["S1"], ["S2"],
-    
-    ["S3", "S4"], ["A1", "A2", "A3", "PC1", "PC2"],
-    ["SC1", "SC2", "SC3", "SC4"],
-    ["MC1", "MC2", "MC3", "MC4", "LC1", "LC2", "LC3"], 
+    ["S1"], ["S2"], ["S3"], ["S4"], 
     ["B1"], ["B2"], ["B3"],
+    ["A1", "A2", "A3"], ["PC1", "PC2"],
+    ["SC1", "SC2"], ["SC3"], ["SC4"],
+    ["MC1", "MC2"], ["MC3", "MC4"], 
+    ["LC1", "LC2", "LC3"], 
+
     ["outline-toplines"],
     
-    ["A-topline", "PC-topline"],
-    ["SC-topline","LC-topline", "MC-topline"],
-    ["B-topline"], 
-    ["P-topline",  "S-topline" ],
+    ["A-topline", "PC-topline", "SC-topline","LC-topline", "MC-topline", "B-topline", "P-topline",  "S-topline" ],
 ]
 
 SVG_NS = "{http://www.w3.org/2000/svg}"
@@ -139,12 +138,13 @@ class Feather:
 
 @dataclass
 class Item:
-    """Anything printed as a mirrored pair: a feather or a guide template."""
+    """A printed component: a feather or a guide template."""
     name: str
     W: float        # placed width  (mm)
     H: float        # placed height (mm)
     body: str       # right-half SVG content, already in local [0,W]x[0,H]
     inside_label: bool = True   # feathers label each half; templates label the pair once
+    mirror: bool = True         # False for items that should NOT be a left/right pair
 
 
 # --------------------------------------------------------------------------
@@ -203,24 +203,40 @@ def feather_item(f):
 
 
 def build_pair(item):
-    """Return (fragment, pair_w, pair_h) in the pair's local frame."""
-    W, H = item.W, item.H
-    right = item.body
-    left = (f'<g transform="translate({fmt(2.0 * W + GAP)} 0) scale(-1 1)">'
-            f'{item.body}</g>')
+    """Return (fragment, w, h) in the local frame.
 
+    A mirrored item is a left/right pair; a non-mirrored item (the toplines) is
+    a single fragment with one label and no left/right distinction."""
+    W, H = item.W, item.H
     if item.inside_label:
         size = fmt(label_size(W, H))
-        labels = (
-            f'<text class="label" font-size="{size}" x="{fmt(W / 2.0)}" y="{fmt(H / 2.0)}">{item.name}</text>'
-            f'<text class="label" font-size="{size}" x="{fmt(W + GAP + W / 2.0)}" y="{fmt(H / 2.0)}">{item.name}</text>'
-        )
+        y = H / 2.0
     else:
         size = fmt(min(6.0, max(3.0, W / 12.0)))
-        labels = (f'<text class="label" font-size="{size}" '
-                  f'x="{fmt(W + GAP / 2.0)}" y="{fmt(3.0)}">{item.name}</text>')
+        y = 3.0
 
-    return right + left + labels, 2.0 * W + GAP, H
+    if not item.mirror:
+        # single guide line; label runs along it (rotated 90 deg about its centre)
+        cx, cy = W / 2.0, H / 2.0
+        label = (f'<text class="label" font-size="{size}" x="{fmt(cx)}" y="{fmt(cy)}" '
+                 f'transform="rotate(90 {fmt(cx)} {fmt(cy)})">{item.name}</text>')
+        return item.body + label, W, H
+
+    # left wing = mirror of the source, placed at [0, W]; right wing = source
+    # as-is, placed at [W+GAP, 2W+GAP]. Labels sit outside the mirror so they
+    # read upright.
+    left_geom = f'<g transform="translate({fmt(W)} 0) scale(-1 1)">{item.body}</g>'
+    right_geom = f'<g transform="translate({fmt(W + GAP)} 0)">{item.body}</g>'
+    left_label = (f'<text class="label" font-size="{size}" x="{fmt(W / 2.0)}" '
+                  f'y="{fmt(y)}">{item.name} left</text>')
+    right_label = (f'<text class="label" font-size="{size}" x="{fmt(W + GAP + W / 2.0)}" '
+                   f'y="{fmt(y)}">{item.name} right</text>')
+
+    frag = (f'<g id="{item.name}-pair">'
+            f'<g id="{item.name}-left">{left_geom}{left_label}</g>'
+            f'<g id="{item.name}-right">{right_geom}{right_label}</g>'
+            f'</g>')
+    return frag, 2.0 * W + GAP, H
 
 
 # --------------------------------------------------------------------------
@@ -256,18 +272,18 @@ def mirror_check(f):
     """Assert the left half is an exact mirror of the right half, true size."""
     Wp, Hp = placed_size(f)
     rt = right_transform(f)
-    left_t = f"translate({fmt(2.0 * Wp + GAP)} 0) scale(-1 1)"
+    right_t = f"translate({fmt(Wp + GAP)} 0)"
+    left_t = f"translate({fmt(Wp)} 0) scale(-1 1)"
     corners = [(f.x0, f.y0), (f.x0 + f.W, f.y0),
                (f.x0, f.y0 + f.H), (f.x0 + f.W, f.y0 + f.H)]
-    rbox = _bbox(apply_transform(rt, corners))
+    rbox = _bbox(apply_transform(right_t + " " + rt, corners))
     lbox = _bbox(apply_transform(left_t + " " + rt, corners))
 
     ok = (
-        abs(rbox[0] - 0.0) < 1e-3 and abs(rbox[1] - 0.0) < 1e-3
-        and abs(rbox[2] - Wp) < 1e-3 and abs(rbox[3] - Hp) < 1e-3
-        and abs(lbox[0] - (Wp + GAP)) < 1e-3
-        and abs(lbox[2] - (2.0 * Wp + GAP)) < 1e-3
-        and abs(lbox[1] - 0.0) < 1e-3 and abs(lbox[3] - Hp) < 1e-3
+        abs(rbox[0] - (Wp + GAP)) < 1e-3 and abs(rbox[1] - 0.0) < 1e-3
+        and abs(rbox[2] - (2.0 * Wp + GAP)) < 1e-3 and abs(rbox[3] - Hp) < 1e-3
+        and abs(lbox[0] - 0.0) < 1e-3 and abs(lbox[1] - 0.0) < 1e-3
+        and abs(lbox[2] - Wp) < 1e-3 and abs(lbox[3] - Hp) < 1e-3
     )
     return ok, (rbox, lbox)
 
@@ -316,7 +332,7 @@ def read_topline(name):
     g = root.find(f".//{SVG_NS}g")
     body = (f'<g transform="translate({fmt(-x0)} {fmt(-y0)})">'
             f'{_group_content(g)}</g>')
-    return Item(name, W, H, body, inside_label=False)
+    return Item(name, W, H, body, inside_label=False, mirror=False)
 
 
 def read_placement():
@@ -374,8 +390,8 @@ def placement_halves(item):
     left = (f'<g transform="translate({fmt(W)} 0) scale(-1 1)">{item.body}</g>'
             + f'<text class="label" font-size="{size}" x="{fmt(W / 2)}" y="{fmt(3)}">'
               f'outline-toplines left</text>')
-    return [("outline-toplines-right", right, W, H),
-            ("outline-toplines-left", left, W, H)]
+    return [("outline-toplines-right", right, MAX_WIDTH, H),
+            ("outline-toplines-left", left, MAX_WIDTH, H)]
 
 
 # --------------------------------------------------------------------------
@@ -431,29 +447,29 @@ def layout_group(specs, items):
     placed = []
     x = y = 0.0
     row_h = 0.0
-    max_x = max_y = 0.0
+    max_y = 0.0
     for spec in specs:
         name, rot, px, py = normalize_item(spec)
         frag, w, h = items[name]
         RW, RH = rotated_bbox(w, h, rot)
+        pad = TOP_LINE_PAD if name.endswith("-topline") else PAD
         if px is None and py is None:
             if x > 0 and x + RW > MAX_WIDTH:
                 y += row_h + PAD
                 x = 0.0
                 row_h = 0.0
             px, py = x, y
-            x += RW + PAD
+            x += RW + pad
             row_h = max(row_h, RH)
         placed.append((frag, placed_transform(w, h, rot, px, py)))
-        max_x = max(max_x, px + RW)
         max_y = max(max_y, py + RH)
     content = "".join(f'<g transform="{tr}">{frag}</g>' for frag, tr in placed)
-    return content, max_x, max_y
+    return content, MAX_WIDTH, max_y
 
 
 def cover_page():
     """The cover: dual-unit calibration bars, as a logical page."""
-    COVER_W, COVER_H = 269.4, 205.9
+    COVER_W, COVER_H = MAX_WIDTH, 205.9
     e = []
     e.append(f'<text class="title" x="{fmt(COVER_W / 2)}" y="25">'
              'Feather templates \u2014 mirrored pairs</text>')
