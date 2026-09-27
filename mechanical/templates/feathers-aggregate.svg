@@ -46,8 +46,18 @@
 
 /* B -- body feathers */
 #B .outline { fill: #8c564b; }
-
-
+#outline-toplines path{
+     fill: none;
+  stroke: #000000;
+  stroke-width: 0.264583px;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  stroke-opacity: 1;
+}
+#outline-toplines circle{
+     fill: #000000;
+  stroke: none;
+}
 </style>
   <g
      id="B"
@@ -370,15 +380,13 @@
        data-vb="8.214231 1726.673579 43.215492 121.38269"
        transform="rotate(-47.685529,47.679584,1789.8686)">
       <path
-         style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="m 50.429723,1727.6736 v 119.3827"
          id="B-topline-outline" />
       <circle
          id="B-topline-origin"
          cx="50.429722"
          cy="1847.0563"
-         r="0.5"
-         style="fill:#000000;stroke:none" />
+         r="0.5" />
     </g>
     <g
        id="P-toplines"
@@ -386,15 +394,13 @@
        data-vb="116.469965 1732.820854 2 162.561915"
        transform="rotate(-101.18207,117.46996,1814.1018)">
       <path
-         style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="m 117.46996,1733.8209 v 160.5619"
          id="P-topline-outline" />
       <circle
          id="P-topline-origin"
          cx="117.46996"
          cy="1894.3828"
-         r="0.5"
-         style="fill:#000000;stroke:none" />
+         r="0.5" />
     </g>
     <g
        id="LC-toplines"
@@ -402,15 +408,13 @@
        data-vb="41.813062 1747.65982 9.131899 43.678732"
        transform="rotate(-3.805088,47.24346,1769.3195)">
       <path
-         style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="m 49.944961,1748.6598 c -7.131899,25.6355 -0.82117,28.8655 0,41.6788"
          id="LC-topline-outline" />
       <circle
          id="LC-topline-origin"
          cx="49.944962"
          cy="1748.6598"
-         r="0.5"
-         style="fill:#000000;stroke:none" />
+         r="0.5" />
     </g>
     <g
        id="A-toplines"
@@ -418,15 +422,13 @@
        data-vb="190.064856 1723.540766 2 89.629811"
        transform="rotate(-160.46853,191.06486,1768.3557)">
       <path
-         style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="m 191.06486,1724.5408 v 87.6298"
          id="A-topline-outline" />
       <circle
          id="A-topline-origin"
          cx="191.06485"
          cy="1812.1705"
-         r="0.5"
-         style="fill:#000000;stroke:none" />
+         r="0.5" />
     </g>
     <g
        id="SC-toplines"
@@ -434,15 +436,13 @@
        data-vb="82.173302 1675.607634 2 92.577461"
        transform="rotate(23.088631,83.173302,1721.8964)">
       <path
-         style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="m 83.173302,1676.6076 v 90.5775"
          id="SC-topline-outline" />
       <circle
          id="SC-topline-origin"
          cx="83.173302"
          cy="1767.1851"
-         r="0.5"
-         style="fill:#000000;stroke:none" />
+         r="0.5" />
     </g>
     <g
        id="MC-toplines"
@@ -450,15 +450,13 @@
        data-vb="26.73842 1701.798584 2 71.34799"
        transform="rotate(-23.90006,27.73842,1737.4726)">
       <path
-         style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="m 27.73842,1702.7986 v 69.348"
          id="MC-topline-outline" />
       <circle
          id="MC-topline-origin"
          cx="27.73842"
          cy="1772.1466"
-         r="0.5"
-         style="fill:#000000;stroke:none" />
+         r="0.5" />
     </g>
     <g
        id="PC-toplines"
@@ -466,15 +464,13 @@
        data-vb="165.6952 1760.61524 2 69.645411"
        transform="rotate(-105.57608,166.6952,1795.4379)">
       <path
-         style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="m 166.6952,1761.6152 v 67.6455"
          id="PC-topline-outline" />
       <circle
          id="PC-topline-origin"
          cx="166.69521"
          cy="1829.2606"
-         r="0.5"
-         style="fill:#000000;stroke:none" />
+         r="0.5" />
     </g>
     <g
        id="S-toplines"
@@ -482,22 +478,19 @@
        data-vb="94.482287 1677.741122 2 166.462636"
        transform="rotate(-96.095426,95.482287,1760.9724)">
       <path
-         style="display:inline;fill:none;stroke:#000000;stroke-width:0.241545px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="m 95.482287,1678.7411 v 164.4627"
          id="S-topline-outline" />
       <circle
          id="S-topline-origin"
          cx="95.482285"
          cy="1843.2037"
-         r="0.5"
-         style="fill:#000000;stroke:none" />
+         r="0.5" />
     </g>
     <g
        id="upper-outline"
        transform="matrix(0.99229269,-0.08034782,-0.0179544,-1.0064321,-473.53062,2396.766)">
       <path
          id="outline-path"
-         style="display:inline;fill:none;stroke:#000000;stroke-width:0.228236;stroke-dasharray:none"
          class="outline"
          d="m 579.50208,668.79099 c -1.99817,0.13075 -4.07258,0.17768 -6.18976,0.15527 l -10e-6,-5.1e-4 c -14.50091,-0.15347 -31.00133,-3.54685 -38.70902,-5.38797 l -1.93577,-0.46264 c 0,0 -3.90636,-0.85628 -5.79892,-1.41324 -3.62649,-1.0681 -15.19496,-7.6716 -22.77604,-13.89156 -3.74972,2.4215 -7.71749,4.26993 -11.85895,5.25007 -5.49572,-0.75021 -6.32818,-10.13442 -6.83602,-13.54312 0,0 -0.15608,-1.19596 -0.21424,-1.79593 -0.15275,-1.55473 -0.24391,-3.13739 -0.1607,-4.70794 -0.0248,-3.2e-4 -0.0524,0.003 -0.0765,0.002 -0.34902,-0.0163 -0.62175,-0.11801 -0.79999,-0.32071 -3.86866,-5.27342 -3.84587,-16.30427 -3.6912,-22.76232 0.0788,-0.0835 0.1384,-0.1484 0.21663,-0.2314 0.11315,-3.37934 1.77087,-8.09934 3.98341,-12.92402 -1.44879,-3.27669 -2.64559,-6.42439 -3.1664,-7.54464 -7.74845,-16.66681 -7.21208,-58.35802 -5.21228,-81.66783 l 237.47672,2.77595 c 0.46449,0.6491 0.90409,1.30324 1.32296,1.93848 15.01547,22.76676 3.0188,48.92867 -5.43472,71.96217 l -0.87153,2.37399 c -0.38,1.0354 -1.25757,2.78283 -2.39473,4.88217 2.76629,3.11932 1.89466,8.41574 -4.47461,17.69632 -13.65194,20.98115 -39.66792,40.87591 -66.37896,49.47294 -4.23284,1.36241 -8.60217,2.29218 -13.00537,3.1676 -0.79933,0.1587 -2.39782,0.4805 -2.39782,0.4805 -8.47193,1.72064 -17.0522,2.65199 -25.59726,2.64943 -3.71651,2.30626 -9.02437,3.45471 -15.0189,3.84694 z" />
     </g>
