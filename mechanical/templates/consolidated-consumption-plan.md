@@ -224,9 +224,28 @@ The copy differs from the original only in the six ID changes below, +32/−30 l
 6. (same function) the placement-* filter and dangling-reference checks removed
    with the `<use>` walk they guarded.
 
-`make_logical_pages_consolidated.py` is **untracked** — whether it belongs in the
-repo, or is a scratch file to delete once the change lands in the original, is an
+`make_logical_pages_consolidated.py` was committed in `7e201d6`. Whether it stays
+in the repo, or is scratch to delete once the change lands in the original, is an
 open question (§7).
+
+### Step 1b: the copy cannot overwrite the known-good output
+
+Two changes to the copy, made before it has ever produced a page:
+
+- **`OUT_DIR`** → `print/logical-pages-consolidated/`, not `print/logical-pages/`.
+  The original's output is the validation target for Step 3; a copy writing into
+  the same directory would destroy the thing it is being compared against. The new
+  directory is added to `.gitignore` beside the old one, since it is the same kind
+  of generated intermediate.
+- **The pre-write cleanup is now conservative.** `main()` did
+  `for p in OUT_DIR.glob("page-*.svg"): p.unlink()` — delete every page-shaped file
+  in the output directory before writing. Widening this script's reach made that
+  the more dangerous half of the change: a wrong `OUT_DIR` would have deleted
+  somebody else's output, not merely written the wrong place. It now unlinks only
+  the names this run is about to rewrite.
+
+`pages_to_pdf.py` reads `print/logical-pages/` and was not touched, so the
+known-good chain (pages → PDF) still runs end to end while the copy is brought up.
 
 ### Step 1 result: everything but placement carries
 

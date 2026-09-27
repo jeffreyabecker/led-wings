@@ -1,17 +1,21 @@
 #!/usr/bin/env python3
 """
-make_logical_pages.py
-=====================
+make_logical_pages_consolidated.py
+==================================
 
-Script 1 of the print pipeline: build the mirrored-pair content and lay it out
-into LOGICAL page SVGs.
+Script 1 of the print pipeline, reading the CONSOLIDATED aggregate
+(feathers-aggregate-conslidated.svg) instead of feathers-aggregate-min.svg.
+A working copy of make_logical_pages.py while that switch is brought up; it
+does not yet run to completion (read_placement() still fails).
 
 Each page is self-contained, true scale (millimetres), sized to its content, and
 labelled with a <title>. This script knows nothing about paper size, margins, or
 tiling -- that is pages_to_pdf.py's job. The two scripts meet only at the
 filesystem: a directory of page-NNN.svg files.
 
-Output: mechanical/templates/print/logical-pages/page-NNN.svg (cover first).
+Output: mechanical/templates/print/logical-pages-consolidated/page-NNN.svg
+(cover first) -- a separate directory from the original script's, so the
+known-good pages are never overwritten.
 """
 
 import math
@@ -33,7 +37,10 @@ TEMPLATES_DIR = ROOT / "mechanical" / "templates"
 # outline (and its frame, as data-wh/data-vb); the transform that arranges it
 # sits on that group rather than on a separate <use>.
 AGG_SVG = TEMPLATES_DIR / "feathers-aggregate-conslidated.svg"
-OUT_DIR = TEMPLATES_DIR / "print" / "logical-pages"
+# Deliberately NOT the original's "logical-pages": that directory holds the
+# known-good pages built from feathers-aggregate-min.svg, and this script must
+# not overwrite them while it is still being brought up.
+OUT_DIR = TEMPLATES_DIR / "print" / "logical-pages-consolidated"
 
 CAIRO_BIN = r"C:\Program Files\gstreamer\1.0\msvc_x86_64\bin"
 os.environ["PATH"] = CAIRO_BIN + os.pathsep + os.environ.get("PATH", "")
@@ -727,12 +734,17 @@ def main():
     assert len(listed) == len(set(listed)), "the manifest lists an item twice"
     assert set(listed) == set(raw), f"manifest mismatch: {set(raw) ^ set(listed)}"
 
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    for p in OUT_DIR.glob("page-*.svg"):
-        p.unlink()
-
     ctx = Context(frags=frags, raw=raw)
     pages = [page for section in SECTIONS for page in section.pages(ctx)]
+
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    # Only clear pages this run is about to rewrite, instead of every
+    # page-*.svg in the directory: a wrong OUT_DIR should leave stray files,
+    # never delete someone else's output.
+    stale = {f"page-{i:03d}.svg" for i in range(1, len(pages) + 1)}
+    for p in OUT_DIR.glob("page-*.svg"):
+        if p.name in stale:
+            p.unlink()
 
     for i, page in enumerate(pages, 1):
         path = OUT_DIR / f"page-{i:03d}.svg"

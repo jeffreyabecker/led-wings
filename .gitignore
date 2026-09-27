@@ -41,4 +41,8 @@ mechanical/templates/as-built/scratch/
 mechanical/templates/print/sheets/
 mechanical/templates/print/contact-sheet.png
 mechanical/templates/print/logical-pages/
+# Same intermediates, built from the consolidated aggregate by
+# make_logical_pages_consolidated.py (kept separate so it cannot overwrite the
+# known-good logical-pages/ output).
+mechanical/templates/print/logical-pages-consolidated/
 
