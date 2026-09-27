@@ -218,8 +218,11 @@ class AlignmentGuides(Shelf):
         content, _, _ = shelf(self.items, flipped, self.rotate, self.pad)
         left = f'<g transform="translate({fmt(w)} 0) scale(-1 1)">{content}</g>'
 
-        return [Page(f"{title}-right", right, w, h),
-                Page(f"{title}-left", left, w, h)]
+        # Both pages carry an explicit marker of which version they are, the
+        # same way the whole-wing template pages do. The mirrored page's marker
+        # sits outside the page mirror, so it stays upright.
+        return [Page(f"{title}-right", right + side_note("alignment guides right", w), w, h),
+                Page(f"{title}-left", left + side_note("alignment guides left", w), w, h)]
 
 
 class MirroredWholePage(Section):
@@ -573,6 +576,14 @@ def shelf(names, frags, rotate, pad):
         max_y = max(max_y, y + RH)
     content = "".join(f'<g transform="{tr}">{frag}</g>' for frag, tr in placed)
     return content, MAX_WIDTH, max_y
+
+
+def side_note(text, w, y=3.0):
+    """The explicit left/right marker a whole-page drawing carries: a label
+    centred across the top of the page."""
+    size = fmt(min(6.0, max(3.0, w / 12.0)))
+    return (f'<text class="label" font-size="{size}" x="{fmt(w / 2)}" '
+            f'y="{fmt(y)}">{text}</text>')
 
 
 def placement_halves(item):
