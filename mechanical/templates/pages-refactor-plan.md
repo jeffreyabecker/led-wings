@@ -1,8 +1,36 @@
-# Plan — give `PAGES` page-kind classes
+# Plan — replace the `PAGES` manifest with section classes
 
 **Scope:** `make_logical_pages.py` only. Script 2 and the SVG sources are
 untouched, and the generated logical pages must come out **byte-identical**.
 This is a pure restructuring of how a page is declared and laid out.
+
+---
+
+## 0. Terminology
+
+A manifest entry is **not** a page: some entries emit several pages
+(`MirroredWholePage` emits two — right, then left). So neither the entry nor
+the manifest is called a "page".
+
+| name | means |
+|---|---|
+| `Section` | one manifest entry; owns a layout; emits **one or more** logical pages |
+| `Page` | one *built* logical page (title, content, w, h) — one `page-NNN.svg` |
+| `SECTIONS` | the ordered manifest |
+| `Context` | the built fragments + source items a section lays out |
+
+Pages emitted per kind, stated on the class and asserted in tests:
+
+| section kind | pages emitted |
+|---|---|
+| `Cover` | 1 |
+| `MirroredPairs` | 1 |
+| `MirroredPairsRot90` | 1 |
+| `AlignmentGuides` | 1 |
+| `MirroredWholePage` | **2** — right, then left |
+
+(A kind's *name* describes the drawing and its layout. How many pages it
+emits is a property of the section, not something to infer from the name.)
 
 ---
 
@@ -26,17 +54,35 @@ places, none of which is the config.
 
 ## 2. Design
 
-Each entry in `PAGES` becomes an object that **owns its layout**. One
-interface, one shared layout base, then one class per domain concept.
+Each manifest entry becomes an object that **owns its layout** and returns the
+pages it contributes. One interface, one shared layout base, then one class per
+domain concept.
 
 ```python
-class PageSpec(ABC):
-    """One entry in PAGES: a logical page, or a set of logical pages."""
+@dataclass(frozen=True)
+class Page:
+    """One built logical page."""
+    title: str
+    content: str
+    w: float
+    h: float
+
+
+@dataclass(frozen=True)
+class Context:
+    """What a section needs in order to lay itself out."""
+    frags: dict     # name -> (built fragment, w, h)
+    raw: dict       # name -> source Item (needed by MirroredWholePage)
+
+
+class Section(ABC):
+    """One entry in SECTIONS: owns a layout, emits one or more logical pages."""
+
     @abstractmethod
-    def build(self, ctx: BuildContext) -> list[Built]: ...
+    def pages(self, ctx: Context) -> list[Page]: ...
 
 
-class ShelfPage(PageSpec):
+class Shelf(Section):
     """Items placed left-to-right, wrapping at MAX_WIDTH. The one shared layout."""
     rotate = 0.0     # subclass knob
     pad    = PAD     # subclass knob
@@ -44,44 +90,46 @@ class ShelfPage(PageSpec):
     def __init__(self, *items):
         self.items = tuple(items)
 
-    def build(self, ctx):
+    def pages(self, ctx):
         content, w, h = shelf(self.items, ctx.frags, self.rotate, self.pad)
-        return [Built("/".join(self.items), content, w, h)]
+        return [Page("/".join(self.items), content, w, h)]
 
 
-class MirroredPairs(ShelfPage):
-    """Feather pairs, side by side."""
+class MirroredPairs(Shelf):
+    """Feather pairs, side by side. Emits 1 page."""
 
 
-class MirroredPairsRot90(ShelfPage):
-    """Feather pairs rotated 90 deg, so an oversized pair fits one sheet."""
+class MirroredPairsRot90(Shelf):
+    """Feather pairs rotated 90 deg, so an oversized pair fits one sheet.
+    Emits 1 page."""
     rotate = 90.0
 
 
-class AlignmentGuides(ShelfPage):
-    """The *-topline strip: wider spacing between the guides."""
+class AlignmentGuides(Shelf):
+    """The *-topline strip: wider spacing between the guides. Emits 1 page."""
     pad = TOP_LINE_PAD
 
 
-class MirroredWholePage(PageSpec):
-    """A whole-wing drawing: one item -> a right page plus a left page."""
+class MirroredWholePage(Section):
+    """A whole-wing drawing. Emits 2 pages: right, then left."""
     def __init__(self, item):
         self.item = item
 
-    def build(self, ctx):
-        return placement_halves(ctx.raw[self.item])     # two pages
+    def pages(self, ctx):
+        return placement_halves(ctx.raw[self.item])
 
 
-class CoverPage(PageSpec):
-    def build(self, ctx):
+class Cover(Section):
+    """The calibration cover. Emits 1 page."""
+    def pages(self, ctx):
         return [cover_page()]
 ```
 
-### The new `PAGES`
+### The manifest
 
 ```python
-PAGES = [
-    CoverPage(),
+SECTIONS = [
+    Cover(),
     MirroredPairs("P1"), MirroredPairs("P2"), MirroredPairs("P3"),
     MirroredPairs("P4"), MirroredPairs("P5"),
     MirroredPairsRot90("S1"), MirroredPairsRot90("S2"),
@@ -100,9 +148,15 @@ PAGES = [
 `main()` collapses to one homogeneous loop — no name sniffing anywhere:
 
 ```python
-ctx = BuildContext(frags=..., raw=...)
-pages = [p for spec in PAGES for p in spec.build(ctx)]
+ctx = Context(frags=..., raw=...)
+pages = [page for section in SECTIONS for page in section.pages(ctx)]
 ```
+
+### Where the manifest lives
+
+`SECTIONS` is built by instantiating classes, so the classes must be defined
+before it. The manifest therefore moves from the top of the file to just below
+the class definitions, and the top-of-file config comment points at it.
 
 ### Why classes rather than a string→function registry
 
@@ -113,6 +167,7 @@ pages = [p for spec in PAGES for p in spec.build(ctx)]
 | toplines special case | a dict entry plus a suffix rule | `AlignmentGuides.pad = TOP_LINE_PAD` |
 | parameters | none — the name is the whole API | real constructor args (`MirroredPairs("A1", "A2", "A3")`) |
 | layout logic | five free functions | co-located with the kind it serves |
+| pages emitted | invisible | on the class, in its docstring |
 
 `rotate` / `pad` are class attributes, not parameters, because a rotation *is*
 a kind here (`MirroredPairsRot90`) rather than an option on a generic layout.
@@ -127,33 +182,20 @@ a kind here (`MirroredPairsRot90`) rather than an option on a generic layout.
 | `layout_group` (441–467) | `shelf(names, frags, rotate, pad)` — the shared layout body |
 | `pad = TOP_LINE_PAD if name.endswith("-topline")` (455) | `AlignmentGuides.pad` |
 | `if len(specs) == 1 and specs[0][0] == "outline-toplines"` (542) | **deleted** — `MirroredWholePage("outline-toplines")` |
-| `halves = placement_halves(t)` precomputed in `main()` (527) | built on demand by `MirroredWholePage.build` |
+| `halves = placement_halves(t)` precomputed in `main()` (527) | built on demand by `MirroredWholePage.pages` |
 | literal titles `"outline-toplines-right"` / `"-left"` (393–394) | derived: `f"{item.name}-right"` / `"-left"` |
 | `expected = set(FEATHERS) | set(TOPLINES) | {"outline-toplines"}` (531) | `expected = set(frags)` — the items actually read |
-| `pages = [cover_page()] + …` (539) | `CoverPage()` is the first manifest entry |
-| `(title, content, w, h)` tuples through `page_svg` / the print loop | a `Built` dataclass |
+| `pages = [cover_page()] + …` (539) | `Cover()` is the first manifest entry |
+| `(title, content, w, h)` tuples through `page_svg` / the print loop | the `Page` dataclass |
 
-Two small types are introduced to carry data instead of bare tuples:
-
-```python
-@dataclass(frozen=True)
-class Built:
-    title: str
-    content: str
-    w: float
-    h: float
-
-@dataclass(frozen=True)
-class BuildContext:
-    frags: dict[str, tuple[str, float, float]]   # name -> (built fragment, w, h)
-    raw:   dict[str, Item]                       # name -> source Item
-```
+Two small types carry data instead of bare tuples: `Page` (built output) and
+`Context` (section input).
 
 `raw` exists because `MirroredWholePage` rebuilds its left/right halves from
 the source `Item.body`, not from the built pair fragment.
 
-Explicit x/y placement is **dropped** — nothing in `PAGES` currently uses it,
-and `shelf()` keeps the internal `x`/`y` it needs.
+Explicit x/y placement is **dropped** — nothing in the manifest currently uses
+it, and `shelf()` keeps the internal `x`/`y` it needs.
 
 ---
 
@@ -161,9 +203,9 @@ and `shelf()` keeps the internal `x`/`y` it needs.
 
 Kept, and tightened:
 
-- Every item appears exactly once, and `PAGES` covers exactly the items read.
+- Every item appears exactly once, and the manifest covers exactly the items read.
 - `MirroredWholePage` asserts it was given exactly one item.
-- `PageSpec.build` is abstract, so a new kind cannot silently do nothing.
+- `Section.pages` is abstract, so a new kind cannot silently do nothing.
 - Unchanged: mirror check, `verify_body`, cover-first ordering.
 
 ---
