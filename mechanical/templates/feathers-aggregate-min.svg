@@ -565,7 +565,8 @@
   stroke-linejoin: round;
 }
 </style>
-  <!-- Each feather's geometry now lives in individuals/<feather>.svg and is placed by the <use> elements below. -->
+  <!-- Self-contained: every feather's geometry is a <g id="X-def"> in <defs>
+       above and is placed by the <use> elements below. -->
   <sodipodi:namedview
      id="namedview42"
      pagecolor="#ffffff"
@@ -589,7 +590,7 @@
   <title
      id="title1">As-built feather templates - 42 feathers, 1:1 mm, vertical flip</title>
   <desc
-     id="desc1">Aggregate of as-built/vectors/individuals/*.svg, one group per feather prefix. Each outline is copied verbatim from its individual file and only translated and mirrored (vertical) about its own centre, so it stays 1:1 (user units = mm) and keeps its label. Each feather's geometry now lives once in &lt;defs&gt; as a vertical definition (id + &quot;-def&quot;); the &lt;use&gt; that places it carries only the rotation the arrangement needs.</desc>
+     id="desc1">As-built feather catalog, one group per feather prefix. Each outline is copied verbatim from its individual file and only translated and mirrored (vertical) about its own centre, so it stays 1:1 (user units = mm) and keeps its label. Every feather's geometry lives once in &lt;defs&gt; as a definition (id + &quot;-def&quot;, with data-wh/data-vb recording the frame it was drawn in); the &lt;use&gt; that places it carries only the rotation the arrangement needs. This file is self-contained -- there are no individuals/*.svg any more.</desc>
   <g
      id="B"
      transform="matrix(1.0060486,0.09641559,-0.01794757,1.1907292,44.966115,-2005.3888)"

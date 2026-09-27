@@ -1,5 +1,8 @@
 # Plan — consolidate `individuals/` back into `feathers-aggregate-min.svg`
 
+**Status: implemented.** See "Outcome" at the end for what actually happened, including
+two things this plan got wrong.
+
 **Scope:** `mechanical/templates/feathers-aggregate-min.svg`, the new
 `mechanical/templates/consolidate_aggregate.py`, and the three readers in
 `make_logical_pages.py`. `pages_to_pdf.py` is untouched. The 25 generated logical
@@ -34,7 +37,7 @@ Measured, read-only, with Inkscape as the reference renderer.
 | The scripts never read the aggregate | `make_logical_pages.py` reads `individuals/*.svg` directly (`read_feathers`, `read_topline`, `read_placement`) |
 | The aggregate cannot render without the individuals | cairosvg renders it **empty**; Inkscape `--query-all` resolves the hrefs |
 | The aggregate's 29 placements are the *only* place rotations live | 8 group `transform`s + 28 `<use>` matrices |
-| Hoisting a def group into `<defs>` and retargeting the `<use>` to `#X-def` changes nothing | pixel-identical to a direct inline (0 differing pixels); `--query-all` gives **identical bboxes, max delta `0.0`** for every id |
+| Hoisting a def group into `<defs>` and retargeting the `<use>` to `#X-def` changes nothing | `--query-all` gives **identical bboxes** for every id, and an Inkscape render at 96 dpi is **pixel-identical** (0 of 2,019,235 px) |
 | The split **dropped each file's `viewBox` origin** | the `<use>` matrices already absorb it, so inlining needs **no compensating translate** — B1,B2,… all reproduce exactly |
 | `outline-toplines.svg` never rendered inside the aggregate | its groups sit at y ≈ 1675–1900; the aggregate's `viewBox` is `0 0 247.95744 570.1775` |
 | `<use>` `width`/`height` are inert here | they only size a reference to `<symbol>`/`<svg>`; these reference `<g>`. Kept verbatim anyway. |
@@ -222,20 +225,18 @@ catalog items referenced by the body must all exist in defs.
 
 Every step is falsifiable and cheap:
 
-1. **Baseline** — SHA-256 of the 25 `logical-pages/page-*.svg`. Current combined digest:
-   `796f09e827b8a3426ba8f1a84fc20d31d19377a031cc12469dcfab6ff7d31776`.
-   Copy the digest of each page, not just the roll-up.
+1. **Baseline** — SHA-256 of the 25 `logical-pages/page-*.svg`.
+   `pages_to_pdf.py` baseline: **30 sheets** (5 tiled, 20 fit).
 2. **Consolidation is geometry-preserving** — Inkscape `--query-all` on the old and new
    aggregate: every surviving id must have an identical bbox (tolerance `1e-6`).
-3. **Rendering** — Inkscape render of both at 96 dpi; the only permitted difference is
-   the already-characterised 0.36 % external-reference artifact (confined to one group).
-   A *new* region of difference fails the check.
+3. **Rendering** — Inkscape render of both at 96 dpi must be pixel-identical.
 4. **`read_placement()` frame unchanged** — print `W`/`H` before and after; must match to
    3 decimals.
 5. **Pipeline** — re-run `make_logical_pages.py`; all 25 pages byte-identical to step 1.
-   `pages_to_pdf.py` still yields 29 sheets with the tiling and scale checks passing.
-6. **No stragglers** — `git grep individuals` returns nothing outside history; the
-   scripts' assertions still fire if a def group is missing.
+   `pages_to_pdf.py` still yields 30 sheets with the tiling and scale checks passing. The
+   tracked PDF must not change.
+6. **No stragglers** — `git grep individuals` returns nothing outside history and this
+   plan; the scripts' assertions still fire if a def group is missing.
 7. Commit the consolidation and the script change separately.
 
 ---
@@ -272,4 +273,57 @@ sees identical ink and `read_placement()`'s frame is provably unchanged. The
 alternative is to drop `total-outline`/`upper-outline` entirely (they are the built
 wing's silhouette, not a template the script uses); that shrinks the file but changes
 what `read_placement()` measures, and therefore the placement page's crop.
-**Recommendation: keep all three.**
+**Recommendation: keep all three.** *(Adopted.)*
+
+---
+
+## 10. Outcome
+
+Four commits, as planned:
+
+| commit | what |
+|---|---|
+| `ee418ee` | `templates: add the consolidator for individuals/ -> aggregate` |
+| `2dc5346` | `templates: inline the individuals back into feathers-aggregate-min.svg` |
+| `95f66b0` | `print: read feather geometry from the aggregate` |
+| (this one) | `templates: delete individuals/` + stale-comment cleanup |
+
+Every validation in §6 passed:
+
+- `--query-all`: **38 ids, 0 bbox mismatches** (tol `1e-6`)
+- Inkscape render at 96 dpi: **0 differing pixels** of 2,019,235
+- `read_placement()`: identical `(W, H, body)` triple — `249.5653… × 192.6693…`
+- **all 25 logical pages byte-identical** to the pre-change baseline
+- `pages_to_pdf.py`: 30 sheets, tiling + scale checks pass, tracked PDF unchanged
+- the whole pipeline runs with `individuals/` renamed away
+- `git grep individuals` clean outside history and this plan
+
+### Where the plan was wrong
+
+1. **The sheet count is 30, not 29.** The plan said 29; the real baseline was 30 —
+   5 tiled, 20 fit.
+2. **§3a over-thought the placement template.** The plan worried that keeping only
+   `top-lines` would shift `read_placement()`'s crop, and so carried all three groups
+   defensively. In fact the three groups share one transform, so they measure the same
+   ink; keeping all three was harmless but not load-bearing. Kept anyway — it is the
+   literal inverse of the split, and the frames are now provably unchanged.
+
+### Three bugs the verification caught during implementation
+
+- `data-wh` initially carried `mm` suffixes (`"193.15454mm 81.754908mm"`). `parse_mm()`
+  tolerates them, but the attribute should be bare numbers like `viewBox`. Fixed.
+- Moved blocks were re-indented line-by-line, which reflowed Inkscape's attribute
+  layout. Now each block is shifted as a whole, preserving its internal relative
+  indentation (including the `<path>` continuation lines the editor left unindented).
+- The writer originally wrote through `Path.write_text`, turning the file CRLF in a
+  repository that `.gitattributes` pins to LF. All reads and writes now pass
+  `newline=""`.
+
+### Not done, deliberately
+
+`consolidate_aggregate.py` stops working once `individuals/` is gone; it now exits with
+a one-line message saying so. It is kept as the record of how the aggregate was
+assembled — and because "make a change to the individual feathers and re-run it" is the
+one workflow this consolidation removes. Editing geometry now means editing the def
+group in the aggregate directly.
+

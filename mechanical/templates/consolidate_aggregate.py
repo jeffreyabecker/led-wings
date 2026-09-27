@@ -39,6 +39,11 @@ Two things do not fold in by that rule alone:
 Usage:
     python consolidate_aggregate.py            # rewrite the aggregate in place
     python consolidate_aggregate.py --out X    # write elsewhere (dry runs)
+
+This was run once, to produce the current aggregate; individuals/ has since
+been deleted, so it now exits with "unresolved reference" if run again. It is
+kept because it is the only record of how the aggregate was assembled, and
+because it is the inverse of the commit that broke the feathers out.
 """
 
 import argparse
@@ -121,11 +126,19 @@ def find_element(text, opener):
 
 
 def indent(block, spaces):
-    """Shift a block's continuation lines right, leaving the first as-is."""
-    pad = " " * spaces
+    """Sit a moved block inside <defs> without reflowing its attribute lines.
+
+    The first line goes to column `spaces`. Each further line keeps the extra
+    indentation the source file gave it -- so a <g>/<path>'s attributes stay in
+    their original relative positions, just shifted as a whole.
+    """
     lines = block.split("\n")
-    return "\n".join([lines[0]] + [pad + ln if ln.strip() else ln
-                                   for ln in lines[1:]])
+    lead = len(lines[0]) - len(lines[0].lstrip(" "))
+    pad = " " * spaces
+    out = [pad + lines[0].lstrip(" ")]
+    for ln in lines[1:]:
+        out.append(pad + ln[lead:] if len(ln) >= lead else ln)
+    return "\n".join(out)
 
 
 def attr_of(attrs, name, default=None):
@@ -147,6 +160,15 @@ def strip_namespaced(block):
     return re.sub(r"[ \t]+\n", "\n", out), removed
 
 
+def read_text(path):
+    """Read as text without newline translation (.gitattributes pins LF)."""
+    return path.read_text(encoding="utf-8", newline="")
+
+
+def write_text(path, text):
+    path.write_text(text, encoding="utf-8", newline="")
+
+
 def source_frame(path):
     """(width, height, viewBox) off a source file's root <svg>."""
     root = ET.parse(path).getroot()
@@ -154,7 +176,12 @@ def source_frame(path):
 
 
 def source_text(path):
-    return path.read_text(encoding="utf-8")
+    try:
+        return read_text(path)
+    except FileNotFoundError:
+        raise SystemExit(
+            f"{path.name} no longer exists -- this script needs the "
+            f"pre-consolidation mechanical/templates/individuals/ tree")
 
 
 # --------------------------------------------------------------------------
@@ -201,6 +228,9 @@ def hoist_reference(href, sources, defs_markup, hoisted, stripped):
         w, h, vb = source_frame(src)
         if not (w and h and vb):
             raise SystemExit(f"{src.name}: missing width/height/viewBox")
+        # Bare numbers, like viewBox: the scripts parse these with parse_mm().
+        w = w.replace("mm", "").strip()
+        h = h.replace("mm", "").strip()
         extra = (f'\n   data-wh="{w} {h}"'
                  f'\n   data-vb="{vb}"')
     block, removed = hoist_def(src_text, frag, extra)
@@ -293,7 +323,7 @@ def restructure(text, entries, rewrites):
     if "<defs" not in text:
         raise SystemExit("no <defs> in the aggregate to fill")
 
-    body = "\n".join(indent(e, 4) for e in entries)
+    body = "\n".join(indent(e, 6) for e in entries)
     defs_block = f'<defs\n     id="defs1">\n{body}\n  </defs>'
 
     text, n = re.subn(r"<defs\b[^>]*/>", lambda _: defs_block, text, count=1)
@@ -352,7 +382,7 @@ def main():
                     help="where to write (default: the aggregate itself)")
     args = ap.parse_args()
 
-    agg_text = AGG.read_text(encoding="utf-8")
+    agg_text = read_text(AGG)
     sources = {}
 
     defs_entries, rewrites, hoisted, stripped = build_defs(agg_text, sources)
@@ -380,7 +410,7 @@ def main():
     out = restructure(agg_text, entries, rewrites)
     n_ids = check(out, set(hoisted) | set(topline_ids))
 
-    args.out.write_text(out, encoding="utf-8")
+    write_text(args.out, out)
     print(f"hoisted {len(hoisted)} feather defs + {len(topline_ids)} topline defs "
           f"+ {len(placement_groups)} placement groups")
     print(f"retargeted {len(rewrites)} hrefs")
