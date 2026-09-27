@@ -27,8 +27,12 @@ from pathlib import Path
 # --------------------------------------------------------------------------
 
 ROOT = Path(__file__).resolve().parent
-IND_DIR = ROOT / "mechanical" / "templates" / "individuals"
-OUT_DIR = ROOT / "mechanical" / "templates" / "print" / "logical-pages"
+TEMPLATES_DIR = ROOT / "mechanical" / "templates"
+# The aggregate is the single source of truth for feather geometry: every
+# feather and topline lives once in its <defs>, and the <use> elements that
+# place them carry only the arrangement's rotation.
+AGG_SVG = TEMPLATES_DIR / "feathers-aggregate-min.svg"
+OUT_DIR = TEMPLATES_DIR / "print" / "logical-pages"
 
 CAIRO_BIN = r"C:\Program Files\gstreamer\1.0\msvc_x86_64\bin"
 os.environ["PATH"] = CAIRO_BIN + os.pathsep + os.environ.get("PATH", "")
@@ -277,23 +281,67 @@ SECTIONS = [
 # --------------------------------------------------------------------------
 # Reading the source files
 # --------------------------------------------------------------------------
+#
+# Everything is read out of feathers-aggregate-min.svg. Each feather and topline
+# is a <g id="X-def"> in its <defs>, holding the outline exactly as the old
+# individuals/X.svg held it, plus two data attributes standing in for that
+# file's root <svg>:
+#
+#   data-wh   the file's width and height   (placed size / scale)
+#   data-vb   the file's viewBox            (x0 y0 W H -- the frame the outline
+#                                            was drawn in, which right_transform
+#                                            and mirror_check need)
+#
+# The <use> elements that place the defs are irrelevant here: the pair layout
+# is built from the geometry, not from the aggregate's arrangement.
+
+_AGG_CACHE = {}
+
+
+def aggregate_by_id():
+    """{id: element} for the whole aggregate, parsed once."""
+    if "index" not in _AGG_CACHE:
+        root = ET.parse(AGG_SVG).getroot()
+        _AGG_CACHE["index"] = {el.get("id"): el for el in root.iter()
+                               if el.get("id")}
+    return _AGG_CACHE["index"]
+
+
+def _frame(name, el):
+    """(x0, y0, W, H) from a def group's data attributes.
+
+    They have to agree with each other: data-wh is the file's own width/height
+    and data-vb its viewBox, and a discrepancy means the frame was mis-recorded
+    -- which would silently move the outline rather than fail."""
+    wh = (el.get("data-wh") or "").split()
+    vb = el.get("data-vb") or ""
+    assert len(wh) == 2 and len(vb.split()) == 4, (
+        f"{name}: def group needs data-wh and data-vb")
+    W, H = (parse_mm(v) for v in wh)
+    x0, y0, vw, vh = (float(v) for v in vb.split())
+    assert abs(vw - W) < 1e-3 and abs(vh - H) < 1e-3, (
+        f"{name}: data-vb {vw}x{vh} != data-wh {W}x{H} -- not identity")
+    return x0, y0, W, H
+
+
+def _def_group(name):
+    el = aggregate_by_id().get(f"{name}-def")
+    assert el is not None, f"{name}: no <g id=\"{name}-def\"> in {AGG_SVG.name}"
+    return el
+
+
+def _path_d(name, el):
+    path_el = el.find(f".//{SVG_NS}path")
+    assert path_el is not None, f"{name}: def group has no <path>"
+    return " ".join(path_el.get("d").split())   # normalise internal whitespace
+
 
 def read_feathers():
     feathers = []
     for name in FEATHERS:
-        path = IND_DIR / f"{name}.svg"
-        root = ET.parse(path).getroot()
-        W = parse_mm(root.get("width"))
-        H = parse_mm(root.get("height"))
-        x0, y0, vw, vh = (float(v) for v in root.get("viewBox").split())
-
-        # Identity mapping (width/height == viewBox extent) is what makes the
-        # file true-scale: 1 user unit == 1 mm. Assert it, never assume it.
-        assert abs(vw - W) < 1e-3 and abs(vh - H) < 1e-3, (
-            f"{name}: viewBox {vw}x{vh} != width/height {W}x{H} — not identity")
-
-        path_el = root.find(f".//{SVG_NS}path")
-        d = " ".join(path_el.get("d").split())   # normalise any internal whitespace
+        el = _def_group(name)
+        x0, y0, W, H = _frame(name, el)
+        d = _path_d(name, el)
 
         # B group is stored with its long axis horizontal; rotate 90 CW.
         rotate90 = name.startswith("B")
@@ -462,33 +510,40 @@ def _group_content(g):
 
 
 def read_topline(name):
-    """One *-topline.svg alignment guide as an Item (line + origin marker)."""
-    root = ET.parse(IND_DIR / f"{name}.svg").getroot()
-    W = parse_mm(root.get("width"))
-    H = parse_mm(root.get("height"))
-    x0, y0, vw, vh = (float(v) for v in root.get("viewBox").split())
-    assert abs(vw - W) < 1e-3 and abs(vh - H) < 1e-3, (
-        f"{name}: viewBox {vw}x{vh} != width/height {W}x{H} — not identity")
+    """One *-topline alignment guide as an Item (line + origin marker)."""
+    el = _def_group(name)
+    x0, y0, W, H = _frame(name, el)
 
-    g = root.find(f".//{SVG_NS}g")
     body = (f'<g transform="translate({fmt(-x0)} {fmt(-y0)})">'
-            f'{_group_content(g)}</g>')
+            f'{_group_content(el)}</g>')
     return Item(name, W, H, body, inside_label=False, mirror=False)
 
 
 def read_placement():
-    """outline-toplines.svg — the whole-wing placement template — as an Item."""
-    root = ET.parse(IND_DIR / "outline-toplines.svg").getroot()
+    """The whole-wing placement template as an Item.
+
+    It used to be a document of its own (outline-toplines.svg) built from
+    <use>s into sibling files. It now lives in the aggregate's <defs> as the
+    placement-* groups, whose <use>s point at the inlined *-topline defs, so
+    the same walk resolves them against the aggregate's own index.
+    """
+    index = aggregate_by_id()
     parts = []
-    for g in root.findall(f".//{SVG_NS}g"):
+    for g in index.values():
+        gid = g.get("id") or ""
+        if not gid.startswith("placement-") or g.tag != f"{SVG_NS}g":
+            continue
+        if gid == "placement-upper-outline-ref" or gid.endswith("-def"):
+            continue
         gt = g.get("transform") or ""
         inner = []
         for child in g:
             if child.tag == f"{SVG_NS}use":
                 href = child.get("href") or ""
                 fname, frag = href.split("#", 1)
-                ref = ET.parse(IND_DIR / fname).getroot()
-                target = ref.find(f".//*[@id='{frag}']")
+                assert not fname, f"{gid}: external reference {href}"
+                target = index.get(frag)
+                assert target is not None, f"{gid}: dangling reference {href}"
                 ut = child.get("transform")
                 wrap = f' transform="{ut}"' if ut else ""
                 inner.append(f'<g{wrap}>{_group_content(target)}</g>')
