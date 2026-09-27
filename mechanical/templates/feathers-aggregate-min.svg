@@ -18,7 +18,16 @@
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
-     id="defs1">
+     id="defs1" />
+  <!-- Feather + topline geometry, kept out of <defs> so it stays selectable
+       and editable. The container is display:none, so it never draws; every
+       <use> below re-states display:inline, because display is inherited
+       into a <use>'s shadow tree and would otherwise hide the placed
+       copies too. Selecting a placed feather and pressing Shift+D
+       (Edit > Select original) jumps straight to its outline here. -->
+  <g
+     id="geometry-source"
+     style="display:none">
       <!-- Per-feather geometry, copied verbatim from the old individuals/
              files. data-wh / data-vb carry the frame the print script needs;
              the <use>s below carry the placement. -->
@@ -443,49 +452,49 @@
          href="#B-topline-def"
          width="90.278854"
          height="89.806569"
-         transform="rotate(-47.685529 47.679584 1789.868628)" />
+         transform="rotate(-47.685529 47.679584 1789.868628)" style="display:inline" />
           <use
          id="toplines-P-topline"
          href="#P-topline-def"
          width="159.513788"
          height="33.137361"
-         transform="rotate(-101.182074 117.469965 1814.101812)" />
+         transform="rotate(-101.182074 117.469965 1814.101812)" style="display:inline" />
           <use
          id="toplines-LC-topline"
          href="#LC-topline-def"
          width="10.180845"
          height="43.586855"
-         transform="rotate(-3.805088 47.24346 1769.319512)" />
+         transform="rotate(-3.805088 47.24346 1769.319512)" style="display:inline" />
           <use
          id="toplines-A-topline"
          href="#A-topline-def"
          width="31.296803"
          height="84.587416"
-         transform="rotate(-160.468527 191.064856 1768.355672)" />
+         transform="rotate(-160.468527 191.064856 1768.355672)" style="display:inline" />
           <use
          id="toplines-SC-topline"
          href="#SC-topline-def"
          width="37.520367"
          height="85.322145"
-         transform="rotate(23.088631 83.173302 1721.896364)" />
+         transform="rotate(23.088631 83.173302 1721.896364)" style="display:inline" />
           <use
          id="toplines-MC-topline"
          href="#MC-topline-def"
          width="30.095821"
          height="65.401645"
-         transform="rotate(-23.90006 27.73842 1737.472579)" />
+         transform="rotate(-23.90006 27.73842 1737.472579)" style="display:inline" />
           <use
          id="toplines-PC-topline"
          href="#PC-topline-def"
          width="67.161118"
          height="20.163985"
-         transform="rotate(-105.576076 166.6952 1795.437945)" />
+         transform="rotate(-105.576076 166.6952 1795.437945)" style="display:inline" />
           <use
          id="toplines-S-topline"
          href="#S-topline-def"
          width="165.532834"
          height="19.463414"
-         transform="rotate(-96.095426 95.482287 1760.972441)" />
+         transform="rotate(-96.095426 95.482287 1760.972441)" style="display:inline" />
         </g>
       <g
          id="placement-total-outline"
@@ -495,7 +504,7 @@
          id="upper-outline"
          href="#upper-outline-def"
          width="260.828135"
-         height="223.407275" />
+         height="223.407275" style="display:inline" />
         </g>
       <g
            id="upper-outline-def">
@@ -506,7 +515,7 @@
              d="m 579.50208,668.79099 c -1.99817,0.13075 -4.07258,0.17768 -6.18976,0.15527 l -10e-6,-5.1e-4 c -14.50091,-0.15347 -31.00133,-3.54685 -38.70902,-5.38797 l -1.93577,-0.46264 c 0,0 -3.90636,-0.85628 -5.79892,-1.41324 -3.62649,-1.0681 -15.19496,-7.6716 -22.77604,-13.89156 -3.74972,2.4215 -7.71749,4.26993 -11.85895,5.25007 -5.49572,-0.75021 -6.32818,-10.13442 -6.83602,-13.54312 0,0 -0.15608,-1.19596 -0.21424,-1.79593 -0.15275,-1.55473 -0.24391,-3.13739 -0.1607,-4.70794 -0.0248,-3.2e-4 -0.0524,0.003 -0.0765,0.002 -0.34902,-0.0163 -0.62175,-0.11801 -0.79999,-0.32071 -3.86866,-5.27342 -3.84587,-16.30427 -3.6912,-22.76232 0.0788,-0.0835 0.1384,-0.1484 0.21663,-0.2314 0.11315,-3.37934 1.77087,-8.09934 3.98341,-12.92402 -1.44879,-3.27669 -2.74865,-6.39482 -3.1664,-7.54464 -5.6274,-15.48887 -7.36688,-37.10581 -6.54545,-59.82665 l 238.80989,-19.06523 c 0.46449,0.6491 0.90409,1.30324 1.32296,1.93848 15.01547,22.76676 3.0188,48.92867 -5.43472,71.96217 l -0.87153,2.37399 c -0.38,1.0354 -1.25757,2.78283 -2.39473,4.88217 2.76629,3.11932 1.89466,8.41574 -4.47461,17.69632 -13.65194,20.98115 -39.66792,40.87591 -66.37896,49.47294 -4.23284,1.36241 -8.60217,2.29218 -13.00537,3.1676 -0.79933,0.1587 -2.39782,0.4805 -2.39782,0.4805 -8.47193,1.72064 -17.0522,2.65199 -25.59726,2.64943 -3.71651,2.30626 -9.02437,3.45471 -15.0189,3.84694 z"
              transform="matrix(0.99229269,-0.08034782,-0.0179544,-1.0064321,-473.41543,2396.9387)" />
         </g>
-  </defs>
+  </g>
   <style
      type="text/css"
      id="style1">
@@ -590,7 +599,7 @@
   <title
      id="title1">As-built feather templates - 42 feathers, 1:1 mm, vertical flip</title>
   <desc
-     id="desc1">As-built feather catalog, one group per feather prefix. Each outline is copied verbatim from its individual file and only translated and mirrored (vertical) about its own centre, so it stays 1:1 (user units = mm) and keeps its label. Every feather's geometry lives once in &lt;defs&gt; as a definition (id + &quot;-def&quot;, with data-wh/data-vb recording the frame it was drawn in); the &lt;use&gt; that places it carries only the rotation the arrangement needs. This file is self-contained -- there are no individuals/*.svg any more.</desc>
+     id="desc1">As-built feather catalog, one group per feather prefix. Each outline is copied verbatim from its individual file and only translated and mirrored (vertical) about its own centre, so it stays 1:1 (user units = mm) and keeps its label. Every feather's geometry lives once in the hidden #geometry-source group as a definition (id + &quot;-def&quot;, with data-wh/data-vb recording the frame it was drawn in); the &lt;use&gt; that places it carries only the rotation the arrangement needs. This file is self-contained -- there are no individuals/*.svg any more.</desc>
   <g
      id="B"
      transform="matrix(1.0060486,0.09641559,-0.01794757,1.1907292,44.966115,-2005.3888)"
@@ -600,21 +609,21 @@
        href="#B1-def"
        width="193.15454"
        height="81.754908"
-       transform="matrix(0.03489949670250103,0.9993908270190958,0.9993908270190958,-0.03489949670250103,-32.562499927337925,1696.7031930239784)" />
+       transform="matrix(0.03489949670250103,0.9993908270190958,0.9993908270190958,-0.03489949670250103,-32.562499927337925,1696.7031930239784)" style="display:inline" />
     <use
        id="B2"
        href="#B2-def"
        width="209.48487"
        height="76.090112"
        transform="matrix(0.15643446504023092,0.9876883405951378,0.9876883405951378,-0.15643446504023092,-103.57972425526168,1417.6160525948737)"
-       style="display:inline" />
+       style="display:inline;display:inline" />
     <use
        id="B3"
        href="#B3-def"
        width="224.86853"
        height="72.334697"
        transform="matrix(0.24192189559966779,0.9702957262759965,0.9702957262759965,-0.24192189559966779,-225.07233778609282,1179.1216006231548)"
-       style="display:inline" />
+       style="display:inline;display:inline" />
   </g>
   <g
      id="P"
@@ -625,14 +634,14 @@
        href="#P1-def"
        width="107.70177"
        height="348.70091"
-       style="display:inline"
+       style="display:inline;display:inline"
        transform="matrix(1.0,0,0,-1.0,-135.6171,554.80515)" />
     <use
        id="P2"
        href="#P2-def"
        width="75.5858"
        height="344.39168"
-       style="display:inline"
+       style="display:inline;display:inline"
        transform="matrix(1.0,0,0,-1.0,-280.98908,561.24822)" />
     <use
        id="P3"
@@ -640,20 +649,20 @@
        width="79.49479"
        height="333.37338"
        transform="matrix(0.9961946980917455,-0.08715574274765817,-0.08715574274765817,-0.9961946980917455,-392.2094304176306,604.9440299373538)"
-       style="display:inline" />
+       style="display:inline;display:inline" />
     <use
        id="P4"
        href="#P4-def"
        width="87.47454"
        height="271.90582"
-       style="display:inline"
+       style="display:inline;display:inline"
        transform="matrix(1.0,0,0,-1.0,-563.71707,581.93122)" />
     <use
        id="P5"
        href="#P5-def"
        width="99.55308"
        height="235.00908"
-       transform="matrix(0.9876883405951378,-0.15643446504023087,-0.15643446504023087,-0.9876883405951378,-615.3534204176133,686.5038600096884)" />
+       transform="matrix(0.9876883405951378,-0.15643446504023087,-0.15643446504023087,-0.9876883405951378,-615.3534204176133,686.5038600096884)" style="display:inline" />
   </g>
   <g
      id="PC"
@@ -664,13 +673,13 @@
        href="#PC1-def"
        width="58.76447"
        height="126.5327"
-       transform="matrix(0.9961203378817368,0.08800154804532967,0.08800154804532967,-0.9961203378817368,258.5106403369222,420.8672096611415)" />
+       transform="matrix(0.9961203378817368,0.08800154804532967,0.08800154804532967,-0.9961203378817368,258.5106403369222,420.8672096611415)" style="display:inline" />
     <use
        id="PC2"
        href="#PC2-def"
        width="52.9346"
        height="113.27434"
-       transform="matrix(0.984807753012208,-0.17364817766693033,-0.17364817766693033,-0.984807753012208,226.31864957126527,541.9759897019198)" />
+       transform="matrix(0.984807753012208,-0.17364817766693033,-0.17364817766693033,-0.984807753012208,226.31864957126527,541.9759897019198)" style="display:inline" />
   </g>
   <g
      id="A"
@@ -681,14 +690,14 @@
        href="#A1-def"
        width="50.675146"
        height="127.48804"
-       style="display:inline"
+       style="display:inline;display:inline"
        transform="matrix(1.0,0,0,-1.0,305.51042,382.26512)" />
     <use
        id="A2"
        href="#A2-def"
        width="51.94701"
        height="115.06012"
-       style="display:inline"
+       style="display:inline;display:inline"
        transform="matrix(1.0,0,0,-1.0,212.53136,383.75158)" />
     <use
        id="A3"
@@ -696,7 +705,7 @@
        width="44.89576"
        height="72.09929"
        transform="matrix(0.9961946980917455,-0.08715574274765817,-0.08715574274765817,-0.9961946980917455,144.22726993224228,400.4637795735083)"
-       style="display:inline" />
+       style="display:inline;display:inline" />
   </g>
   <g
      id="S"
@@ -707,28 +716,28 @@
        href="#S1-def"
        width="85.429457"
        height="255.85581"
-       transform="matrix(1.0,0,0,-1.0,874.14214,786.27179)" />
+       transform="matrix(1.0,0,0,-1.0,874.14214,786.27179)" style="display:inline" />
     <use
        id="S2"
        href="#S2-def"
        width="82.99347"
        height="251.44178"
        transform="matrix(0.9876883405951378,-0.15643446504023087,-0.15643446504023087,-0.9876883405951378,726.3211498276617,827.6140602019848)"
-       inkscape:label="S2" />
+       inkscape:label="S2" style="display:inline" />
     <use
        id="S3"
        href="#S3-def"
        width="83.02697"
        height="202.35308"
        transform="matrix(0.981627183447664,-0.1908089953765448,-0.1908089953765448,-0.981627183447664,622.1971297480463,853.9782495799473)"
-       inkscape:label="S3" />
+       inkscape:label="S3" style="display:inline" />
     <use
        id="S4"
        href="#S4-def"
        width="87.07341"
        height="159.63931"
        transform="matrix(0.9781476007338057,-0.20791169081775934,-0.20791169081775934,-0.9781476007338057,360.2844499611943,917.452939931867)"
-       inkscape:label="S4" />
+       inkscape:label="S4" style="display:inline" />
   </g>
   <g
      id="SC"
@@ -740,28 +749,28 @@
        width="48.29216"
        height="156.79638"
        transform="matrix(0.052335956242943966,-0.9986295347545738,-0.9986295347545738,-0.052335956242943966,533.2750898426406,884.6567000545567)"
-       inkscape:label="SC1" />
+       inkscape:label="SC1" style="display:inline" />
     <use
        id="SC2"
        href="#SC2-def"
        width="50.42131"
        height="151.85843"
        transform="matrix(0,-1.0,-1.0,0,530.3679300000001,1052.6169)"
-       inkscape:label="SC2" />
+       inkscape:label="SC2" style="display:inline" />
     <use
        id="SC3"
        href="#SC3-def"
        width="61.13184"
        height="142.16922"
        transform="matrix(-0.1736481776669303,-0.984807753012208,-0.984807753012208,0.1736481776669303,585.6820198843527,1019.7653000229399)"
-       style="display:inline" />
+       style="display:inline;display:inline" />
     <use
        id="SC4"
        href="#SC4-def"
        width="73.11066"
        height="150.06556"
        transform="matrix(0.12186934340514749,0.992546151641322,-0.992546151641322,0.12186934340514749,454.15399987881125,-20.167277041514126)"
-       inkscape:label="SC4" />
+       inkscape:label="SC4" style="display:inline" />
   </g>
   <g
      id="MC"
@@ -772,25 +781,25 @@
        href="#MC1-def"
        width="45.82714"
        height="117.25539"
-       transform="matrix(1.0,0,0,-1.0,-629.16783,1839.0354)" />
+       transform="matrix(1.0,0,0,-1.0,-629.16783,1839.0354)" style="display:inline" />
     <use
        id="MC2"
        href="#MC2-def"
        width="64.03815"
        height="130.07202"
-       transform="matrix(0.9975640502598242,-0.0697564737441253,-0.0697564737441253,-0.9975640502598242,-640.3041996823836,1886.49850025367)" />
+       transform="matrix(0.9975640502598242,-0.0697564737441253,-0.0697564737441253,-0.9975640502598242,-640.3041996823836,1886.49850025367)" style="display:inline" />
     <use
        id="MC3"
        href="#MC3-def"
        width="55.54579"
        height="120.3335"
-       transform="matrix(0.9659258262890683,-0.25881904510252074,-0.25881904510252074,-0.9659258262890683,-650.8557000263384,2041.9164002284363)" />
+       transform="matrix(0.9659258262890683,-0.25881904510252074,-0.25881904510252074,-0.9659258262890683,-650.8557000263384,2041.9164002284363)" style="display:inline" />
     <use
        id="MC4"
        href="#MC4-def"
        width="45.25327"
        height="101.07756"
-       transform="matrix(0.992546151641322,-0.12186934340514748,-0.12186934340514748,-0.992546151641322,-754.5178704106579,1930.8473998913628)" />
+       transform="matrix(0.992546151641322,-0.12186934340514748,-0.12186934340514748,-0.992546151641322,-754.5178704106579,1930.8473998913628)" style="display:inline" />
   </g>
   <g
      id="LC"
@@ -802,27 +811,27 @@
        href="#LC1-def"
        width="41.54244"
        height="87.828302"
-       transform="matrix(0.8660254037844387,-0.49999999999999994,-0.49999999999999994,-0.8660254037844387,-541.1904201185199,2137.0753001302073)" />
+       transform="matrix(0.8660254037844387,-0.49999999999999994,-0.49999999999999994,-0.8660254037844387,-541.1904201185199,2137.0753001302073)" style="display:inline" />
     <use
        id="LC2"
        href="#LC2-def"
        width="34.55349"
        height="83.612829"
        transform="matrix(0.7071067811865476,-0.7071067811865476,-0.7071067811865476,-0.7071067811865476,-437.16221994414093,2298.829799578178)"
-       style="display:inline" />
+       style="display:inline;display:inline" />
     <use
        id="LC3"
        href="#LC3-def"
        width="39.24136"
        height="87.997267"
        transform="matrix(0.7071067811865476,-0.7071067811865476,-0.7071067811865476,-0.7071067811865476,-473.35789000969896,2324.719200467363)"
-       style="display:inline" />
+       style="display:inline;display:inline" />
   </g>
   <use
      id="top-lines-ref"
      href="#placement-top-lines"
      transform="translate(-33.258665,-26.770171)"
-     style="display:inline" />
+     style="display:inline;display:inline" />
   <metadata
      id="metadata42">
     <rdf:RDF>

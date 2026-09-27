@@ -34,10 +34,10 @@ Measured, read-only, with Inkscape as the reference renderer.
 
 | claim | evidence |
 |---|---|
-| The scripts never read the aggregate | `make_logical_pages.py` reads `individuals/*.svg` directly (`read_feathers`, `read_topline`, `read_placement`) |
-| The aggregate cannot render without the individuals | cairosvg renders it **empty**; Inkscape `--query-all` resolves the hrefs |
+| The scripts never read the aggregate | `make_logical_pages.py` read `individuals/*.svg` directly before this change (`read_feathers`, `read_topline`, `read_placement`) |
+| The aggregate could not render without the individuals | cairosvg renders it **empty**; Inkscape `--query-all` resolves the hrefs |
 | The aggregate's 29 placements are the *only* place rotations live | 8 group `transform`s + 28 `<use>` matrices |
-| Hoisting a def group into `<defs>` and retargeting the `<use>` to `#X-def` changes nothing | `--query-all` gives **identical bboxes** for every id, and an Inkscape render at 96 dpi is **pixel-identical** (0 of 2,019,235 px) |
+| Hoisting a def group and retargeting the `<use>` to `#X-def` changes nothing | `--query-all` gives **identical bboxes** for every id, and an Inkscape render at 96 dpi is **pixel-identical** (0 of 2,019,235 px) |
 | The split **dropped each file's `viewBox` origin** | the `<use>` matrices already absorb it, so inlining needs **no compensating translate** — B1,B2,… all reproduce exactly |
 | `outline-toplines.svg` never rendered inside the aggregate | its groups sit at y ≈ 1675–1900; the aggregate's `viewBox` is `0 0 247.95744 570.1775` |
 | `<use>` `width`/`height` are inert here | they only size a reference to `<symbol>`/`<svg>`; these reference `<g>`. Kept verbatim anyway. |
@@ -45,6 +45,11 @@ Measured, read-only, with Inkscape as the reference renderer.
 **Consequence:** the consolidation is a pure re-homing of markup. No transform needs
 recomputing, which is exactly why "keep everything rotated the same way" is achievable
 without touching a single matrix.
+
+> **Superseded in part.** §2 below proposes `<defs>`. The geometry now lives in a
+> *hidden group* instead, because `<defs>` is awkward to edit in Inkscape. That change
+> landed after the consolidation and is recorded in §11; the inlining rule itself is
+> unaffected, since `<defs>` and the hidden group differ only in the container.
 
 ---
 
@@ -326,4 +331,58 @@ a one-line message saying so. It is kept as the record of how the aggregate was
 assembled — and because "make a change to the individual feathers and re-run it" is the
 one workflow this consolidation removes. Editing geometry now means editing the def
 group in the aggregate directly.
+
+---
+
+## 11. Follow-up: geometry moved out of `<defs>`
+
+`<defs>` turned out to be awkward to edit in Inkscape — the outlines are buried in the
+defs section rather than in the document tree. `hide_geometry_source.py` moved them into
+a hidden group.
+
+### Why the obvious hidden group does not work
+
+`display` is **inherited into a `<use>`'s shadow tree**. Hiding the geometry container
+with `display:none` therefore hides every placed copy as well, and the drawing
+disappears. The override has to be re-stated on each `<use>`. Measured in Inkscape
+against the `<defs>` build:
+
+| technique | pixels differing |
+|---|---|
+| `display:none` on the group **+ `display:inline` on every `<use>`** | **0** of 2,019,235 |
+| `visibility:hidden` on the group + `visibility:visible` on every `<use>` | 151,404 |
+| bare `hidden` attribute | 151,404 |
+
+So `display:inline` on the `<use>` elements is load-bearing, not belt-and-braces.
+`hide_geometry_source.py` asserts every `<use>` carries it.
+
+### Result
+
+```xml
+<defs id="defs1" />                        <!-- kept empty, as before -->
+<g id="geometry-source" style="display:none">
+  <g id="B1-def" data-wh="…" data-vb="…" class="group B">
+    <path id="B1-outline" class="outline" d="…"/>
+  </g>
+  …
+</g>
+…
+<use id="B1" href="#B1-def" width="…" height="…"
+     transform="matrix(…)" style="display:inline" />
+```
+
+Verified: `--query-all` value-diffs against the original aggregate **0 of 38**, pixel
+diff **0**, all **25 logical pages byte-identical**, PDF reproduces byte-for-byte.
+
+### What this actually buys, and what it does not
+
+- **It does not** put feathers back on the canvas. The container is hidden, so the
+  geometry still does not draw — re-enabling `display` would double every feather,
+  since the `<use>` elements already draw them.
+- **It does** move 94 ids (the `-def` groups and their paths) out of the defs section
+  and into the ordinary document tree, where Inkscape can reach them.
+- **The editing path is `Shift+D`** (verified as `app.select-original` in this install's
+  `keys/default.xml`): select any placed feather, press it, and Inkscape jumps to the
+  source outline in `#geometry-source`. That is the practical way to edit geometry.
+
 

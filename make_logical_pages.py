@@ -29,8 +29,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 TEMPLATES_DIR = ROOT / "mechanical" / "templates"
 # The aggregate is the single source of truth for feather geometry: every
-# feather and topline lives once in its <defs>, and the <use> elements that
-# place them carry only the arrangement's rotation.
+# feather and topline lives once in its hidden #geometry-source group, and the
+# <use> elements that place them carry only the arrangement's rotation.
 AGG_SVG = TEMPLATES_DIR / "feathers-aggregate-min.svg"
 OUT_DIR = TEMPLATES_DIR / "print" / "logical-pages"
 
@@ -283,9 +283,9 @@ SECTIONS = [
 # --------------------------------------------------------------------------
 #
 # Everything is read out of feathers-aggregate-min.svg. Each feather and topline
-# is a <g id="X-def"> in its <defs>, holding the outline exactly as the old
-# individuals/X.svg held it, plus two data attributes standing in for that
-# file's root <svg>:
+# is a <g id="X-def"> in the hidden #geometry-source group, holding the outline
+# exactly as the old individuals/X.svg held it, plus two data attributes
+# standing in for that file's root <svg>:
 #
 #   data-wh   the file's width and height   (placed size / scale)
 #   data-vb   the file's viewBox            (x0 y0 W H -- the frame the outline
@@ -523,9 +523,10 @@ def read_placement():
     """The whole-wing placement template as an Item.
 
     It used to be a document of its own (outline-toplines.svg) built from
-    <use>s into sibling files. It now lives in the aggregate's <defs> as the
-    placement-* groups, whose <use>s point at the inlined *-topline defs, so
-    the same walk resolves them against the aggregate's own index.
+    <use>s into sibling files. It now lives in the aggregate's hidden
+    #geometry-source group as the placement-* groups, whose <use>s point at
+    the inlined *-topline defs, so the same walk resolves them against the
+    aggregate's own index.
     """
     index = aggregate_by_id()
     parts = []
