@@ -26,7 +26,7 @@ Pages emitted per kind, stated on the class and asserted in tests:
 | `Cover` | 1 |
 | `MirroredPairs` | 1 |
 | `MirroredPairsRot90` | 1 |
-| `AlignmentGuides` | 1 |
+| `AlignmentGuides` | **2** — the strip, then the whole strip mirrored |
 | `MirroredWholePage` | **2** — right, then left |
 
 (A kind's *name* describes the drawing and its layout. How many pages it
@@ -106,8 +106,27 @@ class MirroredPairsRot90(Shelf):
 
 
 class AlignmentGuides(Shelf):
-    """The *-topline strip: wider spacing between the guides. Emits 1 page."""
+    """The *-topline strip: wider spacing between the guides.
+
+    Emits 2 pages: the strip, then the whole strip mirrored left to right (so
+    the guide order reverses too). Each label is pre-flipped about its own axis
+    so the page mirror leaves it at the mirrored position reading upright."""
+
     pad = TOP_LINE_PAD
+
+    def pages(self, ctx):
+        title = "/".join(self.items)
+        right, w, h = shelf(self.items, ctx.frags, self.rotate, self.pad)
+        # Same slots, then flipped as a whole page, so the order reverses with
+        # the geometry. The strip page itself is unchanged.
+        flipped = {n: (ctx.raw[n].body + preflip(guide_label(ctx.raw[n]),
+                                                 ctx.raw[n].W / 2.0),
+                       ctx.frags[n][1], ctx.frags[n][2])
+                   for n in self.items}
+        content, _, _ = shelf(self.items, flipped, self.rotate, self.pad)
+        left = f'<g transform="translate({fmt(w)} 0) scale(-1 1)">{content}</g>'
+        return [Page(f"{title}-right", right, w, h),
+                Page(f"{title}-left", left, w, h)]
 
 
 class MirroredWholePage(Section):
@@ -150,8 +169,8 @@ SECTIONS = [
 Two ordering traps, both caught by the byte-identical test:
 
 - **Section order.** `MirroredWholePage("outline-toplines")` comes *before*
-  `AlignmentGuides(...)`, matching the current output (its two pages are
-  22–23, the guides strip is 24).
+  `AlignmentGuides(...)`, matching the current output (`MirroredWholePage` owns
+  pages 22–23; the guides strip follows at 24–25).
 - **`TOPLINES` is not the print order.** The read list is
   `A, B, LC, MC, P, PC, S, SC`; the strip prints
   `A, PC, SC, LC, MC, B, P, S`. The manifest therefore names the guides

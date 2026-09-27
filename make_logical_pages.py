@@ -195,8 +195,31 @@ class MirroredPairsRot90(Shelf):
 
 
 class AlignmentGuides(Shelf):
-    """The *-topline strip: wider spacing between the guides. Emits 1 page."""
+    """The *-topline strip: wider spacing between the guides.
+
+    Emits 2 pages: the strip, then the whole strip mirrored left to right (so
+    the guide order reverses too). Each label is pre-flipped about its own axis
+    so the page mirror leaves it at the mirrored position reading upright."""
+
     pad = TOP_LINE_PAD
+
+    def pages(self, ctx):
+        title = "/".join(self.items)
+        right, w, h = shelf(self.items, ctx.frags, self.rotate, self.pad)
+
+        # The mirrored strip is laid out in the same slots and then flipped as a
+        # whole page, so the layout order reverses with the geometry.
+        flipped = {}
+        for name in self.items:
+            item = ctx.raw[name]
+            _, fw, fh = ctx.frags[name]
+            flipped[name] = (item.body + preflip(guide_label(item), item.W / 2.0),
+                             fw, fh)
+        content, _, _ = shelf(self.items, flipped, self.rotate, self.pad)
+        left = f'<g transform="translate({fmt(w)} 0) scale(-1 1)">{content}</g>'
+
+        return [Page(f"{title}-right", right, w, h),
+                Page(f"{title}-left", left, w, h)]
 
 
 class MirroredWholePage(Section):
@@ -303,25 +326,39 @@ def feather_item(f):
     return Item(f.name, Wp, Hp, body, inside_label=True)
 
 
+def guide_label(item):
+    """The upright label a non-mirrored guide carries, drawn along its line
+    (rotated 90 deg about the guide's centre)."""
+    size = fmt(min(6.0, max(3.0, item.W / 12.0)))
+    cx, cy = item.W / 2.0, item.H / 2.0
+    return (f'<text class="label" font-size="{size}" x="{fmt(cx)}" y="{fmt(cy)}" '
+            f'transform="rotate(90 {fmt(cx)} {fmt(cy)})">{item.name}</text>')
+
+
+def preflip(label, cx):
+    """Mirror a label about x=cx.
+
+    Composing this with an enclosing page mirror (translate(W 0) scale(-1 1))
+    leaves only a translation, so the label lands at the mirrored position still
+    reading upright instead of back to front."""
+    return f'<g transform="translate({fmt(2.0 * cx)} 0) scale(-1 1)">{label}</g>'
+
+
 def build_pair(item):
     """Return (fragment, w, h) in the local frame.
 
     A mirrored item is a left/right pair; a non-mirrored item (the toplines) is
     a single fragment with one label and no left/right distinction."""
     W, H = item.W, item.H
+    if not item.mirror:
+        return item.body + guide_label(item), W, H
+
     if item.inside_label:
         size = fmt(label_size(W, H))
         y = H / 2.0
     else:
         size = fmt(min(6.0, max(3.0, W / 12.0)))
         y = 3.0
-
-    if not item.mirror:
-        # single guide line; label runs along it (rotated 90 deg about its centre)
-        cx, cy = W / 2.0, H / 2.0
-        label = (f'<text class="label" font-size="{size}" x="{fmt(cx)}" y="{fmt(cy)}" '
-                 f'transform="rotate(90 {fmt(cx)} {fmt(cy)})">{item.name}</text>')
-        return item.body + label, W, H
 
     # left wing = mirror of the source, placed at [0, W]; right wing = source
     # as-is, placed at [W+GAP, 2W+GAP]. Labels sit outside the mirror so they
