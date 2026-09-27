@@ -221,8 +221,15 @@ class AlignmentGuides(Shelf):
         # Both pages carry an explicit marker of which version they are, the
         # same way the whole-wing template pages do. The mirrored page's marker
         # sits outside the page mirror, so it stays upright.
-        return [Page(f"{title}-right", right + side_note("alignment guides right", w), w, h),
-                Page(f"{title}-left", left + side_note("alignment guides left", w), w, h)]
+        #
+        # The unmirrored strip is the LEFT wing. This is the opposite of the
+        # pair pages, and it is not a slip: the *-toplines geometry is read
+        # straight from the aggregate, where it is drawn as the built wing's
+        # left-hand member, whereas feather_item() is handed the right-hand
+        # member and mirrors it. Nothing here mirrors the guides, so the raw
+        # strip stays left and the mirrored page is the right one.
+        return [Page(f"{title}-left", right + side_note("alignment guides left", w), w, h),
+                Page(f"{title}-right", left + side_note("alignment guides right", w), w, h)]
 
 
 class MirroredWholePage(Section):
