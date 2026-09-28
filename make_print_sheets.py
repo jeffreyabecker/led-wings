@@ -16,11 +16,11 @@ sheet SVG per tile. For each page:
 This script knows nothing about feathers or templates: it only sees a page's
 width/height and its <title>. The pipeline scripts meet only at the filesystem.
 
-The paper size, margin, overlap and fit slack are command-line flags (see
-templates/split-pdf-script-plan.md §2a), with US Letter landscape as the default,
-so a second page size is reachable without editing the script. `pw`/`ph`/
-`stride_x`/`stride_y` stay *derived*, never passed, so a caller cannot hand in a
-combination the tiling formula disagrees with.
+The paper size, margin, overlap, fit slack and cut-guide bleed are command-line
+flags (see templates/split-pdf-script-plan.md §2a), with US Letter landscape as
+the default, so a second page size is reachable without editing the script.
+`pw`/`ph`/`stride_x`/`stride_y` stay *derived*, never passed, so a caller cannot
+hand in a combination the tiling formula disagrees with.
 
 Output:
   templates/print/sheets/sheet-NNN.svg      # per-sheet intermediates (gitignored)
@@ -43,7 +43,7 @@ MANIFEST = SHEETS_DIR / "manifest.json"
 # --------------------------------------------------------------------------
 # Paper + tiling geometry. The defaults are US Letter landscape; the values are
 # module-level so build_sheets()/verify_tiling() read them by name, but main()
-# overwrites them from the --paper/--margin/--overlap/--slack flags via
+# overwrites them from the --paper/--margin/--overlap/--slack/--bleed flags via
 # _set_geometry() before any sheet is built. The derived values (pw, ph,
 # stride_x, stride_y, CLIP_DEF) are recomputed there too, never taken from the
 # caller, so a flag combination the tiling formula disagrees with is rejected
@@ -51,9 +51,10 @@ MANIFEST = SHEETS_DIR / "manifest.json"
 # --------------------------------------------------------------------------
 
 PAPER_W, PAPER_H = 279.4, 215.9   # US Letter, landscape (mm)
-MARGIN = 5.0                       # unprintable border
+MARGIN = 5.0                       # unprintable border (the printer cannot ink here)
 OVERLAP = 12.0                     # printed twice on adjacent tiles
 FIT_SLACK = 2.0                    # mm, overshoot that still gets one sheet
+BLEED = 0.0                        # mm, extra inset (inside the margin) for the cut guides
 
 # Derived — set by _set_geometry():
 pw = ph = stride_x = stride_y = None
@@ -76,14 +77,15 @@ def parse_mm(s):
     return float(str(s).replace("mm", "").strip())
 
 
-def _set_geometry(paper_w, paper_h, margin, overlap, slack):
+def _set_geometry(paper_w, paper_h, margin, overlap, slack, bleed):
     """Set the paper geometry from the command line, validating the flags.
 
-    The three assertions are the price of taking the size as flags (§2a): a
-    margin that leaves no printable area, an overlap wider than the printable
-    area, and a slack larger than the margin (which would let a page print into
-    the unprintable border) must all be rejected before a sheet is built."""
-    global PAPER_W, PAPER_H, MARGIN, OVERLAP, FIT_SLACK
+    The assertions are the price of taking the size as flags (§2a): a margin
+    that leaves no printable area, an overlap wider than the printable area, a
+    slack larger than the margin (which would let a page print into the
+    unprintable border), and a bleed that is negative or leaves no room for the
+    cut guides must all be rejected before a sheet is built."""
+    global PAPER_W, PAPER_H, MARGIN, OVERLAP, FIT_SLACK, BLEED
     global pw, ph, stride_x, stride_y, CLIP_DEF
 
     assert margin * 2.0 < paper_w and margin * 2.0 < paper_h, (
@@ -96,11 +98,16 @@ def _set_geometry(paper_w, paper_h, margin, overlap, slack):
     assert slack <= margin, (
         f"slack {slack} mm is larger than the margin {margin} mm, so a page could "
         f"print into the unprintable border")
+    assert bleed >= 0.0, f"bleed cannot be negative (got {bleed} mm)"
+    assert 2.0 * bleed < printable_w and 2.0 * bleed < printable_h, (
+        f"bleed {bleed} mm leaves no room for the cut guides in the "
+        f"{printable_w}x{printable_h} mm printable area")
 
     PAPER_W, PAPER_H = paper_w, paper_h
     MARGIN = margin
     OVERLAP = overlap
     FIT_SLACK = slack
+    BLEED = bleed
 
     pw = PAPER_W - 2.0 * MARGIN        # printable width
     ph = PAPER_H - 2.0 * MARGIN        # printable height
@@ -113,7 +120,7 @@ def _set_geometry(paper_w, paper_h, margin, overlap, slack):
                 f'</clipPath></defs>\n')
 
 
-_set_geometry(PAPER_W, PAPER_H, MARGIN, OVERLAP, FIT_SLACK)
+_set_geometry(PAPER_W, PAPER_H, MARGIN, OVERLAP, FIT_SLACK, BLEED)
 
 
 # --------------------------------------------------------------------------
@@ -201,13 +208,23 @@ def sheet_svg(body, style="", defs=""):
 
 
 def corner_ticks():
-    """Small L-marks at the four printable corners, for lining tiles up."""
+    """Small L-marks at the four printable corners, for lining tiles up.
+
+    The marks are drawn `BLEED` mm inside the printable corners (at MARGIN +
+    BLEED from the paper edge) and extend inward into the printable area. That
+    keeps them off the unprintable border: a printer cannot put ink within
+    MARGIN mm of the paper edge, so drawing the marks outward (toward the edge)
+    left them unprinted."""
     L = 5.0
+    lo_x = MARGIN + BLEED
+    hi_x = MARGIN + pw - BLEED
+    lo_y = MARGIN + BLEED
+    hi_y = MARGIN + ph - BLEED
     segs = []
-    for cx in (MARGIN, MARGIN + pw):
-        for cy in (MARGIN, MARGIN + ph):
-            sx = -1.0 if cx == MARGIN else 1.0
-            sy = -1.0 if cy == MARGIN else 1.0
+    for cx in (lo_x, hi_x):
+        for cy in (lo_y, hi_y):
+            sx = 1.0 if cx == lo_x else -1.0    # inward, toward the sheet centre
+            sy = 1.0 if cy == lo_y else -1.0
             segs.append(f'<line class="crop" x1="{fmt(cx)}" y1="{fmt(cy)}" '
                         f'x2="{fmt(cx + sx * L)}" y2="{fmt(cy)}"/>')
             segs.append(f'<line class="crop" x1="{fmt(cx)}" y1="{fmt(cy)}" '
@@ -326,6 +343,9 @@ def main():
                     help="printed twice on adjacent tiles, mm (default: %(default)s)")
     ap.add_argument("--slack", type=float, default=FIT_SLACK,
                     help="overshoot that still gets one sheet, mm (default: %(default)s)")
+    ap.add_argument("--bleed", type=float, default=BLEED,
+                    help="extra inset, inside the margin, for the cut guides, mm "
+                         "(default: %(default)s)")
     ap.add_argument("--pages-dir", default=str(PAGES_DIR),
                     help="logical-pages source directory (default: %(default)s)")
     ap.add_argument("--out-dir", default=str(SHEETS_DIR),
@@ -333,7 +353,7 @@ def main():
     args = ap.parse_args()
 
     paper_w, paper_h = _parse_paper(args.paper)
-    _set_geometry(paper_w, paper_h, args.margin, args.overlap, args.slack)
+    _set_geometry(paper_w, paper_h, args.margin, args.overlap, args.slack, args.bleed)
 
     pages_dir = Path(args.pages_dir)
     out_dir = Path(args.out_dir)
