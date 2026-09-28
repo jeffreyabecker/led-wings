@@ -1,7 +1,21 @@
 # Plan — split `pages_to_pdf.py` into sheet building and PDF assembly
 
-**Status: proposal.** Nothing is changed yet. `pages_to_pdf.py` is as committed
-in `d0cf1eb` through `0ec54a7`; `make_logical_pages.py` is untouched by this plan.
+**Status: decided, not implemented.** The five open questions were settled on
+2026-09-28 and are folded into §2 and §7 below. Nothing is changed yet:
+`pages_to_pdf.py` is as committed in `d0cf1eb` through `0ec54a7`, and
+`make_logical_pages.py` is untouched by this plan.
+
+**Baseline for §5, already captured** (a live run of the committed
+`pages_to_pdf.py`, kept in `.tmp-align/split-baseline*.json`):
+
+| | |
+|---|---|
+| sheets | 52 (`sheet-001.svg` … `sheet-052.svg`) |
+| tiled pages | 11 — `002`–`006`, `024`–`027`, `038`, `039` |
+| fit pages | 28 |
+
+The 52 sheet hashes are the real assertion in step 1; the counts are only a
+sanity check on them.
 
 **Scope:** `pages_to_pdf.py` only, plus the two files it becomes and the
 documentation that names them. `make_logical_pages.py` keeps owning
@@ -11,10 +25,10 @@ documentation that names them. `make_logical_pages.py` keeps owning
 particular print page size; (2) a script that renders a set of SVGs to PDF and
 concatenates them.
 
-**Verdict:** the seam is already there. `pages_to_pdf.py` renders nothing until
-`render_sheets()` (line 234) and computes nothing after it; the only real cost is
-deciding where the two checks live and stopping the two halves from each
-delete-then-rewrite `print/sheets/`.
+**Verdict:** the seam is already there. The script renders nothing until
+`render_sheets()` (line 234) and computes no layout after it; the only real cost
+is deciding where the two checks live and stopping the two halves from each
+delete-then-rewrite `print/sheets/`. Both settled in §2 and §7.
 
 ## 1. What the current script does
 
@@ -55,23 +69,32 @@ Two couplings worth naming before touching anything:
 The interface is a directory of same-size SVGs plus a manifest. Script 2 does not
 need to know what a tile is, and Script 1 does not need cairosvg or pypdf.
 
-### 2a. Paper size
+### 2a. Paper size — flags
 
 Today the size is four module constants. The ask is "targeting a specific print
-page size", so Script 1 takes it as parameters with today's Letter-landscape
-values as the defaults:
+page size", so Script 1 takes it as flags, with today's Letter-landscape values
+as the defaults:
 
 ```
 --paper WxH     279.4x215.9   sheet size in mm
 --margin MM     5.0           unprintable border
 --overlap MM    12.0          printed twice on adjacent tiles
 --slack MM      2.0           overshoot that still gets one sheet
+--pages-dir DIR logical-pages source (default: the pipeline's own)
+--out-dir DIR   sheet SVGs + manifest (default: the pipeline's own)
 ```
 
 `pw`, `ph`, `stride_x`, `stride_y` stay *derived*, never passed, so a caller
 cannot hand in a combination the tiling formula disagrees with — which is exactly
-the drift `verify_tiling()` exists to catch. A4 landscape
-(`297x210`) is the obvious second value and belongs in a test, not a default.
+the drift `verify_tiling()` exists to catch. A4 landscape (`297x210`) is the
+obvious second value and belongs in the acceptance run, not in a default.
+
+Flags rather than constants because the ask was explicitly to target a size:
+a second size must be reachable without editing the script. The validation has to
+carry the weight the constants used to: reject a margin that leaves no printable
+area, an overlap wider than the printable area, and a slack larger than the
+margin (which would let a page print into the unprintable border). Those three
+assertions are the price of the flags and belong in Script 1's argument handling.
 
 ### 2b. The manifest
 
@@ -142,54 +165,82 @@ tiling. Splitting the script must not change a single byte of them.
 
 ## 5. Acceptance test
 
-Baseline first (step 0): run the current `pages_to_pdf.py`, hash every
-`sheets/sheet-*.svg`, hash `feathers-letter-landscape.pdf`, and record the tile
-grid and sheet count it prints.
+Step 0 is already done — see the baseline table at the top of this document.
+Re-take it if the split starts from a different commit.
 
-1. `make_print_sheets.py` with default arguments emits the **same sheet count**
-   and **byte-identical** `sheet-*.svg` files to the baseline;
-2. `sheets_to_pdf.py` produces a `feathers-letter-landscape.pdf` whose page count
-   equals the sheet count and whose pages match the baseline's page-for-page
-   (compare extracted page sizes; the rendered bytes may differ harmlessly if
-   cairosvg's metadata is nondeterministic, so state which it is);
-3. both scripts pass their own checks and print them;
-4. `make_print_sheets.py --paper 297x210` runs and produces sheets 297x210 mm
-   with a **larger** sheet count than Letter for the same pages — a second paper
-   size is the whole point of the flag, and this is the cheap proof it is wired
-   through rather than accepted and ignored;
-5. `grep -r pages_to_pdf` returns only the historical plan docs;
-6. neither script writes into the other's file set: after Script 2 runs, every
-   `sheet-*.svg` from Script 1 is still present and unmodified.
+1. `make_print_sheets.py` with default arguments reproduces **52/52
+   byte-identical** `sheet-*.svg` files, and prints the same line the legacy
+   script did: `39 logical pages -> 52 Letter sheets (11 tiled, 28 fit)`. The
+   hashes are the assertion; the counts only say whether the shape changed too;
+2. `sheets_to_pdf.py` produces `feathers-letter-landscape.pdf` with **52 pages**,
+   each 279.4 x 215.9 mm, in filename order. **The merged file can be compared by
+   hash**: `cairosvg.svg2pdf` was checked and produces byte-identical output
+   across runs for the same input, so the baseline's 654 207-byte PDF is a valid
+   target. If the bytes do differ, treat that as a finding to explain before
+   accepting the split, not as expected noise;
+3. both scripts print their own checks and pass:
+   `tiling structural check: OK` from Script 1, and the merge check plus the two
+   calibration-bar measurements from Script 2;
+4. `make_print_sheets.py --paper 297x210` succeeds and every emitted sheet is
+   297 x 210 mm. A4 landscape also yields **more** sheets than Letter — measured
+   at 55 against 52, because its printable height is 200 mm against 205.9 and
+   that is what costs the extra rows — so both the size *and* the count can be
+   asserted. Run it into a scratch `--out-dir` so it cannot clobber the Letter
+   sheet set that steps 1–3 depend on;
+5. `grep -rn "pages_to_pdf" --include=*.py .` returns **nothing**; the two
+   historical plan docs may still mention it and should be left as written;
+6. neither script writes into the other's file set: after `sheets_to_pdf.py`
+   runs, every `sheet-*.svg` from `make_print_sheets.py` is still present and
+   byte-identical. This is the check for the shared-directory hazard in §4.
 
 ## 6. Risks
 
 | risk | containment |
 |---|---|
-| splitting orphans the tiling self-check | §2c puts it with the constants it checks; step 3 requires Script 1 to print it |
-| the scale check becomes vacuous (passes because it measured nothing) | `verify_scale()` already returns `None` on no ink and `main()` fails on `None`; keep that, and assert the manifest named a cover sheet |
-| the manifest drifts from the sheets | it is written in the same loop that emits them, and Script 2 asserts the sheet list matches |
-| a second paper size silently keeps Letter geometry | step 4 checks the sheet *size*, not just that the run exits 0 |
+| splitting orphans the tiling self-check | §2c puts it with the constants it checks; acceptance step 3 requires Script 1 to print it |
+| the scale check becomes vacuous (passes because it measured nothing) | it asserts ink is present where the manifest puts each bar, and `main()` fails on a mismatch rather than on a missing measurement |
+| the manifest drifts from the sheets | it is written in the same loop that emits them, and Script 2 asserts the sheet list matches the files on disk |
+| a second paper size silently keeps Letter geometry | acceptance step 4 checks each sheet's *size*, not just that the run exits 0 |
+| the two halves clear each other's output | Script 1 unlinks only `sheet-*.svg` (+ the manifest); Script 2 only `sheet-*.pdf`. Today's `render_sheets()` clears **both**, so splitting that loop is the one edit that must not be a copy/paste — acceptance step 6 is the check |
 | `contact-sheet.png` layout assumes a page count | `contact_sheet()` already takes `n_pages` and derives rows; unchanged |
 
-## 7. Open questions
+## 7. Decisions
 
-1. **Names.** `make_print_sheets.py` / `sheets_to_pdf.py` above. Alternatives:
-   `pages_to_sheets.py` / `sheets_to_pdf.py` (mirrors the existing
-   `make_logical_pages.py` / `pages_to_pdf.py` pairing), or keep the first as
-   `pages_to_pdf.py` and add a rendering flag. Proposal: the pair above, because
-   "print sheets" says what the output is.
-2. **Paper size as flags or as a config constant?** Flags make a second size
-   reachable without editing the script; constants keep one blessed geometry and
-   make the drift impossible. Proposal: flags, defaults unchanged, because the
-   ask was explicitly to target a size.
-3. **Should Script 1 also emit a page-size summary (mm of paper used, tiles per
-   page) for the README that does not exist yet?** Proposal: not now.
-4. **Does Script 2 need a `--dpi` or render-quality knob?** Today `cairosvg`
-   renders vector-clean at the PDF's own resolution, so there is nothing to tune.
-   Proposal: no.
-5. **Delete `pages_to_pdf.py`, or leave it as a thin two-line wrapper that calls
-   both scripts in order?** Proposal: delete it — a wrapper is a third thing to
-   keep honest, and the two commands are easy to run in sequence.
+All five were settled before implementation. They are decisions, not preferences:
+implement to them.
+
+| # | question | decision |
+|---|---|---|
+| 1 | names | `make_print_sheets.py` and `sheets_to_pdf.py`, as proposed. The pair reads as the pipeline it is: logical pages → print sheets → PDF. |
+| 2 | paper size as flags or constants? | **Flags**, with today's Letter landscape values as the defaults. See §2a for the three validations the flags make mandatory. |
+| 3 | should Script 1 also emit a page-size summary (paper used, tiles per page) for a README? | **No, not now.** No pipeline README exists; adding one is separate work. |
+| 4 | render-quality knob on Script 2? | **No.** `cairosvg` renders vector-clean at the PDF's own resolution, so there is nothing to tune. A knob with no effect is worse than no knob. |
+| 5 | delete `pages_to_pdf.py`, or keep it as a thin wrapper? | **Delete it**, once both new scripts pass §5. A wrapper is a third thing to keep honest, and it would still be the file people reach for by habit. |
+
+Consequences of #5 worth stating, because they are easy to miss:
+
+- The deletion lands in the **same commit** as the two new scripts. A commit
+  that leaves both the old script and its replacements present is the one state
+  where "which one do I run" has two answers.
+- There is no README to update, so the surviving references are the module
+  docstrings, `make_logical_pages.py`'s two mentions of `pages_to_pdf.py` (its
+  module docstring and the `shelf()` comment about the left margin), and the two
+  historical plan docs. §5 step 5 covers the greps; the historical plan docs are
+  left as written because they describe the pipeline as it was when they were
+  written.
+- `make_logical_pages.py`'s references should be updated to name
+  `make_print_sheets.py` in the same commit, since a docstring pointing at a
+  deleted file is worse than no pointer.
+
+## 8. Order of work
+
+1. capture the §5 step-0 baseline;
+2. write `make_print_sheets.py`; run it; assert the 52 sheet hashes are
+   byte-identical;
+3. write `sheets_to_pdf.py`; run it; assert the merge and scale checks pass;
+4. run the A4 acceptance check (§5 step 4);
+5. update `make_logical_pages.py`'s two references, delete `pages_to_pdf.py`,
+   and re-grep.
 
 ## Appendix — measurements taken for this plan
 
@@ -202,3 +253,7 @@ grid and sheet count it prints.
 | page size now | Letter landscape 279.4 x 215.9 mm, margin 5, overlap 12, slack 2 |
 | files named by both scripts | `sheets/sheet-NNN.svg`, `sheets/sheet-NNN.pdf`, `feathers-letter-landscape.pdf`, `contact-sheet.png` |
 | third-party imports by half | Script 1: none. Script 2: `cairosvg`, `pypdf`, `pdfium`, `PIL` |
+| baseline sheet count / tiled | 52 sheets, 11 tiled, 28 fit — all 52 hashes captured |
+| baseline PDF | 654 207 bytes |
+| A4 landscape sheet count, same pages | 55 (printable 287 x 200 mm, against Letter's 269.4 x 205.9) |
+| `cairosvg.svg2pdf` repeatability | byte-identical across runs, so the merged PDF can be hash-compared |
