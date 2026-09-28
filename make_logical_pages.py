@@ -727,7 +727,14 @@ def main():
     listed = [name for section in SECTIONS for name in section.items]
     assert len(listed) == len(set(listed)), "the manifest lists an item twice"
 
-    guides = {c.get("id")[:-1]: c for c in topline_children()}   # "A-toplines" -> "A-topline"
+    # Keyed by the manifest name. The older aggregate spells a guide group
+    # "A-toplines"; the rectified one spells it "A-topline" to match the manifest
+    # exactly. Accept either, so the two files can coexist while the rename lands.
+    # (Slicing the last character, as this used to, silently misses the singular
+    # spelling -- and `_def_group` then finds the guide *group* anyway, so the
+    # page is built with the origin circle missing instead of failing.)
+    guides = {re.sub(r"-toplines?$", "-topline", c.get("id")): c
+              for c in topline_children()}
     assert len(guides) == len(topline_children()), (
         "two guides in <g id=\"%s\"> share a name" % PLACEMENT_GROUP)
 
