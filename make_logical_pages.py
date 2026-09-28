@@ -5,14 +5,14 @@ make_logical_pages.py
 
 Script 1 of the print pipeline: build the mirrored-pair content and lay it out
 into LOGICAL page SVGs, reading the feather geometry from
-mechanical/templates/feathers-aggregate.svg.
+templates/feathers-aggregate.svg.
 
 Each page is self-contained, true scale (millimetres), sized to its content, and
 labelled with a <title>. This script knows nothing about paper size, margins, or
 tiling -- that is pages_to_pdf.py's job. The two scripts meet only at the
 filesystem: a directory of page-NNN.svg files.
 
-Output: mechanical/templates/print/logical-pages/page-NNN.svg (cover first).
+Output: templates/print/logical-pages/page-NNN.svg (cover first).
 """
 
 import math
@@ -28,7 +28,7 @@ from pathlib import Path
 # --------------------------------------------------------------------------
 
 ROOT = Path(__file__).resolve().parent
-TEMPLATES_DIR = ROOT / "mechanical" / "templates"
+TEMPLATES_DIR = ROOT / "templates"
 # The aggregate is the single source of truth for feather geometry: each feather
 # and topline is one <g id="X"> holding its outline (and its frame, as
 # data-wh/data-vb), with the transform that arranges it on that group rather than

@@ -6,7 +6,7 @@ pages_to_pdf.py
 Script 2 of the print pipeline: assemble the LOGICAL page SVGs into one true-scale
 US Letter landscape PDF.
 
-Reads mechanical/templates/print/logical-pages/page-NNN.svg in filename order and
+Reads templates/print/logical-pages/page-NNN.svg in filename order and
 emits one PDF. For each page:
 
   - fits the printable area -> one Letter sheet, the page placed whole at the margin;
@@ -17,9 +17,9 @@ This script knows nothing about feathers or templates: it only sees a page's
 width/height and its <title>. The two scripts meet only at the filesystem.
 
 Output:
-  mechanical/templates/print/feathers-letter-landscape.pdf
-  mechanical/templates/print/sheets/            # per-sheet intermediates (gitignored)
-  mechanical/templates/print/contact-sheet.png
+  templates/print/feathers-letter-landscape.pdf
+  templates/print/sheets/            # per-sheet intermediates (gitignored)
+  templates/print/contact-sheet.png
 """
 
 import math

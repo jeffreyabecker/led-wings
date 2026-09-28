@@ -15,7 +15,7 @@
 | 4 | Wire side is hand-crimped (or pre-made cable) | build reality |
 | 5 | Current: power run ≤ ~1.4 A per chunk @100 %; data negligible | `boards/hub-board.md` §6 |
 | 6 | Two separate 2-pin pairs per chunk end: **power** and **data** | `docs/connector-pinout.md` (legacy) |
-| 7 | Wearable — must not back out under flex/vibration | `mechanical/` |
+| 7 | Wearable — must not back out under flex/vibration | `` |
 
 ## Key insight: how to stop mixing connectors
 
