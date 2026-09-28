@@ -9,7 +9,7 @@ templates/feathers-aggregate.svg.
 
 Each page is self-contained, true scale (millimetres), sized to its content, and
 labelled with a <title>. This script knows nothing about paper size, margins, or
-tiling -- that is pages_to_pdf.py's job. The two scripts meet only at the
+tiling -- that is make_print_sheets.py's job. The two scripts meet only at the
 filesystem: a directory of page-NNN.svg files.
 
 Output: templates/print/logical-pages/page-NNN.svg (cover first).
@@ -1157,7 +1157,7 @@ def shelf(names, frags, rotate, pad):
     Each row is centred in the 260 mm page rather than started at its left edge.
     The page is MAX_WIDTH wide whatever the content, so a row that does not fill
     it used to leave all its slack on the right -- up to 64 mm of it on
-    page-017 -- and pages_to_pdf.py places a page at the sheet's left margin, so
+    page-017 -- and make_print_sheets.py places a page at the sheet's left margin, so
     that slack printed as a visible gap.
 
     Rows are laid out independently, which they always were: since each row is

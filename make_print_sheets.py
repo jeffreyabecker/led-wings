@@ -1,73 +1,63 @@
 #!/usr/bin/env python3
 """
-pages_to_pdf.py
-===============
+make_print_sheets.py
+====================
 
-Script 2 of the print pipeline: assemble the LOGICAL page SVGs into one true-scale
-US Letter landscape PDF.
+Script 2 of the print pipeline: lay the LOGICAL page SVGs out onto print sheets,
+one sheet per tile, targeting a chosen print page size.
 
-Reads templates/print/logical-pages/page-NNN.svg in filename order and
-emits one PDF. For each page:
+Reads templates/print/logical-pages/page-NNN.svg in filename order and emits one
+sheet SVG per tile. For each page:
 
-  - fits the printable area -> one Letter sheet, the page placed whole at the margin;
-  - bigger than the printable area -> tiled across `cols x rows` sheets with overlap
-    and crop marks.
+  - fits the printable area -> one sheet, the page placed whole at the margin;
+  - bigger than the printable area -> tiled across `cols x rows` sheets with
+    overlap and crop marks.
 
 This script knows nothing about feathers or templates: it only sees a page's
-width/height and its <title>. The two scripts meet only at the filesystem.
+width/height and its <title>. The pipeline scripts meet only at the filesystem.
+
+The paper size, margin, overlap and fit slack are command-line flags (see
+templates/split-pdf-script-plan.md §2a), with US Letter landscape as the default,
+so a second page size is reachable without editing the script. `pw`/`ph`/
+`stride_x`/`stride_y` stay *derived*, never passed, so a caller cannot hand in a
+combination the tiling formula disagrees with.
 
 Output:
-  templates/print/feathers-letter-landscape.pdf
-  templates/print/sheets/            # per-sheet intermediates (gitignored)
-  templates/print/contact-sheet.png
+  templates/print/sheets/sheet-NNN.svg      # per-sheet intermediates (gitignored)
+  templates/print/sheets/manifest.json      # what sheets_to_pdf.py needs
 """
 
+import argparse
+import json
 import math
-import os
 import re
 from dataclasses import dataclass
 from pathlib import Path
 
-# cairosvg needs the cairo DLL that ships inside GStreamer. Point at it
-# explicitly so the build does not depend on GStreamer staying on PATH. The
-# environment must be set BEFORE importing cairosvg (it dlopens cairo on import).
-CAIRO_BIN = r"C:\Program Files\gstreamer\1.0\msvc_x86_64\bin"
-os.environ["PATH"] = CAIRO_BIN + os.pathsep + os.environ.get("PATH", "")
-os.environ["CAIRO_PATH"] = CAIRO_BIN
-
-import cairosvg
-import pypdf
-import pypdfium2 as pdfium
-from PIL import Image
-
 ROOT = Path(__file__).resolve().parent
-PRINT_DIR = ROOT / "mechanical" / "templates" / "print"
+PRINT_DIR = ROOT / "templates" / "print"
 PAGES_DIR = PRINT_DIR / "logical-pages"
 SHEETS_DIR = PRINT_DIR / "sheets"          # intermediates (gitignored)
-OUT_PDF = PRINT_DIR / "feathers-letter-landscape.pdf"
-CONTACT_PNG = PRINT_DIR / "contact-sheet.png"
+MANIFEST = SHEETS_DIR / "manifest.json"
 
 # --------------------------------------------------------------------------
-# Paper + tiling constants — owned by this script, independent of Script 1.
-# No assumption is made about how big Script 1's pages are: any page bigger
-# than the printable area is tiled.
+# Paper + tiling geometry. The defaults are US Letter landscape; the values are
+# module-level so build_sheets()/verify_tiling() read them by name, but main()
+# overwrites them from the --paper/--margin/--overlap/--slack flags via
+# _set_geometry() before any sheet is built. The derived values (pw, ph,
+# stride_x, stride_y, CLIP_DEF) are recomputed there too, never taken from the
+# caller, so a flag combination the tiling formula disagrees with is rejected
+# rather than silently drifted (that is exactly what verify_tiling() re-checks).
 # --------------------------------------------------------------------------
 
 PAPER_W, PAPER_H = 279.4, 215.9   # US Letter, landscape (mm)
 MARGIN = 5.0                       # unprintable border
 OVERLAP = 12.0                     # printed twice on adjacent tiles
+FIT_SLACK = 2.0                    # mm, overshoot that still gets one sheet
 
-pw = PAPER_W - 2.0 * MARGIN        # printable width  = 269.4 mm
-ph = PAPER_H - 2.0 * MARGIN        # printable height = 205.9 mm
-stride_x = pw - OVERLAP            # 257.4 mm
-stride_y = ph - OVERLAP            # 193.9 mm
-
-# A page may overshoot the printable area by up to FIT_SLACK mm and still get a
-# single sheet: the small overflow lands in the margin (still on the paper, short
-# of the bleed) instead of triggering a wasteful 1xN tile. Keep it <= MARGIN so no
-# ink ever leaves the sheet. Raise it to MARGIN for maximum tolerance at the cost
-# of printing further into the unprintable border.
-FIT_SLACK = 2.0                    # mm
+# Derived — set by _set_geometry():
+pw = ph = stride_x = stride_y = None
+CLIP_DEF = None
 
 
 # --------------------------------------------------------------------------
@@ -86,6 +76,46 @@ def parse_mm(s):
     return float(str(s).replace("mm", "").strip())
 
 
+def _set_geometry(paper_w, paper_h, margin, overlap, slack):
+    """Set the paper geometry from the command line, validating the flags.
+
+    The three assertions are the price of taking the size as flags (§2a): a
+    margin that leaves no printable area, an overlap wider than the printable
+    area, and a slack larger than the margin (which would let a page print into
+    the unprintable border) must all be rejected before a sheet is built."""
+    global PAPER_W, PAPER_H, MARGIN, OVERLAP, FIT_SLACK
+    global pw, ph, stride_x, stride_y, CLIP_DEF
+
+    assert margin * 2.0 < paper_w and margin * 2.0 < paper_h, (
+        f"margin {margin} mm leaves no printable area on a {paper_w}x{paper_h} mm sheet")
+    printable_w = paper_w - 2.0 * margin
+    printable_h = paper_h - 2.0 * margin
+    assert overlap < printable_w and overlap < printable_h, (
+        f"overlap {overlap} mm is wider than the printable area "
+        f"{printable_w}x{printable_h} mm")
+    assert slack <= margin, (
+        f"slack {slack} mm is larger than the margin {margin} mm, so a page could "
+        f"print into the unprintable border")
+
+    PAPER_W, PAPER_H = paper_w, paper_h
+    MARGIN = margin
+    OVERLAP = overlap
+    FIT_SLACK = slack
+
+    pw = PAPER_W - 2.0 * MARGIN        # printable width
+    ph = PAPER_H - 2.0 * MARGIN        # printable height
+    stride_x = pw - OVERLAP
+    stride_y = ph - OVERLAP
+
+    CLIP_DEF = (f'<defs><clipPath id="clip">'
+                f'<rect x="{fmt(MARGIN)}" y="{fmt(MARGIN)}" '
+                f'width="{fmt(pw)}" height="{fmt(ph)}"/>'
+                f'</clipPath></defs>\n')
+
+
+_set_geometry(PAPER_W, PAPER_H, MARGIN, OVERLAP, FIT_SLACK)
+
+
 # --------------------------------------------------------------------------
 # Crop-mark / tile-note CSS. The page SVGs carry their own outline/label CSS
 # (carried over per-sheet); this script only adds what a physical sheet needs.
@@ -97,11 +127,6 @@ CSS2 = """
 .crop { stroke: #999999; stroke-width: 0.25; }
 .note { font-family: sans-serif; fill: #555555; font-size: 4; text-anchor: middle; }
 """
-
-CLIP_DEF = (f'<defs><clipPath id="clip">'
-            f'<rect x="{fmt(MARGIN)}" y="{fmt(MARGIN)}" '
-            f'width="{fmt(pw)}" height="{fmt(ph)}"/>'
-            f'</clipPath></defs>\n')
 
 
 # --------------------------------------------------------------------------
@@ -164,7 +189,7 @@ def read_page(path):
 # --------------------------------------------------------------------------
 
 def sheet_svg(body, style="", defs=""):
-    """Wrap physical-sheet content in a Letter-landscape SVG, true scale."""
+    """Wrap physical-sheet content in a paper-sized SVG, true scale."""
     return (f'<svg xmlns="http://www.w3.org/2000/svg" '
             f'width="{fmt(PAPER_W)}mm" height="{fmt(PAPER_H)}mm" '
             f'viewBox="0 0 {fmt(PAPER_W)} {fmt(PAPER_H)}">\n'
@@ -191,7 +216,7 @@ def corner_ticks():
 
 
 def build_sheets(page):
-    """One Letter sheet per tile (or a single sheet for a page that fits).
+    """One sheet per tile (or a single sheet for a page that fits).
 
     Returns (sheets, tiles, cols, rows) where tiles is a list of
     (transform_string, c, r) -- the emitted content transform for each sheet.
@@ -228,51 +253,6 @@ def build_sheets(page):
 
 
 # --------------------------------------------------------------------------
-# Rendering (SVG -> PDF via cairosvg, merged with pypdf)
-# --------------------------------------------------------------------------
-
-def render_sheets(sheets):
-    SHEETS_DIR.mkdir(parents=True, exist_ok=True)
-    PRINT_DIR.mkdir(parents=True, exist_ok=True)
-    for p in SHEETS_DIR.glob("sheet-*.svg"):
-        p.unlink()
-    for p in SHEETS_DIR.glob("sheet-*.pdf"):
-        p.unlink()
-
-    pdfs = []
-    for i, svg in enumerate(sheets, 1):
-        sp = SHEETS_DIR / f"sheet-{i:03d}.svg"
-        pp = SHEETS_DIR / f"sheet-{i:03d}.pdf"
-        sp.write_text(svg, encoding="utf-8")
-        cairosvg.svg2pdf(url=str(sp), write_to=str(pp))
-        pdfs.append(pp)
-
-    writer = pypdf.PdfWriter()
-    for p in pdfs:
-        writer.append(str(p))
-    writer.write(OUT_PDF)
-    return len(pdfs)
-
-
-def contact_sheet(n_pages):
-    doc = pdfium.PdfDocument(str(OUT_PDF))
-    cols = 6
-    rows = math.ceil(n_pages / cols)
-    thumbs = [doc[i].render(scale=1.0).to_pil() for i in range(n_pages)]
-    tw, th = thumbs[0].size
-    canvas = Image.new("RGB", (cols * tw, rows * th), "white")
-    for i, im in enumerate(thumbs):
-        r, c = divmod(i, cols)
-        canvas.paste(im, (c * tw, r * th))
-    # Save via a temp name and replace: a viewer holding the PNG open blocks the
-    # truncating save (OSError EINVAL) but not the atomic replace, so this keeps a
-    # stale lock from aborting the run before the scale check.
-    tmp = CONTACT_PNG.with_name(f"{CONTACT_PNG.stem}.tmp.png")
-    canvas.save(tmp)
-    os.replace(tmp, CONTACT_PNG)
-
-
-# --------------------------------------------------------------------------
 # Verification
 # --------------------------------------------------------------------------
 
@@ -299,73 +279,122 @@ def verify_tiling(records):
                 f"{page.title} tile ({c},{r}): transform not found in emitted sheet")
 
 
-def verify_scale():
-    """Rasterise the cover (page 1) at 300 dpi and measure both bars back."""
-    doc = pdfium.PdfDocument(str(OUT_PDF))
-    img = doc[0].render(scale=300.0 / 72.0).to_pil().convert("L")
-    px = img.load()
-    W, H = img.size
-    PPM = 300.0 / 25.4                       # pixels per millimetre
-
-    def measure(y_mm, x0_mm, length_mm):
-        yc = int(round(y_mm * PPM))
-        half = 12                            # ~1 mm band: the bar line, not its labels
-        xs = []
-        for yy in range(max(0, yc - half), min(H, yc + half)):
-            for xx in range(int((x0_mm - 2) * PPM), int((x0_mm + length_mm + 2) * PPM)):
-                if px[xx, yy] < 128:
-                    xs.append(xx)
-        # Ink extent includes the 0.5 mm stroke (0.25 mm each end), so the span
-        # runs ~0.5 mm longer than the geometric length; +-1 mm tolerance covers
-        # that plus anti-aliasing while still catching any real scale drift.
-        return None if not xs else (max(xs) - min(xs)) / PPM
-
-    # The cover is the first logical page, placed whole at (MARGIN, MARGIN), so
-    # its bars -- drawn at x0=40, y=70 / y=115 in page coords -- sit at
-    # x0=40+MARGIN, y=70+MARGIN / y=115+MARGIN on the sheet.
-    mm_len = measure(70.0 + MARGIN, 40.0 + MARGIN, 100.0)
-    in_len = measure(115.0 + MARGIN, 40.0 + MARGIN, 101.6)
-    return mm_len, in_len
+def verify_sheets(sheets):
+    """Each emitted sheet declares exactly the paper size (one sheet per tile is
+    already asserted in verify_tiling)."""
+    for i, svg in enumerate(sheets, 1):
+        om = _SVG_OPEN.search(svg)
+        assert om, f"sheet-{i:03d}: no <svg> root element"
+        open_tag = om.group(0)
+        wm = re.search(r'\bwidth="([^"]+)"', open_tag)
+        hm = re.search(r'\bheight="([^"]+)"', open_tag)
+        assert wm and hm, f"sheet-{i:03d}: <svg> is missing width/height"
+        w, h = parse_mm(wm.group(1)), parse_mm(hm.group(1))
+        assert abs(w - PAPER_W) < 1e-6 and abs(h - PAPER_H) < 1e-6, (
+            f"sheet-{i:03d}: {w}x{h} mm != paper {PAPER_W}x{PAPER_H} mm")
 
 
 # --------------------------------------------------------------------------
 # Main
 # --------------------------------------------------------------------------
 
+def _parse_paper(s):
+    """'WxH' (e.g. '279.4x215.9' or '297x210') -> (W, H) floats."""
+    m = re.match(r"^\s*([\d.]+)\s*[xX]\s*([\d.]+)\s*$", s)
+    assert m, f"--paper must be WxH (e.g. 279.4x215.9), got {s!r}"
+    return float(m.group(1)), float(m.group(2))
+
+
+def _paper_label():
+    """The sheet name for the summary line: Letter/A4 for the two sizes the
+    pipeline is exercised with, the dimensions otherwise."""
+    if (PAPER_W, PAPER_H) == (279.4, 215.9):
+        return "Letter"
+    if (PAPER_W, PAPER_H) == (297.0, 210.0):
+        return "A4"
+    return f"{fmt(PAPER_W)}x{fmt(PAPER_H)} mm"
+
+
 def main():
-    page_paths = sorted(PAGES_DIR.glob("page-*.svg"))
-    assert page_paths, f"no logical pages found in {PAGES_DIR} — run make_logical_pages.py first"
+    ap = argparse.ArgumentParser(
+        description="Lay logical pages out onto print sheets (one sheet per tile).")
+    ap.add_argument("--paper", default=f"{PAPER_W}x{PAPER_H}",
+                    help="sheet size in mm, WxH (default: %(default)s)")
+    ap.add_argument("--margin", type=float, default=MARGIN,
+                    help="unprintable border, mm (default: %(default)s)")
+    ap.add_argument("--overlap", type=float, default=OVERLAP,
+                    help="printed twice on adjacent tiles, mm (default: %(default)s)")
+    ap.add_argument("--slack", type=float, default=FIT_SLACK,
+                    help="overshoot that still gets one sheet, mm (default: %(default)s)")
+    ap.add_argument("--pages-dir", default=str(PAGES_DIR),
+                    help="logical-pages source directory (default: %(default)s)")
+    ap.add_argument("--out-dir", default=str(SHEETS_DIR),
+                    help="sheet SVGs + manifest directory (default: %(default)s)")
+    args = ap.parse_args()
+
+    paper_w, paper_h = _parse_paper(args.paper)
+    _set_geometry(paper_w, paper_h, args.margin, args.overlap, args.slack)
+
+    pages_dir = Path(args.pages_dir)
+    out_dir = Path(args.out_dir)
+
+    page_paths = sorted(pages_dir.glob("page-*.svg"))
+    assert page_paths, f"no logical pages found in {pages_dir} — run make_logical_pages.py first"
     pages = [read_page(p) for p in page_paths]
-    print(f"read {len(pages)} logical pages from {PAGES_DIR}")
+    print(f"read {len(pages)} logical pages from {pages_dir}")
+
+    out_dir.mkdir(parents=True, exist_ok=True)
+    # Clear only this script's own output: the sheet SVGs it is about to rewrite,
+    # plus its manifest. sheet-*.pdf belongs to sheets_to_pdf.py and is left alone
+    # (splitting this cleanup out of the old render_sheets() is the one edit that
+    # must not be a copy/paste of the old loop that unlinked both kinds).
+    manifest_path = out_dir / MANIFEST.name
+    for p in out_dir.glob("sheet-*.svg"):
+        p.unlink()
+    if manifest_path.exists():
+        manifest_path.unlink()
 
     records = []
     sheets = []
+    manifest_sheets = []
     for i, page in enumerate(pages, 1):
         page_sheets, tiles, cols, rows = build_sheets(page)
         records.append((page, page_sheets, tiles, cols, rows))
-        sheets.extend(page_sheets)
+        for (tr, c, r), svg in zip(tiles, page_sheets):
+            sheet_no = len(sheets) + 1
+            sheets.append(svg)
+            manifest_sheets.append({
+                "file": f"sheet-{sheet_no:03d}.svg",
+                "page": f"page-{i:03d}.svg",
+                "title": page.title,
+                "tile": r * cols + c + 1,
+                "cols": cols,
+                "rows": rows,
+                "transform": tr,
+            })
         where = "fit" if (cols, rows) == (1, 1) else f"tiled {cols}x{rows}"
         print(f"  page-{i:03d}  {page.W:7.1f} x {page.H:7.1f} mm  {where:10s}  {page.title}")
 
     verify_tiling(records)
     print("tiling structural check: OK")
+    verify_sheets(sheets)
+    print("sheet size check: OK")
 
-    n = render_sheets(sheets)
-    print(f"wrote {n} sheets -> {OUT_PDF}")
+    for sheet_no, svg in enumerate(sheets, 1):
+        sp = out_dir / f"sheet-{sheet_no:03d}.svg"
+        sp.write_text(svg, encoding="utf-8")
+    print(f"wrote {len(sheets)} sheets -> {out_dir}")
 
-    contact_sheet(n)
-    print(f"contact sheet -> {CONTACT_PNG}")
-
-    mm_len, in_len = verify_scale()
-    print("\nverification:")
-    ok_mm = mm_len is not None and abs(mm_len - 100.0) < 1.0
-    ok_in = in_len is not None and abs(in_len - 101.6) < 1.0
-    print(f"  cover 100 mm bar measured {mm_len} mm   -> {'OK' if ok_mm else 'FAIL'}")
-    print(f"  cover 4 in  bar measured {in_len} mm   -> {'OK' if ok_in else 'FAIL'}")
-    assert ok_mm and ok_in, "scale verification FAILED"
+    manifest = {
+        "paper": {"w": PAPER_W, "h": PAPER_H},
+        "margin": MARGIN,
+        "stride": {"x": stride_x, "y": stride_y},
+        "sheets": manifest_sheets,
+    }
+    manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
 
     n_tiled = sum(1 for _, s, t, c, r in records if (c, r) != (1, 1))
-    print(f"\n{len(pages)} logical pages -> {n} Letter sheets "
+    print(f"\n{len(pages)} logical pages -> {len(sheets)} {_paper_label()} sheets "
           f"({n_tiled} tiled, {len(pages) - n_tiled} fit)")
     print("all checks passed")
 
