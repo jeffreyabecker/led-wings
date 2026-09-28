@@ -1047,7 +1047,12 @@ def rotated_bbox(w, h, deg):
 
 def placed_transform(w, h, deg, x, y):
     """Transform that rotates a [0,w]x[0,h] box by deg about its centre and puts
-    the rotated box's top-left at (x, y)."""
+    the rotated box's top-left at (x, y).
+
+    (x, y) is the position on the page; there is no separate offset, because a
+    caller that wants one writes it into x and y. An earlier cut of the shelf
+    added a second offset parameter and got the two mixed up, which put whole
+    rows off the top or bottom of the page."""
     if deg == 0.0:
         return f"translate({fmt(x)} {fmt(y)})"
     cx, cy = w / 2.0, h / 2.0
@@ -1057,27 +1062,121 @@ def placed_transform(w, h, deg, x, y):
     return f"translate({fmt(tx)} {fmt(ty)}) rotate({fmt(deg)} {fmt(cx)} {fmt(cy)})"
 
 
-def shelf(names, frags, rotate, pad):
-    """Lay named fragments out left-to-right, wrapping at MAX_WIDTH.
+def _frag_ink_box(frag):
+    """(x0, y0, x1, y1) of a built fragment's ink, or None if it has none.
 
-    Returns (content, MAX_WIDTH, page_height); the page is the union of the
-    placed boxes. `rotate` is clockwise about each fragment's centre; `pad` is
-    the gap between neighbours (the wrap gap is always PAD)."""
-    placed = []
-    x = y = 0.0
-    row_h = 0.0
-    max_y = 0.0
+    A fragment is a tree of groups each carrying a translate, rotate or scale,
+    with the actual geometry on <path>s below. Composing those transforms down
+    the tree and taking the control-point bbox gives a box that contains the ink
+    (see _path_points). Text is skipped: the only text in a fragment is a label
+    the builder centres on the box it reports, so it cannot pull the ink out.
+
+    The box stays 2D on purpose. Keeping only the x-extent and re-applying it at
+    y=0 -- which this did first -- is wrong the moment a row is rotated, because
+    a quarter turn maps y onto x and the box collapses to a point."""
+    def walk(el, m):
+        m = _mul(m, transform_matrix(el.get("transform") or ""))
+        pts = []
+        if el.tag == f"{SVG_NS}path":
+            pts = [_apply_matrix(m, x, y)
+                   for (x, y) in _path_points(el.get("d"))]
+        for child in el:
+            pts += walk(child, m)
+        return pts
+
+    pts = walk(ET.fromstring(f'<svg xmlns="http://www.w3.org/2000/svg">{frag}</svg>'),
+               _IDENT)
+    return bbox(pts)
+
+
+def _placed_box(box, at):
+    """The horizontal extent of an ink box after the transform `at`."""
+    x0, y0, x1, y1 = box
+    xs = [_apply_matrix(at, px, py)[0]
+          for px in (x0, x1) for py in (y0, y1)]
+    return min(xs), max(xs)
+
+
+def _row(names, frags, rotate, pad, row_h, shift=0.0, dy=0.0):
+    """One shelf row. Returns (entries, ink_lo, ink_hi).
+
+    An entry is (frag, transform, rotated_height). The transform puts the
+    fragment in the page frame directly -- there is no per-row wrapper group --
+    so `shift` moves the row's ink to where it belongs: it is a length, applied
+    to the fragment's own transform.
+
+    `row_h` must be the row's height, known before the fragments are placed: a
+    turned fragment is positioned by its rotated box's BOTTOM edge, so it cannot
+    be measured without it. shelf() finds it in a first pass.
+
+    The ink box comes back in the same frame, which is what lets shelf() centre a
+    row on its ink instead of on the fragments' declared widths. Those differ: a
+    mirrored pair is reported as 2W+GAP wide, while a label like "MC3/MC4" forces
+    W up past what the outlines span, so centring the boxes leaves the ink a few
+    millimetres off centre."""
+    entries, x, lo, hi = [], 0.0, None, None
     for name in names:
         frag, w, h = frags[name]
         RW, RH = rotated_bbox(w, h, rotate)
-        if x > 0 and x + RW > MAX_WIDTH:      # no room in this row -> wrap
-            y += row_h + PAD
-            x = 0.0
-            row_h = 0.0
-        placed.append((frag, placed_transform(w, h, rotate, x, y)))
+        if entries and x + RW > MAX_WIDTH:    # no room in this row -> wrap
+            break
+        # (shift + x, dy) is where the fragment's box goes on the page. One
+        # transform, built once: appending a second translate to a transform
+        # string is valid SVG but cairosvg drops it, which silently moved rows
+        # off the page.
+        tr = placed_transform(w, h, rotate, shift + x, dy)
+        at = transform_matrix(tr)
+        box = _frag_ink_box(frag)
+        if box is not None:
+            # the ink, through the very transform the fragment is drawn with
+            bx0, bx1 = _placed_box(box, at)
+            lo = bx0 if lo is None else min(lo, bx0)
+            hi = bx1 if hi is None else max(hi, bx1)
+        entries.append((frag, tr, RH))
         x += RW + pad
-        row_h = max(row_h, RH)
-        max_y = max(max_y, y + RH)
+    return entries, lo, hi
+
+
+def _row_box(names, frags, rotate, pad):
+    """(entries, row_height, ink_lo, ink_hi) for a row laid out from x=0."""
+    probe, _, _ = _row(names, frags, rotate, pad, row_h=0.0)
+    if not probe:
+        return probe, 0.0, None, None
+    row_h = max(rh for _, _, rh in probe)
+    entries, lo, hi = _row(names, frags, rotate, pad, row_h, shift=0.0)
+    return entries, row_h, lo, hi
+
+
+def shelf(names, frags, rotate, pad):
+    """Lay named fragments out left-to-right, wrapping at MAX_WIDTH.
+
+    Returns (content, MAX_WIDTH, page_height). `rotate` is clockwise about each
+    fragment's centre; `pad` is the gap between neighbours (the wrap gap is
+    always PAD).
+
+    Each row is centred in the 260 mm page rather than started at its left edge.
+    The page is MAX_WIDTH wide whatever the content, so a row that does not fill
+    it used to leave all its slack on the right -- up to 64 mm of it on
+    page-017 -- and pages_to_pdf.py places a page at the sheet's left margin, so
+    that slack printed as a visible gap.
+
+    Rows are laid out independently, which they always were: since each row is
+    centred on its own ink, two rows of a wrapping page can start at different x
+    and their columns no longer line up."""
+    placed, y, max_y = [], 0.0, 0.0
+    rest = list(names)
+    while rest:
+        # lay the row out from x=0 to find where its ink falls, then re-lay it
+        # with the shift that puts that ink in the middle of the page and y at
+        # the top of the row it belongs to
+        entries, row_h, lo, hi = _row_box(rest, frags, rotate, pad)
+        shift = 0.0 if lo is None else (MAX_WIDTH - (hi - lo)) / 2.0 - lo
+        entries, _, _ = _row(rest, frags, rotate, pad, row_h, shift, dy=y)
+        rest = rest[len(entries):]
+        placed += [(frag, tr) for frag, tr, _ in entries]
+        max_y = max(max_y, y + row_h)
+        y += row_h + PAD
+
     content = "".join(f'<g transform="{tr}">{frag}</g>' for frag, tr in placed)
     return content, MAX_WIDTH, max_y
 
