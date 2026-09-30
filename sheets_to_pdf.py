@@ -44,7 +44,10 @@ def main():
     for svg in svgs:
         writer.append(str(svg.with_suffix(".pdf")))
 
-    writer.write(str(args.out))
+    # Atomic replace: a viewer holding the PDF open blocks a truncating save.
+    tmp = Path(args.out).with_name(f"{Path(args.out).stem}.tmp.pdf")
+    writer.write(str(tmp))
+    os.replace(tmp, args.out)
     print(f"merged {len(svgs)} sheets -> {args.out}")
 
 

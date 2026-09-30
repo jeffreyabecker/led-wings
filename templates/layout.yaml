@@ -158,79 +158,88 @@ sheets:
       y: 134.204
 - title: P5
   dimensions:
-    width: 260.0
-    height: 234.009
+    width: 234.009
+    height: 203.108
   elements:
   - source-id: //g[@id="P5"]/path
     position:
-      x: 125.0
-      y: 0.0
+      x: 234.009
+      y: 98.554
     transform:
+      rotate: 90
       scale:
       - -1.0
       - 1.0
   - source-id: //g[@id="P5"]/path
     position:
-      x: 135.0
-      y: 0.0
+      x: 234.009
+      y: 104.554
+    transform:
+      rotate: 90
   - text: P5-left
     position:
-      x: 75.723
-      y: 117.005
+      x: 117.004
+      y: 49.277
   - text: P5-right
     position:
-      x: 184.277
-      y: 117.005
+      x: 117.004
+      y: 153.831
 - title: S1
   dimensions:
-    width: 260.0
-    height: 254.856
+    width: 254.856
+    height: 178.86
   elements:
   - source-id: //g[@id="S1"]/path
     position:
-      x: 125.0
-      y: 0.0
+      x: 254.856
+      y: 84.43
     transform:
+      rotate: 90
       scale:
       - -1.0
       - 1.0
   - source-id: //g[@id="S1"]/path
     position:
-      x: 135.0
-      y: 0.0
+      x: 254.856
+      y: 94.43
+    transform:
+      rotate: 90
   - text: S1-left
     position:
-      x: 82.785
-      y: 127.428
+      x: 127.428
+      y: 42.215
   - text: S1-right
     position:
-      x: 177.215
-      y: 127.428
+      x: 127.428
+      y: 136.645
 - title: S2
   dimensions:
-    width: 260.0
-    height: 250.442
+    width: 250.442
+    height: 173.988
   elements:
   - source-id: //g[@id="S2"]/path
     position:
-      x: 125.0
-      y: 0.0
+      x: 250.442
+      y: 81.994
     transform:
+      rotate: 90
       scale:
       - -1.0
       - 1.0
   - source-id: //g[@id="S2"]/path
     position:
-      x: 135.0
-      y: 0.0
+      x: 250.442
+      y: 91.994
+    transform:
+      rotate: 90
   - text: S2-left
     position:
-      x: 84.003
-      y: 125.221
+      x: 125.221
+      y: 40.997
   - text: S2-right
     position:
-      x: 175.997
-      y: 125.221
+      x: 125.221
+      y: 132.991
 - title: S3
   dimensions:
     width: 260.0
@@ -311,60 +320,54 @@ sheets:
       y: 96.077
 - title: B2
   dimensions:
-    width: 260.0
-    height: 208.485
+    width: 208.485
+    height: 160.18
   elements:
   - source-id: //g[@id="B2"]/path
     position:
-      x: 125.0
-      y: 208.485
+      x: 208.485
+      y: 0.0
     transform:
-      rotate: 90
       scale:
       - -1.0
       - 1.0
   - source-id: //g[@id="B2"]/path
     position:
-      x: 210.09
-      y: 0.0
-    transform:
-      rotate: 90
+      x: 0.0
+      y: 85.09
   - text: B2-left
     position:
-      x: 87.455
-      y: 104.242
+      x: 104.242
+      y: 37.545
   - text: B2-right
     position:
-      x: 172.545
-      y: 104.242
+      x: 104.242
+      y: 122.635
 - title: B3
   dimensions:
-    width: 260.0
-    height: 223.869
+    width: 223.869
+    height: 146.554
   elements:
   - source-id: //g[@id="B3"]/path
     position:
-      x: 125.0
-      y: 223.869
+      x: 223.869
+      y: 0.0
     transform:
-      rotate: 90
       scale:
       - -1.0
       - 1.0
   - source-id: //g[@id="B3"]/path
     position:
-      x: 203.277
-      y: 0.0
-    transform:
-      rotate: 90
+      x: 0.0
+      y: 78.277
   - text: B3-left
     position:
-      x: 90.862
-      y: 111.934
+      x: 111.934
+      y: 34.138
   - text: B3-right
     position:
-      x: 169.138
-      y: 111.934
+      x: 111.934
+      y: 112.416
 - title: A1/A2/A3
   dimensions:
     width: 260.0
@@ -815,9 +818,9 @@ sheets:
     position:
       x: 91.083
       y: 3
-- title: PC-align-left
+- title: PC-align+A-align-left
   dimensions:
-    width: 76.854
+    width: 152.413
     height: 136.548
   elements:
   - source-id: //g[@id="PC-align"]/g
@@ -828,9 +831,17 @@ sheets:
     position:
       x: 38.427
       y: 3
-- title: PC-align-right
+  - source-id: //g[@id="A-align"]/g
+    position:
+      x: 86.854
+      y: 0
+  - text: A-align
+    position:
+      x: 119.633
+      y: 3
+- title: PC-align+A-align-right
   dimensions:
-    width: 76.854
+    width: 152.413
     height: 136.548
   elements:
   - source-id: //g[@id="PC-align"]/g
@@ -845,27 +856,9 @@ sheets:
     position:
       x: 38.427
       y: 3
-- title: A-align-left
-  dimensions:
-    width: 65.559
-    height: 134.288
-  elements:
   - source-id: //g[@id="A-align"]/g
     position:
-      x: 0
-      y: 0
-  - text: A-align
-    position:
-      x: 32.779
-      y: 3
-- title: A-align-right
-  dimensions:
-    width: 65.559
-    height: 134.288
-  elements:
-  - source-id: //g[@id="A-align"]/g
-    position:
-      x: 65.559
+      x: 152.413
       y: 0
     transform:
       scale:
@@ -873,7 +866,7 @@ sheets:
       - 1.0
   - text: A-align
     position:
-      x: 32.779
+      x: 119.633
       y: 3
 - title: SC-align-left
   dimensions:
@@ -905,9 +898,9 @@ sheets:
     position:
       x: 71.674
       y: 3
-- title: MC-align-left
+- title: MC-align+LC-align-left
   dimensions:
-    width: 130.292
+    width: 236.862
     height: 114.492
   elements:
   - source-id: //g[@id="MC-align"]/g
@@ -918,9 +911,17 @@ sheets:
     position:
       x: 65.146
       y: 3
-- title: MC-align-right
+  - source-id: //g[@id="LC-align"]/g
+    position:
+      x: 140.292
+      y: 0
+  - text: LC-align
+    position:
+      x: 188.577
+      y: 3
+- title: MC-align+LC-align-right
   dimensions:
-    width: 130.292
+    width: 236.862
     height: 114.492
   elements:
   - source-id: //g[@id="MC-align"]/g
@@ -935,27 +936,9 @@ sheets:
     position:
       x: 65.146
       y: 3
-- title: LC-align-left
-  dimensions:
-    width: 96.57
-    height: 86.867
-  elements:
   - source-id: //g[@id="LC-align"]/g
     position:
-      x: 0
-      y: 0
-  - text: LC-align
-    position:
-      x: 48.285
-      y: 3
-- title: LC-align-right
-  dimensions:
-    width: 96.57
-    height: 86.867
-  elements:
-  - source-id: //g[@id="LC-align"]/g
-    position:
-      x: 96.57
+      x: 236.862
       y: 0
     transform:
       scale:
@@ -963,7 +946,7 @@ sheets:
       - 1.0
   - text: LC-align
     position:
-      x: 48.285
+      x: 188.577
       y: 3
 - title: S-align-left
   dimensions:
