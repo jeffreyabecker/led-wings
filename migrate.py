@@ -1,40 +1,38 @@
 #!/usr/bin/env python3
 """
-migrate.py -- one-time migration from the old script pipeline to the new
-declarative pipeline.
+migrate.py -- one-time transcription: write templates/layout.yaml from the
+corrected feathers-aggregate.svg.
 
-Reads the current feather geometry (via make_logical_pages.py's readers) and
-writes two artifacts:
-
-  templates/feathers-source.svg   prepared source: placement-ready groups
-  templates/layout.yaml           the spec: sheets + elements, transcribed
-
-This script is the *transcription* step from declarative-layout-plan.md. It is
-meant to be run once; afterwards the spec is the hand-editable artifact and
-assemble_sheets.py is the runtime. Nothing here is byte-for-byte magic -- it
-captures today's layout as explicit data so you can edit it.
+The source is now placement-ready (paths origin-framed, B family still
+horizontal and marked data-rot90="1"), so this only computes sizes and writes
+explicit sheet declarations. It makes no layout decisions beyond transcribing
+today's grouping; the spec is the hand-editable artifact afterwards.
 """
 
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import yaml
 
-import make_logical_pages as mlp
+import prepare_source as ps
 
 ROOT = Path(__file__).resolve().parent
 TEMPLATES = ROOT / "templates"
-SRC_OUT = TEMPLATES / "feathers-source.svg"
-SPEC_OUT = TEMPLATES / "layout.yaml"
+AGG = TEMPLATES / "feathers-aggregate.svg"
+SPEC = TEMPLATES / "layout.yaml"
+NS = "{http://www.w3.org/2000/svg}"
 
-GAP = mlp.GAP
-MAX_WIDTH = mlp.MAX_WIDTH
-PAD = mlp.PAD
-LABEL_BAND = mlp.LABEL_BAND
-BAND_LABEL_Y = mlp.BAND_LABEL_Y
+GAP = 10.0
+MAX_WIDTH = 260.0
+PAD = 8.0
+COVER_W = 260.0
+COVER_H = 205.9
 
 OUTPUT_STYLE = """\
 .outline { stroke: #000000; stroke-width: 0.5; fill: none; }
 .guide { stroke: #000000; stroke-width: 0.264583; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.arrow { stroke: #000000; stroke-width: 0.264583; fill: none; stroke-linecap: butt; stroke-linejoin: miter; }
+.mark { fill: #000000; stroke: none; }
 .label { font-family: sans-serif; fill: #000000; text-anchor: middle; dominant-baseline: middle; font-size: 5; }
 .title { font-family: sans-serif; fill: #000000; font-size: 9; text-anchor: middle; font-weight: bold; }
 .note { font-family: sans-serif; fill: #555555; font-size: 4; text-anchor: middle; }
@@ -43,58 +41,59 @@ OUTPUT_STYLE = """\
 .major { stroke: #000000; stroke-width: 0.5; }
 .num { font-family: sans-serif; fill: #000000; font-size: 3.5; text-anchor: middle; }
 .caltext { font-family: sans-serif; fill: #000000; font-size: 6; text-anchor: middle; font-weight: bold; }
-.arrow { stroke: #000000; stroke-width: 0.264583; fill: none; stroke-linecap: butt; stroke-linejoin: miter; }
-.arrowhead { fill: #000000; stroke: none; }
 """
+
+# Ordered section manifest, mirroring the old SECTIONS list.
+SECTIONS = [
+    ("cover", None),
+    ("pair", ["P1"]), ("pair", ["P2"]), ("pair", ["P3"]), ("pair", ["P4"]), ("pair", ["P5"]),
+    ("pair", ["S1"]), ("pair", ["S2"]), ("pair", ["S3"]), ("pair", ["S4"]),
+    ("pair", ["B1"]), ("pair", ["B2"]), ("pair", ["B3"]),
+    ("pair", ["A1", "A2", "A3"]),
+    ("pair", ["PC1", "PC2"]),
+    ("pair", ["SC1", "SC2"]), ("pair", ["SC3"]), ("pair", ["SC4"]),
+    ("pair", ["MC1", "MC2"]), ("pair", ["MC3", "MC4"]),
+    ("pair", ["LC1", "LC2", "LC3"]),
+    ("assembly", None),
+    ("align", ["B-align", "P-align", "PC-align", "A-align", "SC-align", "MC-align", "LC-align", "S-align"]),
+]
 
 
 def fmt(x):
     s = f"{float(x):.6f}"
     if "." in s:
         s = s.rstrip("0").rstrip(".")
+    if s in ("-0", "-0."):
+        return "0"
     return s
 
 
-def esc(s):
-    return (s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))
+def index_by_id(root):
+    return {e.get("id"): e for e in root.iter() if e.get("id")}
 
 
-def ruler(length, major_step, major_labels, minor_step, minor_count, unit):
-    """A calibration ruler in its own frame: bar at y=0, labels above/below."""
-    e = []
-    e.append(f'<line class="cal" x1="0" y1="0" x2="{fmt(length)}" y2="0"/>')
-    for k in range(minor_count + 1):
-        x = k * minor_step
-        e.append(f'<line class="minor" x1="{fmt(x)}" y1="-1.2" x2="{fmt(x)}" y2="1.2"/>')
-    for k, label in enumerate(major_labels):
-        x = k * major_step
-        e.append(f'<line class="major" x1="{fmt(x)}" y1="-3" x2="{fmt(x)}" y2="3"/>')
-        e.append(f'<text class="num" x="{fmt(x)}" y="7">{label}</text>')
-    e.append(f'<text class="caltext" x="{fmt(length / 2)}" y="-9">{unit}</text>')
-    return "".join(e)
+def extent(group):
+    """(w, h) of a group's origin-framed ink (control-point bbox top-right)."""
+    box = ps.ink_bbox(group)
+    assert box is not None, f"{group.get('id')}: no ink"
+    return box[2], box[3]
 
 
 def flow_layout(sizes, max_width=MAX_WIDTH, pad=PAD):
-    """Left-to-right wrapping layout; rows centered in max_width.
-
-    Returns ([(x, y, w, h), ...], total_height)."""
-    rows = []
-    cur = []
-    cur_w = 0.0
+    """Left-to-right wrapping layout; rows centered in max_width."""
+    rows, cur, cur_w = [], [], 0.0
     for w, h in sizes:
         add = w if not cur else pad + w
         if cur and cur_w + add > max_width:
             rows.append(cur)
-            cur = []
-            cur_w = 0.0
+            cur, cur_w = [], 0.0
             add = w
         cur.append((w, h))
         cur_w += add
     if cur:
         rows.append(cur)
 
-    out = []
-    y = 0.0
+    out, y = [], 0.0
     for row in rows:
         row_w = sum(w for w, _ in row) + pad * (len(row) - 1)
         row_h = max(h for _, h in row)
@@ -107,170 +106,117 @@ def flow_layout(sizes, max_width=MAX_WIDTH, pad=PAD):
     return out, total_h
 
 
-def feather_groups():
-    """Clean placement-ready groups for every feather the manifest names."""
-    names = []
-    for section in mlp.SECTIONS:
-        names += list(section.items)
-    feather_names = [n for n in names if n != mlp.PLACEMENT_GROUP and not n.endswith("-align")]
+def pair_elements(name, w, h, rot90, x, y):
+    """Elements for one mirrored pair at (x, y); w/h are the origin-framed extents.
+    rot90: the feather is stored horizontal (B family) and is rotated in place."""
+    if not rot90:
+        pw, ph = w, h
+        elems = [
+            {"source-id": f'//g[@id="{name}"]/path',
+             "position": {"x": round(x + w, 3), "y": round(y, 3)},
+             "transform": {"scale": [-1.0, 1.0]}},
+            {"source-id": f'//g[@id="{name}"]/path',
+             "position": {"x": round(x + w + GAP, 3), "y": round(y, 3)}},
+            {"text": f"{name}-left", "position": {"x": round(x + w / 2, 3), "y": round(y + h / 2, 3)}},
+            {"text": f"{name}-right", "position": {"x": round(x + w + GAP + w / 2, 3), "y": round(y + h / 2, 3)}},
+        ]
+        return elems, 2.0 * w + GAP, h
 
-    out = []
-    for name in feather_names:
-        f = mlp.read_feather(name)
-        d = mlp._path_d(name, mlp._def_group(name))
-        rt = mlp.right_transform(f)
-        out.append(f'<g id="{name}"><path class="outline" d="{esc(d)}" transform="{rt}"/></g>')
-    return out
-
-
-def build_source_svg():
-    groups = feather_groups()
-
-    # calibration rulers
-    metric = ruler(100.0, 10.0, [str(i * 10) for i in range(11)], 1.0, 100, "100 mm")
-    us = ruler(101.6, 25.4, ["0", "1", "2", "3", "4"], 25.4 / 8.0, 32, "4 in  (101.6 mm)")
-    groups.append(f'<g id="calibration-ruler-metric">{metric}</g>')
-    groups.append(f'<g id="calibration-ruler-us">{us}</g>')
-
-    # whole-wing placement template
-    item = mlp.read_placement()
-    groups.append(f'<g id="{mlp.PLACEMENT_GROUP}">{item.body}</g>')
-
-    # alignment overlays
-    for name in [n for s in mlp.SECTIONS for n in s.items if n.endswith("-align")]:
-        el = mlp._def_group(name)
-        ai = mlp.read_align(name, el)
-        groups.append(f'<g id="{name}-geometry">{ai.body}</g>')
-        groups.append(f'<g id="{name}-origins">{ai.origins}</g>')
-        groups.append(f'<g id="{name}-origins-flipped">{ai.origins_flipped}</g>')
-
-    body = "\n".join(f"  {g}" for g in groups)
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="1mm" height="1mm" '
-            f'viewBox="0 0 1 1">\n{body}\n</svg>\n')
-
-
-def pair_spec(name, Wp, Hp, x, y):
-    """Elements for one mirrored pair, placed with its top-left at (x, y)."""
+    # B family: horizontal, rotated 90 in place. placed width = h, placed height = w.
     elems = [
         {"source-id": f'//g[@id="{name}"]/path',
-         "position": {"x": round(x + Wp, 3), "y": round(y, 3)},
-         "transform": {"scale": [-1.0, 1.0]}},
+         "position": {"x": round(x + h, 3), "y": round(y + w, 3)},
+         "transform": {"rotate": 90, "scale": [-1.0, 1.0]}},
         {"source-id": f'//g[@id="{name}"]/path',
-         "position": {"x": round(x + Wp + GAP, 3), "y": round(y, 3)}},
-        {"text": f"{name}-left",
-         "position": {"x": round(x + Wp / 2.0, 3), "y": round(y + Hp / 2.0, 3)}},
-        {"text": f"{name}-right",
-         "position": {"x": round(x + Wp + GAP + Wp / 2.0, 3), "y": round(y + Hp / 2.0, 3)}},
+         "position": {"x": round(x + 2 * h + GAP, 3), "y": round(y, 3)},
+         "transform": {"rotate": 90}},
+        {"text": f"{name}-left", "position": {"x": round(x + h / 2, 3), "y": round(y + w / 2, 3)}},
+        {"text": f"{name}-right", "position": {"x": round(x + 1.5 * h + GAP, 3), "y": round(y + w / 2, 3)}},
     ]
-    return elems
+    return elems, 2.0 * h + GAP, w
 
 
-def feather_sheets():
+def feather_sheets(by_id):
     sheets = []
-    for section in mlp.SECTIONS:
-        if type(section).__name__ not in ("MirroredPairs", "MirroredPairsRot90"):
+    for kind, items in SECTIONS:
+        if kind != "pair":
             continue
-        # Build the pair fragments to know their placed sizes.
-        ctx = mlp.Context(frags=_frags(section.items), raw=_raw(section.items))
         sizes = []
-        for name in section.items:
-            item = ctx.raw[name]
-            Wp, Hp = item.W, item.H
-            sizes.append((2.0 * Wp + GAP, Hp))
+        for name in items:
+            g = by_id[name]
+            w, h = extent(g)
+            rot90 = (g.get("data-rot90") or "") == "1"
+            _, pw, ph = pair_elements(name, w, h, rot90, 0, 0)
+            sizes.append((pw, ph))
         positions, total_h = flow_layout(sizes)
         elems = []
-        for (name, (x, y, w, h)) in zip(section.items, positions):
-            Wp, Hp = ctx.raw[name].W, ctx.raw[name].H
-            elems += pair_spec(name, Wp, Hp, x, y)
+        for name, (x, y, _, _) in zip(items, positions):
+            g = by_id[name]
+            w, h = extent(g)
+            rot90 = (g.get("data-rot90") or "") == "1"
+            e, _, _ = pair_elements(name, w, h, rot90, x, y)
+            elems += e
         sheets.append({
-            "title": "/".join(section.items),
+            "title": "/".join(items),
             "dimensions": {"width": round(MAX_WIDTH, 3), "height": round(total_h, 3)},
             "elements": elems,
         })
     return sheets
 
 
-def _frags(items):
-    frags = {}
-    for name in items:
-        f = mlp.read_feather(name)
-        item = mlp.feather_item(f)
-        frag, w, h = mlp.build_pair(item)
-        frags[name] = (frag, w, h)
-    return frags
+def assembly_sheets(by_id):
+    g = by_id["assembly-template"]
+    W, H = extent(g)
+    label_x = W / 2
+    return [
+        {"title": "assembly-template-right",
+         "dimensions": {"width": round(W, 3), "height": round(H, 3)},
+         "elements": [
+             {"source-id": '//g[@id="assembly-template"]/g', "position": {"x": 0, "y": 0}},
+             {"text": "assembly-template right", "position": {"x": round(label_x, 3), "y": 3}},
+         ]},
+        {"title": "assembly-template-left",
+         "dimensions": {"width": round(W, 3), "height": round(H, 3)},
+         "elements": [
+             {"source-id": '//g[@id="assembly-template"]/g',
+              "position": {"x": round(W, 3), "y": 0},
+              "transform": {"scale": [-1.0, 1.0]}},
+             {"text": "assembly-template left", "position": {"x": round(label_x, 3), "y": 3}},
+         ]},
+    ]
 
 
-def _raw(items):
-    raw = {}
-    for name in items:
-        f = mlp.read_feather(name)
-        raw[name] = mlp.feather_item(f)
-    return raw
-
-
-def placement_sheets():
-    """outline-toplines -> two sheets (right, then left)."""
-    item = mlp.read_placement()
-    W, H = item.W, item.H
-    xr = W / 2.0
-    right = {
-        "title": "outline-toplines-right",
-        "dimensions": {"width": round(MAX_WIDTH, 3), "height": round(H, 3)},
-        "elements": [
-            {"source-id": f'//g[@id="{mlp.PLACEMENT_GROUP}"]', "position": {"x": 0, "y": 0}},
-            {"text": "outline-toplines right", "position": {"x": round(xr, 3), "y": 3}},
-        ],
-    }
-    left = {
-        "title": "outline-toplines-left",
-        "dimensions": {"width": round(MAX_WIDTH, 3), "height": round(H, 3)},
-        "elements": [
-            {"source-id": f'//g[@id="{mlp.PLACEMENT_GROUP}"]',
-             "position": {"x": round(W, 3), "y": 0},
-             "transform": {"scale": [-1.0, 1.0]}},
-            {"text": "outline-toplines left", "position": {"x": round(xr, 3), "y": 3}},
-        ],
-    }
-    return [right, left]
-
-
-def align_sheets():
+def align_sheets(by_id):
     sheets = []
-    names = [n for s in mlp.SECTIONS for n in s.items if n.endswith("-align")]
-    for name in names:
-        el = mlp._def_group(name)
-        ai = mlp.read_align(name, el)
-        W, H = ai.W, ai.H
-        down = LABEL_BAND - 1.0
-        note_x = W / 2.0
-        left = {
-            "title": f"{name}-left",
-            "dimensions": {"width": round(W, 3), "height": round(H + down, 3)},
-            "elements": [
-                {"source-id": f'//g[@id="{name}-geometry"]', "position": {"x": 0, "y": round(down, 3)}},
-                {"source-id": f'//g[@id="{name}-origins"]', "position": {"x": 0, "y": round(down, 3)}},
-                {"text": name, "position": {"x": round(note_x, 3), "y": round(BAND_LABEL_Y, 3)}},
-            ],
-        }
-        right = {
-            "title": f"{name}-right",
-            "dimensions": {"width": round(W, 3), "height": round(H + down, 3)},
-            "elements": [
-                {"source-id": f'//g[@id="{name}-geometry"]',
-                 "position": {"x": round(W, 3), "y": round(down, 3)},
-                 "transform": {"scale": [-1.0, 1.0]}},
-                {"source-id": f'//g[@id="{name}-origins-flipped"]', "position": {"x": 0, "y": round(down, 3)}},
-                {"text": name, "position": {"x": round(note_x, 3), "y": round(BAND_LABEL_Y, 3)}},
-            ],
-        }
-        sheets += [left, right]
+    for kind, names in SECTIONS:
+        if kind != "align":
+            continue
+        for name in names:
+            g = by_id[name]
+            W, H = extent(g)
+            sheets.append({
+                "title": f"{name}-left",
+                "dimensions": {"width": round(W, 3), "height": round(H, 3)},
+                "elements": [
+                    {"source-id": f'//g[@id="{name}"]/g', "position": {"x": 0, "y": 0}},
+                    {"text": name, "position": {"x": round(W / 2, 3), "y": 3}},
+                ]})
+            sheets.append({
+                "title": f"{name}-right",
+                "dimensions": {"width": round(W, 3), "height": round(H, 3)},
+                "elements": [
+                    {"source-id": f'//g[@id="{name}"]/g',
+                     "position": {"x": round(W, 3), "y": 0},
+                     "transform": {"scale": [-1.0, 1.0]}},
+                    {"text": name, "position": {"x": round(W / 2, 3), "y": 3}},
+                ]})
     return sheets
 
 
-def build_spec():
-    cover = {
+def cover_sheet():
+    return {
         "title": "cover",
-        "dimensions": {"width": round(MAX_WIDTH, 3), "height": 205.9},
+        "dimensions": {"width": COVER_W, "height": COVER_H},
         "elements": [
             {"text": "Feather templates — mirrored pairs",
              "position": {"x": 130, "y": 25}, "class": "title"},
@@ -281,6 +227,10 @@ def build_spec():
         ],
     }
 
+
+def build_spec():
+    root = ET.parse(AGG).getroot()
+    by_id = index_by_id(root)
     spec = {
         "source-file": "feathers-aggregate.svg",
         "paper": {
@@ -289,19 +239,17 @@ def build_spec():
             "overlap": 12.0,
         },
         "output-style": OUTPUT_STYLE,
-        "sheets": [cover] + feather_sheets() + placement_sheets() + align_sheets(),
+        "sheets": [cover_sheet()] + feather_sheets(by_id) + assembly_sheets(by_id) + align_sheets(by_id),
     }
     return spec
 
 
 def main():
-    SRC_OUT.write_text(build_source_svg(), encoding="utf-8")
     spec = build_spec()
-    SPEC_OUT.write_text(yaml.safe_dump(spec, sort_keys=False, allow_unicode=True,
-                                       default_flow_style=False, width=1000),
-                        encoding="utf-8")
-    print(f"wrote {SRC_OUT}")
-    print(f"wrote {SPEC_OUT} ({len(spec['sheets'])} sheets)")
+    SPEC.write_text(yaml.safe_dump(spec, sort_keys=False, allow_unicode=True,
+                                   default_flow_style=False, width=1000),
+                    encoding="utf-8")
+    print(f"wrote {SPEC} ({len(spec['sheets'])} sheets)")
 
 
 if __name__ == "__main__":
