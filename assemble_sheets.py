@@ -3,7 +3,7 @@
 assemble_sheets.py -- resolve / assemble / tile / verify / emit.
 
 Reads templates/layout.yaml (the spec) and the source file it names, and emits
-templates/print/sheets/sheet-NNN.svg + manifest.json for sheets_to_pdf.py.
+templates/print/sheets/sheet-NNN.svg, ordered so filename order is print order.
 
 The engine makes no layout decisions: it copies referenced geometry verbatim,
 applies the spec's position + transform, tiles each sheet's drawing area onto the
@@ -12,10 +12,8 @@ paper safe-area by a fixed rule, and fails loudly when the spec is malformed.
 
 import argparse
 import copy
-import json
 import math
 import re
-import sys
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
@@ -25,7 +23,6 @@ ROOT = Path(__file__).resolve().parent
 TEMPLATES = ROOT / "templates"
 PRINT_DIR = TEMPLATES / "print"
 SHEETS_DIR = PRINT_DIR / "sheets"
-MANIFEST = SHEETS_DIR / "manifest.json"
 DEFAULT_SPEC = TEMPLATES / "layout.yaml"
 
 # Physical-sheet CSS, added to the spec's output-style on every page.
@@ -415,66 +412,30 @@ def main():
     out_dir.mkdir(parents=True, exist_ok=True)
     for p in out_dir.glob("sheet-*.svg"):
         p.unlink()
-    if MANIFEST.exists():
-        MANIFEST.unlink()
 
     trim_w = float(paper["trim"]["width"])
     trim_h = float(paper["trim"]["height"])
-    safe_w = float(paper["safe-area"]["width"])
-    safe_h = float(paper["safe-area"]["height"])
-    margin_x = (trim_w - safe_w) / 2.0
-    margin_y = (trim_h - safe_h) / 2.0
 
-    manifest_sheets = []
-    scale_bars = []
     warnings = []
-    sheet_no = 0
+    n_sheets = 0
+    n_tiled = 0
 
     for sheet in spec["sheets"]:
         W = float(sheet["dimensions"]["width"])
         H = float(sheet["dimensions"]["height"])
         check_bounds(sheet, root, warnings)
         body = assemble_body(sheet, root)
-        pages, (cols, rows), fit_offset = tile(sheet["title"], W, H, body, style, paper)
+        pages, (cols, rows), _ = tile(sheet["title"], W, H, body, style, paper)
 
         for page_body, tr, tile_idx, c, r in pages:
-            sheet_no += 1
-            fn = f"sheet-{sheet_no:03d}.svg"
+            n_sheets += 1
+            fn = f"sheet-{n_sheets:03d}.svg"
             svg = sheet_svg(style, "", page_body, trim_w, trim_h)
             (out_dir / fn).write_text(svg, encoding="utf-8")
-            manifest_sheets.append({
-                "file": fn,
-                "title": sheet["title"],
-                "tile": tile_idx,
-                "cols": cols,
-                "rows": rows,
-                "transform": tr,
-                "dimensions": sheet["dimensions"],
-            })
+            if (cols, rows) != (1, 1):
+                n_tiled += 1
 
-        if sheet["title"] == "cover":
-            ox, oy = fit_offset
-            for el in sheet["elements"]:
-                if "source-id" not in el:
-                    continue
-                sid = el["source-id"]
-                if "metric" in sid:
-                    scale_bars.append({"label": "100 mm", "length": 100.0,
-                                       "x": ox + el["position"]["x"], "y": oy + el["position"]["y"]})
-                elif "us" in sid:
-                    scale_bars.append({"label": "4 in", "length": 101.6,
-                                       "x": ox + el["position"]["x"], "y": oy + el["position"]["y"]})
-
-    manifest = {
-        "paper": paper,
-        "margin": {"x": margin_x, "y": margin_y},
-        "scale-bars": scale_bars,
-        "sheets": manifest_sheets,
-    }
-    MANIFEST.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
-
-    n_tiled = sum(1 for s in manifest_sheets if (s["cols"], s["rows"]) != (1, 1))
-    print(f"wrote {len(manifest_sheets)} sheets ({n_tiled} tiled) -> {out_dir}")
+    print(f"wrote {n_sheets} sheets ({n_tiled} tiled) -> {out_dir}")
     if warnings:
         print(f"\n{len(warnings)} bounds warning(s):")
         for w in warnings:
