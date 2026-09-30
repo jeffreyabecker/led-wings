@@ -1,0 +1,1052 @@
+source-file: feathers-aggregate.svg
+paper:
+  trim:
+    width: 279.4
+    height: 215.9
+  safe-area:
+    width: 269.4
+    height: 205.9
+  overlap: 12.0
+output-style: '.outline { stroke: #000000; stroke-width: 0.5; fill: none; }
+
+  .guide { stroke: #000000; stroke-width: 0.264583; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+  .label { font-family: sans-serif; fill: #000000; text-anchor: middle; dominant-baseline: middle; font-size: 5; }
+
+  .title { font-family: sans-serif; fill: #000000; font-size: 9; text-anchor: middle; font-weight: bold; }
+
+  .note { font-family: sans-serif; fill: #555555; font-size: 4; text-anchor: middle; }
+
+  .cal { stroke: #000000; stroke-width: 0.5; }
+
+  .minor { stroke: #000000; stroke-width: 0.15; }
+
+  .major { stroke: #000000; stroke-width: 0.5; }
+
+  .num { font-family: sans-serif; fill: #000000; font-size: 3.5; text-anchor: middle; }
+
+  .caltext { font-family: sans-serif; fill: #000000; font-size: 6; text-anchor: middle; font-weight: bold; }
+
+  .arrow { stroke: #000000; stroke-width: 0.264583; fill: none; stroke-linecap: butt; stroke-linejoin: miter; }
+
+  .arrowhead { fill: #000000; stroke: none; }
+
+  '
+sheets:
+- title: cover
+  dimensions:
+    width: 260.0
+    height: 205.9
+  elements:
+  - text: Feather templates — mirrored pairs
+    position:
+      x: 130
+      y: 25
+    class: title
+  - text: Print at 100% / actual size. Do not fit or scale. Verify with the bars below.
+    position:
+      x: 130
+      y: 36
+    class: note
+  - source-id: //g[@id="calibration-ruler-metric"]
+    position:
+      x: 40
+      y: 70
+  - source-id: //g[@id="calibration-ruler-us"]
+    position:
+      x: 40
+      y: 115
+- title: P1
+  dimensions:
+    width: 260.0
+    height: 348.701
+  elements:
+  - source-id: //g[@id="P1"]/path
+    position:
+      x: 125.0
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="P1"]/path
+    position:
+      x: 135.0
+      y: 0.0
+  - text: P1-left
+    position:
+      x: 71.149
+      y: 174.35
+  - text: P1-right
+    position:
+      x: 188.851
+      y: 174.35
+- title: P2
+  dimensions:
+    width: 260.0
+    height: 344.392
+  elements:
+  - source-id: //g[@id="P2"]/path
+    position:
+      x: 125.0
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="P2"]/path
+    position:
+      x: 135.0
+      y: 0.0
+  - text: P2-left
+    position:
+      x: 87.207
+      y: 172.196
+  - text: P2-right
+    position:
+      x: 172.793
+      y: 172.196
+- title: P3
+  dimensions:
+    width: 260.0
+    height: 333.373
+  elements:
+  - source-id: //g[@id="P3"]/path
+    position:
+      x: 125.0
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="P3"]/path
+    position:
+      x: 135.0
+      y: 0.0
+  - text: P3-left
+    position:
+      x: 85.253
+      y: 166.687
+  - text: P3-right
+    position:
+      x: 174.747
+      y: 166.687
+- title: P4
+  dimensions:
+    width: 260.0
+    height: 271.906
+  elements:
+  - source-id: //g[@id="P4"]/path
+    position:
+      x: 125.0
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="P4"]/path
+    position:
+      x: 135.0
+      y: 0.0
+  - text: P4-left
+    position:
+      x: 81.263
+      y: 135.953
+  - text: P4-right
+    position:
+      x: 178.737
+      y: 135.953
+- title: P5
+  dimensions:
+    width: 260.0
+    height: 235.009
+  elements:
+  - source-id: //g[@id="P5"]/path
+    position:
+      x: 125.0
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="P5"]/path
+    position:
+      x: 135.0
+      y: 0.0
+  - text: P5-left
+    position:
+      x: 75.223
+      y: 117.505
+  - text: P5-right
+    position:
+      x: 184.777
+      y: 117.505
+- title: S1
+  dimensions:
+    width: 260.0
+    height: 255.856
+  elements:
+  - source-id: //g[@id="S1"]/path
+    position:
+      x: 125.0
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="S1"]/path
+    position:
+      x: 135.0
+      y: 0.0
+  - text: S1-left
+    position:
+      x: 82.285
+      y: 127.928
+  - text: S1-right
+    position:
+      x: 177.715
+      y: 127.928
+- title: S2
+  dimensions:
+    width: 260.0
+    height: 251.442
+  elements:
+  - source-id: //g[@id="S2"]/path
+    position:
+      x: 125.0
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="S2"]/path
+    position:
+      x: 135.0
+      y: 0.0
+  - text: S2-left
+    position:
+      x: 83.503
+      y: 125.721
+  - text: S2-right
+    position:
+      x: 176.497
+      y: 125.721
+- title: S3
+  dimensions:
+    width: 260.0
+    height: 202.353
+  elements:
+  - source-id: //g[@id="S3"]/path
+    position:
+      x: 125.0
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="S3"]/path
+    position:
+      x: 135.0
+      y: 0.0
+  - text: S3-left
+    position:
+      x: 83.487
+      y: 101.177
+  - text: S3-right
+    position:
+      x: 176.513
+      y: 101.177
+- title: S4
+  dimensions:
+    width: 260.0
+    height: 159.639
+  elements:
+  - source-id: //g[@id="S4"]/path
+    position:
+      x: 125.0
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="S4"]/path
+    position:
+      x: 135.0
+      y: 0.0
+  - text: S4-left
+    position:
+      x: 81.463
+      y: 79.82
+  - text: S4-right
+    position:
+      x: 178.537
+      y: 79.82
+- title: B1
+  dimensions:
+    width: 260.0
+    height: 193.155
+  elements:
+  - source-id: //g[@id="B1"]/path
+    position:
+      x: 125.0
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="B1"]/path
+    position:
+      x: 135.0
+      y: 0.0
+  - text: B1-left
+    position:
+      x: 84.123
+      y: 96.577
+  - text: B1-right
+    position:
+      x: 175.877
+      y: 96.577
+- title: B2
+  dimensions:
+    width: 260.0
+    height: 209.485
+  elements:
+  - source-id: //g[@id="B2"]/path
+    position:
+      x: 125.0
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="B2"]/path
+    position:
+      x: 135.0
+      y: 0.0
+  - text: B2-left
+    position:
+      x: 86.955
+      y: 104.742
+  - text: B2-right
+    position:
+      x: 173.045
+      y: 104.742
+- title: B3
+  dimensions:
+    width: 260.0
+    height: 224.869
+  elements:
+  - source-id: //g[@id="B3"]/path
+    position:
+      x: 125.0
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="B3"]/path
+    position:
+      x: 135.0
+      y: 0.0
+  - text: B3-left
+    position:
+      x: 88.833
+      y: 112.434
+  - text: B3-right
+    position:
+      x: 171.167
+      y: 112.434
+- title: A1/A2/A3
+  dimensions:
+    width: 260.0
+    height: 207.587
+  elements:
+  - source-id: //g[@id="A1"]/path
+    position:
+      x: 64.053
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="A1"]/path
+    position:
+      x: 74.053
+      y: 0.0
+  - text: A1-left
+    position:
+      x: 38.715
+      y: 63.744
+  - text: A1-right
+    position:
+      x: 99.391
+      y: 63.744
+  - source-id: //g[@id="A2"]/path
+    position:
+      x: 184.675
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="A2"]/path
+    position:
+      x: 194.675
+      y: 0.0
+  - text: A2-left
+    position:
+      x: 158.702
+      y: 57.53
+  - text: A2-right
+    position:
+      x: 220.649
+      y: 57.53
+  - source-id: //g[@id="A3"]/path
+    position:
+      x: 125.0
+      y: 135.488
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="A3"]/path
+    position:
+      x: 135.0
+      y: 135.488
+  - text: A3-left
+    position:
+      x: 102.552
+      y: 171.538
+  - text: A3-right
+    position:
+      x: 157.448
+      y: 171.538
+- title: PC1/PC2
+  dimensions:
+    width: 260.0
+    height: 126.533
+  elements:
+  - source-id: //g[@id="PC1"]/path
+    position:
+      x: 63.065
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="PC1"]/path
+    position:
+      x: 73.065
+      y: 0.0
+  - text: PC1-left
+    position:
+      x: 33.683
+      y: 63.266
+  - text: PC1-right
+    position:
+      x: 102.448
+      y: 63.266
+  - source-id: //g[@id="PC2"]/path
+    position:
+      x: 192.764
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="PC2"]/path
+    position:
+      x: 202.764
+      y: 0.0
+  - text: PC2-left
+    position:
+      x: 166.297
+      y: 56.637
+  - text: PC2-right
+    position:
+      x: 229.232
+      y: 56.637
+- title: SC1/SC2
+  dimensions:
+    width: 260.0
+    height: 156.796
+  elements:
+  - source-id: //g[@id="SC1"]/path
+    position:
+      x: 65.579
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="SC1"]/path
+    position:
+      x: 75.579
+      y: 0.0
+  - text: SC1-left
+    position:
+      x: 41.433
+      y: 78.398
+  - text: SC1-right
+    position:
+      x: 99.725
+      y: 78.398
+  - source-id: //g[@id="SC2"]/path
+    position:
+      x: 182.292
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="SC2"]/path
+    position:
+      x: 192.292
+      y: 0.0
+  - text: SC2-left
+    position:
+      x: 157.082
+      y: 75.929
+  - text: SC2-right
+    position:
+      x: 217.503
+      y: 75.929
+- title: SC3
+  dimensions:
+    width: 260.0
+    height: 142.169
+  elements:
+  - source-id: //g[@id="SC3"]/path
+    position:
+      x: 125.0
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="SC3"]/path
+    position:
+      x: 135.0
+      y: 0.0
+  - text: SC3-left
+    position:
+      x: 94.434
+      y: 71.085
+  - text: SC3-right
+    position:
+      x: 165.566
+      y: 71.085
+- title: SC4
+  dimensions:
+    width: 260.0
+    height: 150.066
+  elements:
+  - source-id: //g[@id="SC4"]/path
+    position:
+      x: 125.0
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="SC4"]/path
+    position:
+      x: 135.0
+      y: 0.0
+  - text: SC4-left
+    position:
+      x: 88.445
+      y: 75.033
+  - text: SC4-right
+    position:
+      x: 171.555
+      y: 75.033
+- title: MC1/MC2
+  dimensions:
+    width: 260.0
+    height: 130.072
+  elements:
+  - source-id: //g[@id="MC1"]/path
+    position:
+      x: 51.962
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="MC1"]/path
+    position:
+      x: 61.962
+      y: 0.0
+  - text: MC1-left
+    position:
+      x: 29.048
+      y: 58.628
+  - text: MC1-right
+    position:
+      x: 84.875
+      y: 58.628
+  - source-id: //g[@id="MC2"]/path
+    position:
+      x: 179.827
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="MC2"]/path
+    position:
+      x: 189.827
+      y: 0.0
+  - text: MC2-left
+    position:
+      x: 147.808
+      y: 65.036
+  - text: MC2-right
+    position:
+      x: 221.846
+      y: 65.036
+- title: MC3/MC4
+  dimensions:
+    width: 260.0
+    height: 120.334
+  elements:
+  - source-id: //g[@id="MC3"]/path
+    position:
+      x: 70.747
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="MC3"]/path
+    position:
+      x: 80.747
+      y: 0.0
+  - text: MC3-left
+    position:
+      x: 42.974
+      y: 60.167
+  - text: MC3-right
+    position:
+      x: 108.52
+      y: 60.167
+  - source-id: //g[@id="MC4"]/path
+    position:
+      x: 189.546
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="MC4"]/path
+    position:
+      x: 199.546
+      y: 0.0
+  - text: MC4-left
+    position:
+      x: 166.919
+      y: 50.539
+  - text: MC4-right
+    position:
+      x: 222.172
+      y: 50.539
+- title: LC1/LC2/LC3
+  dimensions:
+    width: 260.0
+    height: 183.826
+  elements:
+  - source-id: //g[@id="LC1"]/path
+    position:
+      x: 81.447
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="LC1"]/path
+    position:
+      x: 91.447
+      y: 0.0
+  - text: LC1-left
+    position:
+      x: 60.675
+      y: 43.914
+  - text: LC1-right
+    position:
+      x: 112.218
+      y: 43.914
+  - source-id: //g[@id="LC2"]/path
+    position:
+      x: 175.542
+      y: 0.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="LC2"]/path
+    position:
+      x: 185.542
+      y: 0.0
+  - text: LC2-left
+    position:
+      x: 158.266
+      y: 41.806
+  - text: LC2-right
+    position:
+      x: 202.819
+      y: 41.806
+  - source-id: //g[@id="LC3"]/path
+    position:
+      x: 125.0
+      y: 95.828
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="LC3"]/path
+    position:
+      x: 135.0
+      y: 95.828
+  - text: LC3-left
+    position:
+      x: 105.379
+      y: 139.827
+  - text: LC3-right
+    position:
+      x: 154.621
+      y: 139.827
+- title: outline-toplines-right
+  dimensions:
+    width: 260.0
+    height: 195.887
+  elements:
+  - source-id: //g[@id="outline-toplines"]
+    position:
+      x: 0
+      y: 0
+  - text: outline-toplines right
+    position:
+      x: 124.698
+      y: 3
+- title: outline-toplines-left
+  dimensions:
+    width: 260.0
+    height: 195.887
+  elements:
+  - source-id: //g[@id="outline-toplines"]
+    position:
+      x: 249.396
+      y: 0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - text: outline-toplines left
+    position:
+      x: 124.698
+      y: 3
+- title: B-align-left
+  dimensions:
+    width: 113.929
+    height: 308.567
+  elements:
+  - source-id: //g[@id="B-align-geometry"]
+    position:
+      x: 0
+      y: 6.0
+  - source-id: //g[@id="B-align-origins"]
+    position:
+      x: 0
+      y: 6.0
+  - text: B-align
+    position:
+      x: 56.965
+      y: 3.6
+- title: B-align-right
+  dimensions:
+    width: 113.929
+    height: 308.567
+  elements:
+  - source-id: //g[@id="B-align-geometry"]
+    position:
+      x: 113.929
+      y: 6.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="B-align-origins-flipped"]
+    position:
+      x: 0
+      y: 6.0
+  - text: B-align
+    position:
+      x: 56.965
+      y: 3.6
+- title: P-align-left
+  dimensions:
+    width: 183.356
+    height: 430.148
+  elements:
+  - source-id: //g[@id="P-align-geometry"]
+    position:
+      x: 0
+      y: 6.0
+  - source-id: //g[@id="P-align-origins"]
+    position:
+      x: 0
+      y: 6.0
+  - text: P-align
+    position:
+      x: 91.678
+      y: 3.6
+- title: P-align-right
+  dimensions:
+    width: 183.356
+    height: 430.148
+  elements:
+  - source-id: //g[@id="P-align-geometry"]
+    position:
+      x: 183.356
+      y: 6.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="P-align-origins-flipped"]
+    position:
+      x: 0
+      y: 6.0
+  - text: P-align
+    position:
+      x: 91.678
+      y: 3.6
+- title: PC-align-left
+  dimensions:
+    width: 76.168
+    height: 137.032
+  elements:
+  - source-id: //g[@id="PC-align-geometry"]
+    position:
+      x: 0
+      y: 6.0
+  - source-id: //g[@id="PC-align-origins"]
+    position:
+      x: 0
+      y: 6.0
+  - text: PC-align
+    position:
+      x: 38.084
+      y: 3.6
+- title: PC-align-right
+  dimensions:
+    width: 76.168
+    height: 137.032
+  elements:
+  - source-id: //g[@id="PC-align-geometry"]
+    position:
+      x: 76.168
+      y: 6.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="PC-align-origins-flipped"]
+    position:
+      x: 0
+      y: 6.0
+  - text: PC-align
+    position:
+      x: 38.084
+      y: 3.6
+- title: A-align-left
+  dimensions:
+    width: 60.081
+    height: 144.991
+  elements:
+  - source-id: //g[@id="A-align-geometry"]
+    position:
+      x: 0
+      y: 6.0
+  - source-id: //g[@id="A-align-origins"]
+    position:
+      x: 0
+      y: 6.0
+  - text: A-align
+    position:
+      x: 30.041
+      y: 3.6
+- title: A-align-right
+  dimensions:
+    width: 60.081
+    height: 144.991
+  elements:
+  - source-id: //g[@id="A-align-geometry"]
+    position:
+      x: 60.081
+      y: 6.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="A-align-origins-flipped"]
+    position:
+      x: 0
+      y: 6.0
+  - text: A-align
+    position:
+      x: 30.041
+      y: 3.6
+- title: SC-align-left
+  dimensions:
+    width: 145.595
+    height: 157.352
+  elements:
+  - source-id: //g[@id="SC-align-geometry"]
+    position:
+      x: 0
+      y: 6.0
+  - source-id: //g[@id="SC-align-origins"]
+    position:
+      x: 0
+      y: 6.0
+  - text: SC-align
+    position:
+      x: 72.797
+      y: 3.6
+- title: SC-align-right
+  dimensions:
+    width: 145.595
+    height: 157.352
+  elements:
+  - source-id: //g[@id="SC-align-geometry"]
+    position:
+      x: 145.595
+      y: 6.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="SC-align-origins-flipped"]
+    position:
+      x: 0
+      y: 6.0
+  - text: SC-align
+    position:
+      x: 72.797
+      y: 3.6
+- title: MC-align-left
+  dimensions:
+    width: 108.341
+    height: 133.984
+  elements:
+  - source-id: //g[@id="MC-align-geometry"]
+    position:
+      x: 0
+      y: 6.0
+  - source-id: //g[@id="MC-align-origins"]
+    position:
+      x: 0
+      y: 6.0
+  - text: MC-align
+    position:
+      x: 54.171
+      y: 3.6
+- title: MC-align-right
+  dimensions:
+    width: 108.341
+    height: 133.984
+  elements:
+  - source-id: //g[@id="MC-align-geometry"]
+    position:
+      x: 108.341
+      y: 6.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="MC-align-origins-flipped"]
+    position:
+      x: 0
+      y: 6.0
+  - text: MC-align
+    position:
+      x: 54.171
+      y: 3.6
+- title: LC-align-left
+  dimensions:
+    width: 100.383
+    height: 85.724
+  elements:
+  - source-id: //g[@id="LC-align-geometry"]
+    position:
+      x: 0
+      y: 6.0
+  - source-id: //g[@id="LC-align-origins"]
+    position:
+      x: 0
+      y: 6.0
+  - text: LC-align
+    position:
+      x: 50.191
+      y: 3.6
+- title: LC-align-right
+  dimensions:
+    width: 100.383
+    height: 85.724
+  elements:
+  - source-id: //g[@id="LC-align-geometry"]
+    position:
+      x: 100.383
+      y: 6.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="LC-align-origins-flipped"]
+    position:
+      x: 0
+      y: 6.0
+  - text: LC-align
+    position:
+      x: 50.191
+      y: 3.6
+- title: S-align-left
+  dimensions:
+    width: 186.404
+    height: 319.065
+  elements:
+  - source-id: //g[@id="S-align-geometry"]
+    position:
+      x: 0
+      y: 6.0
+  - source-id: //g[@id="S-align-origins"]
+    position:
+      x: 0
+      y: 6.0
+  - text: S-align
+    position:
+      x: 93.202
+      y: 3.6
+- title: S-align-right
+  dimensions:
+    width: 186.404
+    height: 319.065
+  elements:
+  - source-id: //g[@id="S-align-geometry"]
+    position:
+      x: 186.404
+      y: 6.0
+    transform:
+      scale:
+      - -1.0
+      - 1.0
+  - source-id: //g[@id="S-align-origins-flipped"]
+    position:
+      x: 0
+      y: 6.0
+  - text: S-align
+    position:
+      x: 93.202
+      y: 3.6

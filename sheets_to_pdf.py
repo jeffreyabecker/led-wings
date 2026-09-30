@@ -126,15 +126,12 @@ def _translate_offset(transform):
 
 
 def verify_scale(manifest, sheets_dir):
-    """Rasterise the cover sheet at 300 dpi and measure both bars back.
+    """Rasterise the cover sheet at 300 dpi and measure each calibration bar back.
 
-    Which sheet is the cover, and where on it the bars land, comes from the
-    manifest (the cover's `transform` offset) rather than from a hardcoded MARGIN
-    and doc[0]. The bars are drawn at page coords (40, 70) and (40, 115), so on
-    the sheet they sit at (40 + dx, 70 + dy) and (40 + dx, 115 + dy)."""
+    Bar positions and lengths come from the manifest (`scale-bars`), written by
+    assemble_sheets.py from the cover sheet's spec positions + centering offset."""
     cover = next((s for s in manifest["sheets"] if s.get("title") == "cover"), None)
     assert cover is not None, "manifest has no cover sheet"
-    dx, dy = _translate_offset(cover["transform"])
     cover_pdf = sheets_dir / (Path(cover["file"]).stem + ".pdf")
 
     doc = pdfium.PdfDocument(str(cover_pdf))
@@ -156,9 +153,11 @@ def verify_scale(manifest, sheets_dir):
         # that plus anti-aliasing while still catching any real scale drift.
         return None if not xs else (max(xs) - min(xs)) / PPM
 
-    mm_len = measure(70.0 + dy, 40.0 + dx, 100.0)
-    in_len = measure(115.0 + dy, 40.0 + dx, 101.6)
-    return mm_len, in_len
+    results = []
+    for bar in manifest.get("scale-bars", []):
+        results.append((bar["label"], bar["length"],
+                        measure(bar["y"], bar["x"], bar["length"])))
+    return results
 
 
 # --------------------------------------------------------------------------
@@ -170,7 +169,8 @@ def main():
     sheets = manifest["sheets"]
     assert sheets, "manifest lists no sheets"
     paper = manifest["paper"]
-    print(f"read manifest: {len(sheets)} sheets (paper {paper['w']} x {paper['h']} mm)")
+    trim = paper["trim"]
+    print(f"read manifest: {len(sheets)} sheets (paper {trim['width']} x {trim['height']} mm)")
 
     # Input contract: the sheet SVGs on disk match the manifest exactly, in
     # order, and each declares the manifest's paper size.
@@ -180,8 +180,8 @@ def main():
         f"sheet SVGs on disk ({len(on_disk)}) != manifest sheet list ({len(in_manifest)})")
     for s in sheets:
         w, h = _svg_size(SHEETS_DIR / s["file"])
-        assert abs(w - paper["w"]) < 1e-6 and abs(h - paper["h"]) < 1e-6, (
-            f"{s['file']}: {w}x{h} mm != manifest paper {paper['w']}x{paper['h']} mm")
+        assert abs(w - trim["width"]) < 1e-6 and abs(h - trim["height"]) < 1e-6, (
+            f"{s['file']}: {w}x{h} mm != manifest paper {trim['width']}x{trim['height']} mm")
 
     n = render_sheets(SHEETS_DIR, in_manifest)
     print(f"wrote {n} sheets -> {OUT_PDF}")
@@ -197,14 +197,15 @@ def main():
     contact_sheet(n)
     print(f"contact sheet -> {CONTACT_PNG}")
 
-    mm_len, in_len = verify_scale(manifest, SHEETS_DIR)
+    bars = verify_scale(manifest, SHEETS_DIR)
     print("\nverification:")
     print(f"  merged {n_merged} pages == {len(sheets)} sheets -> OK")
-    ok_mm = mm_len is not None and abs(mm_len - 100.0) < 1.0
-    ok_in = in_len is not None and abs(in_len - 101.6) < 1.0
-    print(f"  cover 100 mm bar measured {mm_len} mm   -> {'OK' if ok_mm else 'FAIL'}")
-    print(f"  cover 4 in  bar measured {in_len} mm   -> {'OK' if ok_in else 'FAIL'}")
-    assert ok_mm and ok_in, "scale verification FAILED"
+    all_ok = True
+    for label, length, measured in bars:
+        ok = measured is not None and abs(measured - length) < 1.0
+        all_ok = all_ok and ok
+        print(f"  cover {label} bar measured {measured} mm   -> {'OK' if ok else 'FAIL'}")
+    assert all_ok, "scale verification FAILED"
     print("all checks passed")
 
 
