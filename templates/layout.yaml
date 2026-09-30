@@ -159,7 +159,7 @@ sheets:
 - title: P5
   dimensions:
     width: 234.009
-    height: 203.108
+    height: 207.108
   elements:
   - source-id: //g[@id="P5"]/path
     position:
@@ -173,7 +173,7 @@ sheets:
   - source-id: //g[@id="P5"]/path
     position:
       x: 234.009
-      y: 104.554
+      y: 108.554
     transform:
       rotate: 90
   - text: P5-left
@@ -183,7 +183,7 @@ sheets:
   - text: P5-right
     position:
       x: 117.004
-      y: 153.831
+      y: 157.831
 - title: S1
   dimensions:
     width: 254.856
@@ -758,37 +758,40 @@ sheets:
     position:
       x: 127.525
       y: 3
-- title: B-align-left
+- title: Alignment B left
   dimensions:
-    width: 119.578
-    height: 247.466
+    width: 247.466
+    height: 119.578
   elements:
   - source-id: //g[@id="B-align"]/g
     position:
-      x: 0
-      y: 0
-  - text: B-align
-    position:
-      x: 59.789
-      y: 3
-- title: B-align-right
-  dimensions:
-    width: 119.578
-    height: 247.466
-  elements:
-  - source-id: //g[@id="B-align"]/g
-    position:
-      x: 119.578
+      x: 247.466
       y: 0
     transform:
+      rotate: 90
+  - text: B-align
+    position:
+      x: 123.733
+      y: 3
+- title: Alignment B right
+  dimensions:
+    width: 247.466
+    height: 119.578
+  elements:
+  - source-id: //g[@id="B-align"]/g
+    position:
+      x: 247.466
+      y: 119.578
+    transform:
+      rotate: 90
       scale:
       - -1.0
       - 1.0
   - text: B-align
     position:
-      x: 59.789
+      x: 123.733
       y: 3
-- title: P-align-left
+- title: Alignment P left
   dimensions:
     width: 182.165
     height: 353.014
@@ -801,7 +804,7 @@ sheets:
     position:
       x: 91.083
       y: 3
-- title: P-align-right
+- title: Alignment P right
   dimensions:
     width: 182.165
     height: 353.014
@@ -818,7 +821,7 @@ sheets:
     position:
       x: 91.083
       y: 3
-- title: PC-align+A-align-left
+- title: PC-align+Alignment A left
   dimensions:
     width: 152.413
     height: 136.548
@@ -839,7 +842,7 @@ sheets:
     position:
       x: 119.633
       y: 3
-- title: PC-align+A-align-right
+- title: PC-align+Alignment A right
   dimensions:
     width: 152.413
     height: 136.548
@@ -868,7 +871,7 @@ sheets:
     position:
       x: 119.633
       y: 3
-- title: SC-align-left
+- title: Alignment SC left
   dimensions:
     width: 143.349
     height: 187.746
@@ -881,7 +884,7 @@ sheets:
     position:
       x: 71.674
       y: 3
-- title: SC-align-right
+- title: Alignment SC right
   dimensions:
     width: 143.349
     height: 187.746
@@ -898,7 +901,7 @@ sheets:
     position:
       x: 71.674
       y: 3
-- title: MC-align+LC-align-left
+- title: MC-align+Alignment LC left
   dimensions:
     width: 236.862
     height: 114.492
@@ -919,7 +922,7 @@ sheets:
     position:
       x: 188.577
       y: 3
-- title: MC-align+LC-align-right
+- title: MC-align+Alignment LC right
   dimensions:
     width: 236.862
     height: 114.492
@@ -948,7 +951,7 @@ sheets:
     position:
       x: 188.577
       y: 3
-- title: S-align-left
+- title: Alignment S left
   dimensions:
     width: 179.373
     height: 263.208
@@ -961,7 +964,7 @@ sheets:
     position:
       x: 89.687
       y: 3
-- title: S-align-right
+- title: Alignment S right
   dimensions:
     width: 179.373
     height: 263.208
