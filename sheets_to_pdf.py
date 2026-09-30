@@ -7,7 +7,7 @@ Script 3 of the print pipeline: render the print sheets to PDF and merge them
 into one document.
 
 Reads templates/print/sheets/sheet-NNN.svg in manifest order (the manifest is
-written by make_print_sheets.py and records, for each sheet, its source page,
+written by assemble_sheets.py and records, for each sheet, its source sheet,
 title, tile grid, and content transform) and emits:
 
   templates/print/sheets/sheet-NNN.pdf        # per-sheet raster intermediates
@@ -74,9 +74,8 @@ def _svg_size(path):
 def render_sheets(sheets_dir, files):
     """Render each named sheet SVG to PDF and merge them, in `files` order.
 
-    Only sheet-*.pdf is cleared here: the SVGs belong to make_print_sheets.py
-    and are left untouched (splitting this out of the old render_sheets() that
-    unlinked both is the one edit that must not be a copy/paste)."""
+    Only sheet-*.pdf is cleared here: the SVGs belong to assemble_sheets.py
+    and are left untouched."""
     sheets_dir.mkdir(parents=True, exist_ok=True)
     PRINT_DIR.mkdir(parents=True, exist_ok=True)
     for p in sheets_dir.glob("sheet-*.pdf"):
