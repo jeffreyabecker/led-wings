@@ -26,8 +26,15 @@ SHEETS_DIR = PRINT_DIR / "sheets"
 DEFAULT_SPEC = TEMPLATES / "layout.yaml"
 
 # Physical-sheet CSS, added to the spec's output-style on every page.
+# Physical-sheet CSS, added to the spec's output-style on every page. `.overlap`
+# is deliberately lighter and dashed: it is a guide for lining up tiles, not ink.
 CSS2 = ("\n.crop { stroke: #999999; stroke-width: 0.25; }\n"
+        ".overlap { stroke: #999999; stroke-width: 0.15; stroke-dasharray: 2 2; fill: none; }\n"
         ".note { font-family: sans-serif; fill: #555555; font-size: 4; text-anchor: middle; }\n")
+
+# Corner registration ticks are inset this far into the safe area, so they print
+# fully instead of landing on the inkable edge where the printer may clip them.
+CROP_INSET = 5.0
 
 
 def fmt(x):
@@ -306,11 +313,15 @@ def overlap_pair(overlap):
 
 def corner_ticks(margin_x, margin_y, safe_w, safe_h):
     L = 5.0
+    lo_x = margin_x + CROP_INSET
+    hi_x = margin_x + safe_w - CROP_INSET
+    lo_y = margin_y + CROP_INSET
+    hi_y = margin_y + safe_h - CROP_INSET
     segs = []
-    for cx in (margin_x, margin_x + safe_w):
-        for cy in (margin_y, margin_y + safe_h):
-            sx = 1.0 if cx == margin_x else -1.0
-            sy = 1.0 if cy == margin_y else -1.0
+    for cx in (lo_x, hi_x):
+        for cy in (lo_y, hi_y):
+            sx = 1.0 if cx == lo_x else -1.0
+            sy = 1.0 if cy == lo_y else -1.0
             segs.append(f'<line class="crop" x1="{fmt(cx)}" y1="{fmt(cy)}" '
                         f'x2="{fmt(cx + sx * L)}" y2="{fmt(cy)}"/>')
             segs.append(f'<line class="crop" x1="{fmt(cx)}" y1="{fmt(cy)}" '
@@ -319,14 +330,25 @@ def corner_ticks(margin_x, margin_y, safe_w, safe_h):
 
 
 def overlap_marks(c, r, cols, rows, margin_x, margin_y, safe_w, safe_h, overlap_x, overlap_y):
+    """Dashed lines on BOTH halves of every overlap seam, so adjacent tiles can be
+    aligned by matching their two lines. A tile has a seam on each side where it
+    shares content with a neighbour (left/right/top/bottom)."""
     segs = []
-    if c < cols - 1:
+    if c < cols - 1:  # right seam (next tile repeats content on this edge)
         x = margin_x + safe_w - overlap_x
-        segs.append(f'<line class="crop" x1="{fmt(x)}" y1="{fmt(margin_y)}" '
+        segs.append(f'<line class="overlap" x1="{fmt(x)}" y1="{fmt(margin_y)}" '
                     f'x2="{fmt(x)}" y2="{fmt(margin_y + safe_h)}"/>')
-    if r < rows - 1:
+    if c > 0:  # left seam (this tile repeats the previous tile's content)
+        x = margin_x + overlap_x
+        segs.append(f'<line class="overlap" x1="{fmt(x)}" y1="{fmt(margin_y)}" '
+                    f'x2="{fmt(x)}" y2="{fmt(margin_y + safe_h)}"/>')
+    if r < rows - 1:  # bottom seam
         y = margin_y + safe_h - overlap_y
-        segs.append(f'<line class="crop" x1="{fmt(margin_x)}" y1="{fmt(y)}" '
+        segs.append(f'<line class="overlap" x1="{fmt(margin_x)}" y1="{fmt(y)}" '
+                    f'x2="{fmt(margin_x + safe_w)}" y2="{fmt(y)}"/>')
+    if r > 0:  # top seam
+        y = margin_y + overlap_y
+        segs.append(f'<line class="overlap" x1="{fmt(margin_x)}" y1="{fmt(y)}" '
                     f'x2="{fmt(margin_x + safe_w)}" y2="{fmt(y)}"/>')
     return "<g>" + "".join(segs) + "</g>" if segs else ""
 
