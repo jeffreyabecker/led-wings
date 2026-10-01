@@ -1,5 +1,8 @@
 import { parse } from 'yaml';
 import type { Element, Overlap, Project, Source, Transform } from './types';
+import { parseCss } from './css';
+
+export { parseCss };
 
 // Loose shapes of the legacy layout.yaml (the previous system's artifact).
 interface LegacyTextEl {
@@ -31,31 +34,6 @@ interface LegacyLayout {
   sheets?: LegacySheet[];
 }
 
-/** Parse the legacy output-style CSS block into structured class -> declarations. */
-export function parseCss(css: string): Record<string, Record<string, string>> {
-  const out: Record<string, Record<string, string>> = {};
-  const text = (css ?? '').replace(/\/\*[\s\S]*?\*\//g, '');
-  const ruleRe = /([^{}]+)\{([^{}]*)\}/g;
-  let m: RegExpExecArray | null;
-  while ((m = ruleRe.exec(text))) {
-    const selector = m[1].trim();
-    const cls = selector.match(/^\.([\w-]+)$/);
-    if (!cls) continue; // legacy output-style uses single-class rules only
-    const decls: Record<string, string> = {};
-    for (const part of m[2].split(';')) {
-      const t = part.trim();
-      if (!t) continue;
-      const i = t.indexOf(':');
-      if (i < 0) continue;
-      const prop = t.slice(0, i).trim();
-      const val = t.slice(i + 1).trim();
-      if (prop && val) decls[prop] = val;
-    }
-    out[cls[1]] = decls;
-  }
-  return out;
-}
-
 function mapTransform(t?: LegacySourceEl['transform']): Transform | undefined {
   if (!t) return undefined;
   const out: Transform = {};
@@ -82,11 +60,11 @@ export function importLayoutYaml(
 
   const sourceFileName = raw['source-file'] ?? '';
   const sourceId = 'source-1';
-  const sources: Source[] = [{
+  const source: Source = {
     id: sourceId,
     name: sourceFileName,
     svg: sourceFiles[sourceFileName] ?? '',
-  }];
+  };
 
   const paper = raw.paper;
   const papers: Project['papers'] = paper
@@ -141,9 +119,9 @@ export function importLayoutYaml(
       name: sourceFileName.replace(/\.svg$/i, '') || 'Imported layout',
       units: 'mm',
       defaultPaper: papers[0]?.id,
-      defaultSource: sources[0]?.id,
+      defaultSource: source.id,
     },
-    sources,
+    source,
     assets: [],
     styles,
     papers,

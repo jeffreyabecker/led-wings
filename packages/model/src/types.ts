@@ -91,7 +91,7 @@ export interface Output {
 
 export interface Project {
   meta: ProjectMeta;
-  sources: Source[];
+  source: Source;
   assets: Asset[];
   styles: Record<string, CssDecl>;
   papers: Paper[];

@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Element as ModelElement, Project, Sheet, Transform, Vec2 } from '../../packages/model/src/types';
 import { validateProject } from '../../packages/model/src/validate';
-import { assembleProject, flatten, type FlatSheet } from '../../packages/assembler/src/index';
+import { parseCss } from '../../packages/model/src/css';
+import { assembleProject, cssToText, flatten, type FlatSheet } from '../../packages/assembler/src/index';
 import { buildPaletteTree, renderElementPreview, renderSheetBody, sourceDocs, type PaletteNode } from './lib';
 import { downloadText, exportContactSheet, exportPdf, exportSvgs } from './export';
 
@@ -65,9 +66,11 @@ export function App() {
   const [selectedElementId, setSelectedElementId] = useState<string | null>(null);
   const [status, setStatus] = useState<string>('');
   const [preview, setPreview] = useState<{ sourceId: string; selector: string } | null>(null);
+  const [styleText, setStyleText] = useState('');
+  const stylesReady = useRef(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const dragRef = useRef<DragState | null>(null);
-  const [tab, setTab] = useState<'element' | 'sheets' | 'output'>('element');
+  const [tab, setTab] = useState<'element' | 'sheets' | 'styles' | 'output'>('element');
 
   useEffect(() => {
     (async () => {
@@ -75,17 +78,28 @@ export function App() {
         const res = await fetch('/templates/project.json');
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = (await res.json()) as Project;
+        stylesReady.current = true;
         setProject(data);
         setSelectedSheetId(data.sheets[0]?.id ?? null);
+        setStyleText(cssToText(data.styles));
       } catch (e) {
         setStatus('Could not load the default project: ' + (e as Error).message + '. Use Open to load a project.json.');
       }
     })();
   }, []);
 
+  // Parse the style textarea back into the structured styles map (debounced).
+  useEffect(() => {
+    if (!stylesReady.current) return;
+    const id = setTimeout(() => {
+      setProject((p) => (p ? { ...p, styles: parseCss(styleText) } : p));
+    }, 250);
+    return () => clearTimeout(id);
+  }, [styleText]);
+
   const flat = useMemo(() => (project ? flatten(project, sourceDocs(project)) : null), [project]);
   const validation = useMemo(() => (project ? validateProject(project) : []), [project]);
-  const palette = useMemo(() => (project ? buildPaletteTree(project) : []), [project?.sources]);
+  const palette = useMemo(() => (project ? buildPaletteTree(project) : []), [project?.source]);
 
   // Full assembly (tiling + warnings) is debounced so drag/typing stays responsive.
   const [engine, setEngine] = useState<ReturnType<typeof assembleProject> | null>(null);
@@ -198,6 +212,8 @@ export function App() {
     if (selectedSheetId === id) setSelectedSheetId(sheets[0]?.id ?? null);
   }
 
+
+
   function onPointerDown(e: React.PointerEvent<SVGSVGElement>) {
     const target = (e.target as Element).closest?.('[data-eid]');
     if (!target) {
@@ -248,9 +264,11 @@ export function App() {
     reader.onload = () => {
       try {
         const data = JSON.parse(reader.result as string) as Project;
+        stylesReady.current = true;
         setProject(data);
         setSelectedSheetId(data.sheets[0]?.id ?? null);
         setSelectedElementId(null);
+        setStyleText(cssToText(data.styles));
         setStatus('Loaded ' + f.name);
       } catch (err) {
         setStatus('Failed to parse project: ' + (err as Error).message);
@@ -323,6 +341,7 @@ export function App() {
           <div className="tab-bar">
             <button className={'tab' + (tab === 'element' ? ' active' : '')} onClick={() => setTab('element')}>Element</button>
             <button className={'tab' + (tab === 'sheets' ? ' active' : '')} onClick={() => setTab('sheets')}>Sheets</button>
+            <button className={'tab' + (tab === 'styles' ? ' active' : '')} onClick={() => setTab('styles')}>Styles</button>
             <button className={'tab' + (tab === 'output' ? ' active' : '')} onClick={() => setTab('output')}>Output</button>
           </div>
 
@@ -399,6 +418,18 @@ export function App() {
                 <button disabled={!selectedSheetId} onClick={() => selectedSheetId && duplicateSheet(selectedSheetId)}>Duplicate</button>
                 <button disabled={!selectedSheetId} onClick={() => selectedSheetId && deleteSheet(selectedSheetId)}>Delete</button>
               </div>
+            </>
+          )}
+
+          {tab === 'styles' && (
+            <>
+              <h2>Styles (CSS)</h2>
+              <textarea
+                className="style-text"
+                value={styleText}
+                onChange={(e) => setStyleText(e.target.value)}
+                spellCheck={false}
+              />
             </>
           )}
 

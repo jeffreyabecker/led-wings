@@ -48,7 +48,7 @@ export function assembleProject(
     return { pages: [], warnings: [], errors: [{ path: 'papers', message: 'no paper defined' }], sheetCount: 0, tiledPages: 0 };
   }
 
-  const sources = new Map(project.sources.map((s) => [s.id, parseSvg(s.svg)]));
+  const sources = new Map([[project.source.id, parseSvg(project.source.svg)]]);
   const { sheets, errors } = flatten(project, sources);
   if (errors.length) {
     return { pages: [], warnings: [], errors, sheetCount: 0, tiledPages: 0 };

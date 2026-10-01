@@ -83,6 +83,21 @@ html, body, #root {
 .sheet-row:hover:not(.active) { border-color: var(--accent); }
 .sheet-row.active { background: var(--accent); border-color: var(--accent); }
 
+.style-text {
+  width: 100%;
+  min-height: 320px;
+  resize: vertical;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 5px;
+  padding: 8px;
+  font-family: "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  white-space: pre;
+}
+
 .panel {
   background: var(--panel);
   border-right: 1px solid var(--border);

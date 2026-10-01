@@ -15,14 +15,13 @@ const docCache = new Map<string, Document>();
 
 export function sourceDocs(project: Project): Map<string, Document> {
   const map = new Map<string, Document>();
-  for (const s of project.sources) {
-    let doc = docCache.get(s.id);
-    if (!doc) {
-      doc = parseSvg(s.svg);
-      docCache.set(s.id, doc);
-    }
-    map.set(s.id, doc);
+  const s = project.source;
+  let doc = docCache.get(s.id);
+  if (!doc) {
+    doc = parseSvg(s.svg);
+    docCache.set(s.id, doc);
   }
+  map.set(s.id, doc);
   return map;
 }
 
@@ -72,9 +71,9 @@ function buildNode(el: Element, sourceId: string, parentSelector: string | null)
 /** Build the source SVG's element hierarchy as a collapsible tree. */
 export function buildPaletteTree(project: Project): PaletteNode[] {
   const roots: PaletteNode[] = [];
-  for (const src of project.sources) {
-    const svgEl = parseSvg(src.svg).documentElement;
-    if (!svgEl) continue;
+  const src = project.source;
+  const svgEl = parseSvg(src.svg).documentElement;
+  if (svgEl) {
     for (const child of Array.from(svgEl.children)) {
       const node = buildNode(child, src.id, null);
       if (node) roots.push(node);

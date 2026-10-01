@@ -49,12 +49,13 @@ export function validateProject(p: Project): ValidationIssue[] {
   if (p.meta?.units !== 'mm') issues.push({ path: 'meta.units', message: 'units must be "mm"' });
 
   const sourceIds = new Set<string>();
-  for (const [i, s] of (p.sources ?? []).entries()) {
-    const path = `sources[${i}]`;
-    if (!s.id) issues.push({ path: `${path}.id`, message: 'source needs an id' });
-    else if (sourceIds.has(s.id)) issues.push({ path: `${path}.id`, message: `duplicate source id ${JSON.stringify(s.id)}` });
-    else sourceIds.add(s.id);
-    if (!s.svg) issues.push({ path: `${path}.svg`, message: 'source svg is empty' });
+  const src = p.source;
+  if (!src) {
+    issues.push({ path: 'source', message: 'project needs a source' });
+  } else {
+    if (!src.id) issues.push({ path: 'source.id', message: 'source needs an id' });
+    else sourceIds.add(src.id);
+    if (!src.svg) issues.push({ path: 'source.svg', message: 'source svg is empty' });
   }
 
   const assetIds = new Set<string>();

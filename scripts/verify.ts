@@ -87,7 +87,7 @@ function main(): void {
 
   const preview = renderElementPreview(project, 'source-1', '//g[@id="P1"]/path');
   ok(preview && preview.includes('<svg') && preview.includes('<path'), 'element preview renders an svg');
-  const sourcesMap = new Map(project.sources.map((s) => [s.id, parseSvg(s.svg)]));
+  const sourcesMap = new Map([[project.source.id, parseSvg(project.source.svg)]]);
   const flatSheets = flatten(project, sourcesMap).sheets;
   const coverFlat = flatSheets.find((s) => s.title === 'cover');
   ok(coverFlat, 'cover flat sheet present');
