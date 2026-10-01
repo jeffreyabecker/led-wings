@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Element as ModelElement, Project, Sheet, Transform, Vec2 } from '../../packages/model/src/types';
 import { validateProject } from '../../packages/model/src/validate';
 import { assembleProject, flatten, type FlatSheet } from '../../packages/assembler/src/index';
-import { buildPaletteTree, computeHandles, renderElementPreview, renderSheetBody, resizeTransform, sourceDocs, type PaletteNode, type ResizeHandle } from './lib';
+import { buildPaletteTree, renderElementPreview, renderSheetBody, sourceDocs, type PaletteNode } from './lib';
 import { downloadText, exportContactSheet, exportPdf, exportSvgs } from './export';
 
 interface DragState {
@@ -12,17 +12,6 @@ interface DragState {
   scale: number;
   origX: number;
   origY: number;
-}
-
-interface ResizeState {
-  eid: string;
-  handle: ResizeHandle;
-  startX: number;
-  startY: number;
-  scale: number;
-  rotateDeg: number;
-  scaleX: number;
-  scaleY: number;
 }
 
 function NumField(props: {
@@ -78,7 +67,6 @@ export function App() {
   const [preview, setPreview] = useState<{ sourceId: string; selector: string } | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const dragRef = useRef<DragState | null>(null);
-  const resizeRef = useRef<ResizeState | null>(null);
   const [tab, setTab] = useState<'element' | 'sheets' | 'output'>('element');
 
   useEffect(() => {
@@ -211,36 +199,6 @@ export function App() {
   }
 
   function onPointerDown(e: React.PointerEvent<SVGSVGElement>) {
-    const handleTarget = (e.target as Element).closest?.('[data-handle]');
-    if (handleTarget) {
-      const eid = handleTarget.getAttribute('data-eid');
-      const key = handleTarget.getAttribute('data-handle');
-      if (eid && key && selectedSheetId) {
-        setSelectedElementId(eid);
-        const el = sheet?.elements.find((x) => x.id === eid);
-        const flatEl = flatSheet?.elements.find((x) => x.id === eid);
-        if (el && flatEl) {
-          const handle = computeHandles(flatEl, project?.styles ?? {})?.find((h) => h.key === key);
-          const ctm = e.currentTarget.getScreenCTM();
-          if (handle && ctm) {
-            resizeRef.current = {
-              eid,
-              handle,
-              startX: e.clientX,
-              startY: e.clientY,
-              scale: ctm.a || 1,
-              rotateDeg: el.transform?.rotate ?? 0,
-              scaleX: el.transform?.scale?.x ?? 1,
-              scaleY: el.transform?.scale?.y ?? 1,
-            };
-            e.currentTarget.setPointerCapture(e.pointerId);
-            return;
-          }
-        }
-      }
-      return;
-    }
-
     const target = (e.target as Element).closest?.('[data-eid]');
     if (!target) {
       setSelectedElementId(null);
@@ -265,20 +223,6 @@ export function App() {
   }
 
   function onPointerMove(e: React.PointerEvent<SVGSVGElement>) {
-    const r = resizeRef.current;
-    if (r && selectedSheetId) {
-      const dx = (e.clientX - r.startX) / r.scale;
-      const dy = (e.clientY - r.startY) / r.scale;
-      const target = { x: r.handle.x + dx, y: r.handle.y + dy };
-      const res = resizeTransform(r.handle, target, r.rotateDeg, { x: r.scaleX, y: r.scaleY }, e.shiftKey);
-      const el = sheet?.elements.find((x) => x.id === r.eid);
-      if (el) {
-        const next = { ...el, position: res.position, transform: { ...(el.transform ?? {}), scale: res.scale } } as ModelElement;
-        updateElement(selectedSheetId, next);
-      }
-      return;
-    }
-
     const d = dragRef.current;
     if (!d || !project || !selectedSheetId) return;
     const dx = (e.clientX - d.startX) / d.scale;
@@ -290,7 +234,6 @@ export function App() {
 
   function onPointerUp(e: React.PointerEvent<SVGSVGElement>) {
     dragRef.current = null;
-    resizeRef.current = null;
     if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId);
   }
 

@@ -21,12 +21,9 @@ import {
 } from '../packages/assembler/src/index';
 import {
   buildPaletteTree,
-  computeHandles,
   renderElementPreview,
   renderSheetBody,
-  resizeTransform,
   type PaletteNode,
-  type ResizeHandle,
 } from '../editor/src/lib';
 
 function main(): void {
@@ -97,42 +94,6 @@ function main(): void {
   const body = renderSheetBody(coverFlat, project.styles, null);
   ok(body.includes('data-eid='), 'rendered sheet body has hit targets');
   ok(body.includes('<line'), 'rendered body includes copied source geometry');
-
-  const p1Flat = flatSheets.find((s) => s.title === 'P1');
-  ok(p1Flat, 'P1 flat sheet present');
-  const srcEl = p1Flat.elements.find((e) => e.kind === 'source');
-  ok(srcEl, 'P1 has a source element');
-  if (srcEl) {
-    const selBody = renderSheetBody(p1Flat, project.styles, srcEl.id);
-    ok(selBody.includes('data-handle='), 'selected source element renders resize handles');
-  }
-
-  // Calibration ruler is a <g> of <line>s — its bbox must be walkable, so it gets handles.
-  const ruler = coverFlat.elements.find((e) => e.kind === 'source' && e.selector.includes('calibration-ruler-metric'));
-  ok(ruler, 'metric ruler source element present');
-  if (ruler) {
-    const rh = computeHandles(ruler, project.styles);
-    ok(rh && rh.length === 4, 'ruler (group of lines) computes 4 handles');
-  }
-
-  // Text elements get resize handles too.
-  const titleText = coverFlat.elements.find((e) => e.kind === 'text');
-  ok(titleText, 'cover has a text element');
-  if (titleText) {
-    const th = computeHandles(titleText, project.styles);
-    ok(th && th.length === 4, 'text element computes 4 handles');
-    const tbody = renderSheetBody(coverFlat, project.styles, titleText.id);
-    ok(tbody.includes('data-handle='), 'selected text renders resize handles');
-  }
-
-  // Resize math: drag the br corner of a 10x10 element (anchor at origin) to 20,20.
-  const h: ResizeHandle = { key: 'br', x: 10, y: 10, dlx: 10, dly: 10, alx: 0, aly: 0, ax: 0, ay: 0 };
-  const r1 = resizeTransform(h, { x: 20, y: 20 }, 0, { x: 1, y: 1 }, false);
-  deepStrictEqual(r1.position, { x: 0, y: 0 });
-  deepStrictEqual(r1.scale, { x: 2, y: 2 });
-  const r2 = resizeTransform(h, { x: 20, y: 20 }, 0, { x: 1, y: 1 }, true);
-  ok(Math.abs(r2.scale.x - 2) < 1e-9 && Math.abs(r2.scale.y - 2) < 1e-9, 'uniform resize keeps aspect');
-  deepStrictEqual(r2.position, { x: 0, y: 0 });
 
   // Full assembly
   const result = assembleProject(project);
