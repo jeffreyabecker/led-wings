@@ -4,7 +4,7 @@ import { validateProject } from '../../packages/model/src/validate';
 import { parseCss } from '../../packages/model/src/css';
 import { assembleProject, cssToText, flatten, type FlatSheet } from '../../packages/assembler/src/index';
 import { buildPaletteTree, renderElementPreview, renderSheetBody, sourceDocs, type PaletteNode } from './lib';
-import { downloadText, exportContactSheet, exportPdf, exportSvgs } from './export';
+import { exportContactSheet, exportPdf, exportSvgs } from './export';
 
 interface DragState {
   eid: string;
@@ -278,19 +278,29 @@ export function App() {
     e.target.value = '';
   }
 
-  function saveProject() {
+  async function saveProject() {
     if (!project) return;
-    downloadText(JSON.stringify(project, null, 2), (project.meta.name || 'project').replace(/\W+/g, '-') + '.json', 'application/json');
+    try {
+      const res = await fetch('/api/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ path: 'templates/project.json', content: JSON.stringify(project, null, 2) + '\n' }),
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status + ': ' + (await res.text()));
+      setStatus('Saved templates/project.json');
+    } catch (err) {
+      setStatus('Save failed: ' + (err as Error).message);
+    }
   }
 
   return (
     <div className="app">
       <div className="topbar">
         <span className="title">Sheet Layout Editor</span>
-        <span className="muted">{project?.meta.name ?? ''}</span>
+        <span className="muted">{status || project?.meta.name || ''}</span>
         <input ref={fileRef} type="file" accept=".json,application/json" style={{ display: 'none' }} onChange={onOpenFile} />
         <button onClick={openFile}>Open…</button>
-        <button onClick={saveProject} disabled={!project}>Save JSON</button>
+        <button onClick={saveProject} disabled={!project}>Save</button>
         <button onClick={() => engine && exportSvgs(engine.pages)} disabled={!engine?.pages.length}>SVGs</button>
         <button onClick={() => engine && paper && exportPdf(paper.trim, engine.pages)} disabled={!engine?.pages.length}>PDF</button>
         <button onClick={() => engine && exportContactSheet(engine.pages)} disabled={!engine?.pages.length}>Contact sheet</button>
