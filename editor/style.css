@@ -88,6 +88,31 @@ html, body, #root {
 }
 .palette-item:hover { border-color: var(--accent); background: var(--accent-soft); }
 
+.tree-row { display: flex; align-items: center; }
+.tree-toggle {
+  flex: 0 0 16px;
+  width: 16px;
+  color: var(--muted);
+  cursor: pointer;
+  user-select: none;
+  text-align: center;
+  font-size: 11px;
+  line-height: 1.4;
+}
+.tree-toggle.leaf { cursor: default; }
+.tree-label {
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  padding: 2px 4px;
+  font-size: 12px;
+  border-radius: 4px;
+  word-break: break-all;
+}
+.tree-label:hover { background: var(--accent-soft); }
+
 .sheet-tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
 .sheet-tab {
   background: none;

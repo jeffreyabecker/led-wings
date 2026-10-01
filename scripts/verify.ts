@@ -20,10 +20,11 @@ import {
   transformString,
 } from '../packages/assembler/src/index';
 import {
-  buildPalette,
+  buildPaletteTree,
   computeHandles,
   renderSheetBody,
   resizeTransform,
+  type PaletteNode,
   type ResizeHandle,
 } from '../editor/src/lib';
 
@@ -77,10 +78,14 @@ function main(): void {
   strictEqual(resolve(doc, '//g[@id="calibration-ruler-metric"]').length, 1);
   strictEqual(resolve(doc, '//g[@id="does-not-exist"]').length, 0);
 
-  // Editor palette + sheet rendering (non-UI editor logic)
-  const palette = buildPalette(project);
-  ok(palette.some((p) => p.selector === '//g[@id="P1"]/path'), 'palette offers the P1/path selector');
-  ok(palette.some((p) => p.selector === '//g[@id="calibration-ruler-metric"]'), 'palette offers a group selector');
+  // Editor palette tree + sheet rendering (non-UI editor logic)
+  const flattenPalette = (nodes: PaletteNode[]): PaletteNode[] =>
+    nodes.flatMap((n) => [n, ...flattenPalette(n.children)]);
+  const flatPalette = flattenPalette(buildPaletteTree(project));
+  ok(flatPalette.some((p) => p.selector === '//g[@id="P1"]/path'), 'palette offers the P1/path selector');
+  ok(flatPalette.some((p) => p.selector === '//g[@id="calibration-ruler-metric"]'), 'palette offers a group selector');
+  const rulerNode = flatPalette.find((p) => p.selector === '//g[@id="calibration-ruler-metric"]');
+  ok(rulerNode && rulerNode.children.some((c) => c.tag === 'line'), 'ruler group node exposes a line leaf');
   const sourcesMap = new Map(project.sources.map((s) => [s.id, parseSvg(s.svg)]));
   const flatSheets = flatten(project, sourcesMap).sheets;
   const coverFlat = flatSheets.find((s) => s.title === 'cover');

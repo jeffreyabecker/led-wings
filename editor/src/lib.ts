@@ -28,42 +28,61 @@ export function sourceDocs(project: Project): Map<string, Document> {
   return map;
 }
 
-export interface PaletteEntry {
+/** A node in the collapsible source-element tree. */
+export interface PaletteNode {
   sourceId: string;
-  selector: string;
+  tag: string;
+  id: string | null;
   label: string;
+  selector: string;
+  children: PaletteNode[];
 }
 
-function shortLabel(sel: string): string {
-  const m = sel.match(/^\/\/g\[@id="([^"]+)"\](.*)$/);
-  return m ? m[1] + m[2] : sel;
-}
+const SHAPE_TAGS = new Set(['path', 'line', 'circle', 'ellipse', 'rect', 'polygon', 'polyline', 'text']);
+const SKIP_TAGS = new Set(['defs', 'style', 'title', 'namedview', 'metadata']);
 
-/** Enumerate addressable source groups (and their /path and /g variants) for
- *  the palette, mirroring the selector shapes the legacy spec used. */
-export function buildPalette(project: Project): PaletteEntry[] {
-  const entries: PaletteEntry[] = [];
-  const seen = new Set<string>();
-  for (const src of project.sources) {
-    const doc = parseSvg(src.svg);
-    for (const g of Array.from(doc.querySelectorAll('g[id]'))) {
-      const id = g.getAttribute('id')!;
-      const base = `//g[@id="${id}"]`;
-      const hasPath = Array.from(g.children).some((c) => c.localName === 'path');
-      const hasG = Array.from(g.children).some((c) => c.localName === 'g');
-      const variants = [base];
-      if (hasPath) variants.push(`${base}/path`);
-      if (hasG) variants.push(`${base}/g`);
-      for (const v of variants) {
-        const key = `${src.id}::${v}`;
-        if (seen.has(key)) continue;
-        seen.add(key);
-        entries.push({ sourceId: src.id, selector: v, label: shortLabel(v) });
-      }
+function buildNode(el: Element, sourceId: string, parentSelector: string | null): PaletteNode | null {
+  const tag = el.localName;
+  if (SKIP_TAGS.has(tag)) return null;
+  const id = el.getAttribute('id');
+  const selector = id
+    ? `//${tag}[@id="${id}"]`
+    : parentSelector
+      ? `${parentSelector}/${tag}`
+      : `//${tag}`;
+
+  const node: PaletteNode = { sourceId, tag, id, label: id ?? tag, selector, children: [] };
+  if (tag !== 'g') return node;
+
+  // Nested groups become child nodes; distinct direct shape tags become one
+  // aggregated leaf each (a selector like /path resolves to every path child).
+  const childTags = new Set<string>();
+  for (const child of Array.from(el.children)) {
+    if (child.localName === 'g') {
+      const sub = buildNode(child, sourceId, selector);
+      if (sub) node.children.push(sub);
+    } else if (SHAPE_TAGS.has(child.localName)) {
+      childTags.add(child.localName);
     }
   }
-  entries.sort((a, b) => a.label.localeCompare(b.label));
-  return entries;
+  for (const t of childTags) {
+    node.children.push({ sourceId, tag: t, id: null, label: t, selector: `${selector}/${t}`, children: [] });
+  }
+  return node;
+}
+
+/** Build the source SVG's element hierarchy as a collapsible tree. */
+export function buildPaletteTree(project: Project): PaletteNode[] {
+  const roots: PaletteNode[] = [];
+  for (const src of project.sources) {
+    const svgEl = parseSvg(src.svg).documentElement;
+    if (!svgEl) continue;
+    for (const child of Array.from(svgEl.children)) {
+      const node = buildNode(child, src.id, null);
+      if (node) roots.push(node);
+    }
+  }
+  return roots;
 }
 
 export type HandleKey = 'tl' | 'tr' | 'bl' | 'br';

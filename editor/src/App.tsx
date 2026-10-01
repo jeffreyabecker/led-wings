@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Element as ModelElement, Project, Sheet, Transform, Vec2 } from '../../packages/model/src/types';
 import { validateProject } from '../../packages/model/src/validate';
 import { assembleProject, flatten, type FlatSheet } from '../../packages/assembler/src/index';
-import { buildPalette, computeHandles, renderSheetBody, resizeTransform, sourceDocs, type ResizeHandle } from './lib';
+import { buildPaletteTree, computeHandles, renderSheetBody, resizeTransform, sourceDocs, type PaletteNode, type ResizeHandle } from './lib';
 import { downloadText, exportContactSheet, exportPdf, exportSvgs } from './export';
 
 interface DragState {
@@ -45,6 +45,26 @@ function NumField(props: {
   );
 }
 
+function PaletteNodeView({ node, depth, onAdd }: { node: PaletteNode; depth: number; onAdd: (sourceId: string, selector: string) => void }) {
+  const [open, setOpen] = useState(depth < 2);
+  const hasChildren = node.children.length > 0;
+  return (
+    <div className="tree-node">
+      <div className="tree-row" style={{ paddingLeft: depth * 14 }}>
+        <span className={'tree-toggle' + (hasChildren ? '' : ' leaf')} onClick={() => hasChildren && setOpen(!open)}>
+          {hasChildren ? (open ? '\u25BE' : '\u25B8') : '\u00B7'}
+        </span>
+        <button className="tree-label" title={node.selector} onClick={() => onAdd(node.sourceId, node.selector)}>
+          {node.label}
+        </button>
+      </div>
+      {hasChildren && open && node.children.map((c, i) => (
+        <PaletteNodeView key={c.selector + '-' + i} node={c} depth={depth + 1} onAdd={onAdd} />
+      ))}
+    </div>
+  );
+}
+
 export function App() {
   const [project, setProject] = useState<Project | null>(null);
   const [selectedSheetId, setSelectedSheetId] = useState<string | null>(null);
@@ -70,7 +90,7 @@ export function App() {
 
   const flat = useMemo(() => (project ? flatten(project, sourceDocs(project)) : null), [project]);
   const validation = useMemo(() => (project ? validateProject(project) : []), [project]);
-  const palette = useMemo(() => (project ? buildPalette(project) : []), [project?.sources]);
+  const palette = useMemo(() => (project ? buildPaletteTree(project) : []), [project?.sources]);
 
   // Full assembly (tiling + warnings) is debounced so drag/typing stays responsive.
   const [engine, setEngine] = useState<ReturnType<typeof assembleProject> | null>(null);
@@ -311,15 +331,13 @@ export function App() {
         <div className="panel">
           <h2>Elements</h2>
           <button className="palette-item" onClick={() => selectedSheetId && addText(selectedSheetId)}>+ Text label</button>
-          {palette.map((p) => (
-            <button
-              key={p.sourceId + p.selector}
-              className="palette-item"
-              title={p.selector}
-              onClick={() => selectedSheetId && addSource(selectedSheetId, p.sourceId, p.selector)}
-            >
-              {p.label}
-            </button>
+          {palette.map((n, i) => (
+            <PaletteNodeView
+              key={n.selector + '-' + i}
+              node={n}
+              depth={0}
+              onAdd={(sid, sel) => selectedSheetId && addSource(selectedSheetId, sid, sel)}
+            />
           ))}
         </div>
 
