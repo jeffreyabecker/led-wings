@@ -56,6 +56,33 @@ html, body, #root {
 .sheet-actions button:hover:not(:disabled) { border-color: var(--accent); }
 .sheet-actions button:disabled { opacity: 0.4; cursor: default; }
 
+.tab-bar { display: flex; gap: 2px; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
+.tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  padding: 7px 10px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--text); border-bottom-color: var(--accent); }
+
+.sheet-list { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+.sheet-row {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 5px;
+  padding: 5px 8px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 12px;
+}
+.sheet-row:hover:not(.active) { border-color: var(--accent); }
+.sheet-row.active { background: var(--accent); border-color: var(--accent); }
+
 .panel {
   background: var(--panel);
   border-right: 1px solid var(--border);

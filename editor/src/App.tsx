@@ -79,6 +79,7 @@ export function App() {
   const fileRef = useRef<HTMLInputElement>(null);
   const dragRef = useRef<DragState | null>(null);
   const resizeRef = useRef<ResizeState | null>(null);
+  const [tab, setTab] = useState<'element' | 'sheets' | 'output'>('element');
 
   useEffect(() => {
     (async () => {
@@ -359,27 +360,6 @@ export function App() {
         </div>
 
         <div className="center">
-          <div className="sheet-bar">
-            <div className="sheet-tabs">
-              {project?.sheets.map((s) => (
-                <button
-                  key={s.id}
-                  className={'sheet-tab' + (s.id === selectedSheetId ? ' active' : '')}
-                  onClick={() => {
-                    setSelectedSheetId(s.id);
-                    setSelectedElementId(null);
-                  }}
-                >
-                  {s.title}
-                </button>
-              ))}
-            </div>
-            <div className="sheet-actions">
-              <button onClick={addSheet}>+ Sheet</button>
-              <button disabled={!selectedSheetId} onClick={() => selectedSheetId && duplicateSheet(selectedSheetId)}>Duplicate</button>
-              <button disabled={!selectedSheetId} onClick={() => selectedSheetId && deleteSheet(selectedSheetId)}>Delete</button>
-            </div>
-          </div>
           <div className="canvas-wrap">
             {flatSheet ? (
               <svg
@@ -397,8 +377,13 @@ export function App() {
         </div>
 
         <div className="panel inspector">
-          <h2>Inspector</h2>
-          {selectedElement ? (
+          <div className="tab-bar">
+            <button className={'tab' + (tab === 'element' ? ' active' : '')} onClick={() => setTab('element')}>Element</button>
+            <button className={'tab' + (tab === 'sheets' ? ' active' : '')} onClick={() => setTab('sheets')}>Sheets</button>
+            <button className={'tab' + (tab === 'output' ? ' active' : '')} onClick={() => setTab('output')}>Output</button>
+          </div>
+
+          {tab === 'element' && (selectedElement ? (
             <>
               <p className="muted">{selectedElement.kind} · {selectedElement.id}</p>
               <NumField label="X" value={selectedElement.position.x} onChange={(n) => selectedSheetId && updateElement(selectedSheetId, setPosition(selectedElement, { x: n, y: selectedElement.position.y }))} />
@@ -435,48 +420,75 @@ export function App() {
             </>
           ) : (
             <p className="muted">Select an element on the canvas.</p>
+          ))}
+
+          {tab === 'sheets' && (
+            <>
+              {sheet && (
+                <>
+                  <h2>Sheet</h2>
+                  <label>
+                    Title
+                    <input value={sheet.title} onChange={(e) => updateSheet({ ...sheet, title: e.target.value })} />
+                  </label>
+                  <div className="row">
+                    <NumField label="Width" value={sheet.dimensions.width} onChange={(n) => updateSheet({ ...sheet, dimensions: { ...sheet.dimensions, width: n } })} />
+                    <NumField label="Height" value={sheet.dimensions.height} onChange={(n) => updateSheet({ ...sheet, dimensions: { ...sheet.dimensions, height: n } })} />
+                  </div>
+                </>
+              )}
+              <div className="sheet-list">
+                {project?.sheets.map((s) => (
+                  <button
+                    key={s.id}
+                    className={'sheet-row' + (s.id === selectedSheetId ? ' active' : '')}
+                    onClick={() => {
+                      setSelectedSheetId(s.id);
+                      setSelectedElementId(null);
+                    }}
+                  >
+                    {s.title}
+                  </button>
+                ))}
+              </div>
+              <div className="sheet-actions">
+                <button onClick={addSheet}>+ Sheet</button>
+                <button disabled={!selectedSheetId} onClick={() => selectedSheetId && duplicateSheet(selectedSheetId)}>Duplicate</button>
+                <button disabled={!selectedSheetId} onClick={() => selectedSheetId && deleteSheet(selectedSheetId)}>Delete</button>
+              </div>
+            </>
           )}
 
-          <h2 style={{ marginTop: 16 }}>Sheet</h2>
-          {sheet ? (
+          {tab === 'output' && (
             <>
-              <label>
-                Title
-                <input value={sheet.title} onChange={(e) => updateSheet({ ...sheet, title: e.target.value })} />
-              </label>
-              <div className="row">
-                <NumField label="Width" value={sheet.dimensions.width} onChange={(n) => updateSheet({ ...sheet, dimensions: { ...sheet.dimensions, width: n } })} />
-                <NumField label="Height" value={sheet.dimensions.height} onChange={(n) => updateSheet({ ...sheet, dimensions: { ...sheet.dimensions, height: n } })} />
-              </div>
-            </>
-          ) : null}
+              <h2>Paper</h2>
+              {paper && project ? (
+                <>
+                  <div className="row">
+                    <NumField label="Trim W" value={paper.trim.width} onChange={(n) => setProject({ ...project, papers: project.papers.map((p, i) => (i === 0 ? { ...p, trim: { ...p.trim, width: n } } : p)) })} />
+                    <NumField label="Trim H" value={paper.trim.height} onChange={(n) => setProject({ ...project, papers: project.papers.map((p, i) => (i === 0 ? { ...p, trim: { ...p.trim, height: n } } : p)) })} />
+                  </div>
+                  <div className="row">
+                    <NumField label="Safe W" value={paper.safeArea.width} onChange={(n) => setProject({ ...project, papers: project.papers.map((p, i) => (i === 0 ? { ...p, safeArea: { ...p.safeArea, width: n } } : p)) })} />
+                    <NumField label="Safe H" value={paper.safeArea.height} onChange={(n) => setProject({ ...project, papers: project.papers.map((p, i) => (i === 0 ? { ...p, safeArea: { ...p.safeArea, height: n } } : p)) })} />
+                  </div>
+                  <NumField label="Overlap" value={typeof paper.overlap === 'number' ? paper.overlap : paper.overlap.x} onChange={(n) => setProject({ ...project, papers: project.papers.map((p, i) => (i === 0 ? { ...p, overlap: n } : p)) })} />
+                </>
+              ) : null}
 
-          <h2 style={{ marginTop: 16 }}>Paper</h2>
-          {paper && project ? (
-            <>
-              <div className="row">
-                <NumField label="Trim W" value={paper.trim.width} onChange={(n) => setProject({ ...project, papers: project.papers.map((p, i) => (i === 0 ? { ...p, trim: { ...p.trim, width: n } } : p)) })} />
-                <NumField label="Trim H" value={paper.trim.height} onChange={(n) => setProject({ ...project, papers: project.papers.map((p, i) => (i === 0 ? { ...p, trim: { ...p.trim, height: n } } : p)) })} />
-              </div>
-              <div className="row">
-                <NumField label="Safe W" value={paper.safeArea.width} onChange={(n) => setProject({ ...project, papers: project.papers.map((p, i) => (i === 0 ? { ...p, safeArea: { ...p.safeArea, width: n } } : p)) })} />
-                <NumField label="Safe H" value={paper.safeArea.height} onChange={(n) => setProject({ ...project, papers: project.papers.map((p, i) => (i === 0 ? { ...p, safeArea: { ...p.safeArea, height: n } } : p)) })} />
-              </div>
-              <NumField label="Overlap" value={typeof paper.overlap === 'number' ? paper.overlap : paper.overlap.x} onChange={(n) => setProject({ ...project, papers: project.papers.map((p, i) => (i === 0 ? { ...p, overlap: n } : p)) })} />
+              <h2 style={{ marginTop: 16 }}>Output</h2>
+              <p className="muted">
+                {engine ? `${engine.sheetCount} sheets → ${engine.pages.length} pages (${engine.tiledPages} tiled)` : ''}
+              </p>
+              {validation.map((v, i) => (
+                <p key={i} className="error">{v.path}: {v.message}</p>
+              ))}
+              {engine?.warnings.map((w, i) => (
+                <p key={i} className="warn">{w.sheet}: {w.message}</p>
+              ))}
+              {status ? <p className="muted">{status}</p> : null}
             </>
-          ) : null}
-
-          <h2 style={{ marginTop: 16 }}>Output</h2>
-          <p className="muted">
-            {engine ? `${engine.sheetCount} sheets → ${engine.pages.length} pages (${engine.tiledPages} tiled)` : ''}
-          </p>
-          {validation.map((v, i) => (
-            <p key={i} className="error">{v.path}: {v.message}</p>
-          ))}
-          {engine?.warnings.map((w, i) => (
-            <p key={i} className="warn">{w.sheet}: {w.message}</p>
-          ))}
-          {status ? <p className="muted">{status}</p> : null}
+          )}
         </div>
       </div>
     </div>
