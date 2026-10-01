@@ -1,0 +1,28 @@
+{
+  "name": "wings-pcbs-editor",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "migrate": "npm run build && node dist/scripts/import-layout.js",
+    "verify": "npm run build && node dist/scripts/verify.js",
+    "build:editor": "node scripts/build-editor.mjs",
+    "serve": "python -m http.server 8000"
+  },
+  "dependencies": {
+    "pdf-lib": "^1.17.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "yaml": "^2.6.1"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^30.0.0",
+    "@types/node": "^22.10.1",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "esbuild": "^0.28.2",
+    "jsdom": "^25.0.1",
+    "typescript": "^5.6.3"
+  }
+}

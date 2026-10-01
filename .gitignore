@@ -47,3 +47,8 @@ templates/print/logical-pages/
 templates/print/logical-pages-consolidated/
 
 .tmp*/
+
+# Node / editor build artifacts
+node_modules/
+dist/
+.npm-cache/
