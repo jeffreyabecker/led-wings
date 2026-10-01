@@ -114,7 +114,9 @@ export function validateProject(p: Project): ValidationIssue[] {
           issues.push({ path: `${ep}.sourceId`, message: `source references unknown source ${JSON.stringify(el.sourceId)}` });
         }
         if (!el.sourceSelector) issues.push({ path: `${ep}.sourceSelector`, message: 'source needs a sourceSelector' });
-      } else if (el.kind !== 'text') {
+      } else if (el.kind === 'text') {
+        checkTransform(`${ep}.transform`, el.transform, issues);
+      } else {
         issues.push({ path: ep, message: 'unknown element kind' });
       }
     }

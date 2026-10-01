@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Element as ModelElement, Project, Sheet, Transform, Vec2 } from '../../packages/model/src/types';
 import { validateProject } from '../../packages/model/src/validate';
-import { assembleProject, cssToText, flatten, type FlatSheet } from '../../packages/assembler/src/index';
-import { buildPalette, renderSheetBody, sourceDocs } from './lib';
+import { assembleProject, flatten, type FlatSheet } from '../../packages/assembler/src/index';
+import { buildPalette, computeHandles, renderSheetBody, resizeTransform, sourceDocs, type ResizeHandle } from './lib';
 import { downloadText, exportContactSheet, exportPdf, exportSvgs } from './export';
 
 interface DragState {
@@ -12,6 +12,17 @@ interface DragState {
   scale: number;
   origX: number;
   origY: number;
+}
+
+interface ResizeState {
+  eid: string;
+  handle: ResizeHandle;
+  startX: number;
+  startY: number;
+  scale: number;
+  rotateDeg: number;
+  scaleX: number;
+  scaleY: number;
 }
 
 function NumField(props: {
@@ -41,6 +52,7 @@ export function App() {
   const [status, setStatus] = useState<string>('');
   const fileRef = useRef<HTMLInputElement>(null);
   const dragRef = useRef<DragState | null>(null);
+  const resizeRef = useRef<ResizeState | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -57,7 +69,6 @@ export function App() {
   }, []);
 
   const flat = useMemo(() => (project ? flatten(project, sourceDocs(project)) : null), [project]);
-  const stylesCss = useMemo(() => (project ? cssToText(project.styles) : ''), [project]);
   const validation = useMemo(() => (project ? validateProject(project) : []), [project]);
   const palette = useMemo(() => (project ? buildPalette(project) : []), [project?.sources]);
 
@@ -97,7 +108,6 @@ export function App() {
   }
 
   function setTransform(el: ModelElement, patch: Partial<Transform>): ModelElement {
-    if (el.kind === 'text') return el;
     const cur = el.transform ?? {};
     return { ...el, transform: { ...cur, ...patch } } as ModelElement;
   }
@@ -173,6 +183,36 @@ export function App() {
   }
 
   function onPointerDown(e: React.PointerEvent<SVGSVGElement>) {
+    const handleTarget = (e.target as Element).closest?.('[data-handle]');
+    if (handleTarget) {
+      const eid = handleTarget.getAttribute('data-eid');
+      const key = handleTarget.getAttribute('data-handle');
+      if (eid && key && selectedSheetId) {
+        setSelectedElementId(eid);
+        const el = sheet?.elements.find((x) => x.id === eid);
+        const flatEl = flatSheet?.elements.find((x) => x.id === eid);
+        if (el && flatEl) {
+          const handle = computeHandles(flatEl, project?.styles ?? {})?.find((h) => h.key === key);
+          const ctm = e.currentTarget.getScreenCTM();
+          if (handle && ctm) {
+            resizeRef.current = {
+              eid,
+              handle,
+              startX: e.clientX,
+              startY: e.clientY,
+              scale: ctm.a || 1,
+              rotateDeg: el.transform?.rotate ?? 0,
+              scaleX: el.transform?.scale?.x ?? 1,
+              scaleY: el.transform?.scale?.y ?? 1,
+            };
+            e.currentTarget.setPointerCapture(e.pointerId);
+            return;
+          }
+        }
+      }
+      return;
+    }
+
     const target = (e.target as Element).closest?.('[data-eid]');
     if (!target) {
       setSelectedElementId(null);
@@ -197,6 +237,20 @@ export function App() {
   }
 
   function onPointerMove(e: React.PointerEvent<SVGSVGElement>) {
+    const r = resizeRef.current;
+    if (r && selectedSheetId) {
+      const dx = (e.clientX - r.startX) / r.scale;
+      const dy = (e.clientY - r.startY) / r.scale;
+      const target = { x: r.handle.x + dx, y: r.handle.y + dy };
+      const res = resizeTransform(r.handle, target, r.rotateDeg, { x: r.scaleX, y: r.scaleY }, e.shiftKey);
+      const el = sheet?.elements.find((x) => x.id === r.eid);
+      if (el) {
+        const next = { ...el, position: res.position, transform: { ...(el.transform ?? {}), scale: res.scale } } as ModelElement;
+        updateElement(selectedSheetId, next);
+      }
+      return;
+    }
+
     const d = dragRef.current;
     if (!d || !project || !selectedSheetId) return;
     const dx = (e.clientX - d.startX) / d.scale;
@@ -208,6 +262,7 @@ export function App() {
 
   function onPointerUp(e: React.PointerEvent<SVGSVGElement>) {
     dragRef.current = null;
+    resizeRef.current = null;
     if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId);
   }
 
@@ -298,7 +353,7 @@ export function App() {
                 onPointerDown={onPointerDown}
                 onPointerMove={onPointerMove}
                 onPointerUp={onPointerUp}
-                dangerouslySetInnerHTML={{ __html: renderSheetBody(flatSheet, stylesCss, selectedElementId) }}
+                dangerouslySetInnerHTML={{ __html: renderSheetBody(flatSheet, project?.styles ?? {}, selectedElementId) }}
               />
             ) : (
               <span className="muted">No sheet selected.</span>
@@ -313,7 +368,7 @@ export function App() {
               <p className="muted">{selectedElement.kind} · {selectedElement.id}</p>
               <NumField label="X" value={selectedElement.position.x} onChange={(n) => selectedSheetId && updateElement(selectedSheetId, setPosition(selectedElement, { x: n, y: selectedElement.position.y }))} />
               <NumField label="Y" value={selectedElement.position.y} onChange={(n) => selectedSheetId && updateElement(selectedSheetId, setPosition(selectedElement, { x: selectedElement.position.x, y: n }))} />
-              {selectedElement.kind === 'text' ? (
+              {selectedElement.kind === 'text' && (
                 <>
                   <label>
                     Text
@@ -329,13 +384,14 @@ export function App() {
                     </select>
                   </label>
                 </>
-              ) : (
+              )}
+              <NumField label="Rotate (°)" step={1} value={selectedElement.transform?.rotate ?? 0} onChange={(n) => updateElement(selectedSheetId!, setTransform(selectedElement, { rotate: n }))} />
+              <div className="row">
+                <NumField label="Scale X" value={selectedElement.transform?.scale?.x ?? 1} onChange={(n) => updateElement(selectedSheetId!, setTransform(selectedElement, { scale: { x: n, y: selectedElement.transform?.scale?.y ?? 1 } }))} />
+                <NumField label="Scale Y" value={selectedElement.transform?.scale?.y ?? 1} onChange={(n) => updateElement(selectedSheetId!, setTransform(selectedElement, { scale: { x: selectedElement.transform?.scale?.x ?? 1, y: n } }))} />
+              </div>
+              {selectedElement.kind !== 'text' && (
                 <>
-                  <NumField label="Rotate (°)" step={1} value={selectedElement.transform?.rotate ?? 0} onChange={(n) => updateElement(selectedSheetId!, setTransform(selectedElement, { rotate: n }))} />
-                  <div className="row">
-                    <NumField label="Scale X" value={selectedElement.transform?.scale?.x ?? 1} onChange={(n) => updateElement(selectedSheetId!, setTransform(selectedElement, { scale: { x: n, y: selectedElement.transform?.scale?.y ?? 1 } }))} />
-                    <NumField label="Scale Y" value={selectedElement.transform?.scale?.y ?? 1} onChange={(n) => updateElement(selectedSheetId!, setTransform(selectedElement, { scale: { x: selectedElement.transform?.scale?.x ?? 1, y: n } }))} />
-                  </div>
                   <p className="muted">{selectedElement.kind === 'source' ? selectedElement.sourceSelector : 'instance of ' + selectedElement.assetId}</p>
                   <button className="palette-item" style={{ marginTop: 8 }} onClick={mirrorElement}>Mirror (copy)</button>
                 </>

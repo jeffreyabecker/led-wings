@@ -157,13 +157,60 @@ export function pathPoints(d: string | null): [number, number][] {
   return pts;
 }
 
-/** Walk an element tree, applying transforms, and collect all path points. */
+/** Control points of one shape element in its own frame, or null if it is not a
+ *  recognized shape. Groups are walked by their caller; only leaves contribute. */
+function shapePoints(el: Element): [number, number][] | null {
+  const n = (s: string | null): number => (s === null ? NaN : Number(s));
+  switch (el.localName) {
+    case 'path':
+      return pathPoints(el.getAttribute('d'));
+    case 'line':
+      return [
+        [n(el.getAttribute('x1')), n(el.getAttribute('y1'))],
+        [n(el.getAttribute('x2')), n(el.getAttribute('y2'))],
+      ];
+    case 'rect': {
+      const x = n(el.getAttribute('x'));
+      const y = n(el.getAttribute('y'));
+      const w = n(el.getAttribute('width'));
+      const h = n(el.getAttribute('height'));
+      return [[x, y], [x + w, y], [x, y + h], [x + w, y + h]];
+    }
+    case 'circle': {
+      const cx = n(el.getAttribute('cx'));
+      const cy = n(el.getAttribute('cy'));
+      const r = n(el.getAttribute('r'));
+      return [[cx - r, cy - r], [cx + r, cy - r], [cx - r, cy + r], [cx + r, cy + r]];
+    }
+    case 'ellipse': {
+      const cx = n(el.getAttribute('cx'));
+      const cy = n(el.getAttribute('cy'));
+      const rx = n(el.getAttribute('rx'));
+      const ry = n(el.getAttribute('ry'));
+      return [[cx - rx, cy - ry], [cx + rx, cy - ry], [cx - rx, cy + ry], [cx + rx, cy + ry]];
+    }
+    case 'polyline':
+    case 'polygon': {
+      const pts: [number, number][] = [];
+      const points = el.getAttribute('points');
+      if (points) {
+        const nums = points.split(/[\s,]+/).filter(Boolean).map(Number);
+        for (let i = 0; i + 1 < nums.length; i += 2) pts.push([nums[i], nums[i + 1]]);
+      }
+      return pts;
+    }
+    default:
+      return null;
+  }
+}
+
+/** Walk an element tree (including groups), applying transforms, and collect
+ *  control points from every recognized shape leaf. */
 export function walkPts(el: Element, matrix: Matrix, out: [number, number][]): void {
   const m = mul(matrix, transformMatrix(el.getAttribute('transform')));
-  if (el.localName === 'path') {
-    for (const [x, y] of pathPoints(el.getAttribute('d'))) {
-      out.push(applyMatrix(m, x, y));
-    }
+  const pts = shapePoints(el);
+  if (pts) {
+    for (const [x, y] of pts) out.push(applyMatrix(m, x, y));
   }
   for (const child of Array.from(el.children)) {
     walkPts(child, m, out);
@@ -175,8 +222,9 @@ export function elementBBox(transform: string, els: Element[]): [number, number,
   const pts: [number, number][] = [];
   const m = transformMatrix(transform);
   for (const e of els) walkPts(e, m, pts);
-  if (pts.length === 0) return null;
-  const xs = pts.map((p) => p[0]);
-  const ys = pts.map((p) => p[1]);
+  const finite = pts.filter(([x, y]) => Number.isFinite(x) && Number.isFinite(y));
+  if (finite.length === 0) return null;
+  const xs = finite.map((p) => p[0]);
+  const ys = finite.map((p) => p[1]);
   return [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)];
 }

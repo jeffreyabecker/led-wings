@@ -61,7 +61,7 @@ export interface Paper {
 export type Element =
   | { id: string; kind: 'instance'; assetId: string; position: Vec2; transform?: Transform }
   | { id: string; kind: 'source'; sourceId: string; sourceSelector: string; position: Vec2; transform?: Transform }
-  | { id: string; kind: 'text'; text: string; position: Vec2; styleId?: string };
+  | { id: string; kind: 'text'; text: string; position: Vec2; styleId?: string; transform?: Transform };
 
 /** Editor presentation grouping. Elements stay on the sheet; a layer references
  *  element ids for show/hide/lock. The assembler ignores layers. */

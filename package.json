@@ -8,7 +8,7 @@
     "migrate": "npm run build && node dist/scripts/import-layout.js",
     "verify": "npm run build && node dist/scripts/verify.js",
     "build:editor": "node scripts/build-editor.mjs",
-    "serve": "python -m http.server 8000"
+    "serve": "node scripts/serve.mjs"
   },
   "dependencies": {
     "pdf-lib": "^1.17.1",

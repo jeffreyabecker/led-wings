@@ -4,7 +4,7 @@ import { transformString } from './transform';
 
 /** A concrete element ready to assemble: references resolved to DOM nodes. */
 export type FlatElement =
-  | { id: string; kind: 'text'; text: string; styleId: string; x: number; y: number }
+  | { id: string; kind: 'text'; text: string; styleId: string; x: number; y: number; transform: string }
   | { id: string; kind: 'source'; sourceId: string; selector: string; elements: Element[]; transform: string };
 
 export interface FlatSheet {
@@ -43,6 +43,7 @@ export function flatten(
           styleId: el.styleId ?? 'label',
           x: el.position.x,
           y: el.position.y,
+          transform: transformString(el.position, [el.transform]),
         });
       } else if (el.kind === 'source') {
         const doc = sources.get(el.sourceId);
