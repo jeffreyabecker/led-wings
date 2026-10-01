@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Element as ModelElement, Project, Sheet, Transform, Vec2 } from '../../packages/model/src/types';
 import { validateProject } from '../../packages/model/src/validate';
 import { assembleProject, flatten, type FlatSheet } from '../../packages/assembler/src/index';
-import { buildPaletteTree, computeHandles, renderSheetBody, resizeTransform, sourceDocs, type PaletteNode, type ResizeHandle } from './lib';
+import { buildPaletteTree, computeHandles, renderElementPreview, renderSheetBody, resizeTransform, sourceDocs, type PaletteNode, type ResizeHandle } from './lib';
 import { downloadText, exportContactSheet, exportPdf, exportSvgs } from './export';
 
 interface DragState {
@@ -45,12 +45,17 @@ function NumField(props: {
   );
 }
 
-function PaletteNodeView({ node, depth, onAdd }: { node: PaletteNode; depth: number; onAdd: (sourceId: string, selector: string) => void }) {
+function PaletteNodeView({ node, depth, onAdd, onHover }: {
+  node: PaletteNode;
+  depth: number;
+  onAdd: (sourceId: string, selector: string) => void;
+  onHover: (sourceId: string, selector: string) => void;
+}) {
   const [open, setOpen] = useState(depth < 2);
   const hasChildren = node.children.length > 0;
   return (
     <div className="tree-node">
-      <div className="tree-row" style={{ paddingLeft: depth * 14 }}>
+      <div className="tree-row" style={{ paddingLeft: depth * 14 }} onMouseEnter={() => onHover(node.sourceId, node.selector)}>
         <span className={'tree-toggle' + (hasChildren ? '' : ' leaf')} onClick={() => hasChildren && setOpen(!open)}>
           {hasChildren ? (open ? '\u25BE' : '\u25B8') : '\u00B7'}
         </span>
@@ -59,7 +64,7 @@ function PaletteNodeView({ node, depth, onAdd }: { node: PaletteNode; depth: num
         </button>
       </div>
       {hasChildren && open && node.children.map((c, i) => (
-        <PaletteNodeView key={c.selector + '-' + i} node={c} depth={depth + 1} onAdd={onAdd} />
+        <PaletteNodeView key={c.selector + '-' + i} node={c} depth={depth + 1} onAdd={onAdd} onHover={onHover} />
       ))}
     </div>
   );
@@ -70,6 +75,7 @@ export function App() {
   const [selectedSheetId, setSelectedSheetId] = useState<string | null>(null);
   const [selectedElementId, setSelectedElementId] = useState<string | null>(null);
   const [status, setStatus] = useState<string>('');
+  const [preview, setPreview] = useState<{ sourceId: string; selector: string } | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const dragRef = useRef<DragState | null>(null);
   const resizeRef = useRef<ResizeState | null>(null);
@@ -107,6 +113,7 @@ export function App() {
   const flatSheet: FlatSheet | null = flat?.sheets.find((s) => s.id === selectedSheetId) ?? null;
   const selectedElement = sheet?.elements.find((e) => e.id === selectedElementId) ?? null;
   const paper = project?.papers[0];
+  const previewSvg = preview && project ? renderElementPreview(project, preview.sourceId, preview.selector) : null;
 
   function updateSheet(next: Sheet) {
     if (!project) return;
@@ -328,17 +335,27 @@ export function App() {
       </div>
 
       <div className="main">
-        <div className="panel">
+        <div className="panel panel-left">
           <h2>Elements</h2>
           <button className="palette-item" onClick={() => selectedSheetId && addText(selectedSheetId)}>+ Text label</button>
-          {palette.map((n, i) => (
-            <PaletteNodeView
-              key={n.selector + '-' + i}
-              node={n}
-              depth={0}
-              onAdd={(sid, sel) => selectedSheetId && addSource(selectedSheetId, sid, sel)}
-            />
-          ))}
+          <div className="tree-scroll">
+            {palette.map((n, i) => (
+              <PaletteNodeView
+                key={n.selector + '-' + i}
+                node={n}
+                depth={0}
+                onAdd={(sid, sel) => selectedSheetId && addSource(selectedSheetId, sid, sel)}
+                onHover={(sid, sel) => setPreview({ sourceId: sid, selector: sel })}
+              />
+            ))}
+          </div>
+          <div className="preview-box">
+            {previewSvg ? (
+              <div dangerouslySetInnerHTML={{ __html: previewSvg }} />
+            ) : (
+              <span className="muted">Hover an element to preview</span>
+            )}
+          </div>
         </div>
 
         <div className="center">

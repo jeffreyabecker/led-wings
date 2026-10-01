@@ -113,6 +113,26 @@ html, body, #root {
 }
 .tree-label:hover { background: var(--accent-soft); }
 
+.panel-left { display: flex; flex-direction: column; overflow: hidden; }
+.tree-scroll { flex: 1; min-height: 0; overflow-y: auto; }
+.preview-box {
+  border-top: 1px solid var(--border);
+  padding: 8px;
+  height: 150px;
+  flex: 0 0 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #101318;
+}
+.preview-box svg {
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  border-radius: 4px;
+}
+
 .sheet-tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
 .sheet-tab {
   background: none;

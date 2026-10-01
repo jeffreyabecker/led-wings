@@ -5,6 +5,7 @@ import {
   esc,
   fmt,
   parseSvg,
+  resolve,
   serialize,
   transformMatrix,
   type Matrix,
@@ -83,6 +84,25 @@ export function buildPaletteTree(project: Project): PaletteNode[] {
     }
   }
   return roots;
+}
+
+/** Render a small self-contained SVG preview of a source selector (scaled to fit). */
+export function renderElementPreview(project: Project, sourceId: string, selector: string): string | null {
+  const doc = sourceDocs(project).get(sourceId);
+  if (!doc) return null;
+  const els = resolve(doc, selector);
+  if (els.length === 0) return null;
+  const bbox = elementBBox('', els);
+  if (!bbox) return null;
+  const [x0, y0, x1, y1] = bbox;
+  const w = x1 - x0;
+  const h = y1 - y0;
+  if (w < 1e-6 || h < 1e-6) return null;
+  const pad = Math.max(w, h) * 0.05;
+  const style = doc.querySelector('style')?.textContent ?? '';
+  const inner = els.map((e) => serialize(e)).join('');
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${fmt(x0 - pad)} ${fmt(y0 - pad)} ${fmt(w + 2 * pad)} ${fmt(h + 2 * pad)}">`
+    + `<style>${style}</style>${inner}</svg>`;
 }
 
 export type HandleKey = 'tl' | 'tr' | 'bl' | 'br';

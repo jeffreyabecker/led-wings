@@ -22,6 +22,7 @@ import {
 import {
   buildPaletteTree,
   computeHandles,
+  renderElementPreview,
   renderSheetBody,
   resizeTransform,
   type PaletteNode,
@@ -86,6 +87,9 @@ function main(): void {
   ok(flatPalette.some((p) => p.selector === '//g[@id="calibration-ruler-metric"]'), 'palette offers a group selector');
   const rulerNode = flatPalette.find((p) => p.selector === '//g[@id="calibration-ruler-metric"]');
   ok(rulerNode && rulerNode.children.some((c) => c.tag === 'line'), 'ruler group node exposes a line leaf');
+
+  const preview = renderElementPreview(project, 'source-1', '//g[@id="P1"]/path');
+  ok(preview && preview.includes('<svg') && preview.includes('<path'), 'element preview renders an svg');
   const sourcesMap = new Map(project.sources.map((s) => [s.id, parseSvg(s.svg)]));
   const flatSheets = flatten(project, sourcesMap).sheets;
   const coverFlat = flatSheets.find((s) => s.title === 'cover');
