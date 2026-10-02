@@ -1,0 +1,1075 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="14170.6mm"
+   height="215.9mm"
+   viewBox="0 0 14170.6 215.9"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   sodipodi:docname="sheets-multipage.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="false"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showborder="true">
+    <inkscape:page
+       x="0"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page1"
+       margin="5"
+       bleed="0"
+       inkscape:label="cover" />
+    <inkscape:page
+       x="289.4"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page2"
+       margin="5"
+       bleed="0"
+       inkscape:label="P1 · tile 1/2" />
+    <inkscape:page
+       x="578.8"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page3"
+       margin="5"
+       bleed="0"
+       inkscape:label="P1 · tile 2/2" />
+    <inkscape:page
+       x="868.2"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page4"
+       margin="5"
+       bleed="0"
+       inkscape:label="P2 · tile 1/2" />
+    <inkscape:page
+       x="1157.6"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page5"
+       margin="5"
+       bleed="0"
+       inkscape:label="P2 · tile 2/2" />
+    <inkscape:page
+       x="1447"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page6"
+       margin="5"
+       bleed="0"
+       inkscape:label="P3 · tile 1/2" />
+    <inkscape:page
+       x="1736.4"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page7"
+       margin="5"
+       bleed="0"
+       inkscape:label="P3 · tile 2/2" />
+    <inkscape:page
+       x="2025.8"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page8"
+       margin="5"
+       bleed="0"
+       inkscape:label="P4 · tile 1/2" />
+    <inkscape:page
+       x="2315.2"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page9"
+       margin="5"
+       bleed="0"
+       inkscape:label="P4 · tile 2/2" />
+    <inkscape:page
+       x="2604.6"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page10"
+       margin="5"
+       bleed="0"
+       inkscape:label="P5 · tile 1/2" />
+    <inkscape:page
+       x="2894"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page11"
+       margin="5"
+       bleed="0"
+       inkscape:label="P5 · tile 2/2" />
+    <inkscape:page
+       x="3183.4"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page12"
+       margin="5"
+       bleed="0"
+       inkscape:label="S1" />
+    <inkscape:page
+       x="3472.8"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page13"
+       margin="5"
+       bleed="0"
+       inkscape:label="S2" />
+    <inkscape:page
+       x="3762.2"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page14"
+       margin="5"
+       bleed="0"
+       inkscape:label="S3 · tile 1/2" />
+    <inkscape:page
+       x="4051.6"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page15"
+       margin="5"
+       bleed="0"
+       inkscape:label="S3 · tile 2/2" />
+    <inkscape:page
+       x="4341"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page16"
+       margin="5"
+       bleed="0"
+       inkscape:label="S4" />
+    <inkscape:page
+       x="4630.4"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page17"
+       margin="5"
+       bleed="0"
+       inkscape:label="B1 · tile 1/2" />
+    <inkscape:page
+       x="4919.8"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page18"
+       margin="5"
+       bleed="0"
+       inkscape:label="B1 · tile 2/2" />
+    <inkscape:page
+       x="5209.2"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page19"
+       margin="5"
+       bleed="0"
+       inkscape:label="B2" />
+    <inkscape:page
+       x="5498.6"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page20"
+       margin="5"
+       bleed="0"
+       inkscape:label="B3" />
+    <inkscape:page
+       x="5788"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page21"
+       margin="5"
+       bleed="0"
+       inkscape:label="A1/A2/A3 · tile 1/2" />
+    <inkscape:page
+       x="6077.4"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page22"
+       margin="5"
+       bleed="0"
+       inkscape:label="A1/A2/A3 · tile 2/2" />
+    <inkscape:page
+       x="6366.8"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page23"
+       margin="5"
+       bleed="0"
+       inkscape:label="PC1/PC2 · tile 1/2" />
+    <inkscape:page
+       x="6656.2"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page24"
+       margin="5"
+       bleed="0"
+       inkscape:label="PC1/PC2 · tile 2/2" />
+    <inkscape:page
+       x="6945.6"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page25"
+       margin="5"
+       bleed="0"
+       inkscape:label="SC1/SC2 · tile 1/2" />
+    <inkscape:page
+       x="7235"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page26"
+       margin="5"
+       bleed="0"
+       inkscape:label="SC1/SC2 · tile 2/2" />
+    <inkscape:page
+       x="7524.4"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page27"
+       margin="5"
+       bleed="0"
+       inkscape:label="SC3" />
+    <inkscape:page
+       x="7813.8"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page28"
+       margin="5"
+       bleed="0"
+       inkscape:label="SC4" />
+    <inkscape:page
+       x="8103.2"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page29"
+       margin="5"
+       bleed="0"
+       inkscape:label="MC1/MC2" />
+    <inkscape:page
+       x="8392.6"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page30"
+       margin="5"
+       bleed="0"
+       inkscape:label="MC3/MC4" />
+    <inkscape:page
+       x="8682"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page31"
+       margin="5"
+       bleed="0"
+       inkscape:label="LC1/LC2/LC3" />
+    <inkscape:page
+       x="8971.4"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page32"
+       margin="5"
+       bleed="0"
+       inkscape:label="assembly-template-right" />
+    <inkscape:page
+       x="9260.8"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page33"
+       margin="5"
+       bleed="0"
+       inkscape:label="assembly-template-left" />
+    <inkscape:page
+       x="9550.2"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page34"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment B left" />
+    <inkscape:page
+       x="9839.6"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page35"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment B right" />
+    <inkscape:page
+       x="10129"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page36"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment P Right · tile 1/2" />
+    <inkscape:page
+       x="10418.4"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page37"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment P Right · tile 2/2" />
+    <inkscape:page
+       x="10707.8"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page38"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment P Left · tile 1/2" />
+    <inkscape:page
+       x="10997.2"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page39"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment P Left · tile 2/2" />
+    <inkscape:page
+       x="11286.6"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page40"
+       margin="5"
+       bleed="0"
+       inkscape:label="PC-align+Alignment A left" />
+    <inkscape:page
+       x="11576"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page41"
+       margin="5"
+       bleed="0"
+       inkscape:label="PC-align+Alignment A right" />
+    <inkscape:page
+       x="11865.4"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page42"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment SC left" />
+    <inkscape:page
+       x="12154.8"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page43"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment SC right" />
+    <inkscape:page
+       x="12444.2"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page44"
+       margin="5"
+       bleed="0"
+       inkscape:label="MC-align+Alignment LC left" />
+    <inkscape:page
+       x="12733.6"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page45"
+       margin="5"
+       bleed="0"
+       inkscape:label="MC-align+Alignment LC right" />
+    <inkscape:page
+       x="13023"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page46"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment S left · tile 1/2" />
+    <inkscape:page
+       x="13312.4"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page47"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment S left · tile 2/2" />
+    <inkscape:page
+       x="13601.8"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page48"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment S right · tile 1/2" />
+    <inkscape:page
+       x="13891.2"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page49"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment S right · tile 2/2" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1" />
+  <style type="text/css">/* As-built feather catalog. Presentation lives here; elements carry classes only. */
+.outline { 
+   stroke: #000000; 
+   stroke-width: 0.25;
+   stroke-dasharray: 2.5, 2.5;
+}
+
+/* a guide line and an overlay origin arrow are the same kind of stroke */
+.guide,
+.arrow {
+  fill: none;
+  stroke: #000000;
+  stroke-width: 0.264583;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+}
+.divider{
+   fill:none;
+   stroke:#000000;
+   stroke-width:0.264583;
+   stroke-linecap:butt;
+   stroke-linejoin:miter;
+   stroke-opacity:1;
+}
+
+
+
+.align .outline { fill: none; stroke: #000000; }
+
+/* one marker, not twenty-eight; the head takes the path's stroke colour */
+
+
+
+.mark { fill: #000000; stroke: none; }
+
+/* the diagnostic overlay: hidden, read by nothing */
+.align { opacity: 0.5; }
+
+/* one colour per family, keyed on a class rather than an ancestor id */
+.b .outline { fill: #8c564b; }
+.p .outline { fill: #1f77b4; }
+.pc .outline { fill: #d62728; }
+.a .outline { fill: #2ca02c; }
+.sc .outline { fill: #9467bd; }
+.mc .outline { fill: #17becf; }
+.lc .outline { fill: #bcbd22; }
+.s .outline { fill: #ff7f0e; }
+
+.cal     { stroke: #000000; stroke-width: 0.5; }
+.minor   { stroke: #000000; stroke-width: 0.15; }
+.major   { stroke: #000000; stroke-width: 0.5; }
+.num     { font-family: sans-serif; fill: #000000; font-size: 3.5; text-anchor: middle; }
+.caltext { font-family: sans-serif; fill: #000000; font-size: 6; text-anchor: middle; font-weight: bold; }
+
+
+.outline { stroke: #000000; stroke-width: 0.5; fill: none; }
+.guide { stroke: #000000; stroke-width: 0.264583; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.arrow { stroke: #000000; stroke-width: 0.264583; fill: none; stroke-linecap: butt; stroke-linejoin: miter; }
+.mark { fill: #000000; stroke: none; }
+.label { font-family: sans-serif; fill: #000000; text-anchor: middle; dominant-baseline: middle; font-size: 5; }
+.title { font-family: sans-serif; fill: #000000; font-size: 9; text-anchor: middle; font-weight: bold; }
+.note { font-family: sans-serif; fill: #555555; font-size: 4; text-anchor: middle; }
+.cal { stroke: #000000; stroke-width: 0.5; }
+.minor { stroke: #000000; stroke-width: 0.15; }
+.major { stroke: #000000; stroke-width: 0.5; }
+.num { font-family: sans-serif; fill: #000000; font-size: 3.5; text-anchor: middle; }
+.caltext { font-family: sans-serif; fill: #000000; font-size: 6; text-anchor: middle; font-weight: bold; }
+.crop { stroke: #999999; stroke-width: 0.25; }
+.overlap { stroke: #999999; stroke-width: 0.15; stroke-dasharray: 2 2; fill: none; }
+.note { font-family: sans-serif; fill: #555555; font-size: 4; text-anchor: middle; }
+</style>
+  <g transform="translate(0 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<g transform="translate(9.7 7.95)"><g transform="translate(137.016166 24.617312)"><text x="0" y="0" class="title">Feather templates</text></g>
+<g transform="translate(136.43057 55.966601)"><text x="0" y="0" class="note">Print at 100% / actual size.</text></g>
+<use href="feathers-elongated%20copy.svg#calibration" transform="translate(13.344675 165.800687) translate(-388.28613 -47.263581)"/>
+<g transform="translate(135.654271 72.117614)"><text x="0" y="0" class="note">Do not fit or scale.</text></g>
+<g transform="translate(130.82313 96.273239)"><text x="0" y="0" class="label">measure the bars below</text></g>
+<g transform="translate(131.115941 114.865798)"><text x="0" y="0" class="label">to verify print size accuracy</text></g></g>
+  </g>
+  <g transform="translate(289.4 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s2-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s2-1)">
+<g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#P1-outline" transform="translate(111.70177 4) scale(-1 1) translate(-106.995978 -188.584989)"/>
+<use href="feathers-elongated%20copy.svg#P1-outline" transform="translate(121.70177 4) translate(-106.995978 -188.584989)"/>
+<g transform="translate(40.775509 336.353022)"><text x="0" y="0" class="label">P1L</text></g>
+<g transform="translate(191.962312 338.217061)"><text x="0" y="0" class="label">P1R</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
+<text class="note" x="139.7" y="213.4">P1 · tile 1/2 · 1x2</text>
+  </g>
+  <g transform="translate(578.8 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s2-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s2-2)">
+<g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#P1-outline" transform="translate(111.70177 4) scale(-1 1) translate(-106.995978 -188.584989)"/>
+<use href="feathers-elongated%20copy.svg#P1-outline" transform="translate(121.70177 4) translate(-106.995978 -188.584989)"/>
+<g transform="translate(40.775509 336.353022)"><text x="0" y="0" class="label">P1L</text></g>
+<g transform="translate(191.962312 338.217061)"><text x="0" y="0" class="label">P1R</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
+<text class="note" x="139.7" y="213.4">P1 · tile 2/2 · 1x2</text>
+  </g>
+  <g transform="translate(868.2 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s3-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s3-1)">
+<g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#P2-outline" transform="translate(79.5858 4) scale(-1 1) translate(-86.189752 -195.112289)"/>
+<use href="feathers-elongated%20copy.svg#P2-outline" transform="translate(89.5858 4) translate(-86.189752 -195.112289)"/>
+<g transform="translate(31.291299 333.191102)"><text x="0" y="0" class="label">P2L</text></g>
+<g transform="translate(138.362806 335.410722)"><text x="0" y="0" class="label">P2R</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
+<text class="note" x="139.7" y="213.4">P2 · tile 1/2 · 1x2</text>
+  </g>
+  <g transform="translate(1157.6 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s3-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s3-2)">
+<g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#P2-outline" transform="translate(79.5858 4) scale(-1 1) translate(-86.189752 -195.112289)"/>
+<use href="feathers-elongated%20copy.svg#P2-outline" transform="translate(89.5858 4) translate(-86.189752 -195.112289)"/>
+<g transform="translate(31.291299 333.191102)"><text x="0" y="0" class="label">P2L</text></g>
+<g transform="translate(138.362806 335.410722)"><text x="0" y="0" class="label">P2R</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
+<text class="note" x="139.7" y="213.4">P2 · tile 2/2 · 1x2</text>
+  </g>
+  <g transform="translate(1447 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s4-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s4-1)">
+<g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#P3-outline" transform="translate(83.49518 4) scale(-1 1) translate(-74.214904 -200.432497)"/>
+<use href="feathers-elongated%20copy.svg#P3-outline" transform="translate(93.49518 4) translate(-74.214904 -200.432497)"/>
+<g transform="translate(24.962971 321.633666)"><text x="0" y="0" class="label">P3L</text></g>
+<g transform="translate(153.13799 324.359706)"><text x="0" y="0" class="label">P3R</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
+<text class="note" x="139.7" y="213.4">P3 · tile 1/2 · 1x2</text>
+  </g>
+  <g transform="translate(1736.4 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s4-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s4-2)">
+<g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#P3-outline" transform="translate(83.49518 4) scale(-1 1) translate(-74.214904 -200.432497)"/>
+<use href="feathers-elongated%20copy.svg#P3-outline" transform="translate(93.49518 4) translate(-74.214904 -200.432497)"/>
+<g transform="translate(24.962971 321.633666)"><text x="0" y="0" class="label">P3L</text></g>
+<g transform="translate(153.13799 324.359706)"><text x="0" y="0" class="label">P3R</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
+<text class="note" x="139.7" y="213.4">P3 · tile 2/2 · 1x2</text>
+  </g>
+  <g transform="translate(2025.8 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s5-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s5-1)">
+<g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#P4-outline" transform="translate(91.47426 4) scale(-1 1) translate(-49.236415 -206.232926)"/>
+<use href="feathers-elongated%20copy.svg#P4-outline" transform="translate(101.47426 4) translate(-49.236415 -206.232926)"/>
+<g transform="translate(48.23726 138.204)"><text x="0" y="0" class="label">P4L</text></g>
+<g transform="translate(144.71126 138.204)"><text x="0" y="0" class="label">P4R</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
+<text class="note" x="139.7" y="213.4">P4 · tile 1/2 · 1x2</text>
+  </g>
+  <g transform="translate(2315.2 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s5-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s5-2)">
+<g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#P4-outline" transform="translate(91.47426 4) scale(-1 1) translate(-49.236415 -206.232926)"/>
+<use href="feathers-elongated%20copy.svg#P4-outline" transform="translate(101.47426 4) translate(-49.236415 -206.232926)"/>
+<g transform="translate(48.23726 138.204)"><text x="0" y="0" class="label">P4L</text></g>
+<g transform="translate(144.71126 138.204)"><text x="0" y="0" class="label">P4R</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
+<text class="note" x="139.7" y="213.4">P4 · tile 2/2 · 1x2</text>
+  </g>
+  <g transform="translate(2604.6 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s6-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s6-1)">
+<g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#P5-outline" transform="translate(239.00908 103.55308) rotate(90) scale(-1 1) translate(-42.400559 -210.647402)"/>
+<use href="feathers-elongated%20copy.svg#P5-outline" transform="translate(239.00908 113.55308) rotate(90) translate(-42.400559 -210.647402)"/>
+<g transform="translate(122.00408 54.27608)"><text x="0" y="0" class="label">P5L</text></g>
+<g transform="translate(122.00408 162.83008)"><text x="0" y="0" class="label">P5R</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
+<text class="note" x="139.7" y="213.4">P5 · tile 1/2 · 1x2</text>
+  </g>
+  <g transform="translate(2894 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s6-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s6-2)">
+<g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#P5-outline" transform="translate(239.00908 103.55308) rotate(90) scale(-1 1) translate(-42.400559 -210.647402)"/>
+<use href="feathers-elongated%20copy.svg#P5-outline" transform="translate(239.00908 113.55308) rotate(90) translate(-42.400559 -210.647402)"/>
+<g transform="translate(122.00408 54.27608)"><text x="0" y="0" class="label">P5L</text></g>
+<g transform="translate(122.00408 162.83008)"><text x="0" y="0" class="label">P5R</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
+<text class="note" x="139.7" y="213.4">P5 · tile 2/2 · 1x2</text>
+  </g>
+  <g transform="translate(3183.4 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<g transform="translate(7.772095 13.520543)"><use href="feathers-elongated%20copy.svg#S1-outline" transform="translate(259.85581 89.429457) rotate(90) scale(-1 1) translate(-108.529591 -120.172207)"/>
+<use href="feathers-elongated%20copy.svg#S1-outline" transform="translate(259.85581 99.429457) rotate(90) translate(-108.529591 -120.172207)"/>
+<g transform="translate(132.42781 47.214457)"><text x="0" y="0" class="label">S1L</text></g>
+<g transform="translate(132.42781 141.644457)"><text x="0" y="0" class="label">S1R</text></g></g>
+  </g>
+  <g transform="translate(3472.8 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<g transform="translate(9.97911 15.95653)"><use href="feathers-elongated%20copy.svg#S2-outline" transform="translate(255.44178 86.99347) rotate(90) scale(-1 1) translate(-94.712571 -120.860552)"/>
+<use href="feathers-elongated%20copy.svg#S2-outline" transform="translate(255.44178 96.99347) rotate(90) translate(-94.712571 -120.860552)"/>
+<g transform="translate(130.22078 45.99647)"><text x="0" y="0" class="label">S2L</text></g>
+<g transform="translate(130.22078 137.99047)"><text x="0" y="0" class="label">S2R</text></g></g>
+  </g>
+  <g transform="translate(3762.2 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s9-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s9-1)">
+<g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#S3-outline" transform="translate(87.02697 4) scale(-1 1) translate(-62.806478 -122.52389)"/>
+<use href="feathers-elongated%20copy.svg#S3-outline" transform="translate(97.02697 4) translate(-62.806478 -122.52389)"/>
+<g transform="translate(46.01397 104.677)"><text x="0" y="0" class="label">S3L</text></g>
+<g transform="translate(138.03997 104.677)"><text x="0" y="0" class="label">S3R</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
+<text class="note" x="139.7" y="213.4">S3 · tile 1/2 · 1x2</text>
+  </g>
+  <g transform="translate(4051.6 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s9-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s9-2)">
+<g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#S3-outline" transform="translate(87.02697 4) scale(-1 1) translate(-62.806478 -122.52389)"/>
+<use href="feathers-elongated%20copy.svg#S3-outline" transform="translate(97.02697 4) translate(-62.806478 -122.52389)"/>
+<g transform="translate(46.01397 104.677)"><text x="0" y="0" class="label">S3L</text></g>
+<g transform="translate(138.03997 104.677)"><text x="0" y="0" class="label">S3R</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
+<text class="note" x="139.7" y="213.4">S3 · tile 2/2 · 1x2</text>
+  </g>
+  <g transform="translate(4341 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<g transform="translate(43.62659 24.130345)"><use href="feathers-elongated%20copy.svg#S4-outline" transform="translate(91.07341 4) scale(-1 1) translate(-22.669771 -124.193159)"/>
+<use href="feathers-elongated%20copy.svg#S4-outline" transform="translate(101.07341 4) translate(-22.669771 -124.193159)"/>
+<g transform="translate(48.03641 83.32)"><text x="0" y="0" class="label">S4L</text></g>
+<g transform="translate(144.11041 83.32)"><text x="0" y="0" class="label">S4R</text></g></g>
+  </g>
+  <g transform="translate(4630.4 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s11-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s11-1)">
+<g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#B1-outline" transform="translate(85.754908 204.13325) rotate(90) scale(-1 1) translate(-20.419479 -168.245032)"/>
+<use href="feathers-elongated%20copy.svg#B1-outline" transform="translate(176.509908 11.97825) rotate(90) translate(-20.419479 -168.245032)"/>
+<g transform="translate(45.377908 108.05525)"><text x="0" y="0" class="label">B1L</text></g>
+<g transform="translate(136.131908 108.05525)"><text x="0" y="0" class="label">B1R</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
+<text class="note" x="139.7" y="213.4">B1 · tile 1/2 · 1x2</text>
+  </g>
+  <g transform="translate(4919.8 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s11-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s11-2)">
+<g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#B1-outline" transform="translate(85.754908 204.13325) rotate(90) scale(-1 1) translate(-20.419479 -168.245032)"/>
+<use href="feathers-elongated%20copy.svg#B1-outline" transform="translate(176.509908 11.97825) rotate(90) translate(-20.419479 -168.245032)"/>
+<g transform="translate(45.377908 108.05525)"><text x="0" y="0" class="label">B1L</text></g>
+<g transform="translate(136.131908 108.05525)"><text x="0" y="0" class="label">B1R</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
+<text class="note" x="139.7" y="213.4">B1 · tile 2/2 · 1x2</text>
+  </g>
+  <g transform="translate(5209.2 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<g transform="translate(30.45763 23.359944)"><use href="feathers-elongated%20copy.svg#B2-outline" transform="translate(213.48487 4) scale(-1 1) translate(-19.370941 -135.140443)"/>
+<use href="feathers-elongated%20copy.svg#B2-outline" transform="translate(4.99987 89.09) translate(-19.370941 -135.140443)"/>
+<g transform="translate(109.24187 41.545)"><text x="0" y="0" class="label">B2L</text></g>
+<g transform="translate(109.24187 126.635)"><text x="0" y="0" class="label">B2R</text></g></g>
+  </g>
+  <g transform="translate(5498.6 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<g transform="translate(22.76596 30.173152)"><use href="feathers-elongated%20copy.svg#B3-outline" transform="translate(228.86854 4) scale(-1 1) translate(5.403944 -90.784929)"/>
+<use href="feathers-elongated%20copy.svg#B3-outline" transform="translate(4.99954 82.277) translate(5.403944 -90.784929)"/>
+<g transform="translate(116.93354 38.138)"><text x="0" y="0" class="label">B3L</text></g>
+<g transform="translate(116.93354 116.416)"><text x="0" y="0" class="label">B3R</text></g></g>
+  </g>
+  <g transform="translate(5788 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s14-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s14-1)">
+<g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#A1-outline" transform="translate(54.675146 4) scale(-1 1) translate(-168.00104 -86.602003)"/>
+<use href="feathers-elongated%20copy.svg#A1-outline" transform="translate(203.317289 3.961889) translate(-168.00104 -86.602003)"/>
+<g transform="translate(41.98812 121.85018)"><text x="0" y="0" class="label">A1L</text></g>
+<g transform="translate(231.703293 137.944104)"><text x="0" y="0" class="label">A1R</text></g>
+<use href="feathers-elongated%20copy.svg#A2-outline" transform="translate(133.448658 6.547801) scale(-1 1) translate(-160.644843 -106.67374)"/>
+<use href="feathers-elongated%20copy.svg#A2-outline" transform="translate(140.959948 2.202638) translate(-160.644843 -106.67374)"/>
+<g transform="translate(87.143565 128.936892)"><text x="0" y="0" class="label">A2L</text></g>
+<g transform="translate(172.590026 118.448558)"><text x="0" y="0" class="label">A2R</text></g>
+<use href="feathers-elongated%20copy.svg#A3-outline" transform="translate(56.696687 135.254951) scale(-1 1) translate(-160.803793 -125.901477)"/>
+<use href="feathers-elongated%20copy.svg#A3-outline" transform="translate(164.881576 135.413644) translate(-160.803793 -125.901477)"/>
+<g transform="translate(38.96469 199.836515)"><text x="0" y="0" class="label">A3L</text></g>
+<g transform="translate(178.192221 198.925654)"><text x="0" y="0" class="label">A3R</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
+<text class="note" x="139.7" y="213.4">A1/A2/A3 · tile 1/2 · 1x2</text>
+  </g>
+  <g transform="translate(6077.4 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s14-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s14-2)">
+<g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#A1-outline" transform="translate(54.675146 4) scale(-1 1) translate(-168.00104 -86.602003)"/>
+<use href="feathers-elongated%20copy.svg#A1-outline" transform="translate(203.317289 3.961889) translate(-168.00104 -86.602003)"/>
+<g transform="translate(41.98812 121.85018)"><text x="0" y="0" class="label">A1L</text></g>
+<g transform="translate(231.703293 137.944104)"><text x="0" y="0" class="label">A1R</text></g>
+<use href="feathers-elongated%20copy.svg#A2-outline" transform="translate(133.448658 6.547801) scale(-1 1) translate(-160.644843 -106.67374)"/>
+<use href="feathers-elongated%20copy.svg#A2-outline" transform="translate(140.959948 2.202638) translate(-160.644843 -106.67374)"/>
+<g transform="translate(87.143565 128.936892)"><text x="0" y="0" class="label">A2L</text></g>
+<g transform="translate(172.590026 118.448558)"><text x="0" y="0" class="label">A2R</text></g>
+<use href="feathers-elongated%20copy.svg#A3-outline" transform="translate(56.696687 135.254951) scale(-1 1) translate(-160.803793 -125.901477)"/>
+<use href="feathers-elongated%20copy.svg#A3-outline" transform="translate(164.881576 135.413644) translate(-160.803793 -125.901477)"/>
+<g transform="translate(38.96469 199.836515)"><text x="0" y="0" class="label">A3L</text></g>
+<g transform="translate(178.192221 198.925654)"><text x="0" y="0" class="label">A3R</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
+<text class="note" x="139.7" y="213.4">A1/A2/A3 · tile 2/2 · 1x2</text>
+  </g>
+  <g transform="translate(6366.8 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s15-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s15-1)">
+<g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#PC1-outline" transform="translate(62.76447 4) scale(-1 1) translate(-154.838596 -172.606335)"/>
+<use href="feathers-elongated%20copy.svg#PC1-outline" transform="translate(187.100496 -0.716375) translate(-154.838596 -172.606335)"/>
+<g transform="translate(25.684222 121.314372)"><text x="0" y="0" class="label">PC1L</text></g>
+<g transform="translate(224.007891 117.863477)"><text x="0" y="0" class="label">PC1R</text></g>
+<use href="feathers-elongated%20copy.svg#PC2-outline" transform="translate(111.642565 8.001746) scale(-1 1) translate(-124.734545 -181.607158)"/>
+<use href="feathers-elongated%20copy.svg#PC2-outline" transform="translate(141.787325 7.924912) translate(-124.734545 -181.607158)"/>
+<g transform="translate(91.090845 107.848667)"><text x="0" y="0" class="label">PC2L</text></g>
+<g transform="translate(161.980817 107.033246)"><text x="0" y="0" class="label">PC2R</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
+<text class="note" x="139.7" y="213.4">PC1/PC2 · tile 1/2 · 1x2</text>
+  </g>
+  <g transform="translate(6656.2 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s15-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s15-2)">
+<g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#PC1-outline" transform="translate(62.76447 4) scale(-1 1) translate(-154.838596 -172.606335)"/>
+<use href="feathers-elongated%20copy.svg#PC1-outline" transform="translate(187.100496 -0.716375) translate(-154.838596 -172.606335)"/>
+<g transform="translate(25.684222 121.314372)"><text x="0" y="0" class="label">PC1L</text></g>
+<g transform="translate(224.007891 117.863477)"><text x="0" y="0" class="label">PC1R</text></g>
+<use href="feathers-elongated%20copy.svg#PC2-outline" transform="translate(111.642565 8.001746) scale(-1 1) translate(-124.734545 -181.607158)"/>
+<use href="feathers-elongated%20copy.svg#PC2-outline" transform="translate(141.787325 7.924912) translate(-124.734545 -181.607158)"/>
+<g transform="translate(91.090845 107.848667)"><text x="0" y="0" class="label">PC2L</text></g>
+<g transform="translate(161.980817 107.033246)"><text x="0" y="0" class="label">PC2R</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
+<text class="note" x="139.7" y="213.4">PC1/PC2 · tile 2/2 · 1x2</text>
+  </g>
+  <g transform="translate(6945.6 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s16-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s16-1)">
+<g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#SC1-outline" transform="translate(52.29216 4) scale(-1 1) translate(-67.006304 -101.221942)"/>
+<use href="feathers-elongated%20copy.svg#SC1-outline" transform="translate(62.29216 4) translate(-67.006304 -101.221942)"/>
+<g transform="translate(28.64616 81.898)"><text x="0" y="0" class="label">SC1L</text></g>
+<g transform="translate(85.93816 81.898)"><text x="0" y="0" class="label">SC1R</text></g>
+<use href="feathers-elongated%20copy.svg#SC2-outline" transform="translate(167.00516 4) scale(-1 1) translate(-72.800961 -71.442507)"/>
+<use href="feathers-elongated%20copy.svg#SC2-outline" transform="translate(177.00516 4) translate(-72.800961 -71.442507)"/>
+<g transform="translate(142.29516 79.429)"><text x="0" y="0" class="label">SC2L</text></g>
+<g transform="translate(201.71616 79.429)"><text x="0" y="0" class="label">SC2R</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
+<text class="note" x="139.7" y="213.4">SC1/SC2 · tile 1/2 · 1x2</text>
+  </g>
+  <g transform="translate(7235 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s16-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s16-2)">
+<g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#SC1-outline" transform="translate(52.29216 4) scale(-1 1) translate(-67.006304 -101.221942)"/>
+<use href="feathers-elongated%20copy.svg#SC1-outline" transform="translate(62.29216 4) translate(-67.006304 -101.221942)"/>
+<g transform="translate(28.64616 81.898)"><text x="0" y="0" class="label">SC1L</text></g>
+<g transform="translate(85.93816 81.898)"><text x="0" y="0" class="label">SC1R</text></g>
+<use href="feathers-elongated%20copy.svg#SC2-outline" transform="translate(167.00516 4) scale(-1 1) translate(-72.800961 -71.442507)"/>
+<use href="feathers-elongated%20copy.svg#SC2-outline" transform="translate(177.00516 4) translate(-72.800961 -71.442507)"/>
+<g transform="translate(142.29516 79.429)"><text x="0" y="0" class="label">SC2L</text></g>
+<g transform="translate(201.71616 79.429)"><text x="0" y="0" class="label">SC2R</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
+<text class="note" x="139.7" y="213.4">SC1/SC2 · tile 2/2 · 1x2</text>
+  </g>
+  <g transform="translate(7524.4 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<g transform="translate(69.56816 32.86539)"><use href="feathers-elongated%20copy.svg#SC3-outline" transform="translate(65.13184 4) scale(-1 1) translate(-80.982041 -43.870805)"/>
+<use href="feathers-elongated%20copy.svg#SC3-outline" transform="translate(75.13184 4) translate(-80.982041 -43.870805)"/>
+<g transform="translate(35.06584 74.585)"><text x="0" y="0" class="label">SC3L</text></g>
+<g transform="translate(105.19784 74.585)"><text x="0" y="0" class="label">SC3R</text></g></g>
+  </g>
+  <g transform="translate(7813.8 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<g transform="translate(57.58934 28.91722)"><use href="feathers-elongated%20copy.svg#SC4-outline" transform="translate(77.11066 4) scale(-1 1) translate(-88.353964 -5.76458)"/>
+<use href="feathers-elongated%20copy.svg#SC4-outline" transform="translate(87.11066 4) translate(-88.353964 -5.76458)"/>
+<g transform="translate(41.05566 78.533)"><text x="0" y="0" class="label">SC4L</text></g>
+<g transform="translate(123.16566 78.533)"><text x="0" y="0" class="label">SC4R</text></g></g>
+  </g>
+  <g transform="translate(8103.2 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<g transform="translate(12.834855 38.91399)"><use href="feathers-elongated%20copy.svg#MC1-outline" transform="translate(49.82714 4) scale(-1 1) translate(-41.64045 -71.625948)"/>
+<use href="feathers-elongated%20copy.svg#MC1-outline" transform="translate(59.82714 4) translate(-41.64045 -71.625948)"/>
+<g transform="translate(27.41314 62.128)"><text x="0" y="0" class="label">MC1L</text></g>
+<g transform="translate(82.24014 62.128)"><text x="0" y="0" class="label">MC1R</text></g>
+<use href="feathers-elongated%20copy.svg#MC2-outline" transform="translate(175.69214 4) scale(-1 1) translate(-36.907673 -9.247125)"/>
+<use href="feathers-elongated%20copy.svg#MC2-outline" transform="translate(185.69214 4) translate(-36.907673 -9.247125)"/>
+<g transform="translate(144.17314 68.536)"><text x="0" y="0" class="label">MC2L</text></g>
+<g transform="translate(217.21114 68.536)"><text x="0" y="0" class="label">MC2R</text></g></g>
+  </g>
+  <g transform="translate(8392.6 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<g transform="translate(21.900975 43.78325)"><use href="feathers-elongated%20copy.svg#MC3-outline" transform="translate(59.54579 4) scale(-1 1) translate(-31.231408 -19.625195)"/>
+<use href="feathers-elongated%20copy.svg#MC3-outline" transform="translate(69.54579 4) translate(-31.231408 -19.625195)"/>
+<g transform="translate(32.27279 63.667)"><text x="0" y="0" class="label">MC3L</text></g>
+<g transform="translate(96.81879 63.667)"><text x="0" y="0" class="label">MC3R</text></g>
+<use href="feathers-elongated%20copy.svg#MC4-outline" transform="translate(176.34479 4) scale(-1 1) translate(-23.845544 -0.084787)"/>
+<use href="feathers-elongated%20copy.svg#MC4-outline" transform="translate(186.34479 4) translate(-23.845544 -0.084787)"/>
+<g transform="translate(154.21779 54.039)"><text x="0" y="0" class="label">MC4L</text></g>
+<g transform="translate(208.47079 54.039)"><text x="0" y="0" class="label">MC4R</text></g></g>
+  </g>
+  <g transform="translate(8682 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<g transform="translate(46.604535 12.537367)"><use href="feathers-elongated%20copy.svg#LC1-outline" transform="translate(45.54244 4) scale(-1 1) translate(-8.809569 -23.642734)"/>
+<use href="feathers-elongated%20copy.svg#LC1-outline" transform="translate(55.54244 4) translate(-8.809569 -23.642734)"/>
+<g transform="translate(25.27044 47.414)"><text x="0" y="0" class="label">LC1L</text></g>
+<g transform="translate(75.81344 47.414)"><text x="0" y="0" class="label">LC1R</text></g>
+<use href="feathers-elongated%20copy.svg#LC2-outline" transform="translate(137.63744 4) scale(-1 1) translate(-4.968378 -52.879963)"/>
+<use href="feathers-elongated%20copy.svg#LC2-outline" transform="translate(147.63744 4) translate(-4.968378 -52.879963)"/>
+<g transform="translate(120.86144 45.306)"><text x="0" y="0" class="label">LC2L</text></g>
+<g transform="translate(164.41444 45.306)"><text x="0" y="0" class="label">LC2R</text></g>
+<use href="feathers-elongated%20copy.svg#LC3-outline" transform="translate(88.09544 98.828) scale(-1 1) translate(-1.178238 -80.370482)"/>
+<use href="feathers-elongated%20copy.svg#LC3-outline" transform="translate(98.09544 98.828) translate(-1.178238 -80.370482)"/>
+<g transform="translate(68.97444 142.327)"><text x="0" y="0" class="label">LC3L</text></g>
+<g transform="translate(117.21644 142.327)"><text x="0" y="0" class="label">LC3R</text></g></g>
+  </g>
+  <g transform="translate(8971.4 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<g transform="translate(7.175407 17.617748)"><use href="feathers-elongated%20copy.svg#assembly-template" transform="translate(5 5) translate(0.686376 -0.135043)"/>
+<g transform="translate(132.525 8)"><text x="0" y="0" class="label">assembly-template right</text></g></g>
+  </g>
+  <g transform="translate(9260.8 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<g transform="translate(7.175407 17.617748)"><use href="feathers-elongated%20copy.svg#assembly-template" transform="translate(260.049186 5) scale(-1 1) translate(0.686376 -0.135043)"/>
+<g transform="translate(132.525186 8)"><text x="0" y="0" class="label">assembly-template left</text></g></g>
+  </g>
+  <g transform="translate(9550.2 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<g transform="translate(10.9668 43.16087)"><use href="feathers-elongated%20copy.svg#B-align" transform="translate(252.4664 5) rotate(90) translate(762.83642 -316.35628)"/>
+<g transform="translate(128.7334 8)"><text x="0" y="0" class="label">B-align</text></g></g>
+  </g>
+  <g transform="translate(9839.6 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<g transform="translate(10.9668 43.16087)"><use href="feathers-elongated%20copy.svg#B-align" transform="translate(252.4664 124.57826) rotate(90) scale(-1 1) translate(762.83642 -316.35628)"/>
+<g transform="translate(128.7334 8.00026)"><text x="0" y="0" class="label">B-align</text></g></g>
+  </g>
+  <g transform="translate(10129 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s26-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s26-1)">
+<g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#P-align" transform="translate(5 5) translate(2005.5713 1365.4415)"/>
+<g transform="translate(96.083 8)"><text x="0" y="0" class="label">P  Right</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
+<text class="note" x="139.7" y="213.4">Alignment P Right · tile 1/2 · 1x2</text>
+  </g>
+  <g transform="translate(10418.4 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s26-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s26-2)">
+<g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#P-align" transform="translate(5 5) translate(2005.5713 1365.4415)"/>
+<g transform="translate(96.083 8)"><text x="0" y="0" class="label">P  Right</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
+<text class="note" x="139.7" y="213.4">Alignment P Right · tile 2/2 · 1x2</text>
+  </g>
+  <g transform="translate(10707.8 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s27-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s27-1)">
+<g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#P-align" transform="translate(187.165219 5) scale(-1 1) translate(2005.5713 1365.4415)"/>
+<g transform="translate(96.083219 8)"><text x="0" y="0" class="label">P Left</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
+<text class="note" x="139.7" y="213.4">Alignment P Left · tile 1/2 · 1x2</text>
+  </g>
+  <g transform="translate(10997.2 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s27-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s27-2)">
+<g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#P-align" transform="translate(187.165219 5) scale(-1 1) translate(2005.5713 1365.4415)"/>
+<g transform="translate(96.083219 8)"><text x="0" y="0" class="label">P Left</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
+<text class="note" x="139.7" y="213.4">Alignment P Left · tile 2/2 · 1x2</text>
+  </g>
+  <g transform="translate(11286.6 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<g transform="translate(58.49363 34.67602)"><use href="feathers-elongated%20copy.svg#PC-align" transform="translate(5 5) translate(2391.4163 1004.3291)"/>
+<g transform="translate(43.427 8)"><text x="0" y="0" class="label">PC-align</text></g>
+<use href="feathers-elongated%20copy.svg#A-align" transform="translate(91.854 5) translate(2489.2341 1029.618)"/>
+<g transform="translate(124.633 8)"><text x="0" y="0" class="label">A-align</text></g></g>
+  </g>
+  <g transform="translate(11576 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<g transform="translate(58.493635 34.67602)"><use href="feathers-elongated%20copy.svg#PC-align" transform="translate(81.85373 5) scale(-1 1) translate(2391.4163 1004.3291)"/>
+<g transform="translate(43.42673 8)"><text x="0" y="0" class="label">PC-align</text></g>
+<use href="feathers-elongated%20copy.svg#A-align" transform="translate(157.41273 5) scale(-1 1) translate(2489.2341 1029.618)"/>
+<g transform="translate(124.63273 8)"><text x="0" y="0" class="label">A-align</text></g></g>
+  </g>
+  <g transform="translate(11865.4 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<g transform="translate(63.025598 9.07682)"><use href="feathers-elongated%20copy.svg#SC-align" transform="translate(5 5) translate(4351.7894 1546.0646)"/>
+<g transform="translate(76.674 8)"><text x="0" y="0" class="label">SC-align</text></g></g>
+  </g>
+  <g transform="translate(12154.8 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<g transform="translate(63.025598 9.07682)"><use href="feathers-elongated%20copy.svg#SC-align" transform="translate(148.348804 5) scale(-1 1) translate(4351.7894 1546.0646)"/>
+<g transform="translate(76.673804 8)"><text x="0" y="0" class="label">SC-align</text></g></g>
+  </g>
+  <g transform="translate(12444.2 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<g transform="translate(16.26923 45.70415)"><use href="feathers-elongated%20copy.svg#MC-align" transform="translate(5 5) translate(4105.5447 1597.377987)"/>
+<g transform="translate(70.146 8)"><text x="0" y="0" class="label">MC-align</text></g>
+<use href="feathers-elongated%20copy.svg#LC-align" transform="translate(145.292 5) translate(2007.605 594.9331)"/>
+<g transform="translate(193.577 8)"><text x="0" y="0" class="label">LC-align</text></g></g>
+  </g>
+  <g transform="translate(12733.6 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<g transform="translate(16.269019 45.70415)"><use href="feathers-elongated%20copy.svg#MC-align" transform="translate(135.291962 5) scale(-1 1) translate(4105.5447 1597.377987)"/>
+<g transform="translate(70.145962 8)"><text x="0" y="0" class="label">MC-align</text></g>
+<use href="feathers-elongated%20copy.svg#LC-align" transform="translate(241.861962 5) scale(-1 1) translate(2007.605 594.9331)"/>
+<g transform="translate(193.576962 8)"><text x="0" y="0" class="label">LC-align</text></g></g>
+  </g>
+  <g transform="translate(13023 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s34-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s34-1)">
+<g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#S-align" transform="translate(5 5) translate(1395.3477 41.310377)"/>
+<g transform="translate(94.687 8)"><text x="0" y="0" class="label">S-align</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
+<text class="note" x="139.7" y="213.4">Alignment S left · tile 1/2 · 1x2</text>
+  </g>
+  <g transform="translate(13312.4 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s34-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s34-2)">
+<g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#S-align" transform="translate(5 5) translate(1395.3477 41.310377)"/>
+<g transform="translate(94.687 8)"><text x="0" y="0" class="label">S-align</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
+<text class="note" x="139.7" y="213.4">Alignment S left · tile 2/2 · 1x2</text>
+  </g>
+  <g transform="translate(13601.8 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s35-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s35-1)">
+<g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#S-align" transform="translate(184.37301 5) scale(-1 1) translate(1395.3477 41.310377)"/>
+<g transform="translate(94.68701 8)"><text x="0" y="0" class="label">S-align</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
+<text class="note" x="139.7" y="213.4">Alignment S right · tile 1/2 · 1x2</text>
+  </g>
+  <g transform="translate(13891.2 0)">
+    <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+<defs><clipPath id="clip-s35-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
+<g clip-path="url(#clip-s35-2)">
+<g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#S-align" transform="translate(184.37301 5) scale(-1 1) translate(1395.3477 41.310377)"/>
+<g transform="translate(94.68701 8)"><text x="0" y="0" class="label">S-align</text></g></g>
+</g>
+<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
+<text class="note" x="139.7" y="213.4">Alignment S right · tile 2/2 · 1x2</text>
+  </g>
+</svg>

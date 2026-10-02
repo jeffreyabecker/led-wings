@@ -6,9 +6,16 @@ import { assembleProject, cssToText, flatten, parseSvg, type FlatSheet } from '.
 import { buildPaletteTree, renderElementPreview, renderSheetBody, type PaletteNode } from './lib';
 import { exportContactSheet, exportMultipageSvg, exportPdf, exportSvgs } from './export';
 
+/** Resolve a source href to a fetchable URL. Absolute or root-relative hrefs
+ *  pass through; bare filenames resolve against /templates/. */
+function resolveSourceUrl(href: string): string {
+  if (/^https?:\/\//i.test(href) || href.startsWith('/')) return href;
+  return `/templates/${encodeURI(href)}`;
+}
+
 /** Resolve a project's source href to a parsed SVG document. */
 async function fetchSourceDoc(project: Project): Promise<Document> {
-  const url = new URL(project.source.href, '/templates/').href;
+  const url = resolveSourceUrl(project.source.href);
   const res = await fetch(url);
   if (!res.ok) throw new Error(`source ${url}: HTTP ${res.status}`);
   return parseSvg(await res.text());

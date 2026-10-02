@@ -1,6 +1,7 @@
 import type { Project } from '../../model/src/types';
 import { resolveId } from './resolve';
-import { transformString } from './transform';
+import { elementBBox, transformString } from './transform';
+import { fmt } from './util';
 
 /** A concrete element ready to assemble: references resolved to DOM nodes. */
 export type FlatElement =
@@ -18,6 +19,17 @@ export interface FlatSheet {
 export interface FlattenError {
   path: string;
   message: string;
+}
+
+/** Append an innermost translate that shifts a component's ink bbox to the
+ *  origin, so placing it at `position` lands its top-left corner there (instead
+ *  of at the component's absolute source coordinates). */
+function normalizedTransform(found: Element, transform: string): string {
+  const bbox = elementBBox('', [found]);
+  if (!bbox) return transform;
+  const [x0, y0] = bbox;
+  if (Math.abs(x0) < 1e-6 && Math.abs(y0) < 1e-6) return transform;
+  return `${transform} translate(${fmt(-x0)} ${fmt(-y0)})`;
 }
 
 /** Compiler link step: resolve source component ids (and asset references) into
@@ -56,7 +68,7 @@ export function flatten(
           kind: 'source',
           source: el.source,
           elements: [found],
-          transform: transformString(el.position, [el.transform]),
+          transform: normalizedTransform(found, transformString(el.position, [el.transform])),
         });
       } else {
         const asset = assets.get(el.assetId);
@@ -74,7 +86,7 @@ export function flatten(
           kind: 'source',
           source: asset.source,
           elements: [found],
-          transform: transformString(el.position, [el.transform, asset.baseTransform]),
+          transform: normalizedTransform(found, transformString(el.position, [el.transform, asset.baseTransform])),
         });
       }
     }
