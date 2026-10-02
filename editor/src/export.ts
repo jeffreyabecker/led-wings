@@ -59,16 +59,23 @@ function mmToPt(mm: number): number {
 }
 
 /** Render every page to a high-DPI PNG and embed into a single PDF (raster). */
-export async function exportPdf(trim: { width: number; height: number }, pages: EnginePage[]): Promise<void> {
+export async function exportPdf(
+  trim: { width: number; height: number },
+  pages: EnginePage[],
+  onProgress?: (done: number, total: number) => void,
+): Promise<void> {
   const pdf = await PDFDocument.create();
   const w = mmToPt(trim.width);
   const h = mmToPt(trim.height);
+  let i = 0;
   for (const page of pages) {
     const png = await svgToCanvas(page.svg, 3);
     const bytes = await canvasToPngBytes(png);
     const img = await pdf.embedPng(bytes);
     const p = pdf.addPage([w, h]);
     p.drawImage(img, { x: 0, y: 0, width: w, height: h });
+    i += 1;
+    onProgress?.(i, pages.length);
   }
   const out = await pdf.save();
   downloadBlob(new Blob([out as unknown as BlobPart], { type: 'application/pdf' }), 'sheets.pdf');

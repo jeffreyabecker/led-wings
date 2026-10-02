@@ -302,8 +302,30 @@ export function App() {
         <button onClick={openFile}>Open…</button>
         <button onClick={saveProject} disabled={!project}>Save</button>
         <button onClick={() => engine && exportSvgs(engine.pages)} disabled={!engine?.pages.length}>SVGs</button>
-        <button onClick={() => engine && paper && exportPdf(paper.trim, engine.pages)} disabled={!engine?.pages.length}>PDF</button>
-        <button onClick={() => engine && exportContactSheet(engine.pages)} disabled={!engine?.pages.length}>Contact sheet</button>
+        <button
+          disabled={!engine?.pages.length}
+          onClick={() => {
+            if (!engine || !paper) return;
+            setStatus('Exporting PDF…');
+            exportPdf(paper.trim, engine.pages, (done, total) => setStatus(`Exporting PDF (${done}/${total})…`))
+              .then(() => setStatus('PDF downloaded'))
+              .catch((e) => setStatus('PDF export failed: ' + ((e as Error)?.message ?? String(e))));
+          }}
+        >
+          PDF
+        </button>
+        <button
+          disabled={!engine?.pages.length}
+          onClick={() => {
+            if (!engine) return;
+            setStatus('Building contact sheet…');
+            exportContactSheet(engine.pages)
+              .then(() => setStatus('Contact sheet downloaded'))
+              .catch((e) => setStatus('Contact sheet failed: ' + ((e as Error)?.message ?? String(e))));
+          }}
+        >
+          Contact sheet
+        </button>
       </div>
 
       <div className="main">
