@@ -1,6 +1,6 @@
 import { CSS2 } from './emit';
 import type { EnginePage } from './engine';
-import { esc, fmt } from './util';
+import { esc, fmt, slug } from './util';
 
 /** Emit the assembled pages as a single Inkscape multipage SVG document.
  *
@@ -30,6 +30,14 @@ const NAMESPACES = [
 function defaultLabel(page: EnginePage): string {
   if (page.cols === 1 && page.rows === 1) return page.sheetTitle;
   return `${page.sheetTitle} \u00b7 tile ${page.tileIndex}/${page.cols * page.rows}`;
+}
+
+/** A stable, human-meaningful id for a page group (sheet title + tile info). */
+function pageId(page: EnginePage): string {
+  const name = slug(page.sheetTitle) || page.sheetId;
+  return page.cols === 1 && page.rows === 1
+    ? `page-${name}`
+    : `page-${name}-tile-${page.tileIndex}`;
 }
 
 export function emitMultipageSvg(
@@ -62,7 +70,7 @@ export function emitMultipageSvg(
       + `       inkscape:label="${esc(label)}" />`,
     );
     pageGroups.push(
-      `  <g transform="translate(${fmt(x)} ${fmt(y)})">\n`
+      `  <g id="${esc(pageId(page))}" transform="translate(${fmt(x)} ${fmt(y)})">\n`
       + `    <rect x="0" y="0" width="${fmt(trim.width)}" height="${fmt(trim.height)}" fill="#ffffff"/>\n`
       + `${page.body}\n`
       + `  </g>`,
@@ -98,6 +106,8 @@ export function emitMultipageSvg(
     + `  <defs\n`
     + `     id="defs1" />\n`
     + `  <style type="text/css">${styleCss}${CSS2}</style>\n`
-    + pageGroups.join('\n') + `\n`
+    + `  <g id="pages">\n`
+    + pageGroups.join('\n').split('\n').map((l) => (l ? '  ' + l : l)).join('\n') + `\n`
+    + `  </g>\n`
     + `</svg>\n`;
 }

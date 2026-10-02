@@ -15,6 +15,7 @@ import {
   flatten,
   fmt,
   parseSvg,
+  slug,
   tile,
   type EnginePage,
   type FlatSheet,
@@ -28,9 +29,12 @@ const doc = parseSvg(readFileSync(pathResolve(root, 'templates', project.source.
 const srcHref = encodeURI(project.source.href);
 
 /** Build a sheet body where source components are `<use>` references into the
- *  source SVG (instead of inlining their geometry). Text stays inline. */
+ *  source SVG (instead of inlining their geometry). Text stays inline. A white
+ *  background rect (sheet width × height) is drawn first, behind everything. */
 function assembleUseBody(sheet: FlatSheet): string {
-  const parts: string[] = [];
+  const parts: string[] = [
+    `<rect x="0" y="0" width="${fmt(sheet.width)}" height="${fmt(sheet.height)}" fill="#ffffff" stroke="none"/>`,
+  ];
   for (const el of sheet.elements) {
     if (el.kind === 'text') {
       parts.push(
@@ -64,18 +68,37 @@ const styleCss = `${sourceStyle}\n${cssToText(project.styles)}`;
 const marginX = (paper.trim.width - paper.safeArea.width) / 2;
 const marginY = (paper.trim.height - paper.safeArea.height) / 2;
 
+const sheetGap = 20; // spacing between the off-canvas sheet definitions
+const sheetRowY = paper.trim.height + 40; // below the pages → outside any page/view box
+let sheetX = 0; // sheet definitions laid out left-to-right
+const sheetGroups: string[] = [];
+
 const pages: EnginePage[] = [];
 let n = 0;
-let sheetIdx = 0;
 let hasClip = false;
 let cropTicks: string | null = null;
 
 for (const sheet of sheets) {
-  sheetIdx += 1;
-  const result = tile(sheet.title, sheet.width, sheet.height, assembleUseBody(sheet), paper, `clip-s${sheetIdx}`);
+  const sheetBody = assembleUseBody(sheet);
+  const sheetGroupId = `sheet-${slug(sheet.title) || sheet.id}`;
+  const sheetWrapId = `${sheetGroupId}-container`;
+
+  // Off-canvas sheet definition: an editable <g id="sheet-<title>"> that the
+  // pages <use>. The outer container positions it below the pages/view box; the
+  // inner group carries no transform, so <use href="#…"> stays at sheet coords.
+  sheetGroups.push(
+    `  <g id="${esc(sheetWrapId)}" transform="translate(${fmt(sheetX)} ${fmt(sheetRowY)})">\n    <g id="${esc(sheetGroupId)}">${sheetBody}</g>\n  </g>`,
+  );
+  sheetX += sheet.width + sheetGap;
+
+  const result = tile(sheet.title, sheet.width, sheet.height, sheetBody, paper, 'clip');
   for (const page of result.pages) {
     n += 1;
-    let body = page.body;
+    // Swap the inlined sheet body for a <use> of the off-canvas sheet group.
+    let body = page.body.replace(
+      `<g transform="${page.transform}">${sheetBody}</g>`,
+      `<use href="#${esc(sheetGroupId)}" transform="${page.transform}"/>`,
+    );
     // Don't emit the per-page clipPath def (identical on every tiled page):
     // reference a single shared `#clip` defined once below.
     if (body.includes('<clipPath')) {
@@ -119,5 +142,8 @@ let svg = emitMultipageSvg(pages, paper.trim, styleCss);
 if (defs.length) {
   svg = svg.replace('<defs\n     id="defs1" />', `<defs\n     id="defs1">\n${defs.join('\n')}\n    </defs>`);
 }
+// Insert the off-canvas sheet definitions after the style, before the pages.
+const sheetsXml = sheetGroups.join('\n').split('\n').map((l) => (l ? '  ' + l : l)).join('\n');
+svg = svg.replace('</style>\n', `</style>\n\n  <g id="sheets">\n${sheetsXml}\n  </g>\n`);
 writeFileSync(outPath, svg, 'utf8');
 console.log(`wrote ${outPath} — ${pages.length} pages from ${sheets.length} sheets`);
