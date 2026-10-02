@@ -301,16 +301,30 @@ function emitMultipageSvg(
 //   overlap   mm, e.g. 12          (default 12)
 //   gap       mm between pages     (default 10)
 const argv = process.argv.slice(2);
-const positional = argv.filter((a) => !a.startsWith('--'));
+
+// Separate positional arguments from --flags (and their values).
+const positional: string[] = [];
+const flags: Record<string, string | undefined> = {};
+for (let i = 0; i < argv.length; i++) {
+  const a = argv[i];
+  if (a.startsWith('--')) {
+    const name = a.slice(2);
+    const val = argv[i + 1];
+    if (val !== undefined && !val.startsWith('--')) {
+      flags[name] = val;
+      i += 1;
+    } else {
+      flags[name] = undefined;
+    }
+  } else {
+    positional.push(a);
+  }
+}
+
 const input = positional[0];
 if (!input) {
   console.error('usage: node dist/scripts/tile-sheets.js <sheets.svg> [trimWxH] [safeWxH] [overlap] [gap] [--out <path>]');
   process.exit(1);
-}
-
-function flag(name: string): string | undefined {
-  const i = argv.indexOf(`--${name}`);
-  return i >= 0 && argv[i + 1] !== undefined && !argv[i + 1].startsWith('--') ? argv[i + 1] : undefined;
 }
 
 function size(text: string): Size {
@@ -325,7 +339,7 @@ const trim = size(positional[1] ?? '279.4x215.9');
 const safeArea = size(positional[2] ?? '269.4x205.9');
 const overlap = Number(positional[3] ?? '12');
 const gap = Number(positional[4] ?? '10');
-const outPath = pathResolve(root, flag('out') ?? input.replace(/\.svg$/i, '') + '-multipage.svg');
+const outPath = pathResolve(root, flags['out'] ?? input.replace(/\.svg$/i, '') + '-multipage.svg');
 
 const paper: Paper = { id: 'paper', name: 'paper', trim, safeArea, overlap };
 
@@ -341,18 +355,29 @@ interface SheetDef {
 }
 
 /** Find `<g id="sheet-…">` groups carrying a background `<rect>` (sheet bounds).
- *  Container/wrapper groups have no direct rect child and are skipped. */
+ *  Container/wrapper groups have no direct rect child and are skipped. Sheets
+ *  are ordered by their `data-sort-order` attribute (ascending); sheets without
+ *  one come last in document order. */
 function findSheets(rootDoc: Document): SheetDef[] {
-  const out: SheetDef[] = [];
+  const raw: { id: string; width: number; height: number; order: number; index: number }[] = [];
   for (const g of Array.from(rootDoc.querySelectorAll('g[id^="sheet-"]'))) {
     const rect = Array.from(g.children).find((c) => c.localName === 'rect');
     if (!rect) continue;
     const w = Number(rect.getAttribute('width'));
     const h = Number(rect.getAttribute('height'));
     if (!Number.isFinite(w) || !Number.isFinite(h)) continue;
-    out.push({ id: g.getAttribute('id')!, width: w, height: h });
+    const orderAttr = g.getAttribute('data-sort-order');
+    const parsed = orderAttr === null ? Number.POSITIVE_INFINITY : Number(orderAttr);
+    raw.push({
+      id: g.getAttribute('id')!,
+      width: w,
+      height: h,
+      order: Number.isFinite(parsed) ? parsed : Number.POSITIVE_INFINITY,
+      index: raw.length,
+    });
   }
-  return out;
+  raw.sort((a, b) => (a.order - b.order) || (a.index - b.index));
+  return raw.map(({ id, width, height }) => ({ id, width, height }));
 }
 
 const sheets = findSheets(doc);

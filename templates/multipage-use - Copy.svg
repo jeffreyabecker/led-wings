@@ -24,15 +24,15 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showborder="true"
-     inkscape:zoom="0.55087767"
-     inkscape:cx="26069.309"
-     inkscape:cy="8120.6777"
+     inkscape:zoom="0.77905867"
+     inkscape:cx="2459.3783"
+     inkscape:cy="3919.4737"
      inkscape:window-width="3840"
      inkscape:window-height="2054"
      inkscape:window-x="3829"
      inkscape:window-y="-11"
      inkscape:window-maximized="1"
-     inkscape:current-layer="sheet-Alignment-SC-left" />
+     inkscape:current-layer="sheets" />
   <defs
      id="defs1">
     <clipPath
@@ -252,19 +252,19 @@
         <rect
            x="0"
            y="0"
-           width="233.40353"
+           width="210"
            height="513.69"
            fill="#ffffff"
            stroke="none"
            id="rect12"
-           style="stroke-width:1.19806" />
+           style="stroke-width:1.13641" />
         <use
            href="feathers-elongated%20copy.svg#P1-outline"
-           transform="matrix(-1,0,0,1,218.69775,-184.58499)"
+           transform="matrix(-1,0,0,1,202.39603,-186.96232)"
            id="use12" />
         <use
            href="feathers-elongated%20copy.svg#P1-outline"
-           transform="translate(14.705792,-184.58499)"
+           transform="translate(7.5737875,-184.58499)"
            id="use13" />
         <g
            transform="translate(40.775509,336.35302)"
@@ -294,12 +294,12 @@
         <rect
            x="3.8423533"
            y="9.6058836"
-           width="205.89999"
-           height="352.39169"
+           width="210"
+           height="525"
            fill="#ffffff"
            stroke="none"
            id="rect14"
-           style="stroke-width:1.10323" />
+           style="stroke-width:1.35992" />
         <use
            href="feathers-elongated%20copy.svg#P2-outline"
            transform="matrix(-1,0,0,1,193.63261,-178.62464)"
@@ -1382,7 +1382,7 @@
            id="rect72" />
         <use
            href="feathers-elongated%20copy.svg#P-align"
-           transform="translate(2010.5713,1370.4415)"
+           transform="translate(2025.1749,1367.7245)"
            id="use72" />
         <g
            transform="translate(96.083,8)"
@@ -1410,7 +1410,7 @@
            id="rect73" />
         <use
            href="feathers-elongated%20copy.svg#P-align"
-           transform="matrix(-1,0,0,1,-1818.4061,1370.4415)"
+           transform="matrix(-1,0,0,1,-1831.9909,1366.3661)"
            id="use73" />
         <g
            transform="translate(96.083219,8)"

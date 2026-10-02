@@ -78,7 +78,7 @@ let n = 0;
 let hasClip = false;
 let cropTicks: string | null = null;
 
-for (const sheet of sheets) {
+for (const [sheetIndex, sheet] of sheets.entries()) {
   const sheetBody = assembleUseBody(sheet);
   const sheetGroupId = `sheet-${slug(sheet.title) || sheet.id}`;
   const sheetWrapId = `${sheetGroupId}-container`;
@@ -86,8 +86,9 @@ for (const sheet of sheets) {
   // Off-canvas sheet definition: an editable <g id="sheet-<title>"> that the
   // pages <use>. The outer container positions it below the pages/view box; the
   // inner group carries no transform, so <use href="#…"> stays at sheet coords.
+  // data-sort-order records the project's sheet order for the tile-sheets CLI.
   sheetGroups.push(
-    `  <g id="${esc(sheetWrapId)}" transform="translate(${fmt(sheetX)} ${fmt(sheetRowY)})">\n    <g id="${esc(sheetGroupId)}">${sheetBody}</g>\n  </g>`,
+    `  <g id="${esc(sheetWrapId)}" transform="translate(${fmt(sheetX)} ${fmt(sheetRowY)})">\n    <g id="${esc(sheetGroupId)}" data-sort-order="${sheetIndex}">${sheetBody}</g>\n  </g>`,
   );
   sheetX += sheet.width + sheetGap;
 
