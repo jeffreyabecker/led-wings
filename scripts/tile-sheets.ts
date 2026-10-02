@@ -296,10 +296,12 @@ function emitMultipageSvg(
 // ---------------------------------------------------------------------------
 
 // usage: node dist/scripts/tile-sheets.js <sheets.svg> [trimWxH] [safeWxH] [overlap] [gap] [--out <path>]
-//   trimWxH   e.g. "279.4x215.9"   (default 279.4x215.9)
-//   safeWxH   e.g. "269.4x205.9"   (default 269.4x205.9)
-//   overlap   mm, e.g. 12          (default 12)
-//   gap       mm between pages     (default 10)
+//   trimWxH   e.g. "215.9x279.4" or "8.5x11in"   (default 215.9x279.4, portrait)
+//   safeWxH   e.g. "205.9x269.4" or "8.1x10.6in" (default 205.9x269.4, portrait)
+//   overlap   e.g. "12" or "0.5in"               (default 12)
+//   gap       e.g. "10" or "0.4in"               (default 10)
+//   Page size is always portrait; sheets are rotated 90° when that tiles better.
+//   Units default to mm; "in" is converted to mm.
 const argv = process.argv.slice(2);
 
 // Separate positional arguments from --flags (and their values).
@@ -327,18 +329,43 @@ if (!input) {
   process.exit(1);
 }
 
+const MM_PER_IN = 25.4;
+
+/** Round to 6 decimal places so inch→mm conversions yield clean mm values. */
+function round6(x: number): number {
+  return Math.round(x * 1e6) / 1e6;
+}
+
+/** Parse a distance like "12", "12mm", or "0.5in" → millimetres. */
+function dist(text: string): number {
+  const m = text.trim().match(/^([-+]?(?:\d+\.?\d*|\.\d+))\s*(mm|in)?$/i);
+  if (!m) throw new Error(`bad distance "${text}" (expected a number with optional mm/in)`);
+  const value = Number(m[1]);
+  const unit = (m[2] ?? 'mm').toLowerCase();
+  return round6(unit === 'in' ? value * MM_PER_IN : value);
+}
+
+/** Parse "WxH" with an optional trailing unit ("mm" default; "in" → mm). */
 function size(text: string): Size {
-  const [w, h] = text.split('x').map(Number);
-  if (!Number.isFinite(w) || !Number.isFinite(h)) throw new Error(`bad size "${text}" (expected WxH)`);
-  return { width: w, height: h };
+  const t = text.trim();
+  const unitMatch = t.match(/(mm|in)$/i);
+  const unit = (unitMatch?.[1] ?? 'mm').toLowerCase();
+  const dimsText = (unitMatch ? t.slice(0, -unitMatch[1].length) : t).trim();
+  const parts = dimsText.split(/[x×]/i);
+  if (parts.length !== 2) throw new Error(`bad size "${text}" (expected WxH with optional mm/in)`);
+  const w = Number(parts[0]);
+  const h = Number(parts[1]);
+  if (!Number.isFinite(w) || !Number.isFinite(h)) throw new Error(`bad size "${text}" (expected WxH with optional mm/in)`);
+  const factor = unit === 'in' ? MM_PER_IN : 1;
+  return { width: round6(w * factor), height: round6(h * factor) };
 }
 
 const root = process.cwd();
 const inPath = pathResolve(root, input);
-const trim = size(positional[1] ?? '279.4x215.9');
-const safeArea = size(positional[2] ?? '269.4x205.9');
-const overlap = Number(positional[3] ?? '12');
-const gap = Number(positional[4] ?? '10');
+const trim = size(positional[1] ?? '215.9x279.4');
+const safeArea = size(positional[2] ?? '205.9x269.4');
+const overlap = dist(positional[3] ?? '12');
+const gap = dist(positional[4] ?? '10');
 const outPath = pathResolve(root, flags['out'] ?? input.replace(/\.svg$/i, '') + '-multipage.svg');
 
 const paper: Paper = { id: 'paper', name: 'paper', trim, safeArea, overlap };
@@ -401,8 +428,14 @@ let cropTicks: string | null = null;
 
 for (const sheet of sheets) {
   const title = sheet.id.replace(/^sheet-/, '');
-  const body = `<use href="${esc(`${href}#${sheet.id}`)}"/>`;
-  const result = tile(title, sheet.width, sheet.height, body, paper, 'clip');
+  const useRef = `<use href="${esc(`${href}#${sheet.id}`)}"/>`;
+
+  // Try both orientations; rotate the sheet 90° if the portrait page tiles better that way.
+  const normal = tile(title, sheet.width, sheet.height, useRef, paper, 'clip');
+  const rotatedBody = `<g transform="translate(${fmt(sheet.height)} 0) rotate(90)">${useRef}</g>`;
+  const rotated = tile(title, sheet.height, sheet.width, rotatedBody, paper, 'clip');
+  const result = rotated.pages.length < normal.pages.length ? rotated : normal;
+
   for (const page of result.pages) {
     n += 1;
     let pageBody = page.body;

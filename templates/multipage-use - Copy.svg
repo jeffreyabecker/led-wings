@@ -24,15 +24,15 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showborder="true"
-     inkscape:zoom="0.77905867"
-     inkscape:cx="2459.3783"
-     inkscape:cy="3919.4737"
+     inkscape:zoom="0.27543884"
+     inkscape:cx="4029.9328"
+     inkscape:cy="4677.9896"
      inkscape:window-width="3840"
      inkscape:window-height="2054"
      inkscape:window-x="3829"
      inkscape:window-y="-11"
      inkscape:window-maximized="1"
-     inkscape:current-layer="sheets" />
+     inkscape:current-layer="sheet-P5" />
   <defs
      id="defs1">
     <clipPath
@@ -288,7 +288,7 @@
     </g>
     <g
        id="sheet-P2-container"
-       transform="translate(1205.8154,-1415.5237)">
+       transform="translate(1020.3833,-1442.6932)">
       <g
          id="sheet-P2">
         <rect
@@ -330,27 +330,28 @@
     </g>
     <g
        id="sheet-P3-container"
-       transform="translate(1529.4693,-1461.632)">
+       transform="translate(1283.5587,-1425.1297)">
       <g
          id="sheet-P3">
         <rect
            x="0"
            y="0"
-           width="176.99036"
-           height="341.37338"
+           width="210"
+           height="525"
            fill="#ffffff"
            stroke="none"
-           id="rect16" />
+           id="rect16"
+           style="stroke-width:1.35083" />
         <use
            href="feathers-elongated%20copy.svg#P3-outline"
-           transform="matrix(-1,0,0,1,157.71008,-196.4325)"
+           transform="matrix(-1,0,0,1,174.35142,-180.13078)"
            id="use16" />
         <use
            href="feathers-elongated%20copy.svg#P3-outline"
-           transform="translate(19.280276,-196.4325)"
+           transform="translate(35.92162,-180.13078)"
            id="use17" />
         <g
-           transform="translate(24.962971,321.63367)"
+           transform="translate(61.981471,35.674245)"
            id="g17">
           <text
              x="0"
@@ -359,7 +360,7 @@
              id="text17">P3L</text>
         </g>
         <g
-           transform="translate(153.13799,324.35971)"
+           transform="translate(147.70408,41.456858)"
            id="g18">
           <text
              x="0"
@@ -375,23 +376,24 @@
       <g
          id="sheet-P4">
         <rect
-           x="0"
-           y="0"
-           width="192.94852"
-           height="277.40704"
+           x="-245.91061"
+           y="36.502357"
+           width="210"
+           height="450"
            fill="#ffffff"
            stroke="none"
-           id="rect18" />
+           id="rect18"
+           style="stroke-width:1.32873" />
         <use
            href="feathers-elongated%20copy.svg#P4-outline"
-           transform="matrix(-1,0,0,1,140.71067,-202.23293)"
+           transform="matrix(-1,0,0,1,-97.515235,-138.83411)"
            id="use18" />
         <use
            href="feathers-elongated%20copy.svg#P4-outline"
-           transform="translate(52.237845,-202.23293)"
+           transform="translate(-185.98806,-138.83411)"
            id="use19" />
         <g
-           transform="translate(48.23726,138.204)"
+           transform="translate(-189.98865,201.60282)"
            id="g19">
           <text
              x="0"
@@ -400,7 +402,7 @@
              id="text19">P4L</text>
         </g>
         <g
-           transform="translate(144.71126,138.204)"
+           transform="translate(-93.514645,201.60282)"
            id="g20">
           <text
              x="0"
@@ -418,22 +420,22 @@
         <rect
            x="0"
            y="0"
-           width="269"
-           height="217.10616"
+           width="210"
+           height="400"
            fill="#ffffff"
            stroke="none"
            id="rect20"
-           style="stroke-width:1.05212" />
+           style="stroke-width:1.26181" />
         <use
            href="feathers-elongated%20copy.svg#P5-outline"
-           transform="matrix(0,-1,-1,0,449.65648,145.95364)"
+           transform="matrix(-1,0,0,1,143.56866,-185.94529)"
            id="use20" />
         <use
            href="feathers-elongated%20copy.svg#P5-outline"
-           transform="rotate(90,189.25198,260.4045)"
+           transform="translate(68.767542,-185.94529)"
            id="use21" />
         <g
-           transform="translate(122.00408,54.27608)"
+           transform="rotate(-90,96.799104,44.908003)"
            id="g21">
           <text
              x="0"
@@ -442,7 +444,7 @@
              id="text21">P5L</text>
         </g>
         <g
-           transform="translate(122.00408,162.83008)"
+           transform="rotate(-90,151.0761,-9.3689974)"
            id="g22">
           <text
              x="0"
