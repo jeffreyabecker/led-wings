@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="279.39999mm"
+   height="215.89999mm"
+   viewBox="0 0 279.39999 215.89999"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   sodipodi:docname="multipage-example.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="false"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="1.4409979"
+     inkscape:cx="782.79088"
+     inkscape:cy="591.25694"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer2"
+     showborder="true">
+    <inkscape:page
+       x="0"
+       y="0"
+       width="279.39999"
+       height="215.89998"
+       id="page1"
+       margin="5"
+       bleed="0"
+       inkscape:label="Title Page" />
+    <inkscape:page
+       x="291.92725"
+       y="-0.16363636"
+       width="279.39999"
+       height="215.89999"
+       id="page2"
+       margin="5 5 8"
+       bleed="0"
+       inkscape:label="Page 1" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="calibration"
+       transform="translate(-230.07989,18.763959)">
+      <line
+         class="cal"
+         x1="0"
+         y1="0"
+         x2="51.150002"
+         y2="0"
+         id="calibration-centerline"
+         transform="translate(388.28613,50.263581)"
+         style="stroke:#000000;stroke-width:0.5" />
+      <line
+         class="major"
+         x1="0"
+         y1="-3"
+         x2="0"
+         y2="3"
+         id="calibratin-zero-line"
+         transform="translate(388.28613,50.263581)"
+         style="stroke:#000000;stroke-width:0.5" />
+      <line
+         class="major"
+         x1="50"
+         y1="-3"
+         x2="50"
+         y2="0"
+         id="metric-50mm-line"
+         transform="translate(388.28613,50.263581)"
+         style="stroke:#000000;stroke-width:0.5" />
+      <line
+         class="major"
+         x1="50.799999"
+         y1="0"
+         x2="50.799999"
+         y2="3"
+         id="us-2in-line"
+         transform="translate(388.28613,50.263581)"
+         style="stroke:#000000;stroke-width:0.5" />
+      <text
+         class="num"
+         x="416.35947"
+         y="49.184071"
+         id="metric-50mm-label"
+         style="font-size:3.5px;font-family:sans-serif;text-anchor:middle;fill:#000000">50mm</text>
+      <text
+         class="num"
+         x="415.06793"
+         y="53.917133"
+         id="us-2in-label"
+         style="font-size:3.5px;font-family:sans-serif;text-anchor:middle;fill:#000000">2in</text>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="38.618179"
+       y="27.327272"
+       id="text2"><tspan
+         sodipodi:role="line"
+         id="tspan2"
+         style="stroke-width:0.264583"
+         x="38.618179"
+         y="27.327272">Feather Templates &amp; assembly guide</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="111.43636"
+       y="169.52727"
+       id="text3"><tspan
+         sodipodi:role="line"
+         id="tspan3"
+         style="stroke-width:0.264583"
+         x="111.43636"
+         y="169.52727">Calibration Reference</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Layer 2">
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.25;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+       id="rect3"
+       width="147.60001"
+       height="136.30908"
+       x="350.50909"
+       y="17.672728" />
+  </g>
+</svg>

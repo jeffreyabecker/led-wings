@@ -3,13 +3,15 @@ import { validateProject, type ValidationIssue } from '../../model/src/validate'
 import { assembleBody } from './assemble';
 import { cssToText, sheetSvg } from './emit';
 import { flatten, type FlattenError } from './flatten';
-import { parseSvg } from './resolve';
 import { tile } from './tile';
 import { checkBounds, type Warning } from './verify';
 
 export interface EnginePage {
   fileName: string;
   svg: string;
+  /** Page content without the standalone `<svg>` wrapper or `<style>`: the
+   *  white background plus the positioned body (including its own defs). */
+  body: string;
   sheetId: string;
   sheetTitle: string;
   tileIndex: number;
@@ -35,7 +37,7 @@ export function defaultPaper(project: Project): Paper | undefined {
  *  and emit per-physical-page SVGs in print order. */
 export function assembleProject(
   project: Project,
-  opts?: { sheetIds?: string[]; paperId?: string },
+  opts?: { sheetIds?: string[]; paperId?: string; doc?: Document },
 ): EngineResult {
   const validation = validateProject(project);
   if (validation.length) {
@@ -48,8 +50,17 @@ export function assembleProject(
     return { pages: [], warnings: [], errors: [{ path: 'papers', message: 'no paper defined' }], sheetCount: 0, tiledPages: 0 };
   }
 
-  const sources = new Map([[project.source.id, parseSvg(project.source.svg)]]);
-  const { sheets, errors } = flatten(project, sources);
+  const doc = opts?.doc;
+  if (!doc) {
+    return {
+      pages: [],
+      warnings: [],
+      errors: [{ path: 'source.href', message: `source not resolved: ${JSON.stringify(project.source.href)}` }],
+      sheetCount: 0,
+      tiledPages: 0,
+    };
+  }
+  const { sheets, errors } = flatten(project, doc);
   if (errors.length) {
     return { pages: [], warnings: [], errors, sheetCount: 0, tiledPages: 0 };
   }
@@ -59,18 +70,21 @@ export function assembleProject(
   const warnings: Warning[] = [];
   const pages: EnginePage[] = [];
   let n = 0;
+  let sheetIdx = 0;
   let tiledPages = 0;
 
   for (const sheet of sheets) {
     if (wanted && !wanted.has(sheet.id)) continue;
+    sheetIdx += 1;
     checkBounds(sheet, warnings);
     const body = assembleBody(sheet);
-    const result = tile(sheet.title, sheet.width, sheet.height, body, paper);
+    const result = tile(sheet.title, sheet.width, sheet.height, body, paper, `clip-s${sheetIdx}`);
     for (const page of result.pages) {
       n += 1;
       pages.push({
         fileName: `sheet-${String(n).padStart(3, '0')}.svg`,
         svg: sheetSvg(styleCss, '', page.body, paper.trim.width, paper.trim.height),
+        body: page.body,
         sheetId: sheet.id,
         sheetTitle: sheet.title,
         tileIndex: page.tileIndex,

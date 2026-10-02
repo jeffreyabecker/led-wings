@@ -1,11 +1,11 @@
 import type { Project } from '../../model/src/types';
-import { resolve } from './resolve';
+import { resolveId } from './resolve';
 import { transformString } from './transform';
 
 /** A concrete element ready to assemble: references resolved to DOM nodes. */
 export type FlatElement =
   | { id: string; kind: 'text'; text: string; styleId: string; x: number; y: number; transform: string }
-  | { id: string; kind: 'source'; sourceId: string; selector: string; elements: Element[]; transform: string };
+  | { id: string; kind: 'source'; source: string; elements: Element[]; transform: string };
 
 export interface FlatSheet {
   id: string;
@@ -20,11 +20,11 @@ export interface FlattenError {
   message: string;
 }
 
-/** Compiler link step: resolve asset/instance references and selectors into
- *  concrete elements. No layout decisions are made here. */
+/** Compiler link step: resolve source component ids (and asset references) into
+ *  concrete DOM nodes. No layout decisions are made here. */
 export function flatten(
   project: Project,
-  sources: Map<string, Document>,
+  sourceDoc: Document,
 ): { sheets: FlatSheet[]; errors: FlattenError[] } {
   const errors: FlattenError[] = [];
   const assets = new Map(project.assets.map((a) => [a.id, a]));
@@ -46,22 +46,16 @@ export function flatten(
           transform: transformString(el.position, [el.transform]),
         });
       } else if (el.kind === 'source') {
-        const doc = sources.get(el.sourceId);
-        if (!doc) {
-          errors.push({ path: `${ep}.sourceId`, message: `unknown source ${JSON.stringify(el.sourceId)}` });
-          continue;
-        }
-        const found = resolve(doc, el.sourceSelector);
-        if (found.length === 0) {
-          errors.push({ path: `${ep}.sourceSelector`, message: `selector resolves to nothing: ${JSON.stringify(el.sourceSelector)}` });
+        const found = resolveId(sourceDoc, el.source);
+        if (!found) {
+          errors.push({ path: `${ep}.source`, message: `unknown source id ${JSON.stringify(el.source)}` });
           continue;
         }
         elements.push({
           id: el.id,
           kind: 'source',
-          sourceId: el.sourceId,
-          selector: el.sourceSelector,
-          elements: found,
+          source: el.source,
+          elements: [found],
           transform: transformString(el.position, [el.transform]),
         });
       } else {
@@ -70,22 +64,16 @@ export function flatten(
           errors.push({ path: `${ep}.assetId`, message: `unknown asset ${JSON.stringify(el.assetId)}` });
           continue;
         }
-        const doc = sources.get(asset.sourceId);
-        if (!doc) {
-          errors.push({ path: `${ep}.sourceId`, message: `asset ${JSON.stringify(el.assetId)} references unknown source ${JSON.stringify(asset.sourceId)}` });
-          continue;
-        }
-        const found = resolve(doc, asset.sourceSelector);
-        if (found.length === 0) {
-          errors.push({ path: `${ep}.sourceSelector`, message: `asset selector resolves to nothing: ${JSON.stringify(asset.sourceSelector)}` });
+        const found = resolveId(sourceDoc, asset.source);
+        if (!found) {
+          errors.push({ path: `${ep}.source`, message: `asset ${JSON.stringify(el.assetId)} references unknown source id ${JSON.stringify(asset.source)}` });
           continue;
         }
         elements.push({
           id: el.id,
           kind: 'source',
-          sourceId: asset.sourceId,
-          selector: asset.sourceSelector,
-          elements: found,
+          source: asset.source,
+          elements: [found],
           transform: transformString(el.position, [el.transform, asset.baseTransform]),
         });
       }

@@ -48,14 +48,11 @@ export function validateProject(p: Project): ValidationIssue[] {
   if (!p.meta?.name) issues.push({ path: 'meta.name', message: 'project needs a name' });
   if (p.meta?.units !== 'mm') issues.push({ path: 'meta.units', message: 'units must be "mm"' });
 
-  const sourceIds = new Set<string>();
   const src = p.source;
   if (!src) {
     issues.push({ path: 'source', message: 'project needs a source' });
-  } else {
-    if (!src.id) issues.push({ path: 'source.id', message: 'source needs an id' });
-    else sourceIds.add(src.id);
-    if (!src.svg) issues.push({ path: 'source.svg', message: 'source svg is empty' });
+  } else if (!src.href) {
+    issues.push({ path: 'source.href', message: 'source needs an href' });
   }
 
   const assetIds = new Set<string>();
@@ -64,10 +61,7 @@ export function validateProject(p: Project): ValidationIssue[] {
     if (!a.id) issues.push({ path: `${path}.id`, message: 'asset needs an id' });
     else if (assetIds.has(a.id)) issues.push({ path: `${path}.id`, message: `duplicate asset id ${JSON.stringify(a.id)}` });
     else assetIds.add(a.id);
-    if (a.sourceId && !sourceIds.has(a.sourceId)) {
-      issues.push({ path: `${path}.sourceId`, message: `asset references unknown source ${JSON.stringify(a.sourceId)}` });
-    }
-    if (!a.sourceSelector) issues.push({ path: `${path}.sourceSelector`, message: 'asset needs a sourceSelector' });
+    if (!a.source) issues.push({ path: `${path}.source`, message: 'asset needs a source id' });
     checkTransform(`${path}.baseTransform`, a.baseTransform, issues);
   }
 
@@ -111,10 +105,7 @@ export function validateProject(p: Project): ValidationIssue[] {
         }
       } else if (el.kind === 'source') {
         checkTransform(`${ep}.transform`, el.transform, issues);
-        if (el.sourceId && !sourceIds.has(el.sourceId)) {
-          issues.push({ path: `${ep}.sourceId`, message: `source references unknown source ${JSON.stringify(el.sourceId)}` });
-        }
-        if (!el.sourceSelector) issues.push({ path: `${ep}.sourceSelector`, message: 'source needs a sourceSelector' });
+        if (!el.source) issues.push({ path: `${ep}.source`, message: 'source needs a source id' });
       } else if (el.kind === 'text') {
         checkTransform(`${ep}.transform`, el.transform, issues);
       } else {

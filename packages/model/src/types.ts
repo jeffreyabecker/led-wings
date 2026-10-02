@@ -25,24 +25,21 @@ export interface ProjectMeta {
   name: string;
   units: 'mm';
   defaultPaper?: string;
-  defaultSource?: string;
 }
 
-/** A source SVG, embedded inline so the project file is self-contained. */
+/** A source SVG, referenced by href and resolved to content at load time. */
 export interface Source {
-  id: string;
   name: string;
-  svg: string;
+  href: string;
 }
 
-/** A reusable, named piece of source geometry: a selector plus an optional
- *  base transform. Instances reference assets; edit the asset once and every
- *  instance follows. */
+/** A reusable, named source component: an element id in the source SVG plus an
+ *  optional base transform. Instances reference assets; edit the asset once and
+ *  every instance follows. */
 export interface Asset {
   id: string;
   name: string;
-  sourceId: string;
-  sourceSelector: string;
+  source: string;
   baseTransform?: Transform;
 }
 
@@ -60,7 +57,7 @@ export interface Paper {
 
 export type Element =
   | { id: string; kind: 'instance'; assetId: string; position: Vec2; transform?: Transform }
-  | { id: string; kind: 'source'; sourceId: string; sourceSelector: string; position: Vec2; transform?: Transform }
+  | { id: string; kind: 'source'; source: string; position: Vec2; transform?: Transform }
   | { id: string; kind: 'text'; text: string; position: Vec2; styleId?: string; transform?: Transform };
 
 /** Editor presentation grouping. Elements stay on the sheet; a layer references

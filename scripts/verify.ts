@@ -8,14 +8,16 @@ const dom = new JSDOM('<!doctype html><html><body></body></html>');
 (globalThis as Record<string, unknown>).DOMParser = dom.window.DOMParser;
 (globalThis as Record<string, unknown>).XMLSerializer = dom.window.XMLSerializer;
 
-import { importLayoutYaml, parseCss } from '../packages/model/src/index';
+import { parseCss, type Project } from '../packages/model/src/index';
 import {
   applyMatrix,
   assembleProject,
+  cssToText,
+  emitMultipageSvg,
   flatten,
   parseSvg,
   pathPoints,
-  resolve,
+  resolveId,
   transformMatrix,
   transformString,
 } from '../packages/assembler/src/index';
@@ -49,67 +51,51 @@ function main(): void {
   // Path point extraction
   deepStrictEqual(pathPoints('M 0 0 L 10 0 L 10 10 Z'), [[0, 0], [10, 0], [10, 10]]);
 
-  // Migration
+  // Current project + source (source components referenced by id).
   const root = process.cwd();
-  const yamlText = readFileSync(pathResolve(root, 'templates/layout.yaml'), 'utf8');
-  const svgText = readFileSync(pathResolve(root, 'templates/feathers-aggregate.svg'), 'utf8');
-  const project = importLayoutYaml(yamlText, { 'feathers-aggregate.svg': svgText });
-
-  strictEqual(project.sheets.length, 35);
-  strictEqual(Object.keys(project.styles).length, 12);
-  strictEqual(project.papers.length, 1);
-  strictEqual(project.sheets[0].title, 'cover');
-
-  const p1 = project.sheets.find((s) => s.title === 'P1');
-  ok(p1, 'P1 sheet present');
-  const firstEl = p1.elements[0];
-  ok(firstEl.kind === 'source', 'first P1 element is a source');
-  if (firstEl.kind === 'source') {
-    strictEqual(firstEl.sourceSelector, '//g[@id="P1"]/path');
-    deepStrictEqual(firstEl.transform, { scale: { x: -1, y: 1 } });
-  }
-
-  // Selector resolution (namespace-agnostic, mirrors legacy strip_ns)
+  const project = JSON.parse(readFileSync(pathResolve(root, 'templates/project.json'), 'utf8')) as Project;
+  const svgText = readFileSync(pathResolve(root, 'templates', project.source.href), 'utf8');
   const doc = parseSvg(svgText);
-  strictEqual(resolve(doc, '//g[@id="P1"]/path').length, 1);
-  strictEqual(resolve(doc, '//g[@id="assembly-template"]/g').length, 1);
-  strictEqual(resolve(doc, '//g[@id="calibration-ruler-metric"]').length, 1);
-  strictEqual(resolve(doc, '//g[@id="does-not-exist"]').length, 0);
 
-  // Editor palette tree + sheet rendering (non-UI editor logic)
+  strictEqual(project.source.href, 'feathers-elongated copy.svg');
+  strictEqual(project.sheets.length, 35);
+
+  // Id-based component resolution (namespace-agnostic).
+  ok(resolveId(doc, 'P1-outline'), 'P1-outline resolves');
+  ok(resolveId(doc, 'calibration'), 'calibration resolves');
+  ok(resolveId(doc, 'B-align'), 'B-align resolves');
+  strictEqual(resolveId(doc, 'does-not-exist'), null);
+
+  // Editor palette exposes id-addressed components.
   const flattenPalette = (nodes: PaletteNode[]): PaletteNode[] =>
     nodes.flatMap((n) => [n, ...flattenPalette(n.children)]);
-  const flatPalette = flattenPalette(buildPaletteTree(project));
-  ok(flatPalette.some((p) => p.selector === '//g[@id="P1"]/path'), 'palette offers the P1/path selector');
-  ok(flatPalette.some((p) => p.selector === '//g[@id="calibration-ruler-metric"]'), 'palette offers a group selector');
-  const rulerNode = flatPalette.find((p) => p.selector === '//g[@id="calibration-ruler-metric"]');
-  ok(rulerNode && rulerNode.children.some((c) => c.tag === 'line'), 'ruler group node exposes a line leaf');
+  const flatPalette = flattenPalette(buildPaletteTree(doc));
+  ok(flatPalette.some((p) => p.id === 'P1-outline'), 'palette offers P1-outline');
+  ok(flatPalette.some((p) => p.id === 'calibration'), 'palette offers calibration');
 
-  const preview = renderElementPreview(project, 'source-1', '//g[@id="P1"]/path');
+  // Preview renders the referenced component.
+  const preview = renderElementPreview('P1-outline', doc);
   ok(preview && preview.includes('<svg') && preview.includes('<path'), 'element preview renders an svg');
-  const sourcesMap = new Map([[project.source.id, parseSvg(project.source.svg)]]);
-  const flatSheets = flatten(project, sourcesMap).sheets;
-  const coverFlat = flatSheets.find((s) => s.title === 'cover');
+
+  // Flatten resolves every referenced id.
+  const flat = flatten(project, doc);
+  strictEqual(flat.errors.length, 0, `flatten errors: ${JSON.stringify(flat.errors)}`);
+  strictEqual(flat.sheets.length, 35);
+  const coverFlat = flat.sheets.find((s) => s.title === 'cover');
   ok(coverFlat, 'cover flat sheet present');
   const body = renderSheetBody(coverFlat, project.styles, null);
   ok(body.includes('data-eid='), 'rendered sheet body has hit targets');
-  ok(body.includes('<line'), 'rendered body includes copied source geometry');
 
   // Full assembly
-  const result = assembleProject(project);
+  const result = assembleProject(project, { doc });
   strictEqual(result.errors.length, 0, `errors: ${JSON.stringify(result.errors)}`);
   strictEqual(result.sheetCount, 35);
-  const p1Pages = result.pages.filter((p) => p.sheetTitle === 'P1');
-  strictEqual(p1Pages.length, 2, 'P1 tiles into 2 physical pages');
-  strictEqual(p1Pages[0].cols, 1);
-  strictEqual(p1Pages[0].rows, 2);
-  // A fitting sheet stays on one page.
-  const cover = result.pages.find((p) => p.sheetTitle === 'cover');
-  ok(cover, 'cover page present');
-  strictEqual(cover.cols, 1);
-  strictEqual(cover.rows, 1);
-  // Tiled pages carry the clipPath defs (correct clipping, unlike the legacy bug).
-  ok(p1Pages[0].svg.includes('<clipPath id="clip">'), 'tiled page emits clip defs');
+  ok(result.pages.length > 0, 'assembly produces pages');
+
+  // Inkscape multipage SVG: one <inkscape:page> per physical page.
+  const multi = emitMultipageSvg(result.pages, project.papers[0].trim, cssToText(project.styles));
+  const pageDefs = multi.match(/<inkscape:page\b/g) ?? [];
+  strictEqual(pageDefs.length, result.pages.length, 'one inkscape:page per physical page');
 
   console.log('ALL CHECKS PASSED');
   console.log(

@@ -2,9 +2,17 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Element as ModelElement, Project, Sheet, Transform, Vec2 } from '../../packages/model/src/types';
 import { validateProject } from '../../packages/model/src/validate';
 import { parseCss } from '../../packages/model/src/css';
-import { assembleProject, cssToText, flatten, type FlatSheet } from '../../packages/assembler/src/index';
-import { buildPaletteTree, renderElementPreview, renderSheetBody, sourceDocs, type PaletteNode } from './lib';
-import { exportContactSheet, exportPdf, exportSvgs } from './export';
+import { assembleProject, cssToText, flatten, parseSvg, type FlatSheet } from '../../packages/assembler/src/index';
+import { buildPaletteTree, renderElementPreview, renderSheetBody, type PaletteNode } from './lib';
+import { exportContactSheet, exportMultipageSvg, exportPdf, exportSvgs } from './export';
+
+/** Resolve a project's source href to a parsed SVG document. */
+async function fetchSourceDoc(project: Project): Promise<Document> {
+  const url = new URL(project.source.href, '/templates/').href;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`source ${url}: HTTP ${res.status}`);
+  return parseSvg(await res.text());
+}
 
 interface DragState {
   eid: string;
@@ -38,23 +46,23 @@ function NumField(props: {
 function PaletteNodeView({ node, depth, onAdd, onHover }: {
   node: PaletteNode;
   depth: number;
-  onAdd: (sourceId: string, selector: string) => void;
-  onHover: (sourceId: string, selector: string) => void;
+  onAdd: (id: string) => void;
+  onHover: (id: string) => void;
 }) {
   const [open, setOpen] = useState(depth < 2);
   const hasChildren = node.children.length > 0;
   return (
     <div className="tree-node">
-      <div className="tree-row" style={{ paddingLeft: depth * 14 }} onMouseEnter={() => onHover(node.sourceId, node.selector)}>
+      <div className="tree-row" style={{ paddingLeft: depth * 14 }} onMouseEnter={() => onHover(node.id)}>
         <span className={'tree-toggle' + (hasChildren ? '' : ' leaf')} onClick={() => hasChildren && setOpen(!open)}>
           {hasChildren ? (open ? '\u25BE' : '\u25B8') : '\u00B7'}
         </span>
-        <button className="tree-label" title={node.selector} onClick={() => onAdd(node.sourceId, node.selector)}>
+        <button className="tree-label" title={node.id} onClick={() => onAdd(node.id)}>
           {node.label}
         </button>
       </div>
       {hasChildren && open && node.children.map((c, i) => (
-        <PaletteNodeView key={c.selector + '-' + i} node={c} depth={depth + 1} onAdd={onAdd} onHover={onHover} />
+        <PaletteNodeView key={c.id + '-' + i} node={c} depth={depth + 1} onAdd={onAdd} onHover={onHover} />
       ))}
     </div>
   );
@@ -62,10 +70,11 @@ function PaletteNodeView({ node, depth, onAdd, onHover }: {
 
 export function App() {
   const [project, setProject] = useState<Project | null>(null);
+  const [sourceDoc, setSourceDoc] = useState<Document | null>(null);
   const [selectedSheetId, setSelectedSheetId] = useState<string | null>(null);
   const [selectedElementId, setSelectedElementId] = useState<string | null>(null);
   const [status, setStatus] = useState<string>('');
-  const [preview, setPreview] = useState<{ sourceId: string; selector: string } | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
   const [styleText, setStyleText] = useState('');
   const stylesReady = useRef(false);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -78,8 +87,10 @@ export function App() {
         const res = await fetch('/templates/project.json');
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = (await res.json()) as Project;
+        const doc = await fetchSourceDoc(data);
         stylesReady.current = true;
         setProject(data);
+        setSourceDoc(doc);
         setSelectedSheetId(data.sheets[0]?.id ?? null);
         setStyleText(cssToText(data.styles));
       } catch (e) {
@@ -97,26 +108,26 @@ export function App() {
     return () => clearTimeout(id);
   }, [styleText]);
 
-  const flat = useMemo(() => (project ? flatten(project, sourceDocs(project)) : null), [project]);
+  const flat = useMemo(() => (project && sourceDoc ? flatten(project, sourceDoc) : null), [project, sourceDoc]);
   const validation = useMemo(() => (project ? validateProject(project) : []), [project]);
-  const palette = useMemo(() => (project ? buildPaletteTree(project) : []), [project?.source]);
+  const palette = useMemo(() => (sourceDoc ? buildPaletteTree(sourceDoc) : []), [sourceDoc]);
 
   // Full assembly (tiling + warnings) is debounced so drag/typing stays responsive.
   const [engine, setEngine] = useState<ReturnType<typeof assembleProject> | null>(null);
   useEffect(() => {
-    if (!project) {
+    if (!project || !sourceDoc) {
       setEngine(null);
       return;
     }
-    const id = setTimeout(() => setEngine(assembleProject(project)), 200);
+    const id = setTimeout(() => setEngine(assembleProject(project, { doc: sourceDoc })), 200);
     return () => clearTimeout(id);
-  }, [project]);
+  }, [project, sourceDoc]);
 
   const sheet = project?.sheets.find((s) => s.id === selectedSheetId) ?? null;
   const flatSheet: FlatSheet | null = flat?.sheets.find((s) => s.id === selectedSheetId) ?? null;
   const selectedElement = sheet?.elements.find((e) => e.id === selectedElementId) ?? null;
   const paper = project?.papers[0];
-  const previewSvg = preview && project ? renderElementPreview(project, preview.sourceId, preview.selector) : null;
+  const previewSvg = preview && sourceDoc ? renderElementPreview(preview, sourceDoc) : null;
 
   function updateSheet(next: Sheet) {
     if (!project) return;
@@ -152,9 +163,9 @@ export function App() {
     });
   }
 
-  function addSource(sheetId: string, sourceId: string, selector: string) {
+  function addSource(sheetId: string, source: string) {
     const id = `el-${Math.random().toString(36).slice(2, 9)}`;
-    addElement(sheetId, { id, kind: 'source', sourceId, sourceSelector: selector, position: { x: 10, y: 10 } });
+    addElement(sheetId, { id, kind: 'source', source, position: { x: 10, y: 10 } });
     setSelectedElementId(id);
   }
 
@@ -261,11 +272,13 @@ export function App() {
     const f = e.target.files?.[0];
     if (!f) return;
     const reader = new FileReader();
-    reader.onload = () => {
+    reader.onload = async () => {
       try {
         const data = JSON.parse(reader.result as string) as Project;
+        const doc = await fetchSourceDoc(data);
         stylesReady.current = true;
         setProject(data);
+        setSourceDoc(doc);
         setSelectedSheetId(data.sheets[0]?.id ?? null);
         setSelectedElementId(null);
         setStyleText(cssToText(data.styles));
@@ -317,6 +330,21 @@ export function App() {
         <button
           disabled={!engine?.pages.length}
           onClick={() => {
+            if (!engine || !paper || !project) return;
+            setStatus('Building multipage SVG…');
+            try {
+              exportMultipageSvg(engine.pages, paper.trim, cssToText(project.styles));
+              setStatus('Multipage SVG downloaded');
+            } catch (e) {
+              setStatus('Multipage SVG failed: ' + ((e as Error)?.message ?? String(e)));
+            }
+          }}
+        >
+          Multipage SVG
+        </button>
+        <button
+          disabled={!engine?.pages.length}
+          onClick={() => {
             if (!engine) return;
             setStatus('Building contact sheet…');
             exportContactSheet(engine.pages)
@@ -335,11 +363,11 @@ export function App() {
           <div className="tree-scroll">
             {palette.map((n, i) => (
               <PaletteNodeView
-                key={n.selector + '-' + i}
+                key={n.id + '-' + i}
                 node={n}
                 depth={0}
-                onAdd={(sid, sel) => selectedSheetId && addSource(selectedSheetId, sid, sel)}
-                onHover={(sid, sel) => setPreview({ sourceId: sid, selector: sel })}
+                onAdd={(id) => selectedSheetId && addSource(selectedSheetId, id)}
+                onHover={(id) => setPreview(id)}
               />
             ))}
           </div>
@@ -406,7 +434,7 @@ export function App() {
               </div>
               {selectedElement.kind !== 'text' && (
                 <>
-                  <p className="muted">{selectedElement.kind === 'source' ? selectedElement.sourceSelector : 'instance of ' + selectedElement.assetId}</p>
+                  <p className="muted">{selectedElement.kind === 'source' ? selectedElement.source : 'instance of ' + selectedElement.assetId}</p>
                   <button className="palette-item" style={{ marginTop: 8 }} onClick={mirrorElement}>Mirror (copy)</button>
                 </>
               )}

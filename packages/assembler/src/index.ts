@@ -2,6 +2,7 @@ export * from './assemble';
 export * from './emit';
 export * from './engine';
 export * from './flatten';
+export * from './multipage';
 export * from './resolve';
 export * from './tile';
 export * from './transform';

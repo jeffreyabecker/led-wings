@@ -1,5 +1,6 @@
 import { PDFDocument } from 'pdf-lib';
 import type { EnginePage } from '../../packages/assembler/src/engine';
+import { emitMultipageSvg } from '../../packages/assembler/src/multipage';
 
 export function downloadBlob(blob: Blob, filename: string): void {
   const url = URL.createObjectURL(blob);
@@ -83,6 +84,16 @@ export async function exportPdf(
 
 export function exportSvgs(pages: EnginePage[]): void {
   pages.forEach((p, i) => setTimeout(() => downloadText(p.svg, p.fileName, 'image/svg+xml'), i * 150));
+}
+
+/** Download a single Inkscape multipage SVG containing every page. */
+export function exportMultipageSvg(
+  pages: EnginePage[],
+  trim: { width: number; height: number },
+  styleCss: string,
+): void {
+  const svg = emitMultipageSvg(pages, trim, styleCss);
+  downloadText(svg, 'sheets-multipage.svg', 'image/svg+xml');
 }
 
 export async function exportContactSheet(pages: EnginePage[], cols = 5): Promise<void> {

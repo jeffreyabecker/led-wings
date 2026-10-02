@@ -31,7 +31,7 @@ export function checkBounds(sheet: FlatSheet, warnings: Warning[], tol = 0.5): v
     if (x0 < -tol || y0 < -tol || x1 > W + tol || y1 > H + tol) {
       warnings.push({
         sheet: sheet.title,
-        message: `${sheet.title}: ${JSON.stringify(el.selector)} ink bbox (${x0.toFixed(2)},${y0.toFixed(2)},${x1.toFixed(2)},${y1.toFixed(2)}) extends outside drawing area ${W}x${H}`,
+        message: `${sheet.title}: ${JSON.stringify(el.source)} ink bbox (${x0.toFixed(2)},${y0.toFixed(2)},${x1.toFixed(2)},${y1.toFixed(2)}) extends outside drawing area ${W}x${H}`,
       });
     }
   }

@@ -68,7 +68,7 @@ function overlapMarks(
 
 /** Map a sheet's logical drawing area onto physical pages: one centered page
  *  when it fits the safe area, else a cols x rows grid with overlap marks. */
-export function tile(title: string, W: number, H: number, body: string, paper: Paper): TileResult {
+export function tile(title: string, W: number, H: number, body: string, paper: Paper, idPrefix = 'clip'): TileResult {
   const trimW = paper.trim.width;
   const trimH = paper.trim.height;
   const safeW = paper.safeArea.width;
@@ -92,16 +92,17 @@ export function tile(title: string, W: number, H: number, body: string, paper: P
     return { pages, cols, rows, offset: [ox, oy] };
   }
 
-  const clip = `<defs><clipPath id="clip"><rect x="${fmt(marginX)}" y="${fmt(marginY)}" width="${fmt(safeW)}" height="${fmt(safeH)}"/></clipPath></defs>`;
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
       const tx = marginX - c * strideX;
       const ty = marginY - r * strideY;
       const tr = `translate(${fmt(tx)} ${fmt(ty)})`;
       const idx = r * cols + c + 1;
+      const clipId = `${idPrefix}-${idx}`;
+      const clip = `<defs><clipPath id="${clipId}"><rect x="${fmt(marginX)}" y="${fmt(marginY)}" width="${fmt(safeW)}" height="${fmt(safeH)}"/></clipPath></defs>`;
       const parts = [
         clip,
-        '<g clip-path="url(#clip)">',
+        `<g clip-path="url(#${clipId})">`,
         `<g transform="${tr}">${body}</g>`,
         '</g>',
         cornerTicks(marginX, marginY, safeW, safeH),

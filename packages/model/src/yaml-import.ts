@@ -48,22 +48,24 @@ function mapOverlap(o: LegacyLayout['paper'] extends infer _ ? number | { x: num
   return { x: o.x, y: o.y };
 }
 
+/** Extract the referenced element id from a legacy XPath `source-id` (e.g.
+ *  `//g[@id="P1"]/path` -> `P1`). Falls back to the raw selector. */
+function componentIdFromSelector(selector: string): string {
+  const m = selector.match(/@id=["']([^"']+)["']/);
+  return m ? m[1] : selector;
+}
+
 /**
  * One-time migration: convert a legacy layout.yaml (plus the source SVG it names)
  * into the richer Project model. No byte fidelity — only feature/data preservation.
  */
-export function importLayoutYaml(
-  yamlText: string,
-  sourceFiles: Record<string, string>,
-): Project {
+export function importLayoutYaml(yamlText: string): Project {
   const raw = parse(yamlText) as LegacyLayout;
 
   const sourceFileName = raw['source-file'] ?? '';
-  const sourceId = 'source-1';
   const source: Source = {
-    id: sourceId,
     name: sourceFileName,
-    svg: sourceFiles[sourceFileName] ?? '',
+    href: sourceFileName,
   };
 
   const paper = raw.paper;
@@ -90,8 +92,7 @@ export function importLayoutYaml(
       return {
         id,
         kind: 'source',
-        sourceId,
-        sourceSelector: el['source-id'],
+        source: componentIdFromSelector(el['source-id']),
         position,
         transform: mapTransform(el.transform),
       };
@@ -119,7 +120,6 @@ export function importLayoutYaml(
       name: sourceFileName.replace(/\.svg$/i, '') || 'Imported layout',
       units: 'mm',
       defaultPaper: papers[0]?.id,
-      defaultSource: source.id,
     },
     source,
     assets: [],

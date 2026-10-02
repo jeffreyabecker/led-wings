@@ -3,92 +3,51 @@ import {
   elementBBox,
   esc,
   fmt,
-  parseSvg,
-  resolve,
+  resolveId,
   serialize,
 } from '../../packages/assembler/src/index';
 import type { FlatSheet } from '../../packages/assembler/src/flatten';
-import type { CssDecl, Project } from '../../packages/model/src/types';
+import type { CssDecl } from '../../packages/model/src/types';
 
-// Cache parsed source docs by id so drag/edits don't re-parse the source SVG.
-const docCache = new Map<string, Document>();
-
-export function sourceDocs(project: Project): Map<string, Document> {
-  const map = new Map<string, Document>();
-  const s = project.source;
-  let doc = docCache.get(s.id);
-  if (!doc) {
-    doc = parseSvg(s.svg);
-    docCache.set(s.id, doc);
-  }
-  map.set(s.id, doc);
-  return map;
-}
-
-/** A node in the collapsible source-element tree. */
+/** A node in the collapsible source-component tree (keyed by element id). */
 export interface PaletteNode {
-  sourceId: string;
-  tag: string;
-  id: string | null;
+  id: string;
   label: string;
-  selector: string;
   children: PaletteNode[];
 }
 
-const SHAPE_TAGS = new Set(['path', 'line', 'circle', 'ellipse', 'rect', 'polygon', 'polyline', 'text']);
 const SKIP_TAGS = new Set(['defs', 'style', 'title', 'namedview', 'metadata']);
 
-function buildNode(el: Element, sourceId: string, parentSelector: string | null): PaletteNode | null {
-  const tag = el.localName;
-  if (SKIP_TAGS.has(tag)) return null;
+function buildNode(el: Element): PaletteNode | null {
+  if (SKIP_TAGS.has(el.localName) || SKIP_TAGS.has(el.tagName)) return null;
   const id = el.getAttribute('id');
-  const selector = id
-    ? `//${tag}[@id="${id}"]`
-    : parentSelector
-      ? `${parentSelector}/${tag}`
-      : `//${tag}`;
-
-  const node: PaletteNode = { sourceId, tag, id, label: id ?? tag, selector, children: [] };
-  if (tag !== 'g') return node;
-
-  // Nested groups become child nodes; distinct direct shape tags become one
-  // aggregated leaf each (a selector like /path resolves to every path child).
-  const childTags = new Set<string>();
+  if (!id) return null;
+  const children: PaletteNode[] = [];
   for (const child of Array.from(el.children)) {
-    if (child.localName === 'g') {
-      const sub = buildNode(child, sourceId, selector);
-      if (sub) node.children.push(sub);
-    } else if (SHAPE_TAGS.has(child.localName)) {
-      childTags.add(child.localName);
-    }
+    const sub = buildNode(child);
+    if (sub) children.push(sub);
   }
-  for (const t of childTags) {
-    node.children.push({ sourceId, tag: t, id: null, label: t, selector: `${selector}/${t}`, children: [] });
-  }
-  return node;
+  return { id, label: id, children };
 }
 
-/** Build the source SVG's element hierarchy as a collapsible tree. */
-export function buildPaletteTree(project: Project): PaletteNode[] {
+/** Build the source SVG's id-addressed components as a collapsible tree. */
+export function buildPaletteTree(doc: Document): PaletteNode[] {
   const roots: PaletteNode[] = [];
-  const src = project.source;
-  const svgEl = parseSvg(src.svg).documentElement;
-  if (svgEl) {
-    for (const child of Array.from(svgEl.children)) {
-      const node = buildNode(child, src.id, null);
+  const docEl = doc.documentElement;
+  if (docEl) {
+    for (const child of Array.from(docEl.children)) {
+      const node = buildNode(child);
       if (node) roots.push(node);
     }
   }
   return roots;
 }
 
-/** Render a small self-contained SVG preview of a source selector (scaled to fit). */
-export function renderElementPreview(project: Project, sourceId: string, selector: string): string | null {
-  const doc = sourceDocs(project).get(sourceId);
-  if (!doc) return null;
-  const els = resolve(doc, selector);
-  if (els.length === 0) return null;
-  const bbox = elementBBox('', els);
+/** Render a small self-contained SVG preview of a source component (scaled to fit). */
+export function renderElementPreview(id: string, doc: Document): string | null {
+  const el = resolveId(doc, id);
+  if (!el) return null;
+  const bbox = elementBBox('', [el]);
   if (!bbox) return null;
   const [x0, y0, x1, y1] = bbox;
   const w = x1 - x0;
@@ -96,7 +55,7 @@ export function renderElementPreview(project: Project, sourceId: string, selecto
   if (w < 1e-6 || h < 1e-6) return null;
   const pad = Math.max(w, h) * 0.05;
   const style = doc.querySelector('style')?.textContent ?? '';
-  const inner = els.map((e) => serialize(e)).join('');
+  const inner = serialize(el);
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${fmt(x0 - pad)} ${fmt(y0 - pad)} ${fmt(w + 2 * pad)} ${fmt(h + 2 * pad)}">`
     + `<style>${style}</style>${inner}</svg>`;
 }
