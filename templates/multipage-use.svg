@@ -467,7 +467,10 @@
        inkscape:label="Alignment S right · tile 2/2" />
   </sodipodi:namedview>
   <defs
-     id="defs1" />
+     id="defs1">
+      <clipPath id="clip"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath>
+      <g id="crop-ticks"><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+    </defs>
   <style type="text/css">/* As-built feather catalog. Presentation lives here; elements carry classes only. */
 .outline { 
    stroke: #000000; 
@@ -550,131 +553,121 @@
   </g>
   <g transform="translate(289.4 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s2-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s2-1)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#P1-outline" transform="translate(111.70177 4) scale(-1 1) translate(-106.995978 -188.584989)"/>
 <use href="feathers-elongated%20copy.svg#P1-outline" transform="translate(121.70177 4) translate(-106.995978 -188.584989)"/>
 <g transform="translate(40.775509 336.353022)"><text x="0" y="0" class="label">P1L</text></g>
 <g transform="translate(191.962312 338.217061)"><text x="0" y="0" class="label">P1R</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
 <text class="note" x="139.7" y="213.4">P1 · tile 1/2 · 1x2</text>
   </g>
   <g transform="translate(578.8 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s2-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s2-2)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#P1-outline" transform="translate(111.70177 4) scale(-1 1) translate(-106.995978 -188.584989)"/>
 <use href="feathers-elongated%20copy.svg#P1-outline" transform="translate(121.70177 4) translate(-106.995978 -188.584989)"/>
 <g transform="translate(40.775509 336.353022)"><text x="0" y="0" class="label">P1L</text></g>
 <g transform="translate(191.962312 338.217061)"><text x="0" y="0" class="label">P1R</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
 <text class="note" x="139.7" y="213.4">P1 · tile 2/2 · 1x2</text>
   </g>
   <g transform="translate(868.2 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s3-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s3-1)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#P2-outline" transform="translate(79.5858 4) scale(-1 1) translate(-86.189752 -195.112289)"/>
 <use href="feathers-elongated%20copy.svg#P2-outline" transform="translate(89.5858 4) translate(-86.189752 -195.112289)"/>
 <g transform="translate(31.291299 333.191102)"><text x="0" y="0" class="label">P2L</text></g>
 <g transform="translate(138.362806 335.410722)"><text x="0" y="0" class="label">P2R</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
 <text class="note" x="139.7" y="213.4">P2 · tile 1/2 · 1x2</text>
   </g>
   <g transform="translate(1157.6 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s3-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s3-2)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#P2-outline" transform="translate(79.5858 4) scale(-1 1) translate(-86.189752 -195.112289)"/>
 <use href="feathers-elongated%20copy.svg#P2-outline" transform="translate(89.5858 4) translate(-86.189752 -195.112289)"/>
 <g transform="translate(31.291299 333.191102)"><text x="0" y="0" class="label">P2L</text></g>
 <g transform="translate(138.362806 335.410722)"><text x="0" y="0" class="label">P2R</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
 <text class="note" x="139.7" y="213.4">P2 · tile 2/2 · 1x2</text>
   </g>
   <g transform="translate(1447 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s4-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s4-1)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#P3-outline" transform="translate(83.49518 4) scale(-1 1) translate(-74.214904 -200.432497)"/>
 <use href="feathers-elongated%20copy.svg#P3-outline" transform="translate(93.49518 4) translate(-74.214904 -200.432497)"/>
 <g transform="translate(24.962971 321.633666)"><text x="0" y="0" class="label">P3L</text></g>
 <g transform="translate(153.13799 324.359706)"><text x="0" y="0" class="label">P3R</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
 <text class="note" x="139.7" y="213.4">P3 · tile 1/2 · 1x2</text>
   </g>
   <g transform="translate(1736.4 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s4-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s4-2)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#P3-outline" transform="translate(83.49518 4) scale(-1 1) translate(-74.214904 -200.432497)"/>
 <use href="feathers-elongated%20copy.svg#P3-outline" transform="translate(93.49518 4) translate(-74.214904 -200.432497)"/>
 <g transform="translate(24.962971 321.633666)"><text x="0" y="0" class="label">P3L</text></g>
 <g transform="translate(153.13799 324.359706)"><text x="0" y="0" class="label">P3R</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
 <text class="note" x="139.7" y="213.4">P3 · tile 2/2 · 1x2</text>
   </g>
   <g transform="translate(2025.8 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s5-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s5-1)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#P4-outline" transform="translate(91.47426 4) scale(-1 1) translate(-49.236415 -206.232926)"/>
 <use href="feathers-elongated%20copy.svg#P4-outline" transform="translate(101.47426 4) translate(-49.236415 -206.232926)"/>
 <g transform="translate(48.23726 138.204)"><text x="0" y="0" class="label">P4L</text></g>
 <g transform="translate(144.71126 138.204)"><text x="0" y="0" class="label">P4R</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
 <text class="note" x="139.7" y="213.4">P4 · tile 1/2 · 1x2</text>
   </g>
   <g transform="translate(2315.2 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s5-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s5-2)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#P4-outline" transform="translate(91.47426 4) scale(-1 1) translate(-49.236415 -206.232926)"/>
 <use href="feathers-elongated%20copy.svg#P4-outline" transform="translate(101.47426 4) translate(-49.236415 -206.232926)"/>
 <g transform="translate(48.23726 138.204)"><text x="0" y="0" class="label">P4L</text></g>
 <g transform="translate(144.71126 138.204)"><text x="0" y="0" class="label">P4R</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
 <text class="note" x="139.7" y="213.4">P4 · tile 2/2 · 1x2</text>
   </g>
   <g transform="translate(2604.6 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s6-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s6-1)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#P5-outline" transform="translate(239.00908 103.55308) rotate(90) scale(-1 1) translate(-42.400559 -210.647402)"/>
 <use href="feathers-elongated%20copy.svg#P5-outline" transform="translate(239.00908 113.55308) rotate(90) translate(-42.400559 -210.647402)"/>
 <g transform="translate(122.00408 54.27608)"><text x="0" y="0" class="label">P5L</text></g>
 <g transform="translate(122.00408 162.83008)"><text x="0" y="0" class="label">P5R</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
 <text class="note" x="139.7" y="213.4">P5 · tile 1/2 · 1x2</text>
   </g>
   <g transform="translate(2894 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s6-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s6-2)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#P5-outline" transform="translate(239.00908 103.55308) rotate(90) scale(-1 1) translate(-42.400559 -210.647402)"/>
 <use href="feathers-elongated%20copy.svg#P5-outline" transform="translate(239.00908 113.55308) rotate(90) translate(-42.400559 -210.647402)"/>
 <g transform="translate(122.00408 54.27608)"><text x="0" y="0" class="label">P5L</text></g>
 <g transform="translate(122.00408 162.83008)"><text x="0" y="0" class="label">P5R</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
 <text class="note" x="139.7" y="213.4">P5 · tile 2/2 · 1x2</text>
   </g>
@@ -694,27 +687,25 @@
   </g>
   <g transform="translate(3762.2 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s9-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s9-1)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#S3-outline" transform="translate(87.02697 4) scale(-1 1) translate(-62.806478 -122.52389)"/>
 <use href="feathers-elongated%20copy.svg#S3-outline" transform="translate(97.02697 4) translate(-62.806478 -122.52389)"/>
 <g transform="translate(46.01397 104.677)"><text x="0" y="0" class="label">S3L</text></g>
 <g transform="translate(138.03997 104.677)"><text x="0" y="0" class="label">S3R</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
 <text class="note" x="139.7" y="213.4">S3 · tile 1/2 · 1x2</text>
   </g>
   <g transform="translate(4051.6 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s9-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s9-2)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#S3-outline" transform="translate(87.02697 4) scale(-1 1) translate(-62.806478 -122.52389)"/>
 <use href="feathers-elongated%20copy.svg#S3-outline" transform="translate(97.02697 4) translate(-62.806478 -122.52389)"/>
 <g transform="translate(46.01397 104.677)"><text x="0" y="0" class="label">S3L</text></g>
 <g transform="translate(138.03997 104.677)"><text x="0" y="0" class="label">S3R</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
 <text class="note" x="139.7" y="213.4">S3 · tile 2/2 · 1x2</text>
   </g>
@@ -727,27 +718,25 @@
   </g>
   <g transform="translate(4630.4 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s11-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s11-1)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#B1-outline" transform="translate(85.754908 204.13325) rotate(90) scale(-1 1) translate(-20.419479 -168.245032)"/>
 <use href="feathers-elongated%20copy.svg#B1-outline" transform="translate(176.509908 11.97825) rotate(90) translate(-20.419479 -168.245032)"/>
 <g transform="translate(45.377908 108.05525)"><text x="0" y="0" class="label">B1L</text></g>
 <g transform="translate(136.131908 108.05525)"><text x="0" y="0" class="label">B1R</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
 <text class="note" x="139.7" y="213.4">B1 · tile 1/2 · 1x2</text>
   </g>
   <g transform="translate(4919.8 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s11-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s11-2)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#B1-outline" transform="translate(85.754908 204.13325) rotate(90) scale(-1 1) translate(-20.419479 -168.245032)"/>
 <use href="feathers-elongated%20copy.svg#B1-outline" transform="translate(176.509908 11.97825) rotate(90) translate(-20.419479 -168.245032)"/>
 <g transform="translate(45.377908 108.05525)"><text x="0" y="0" class="label">B1L</text></g>
 <g transform="translate(136.131908 108.05525)"><text x="0" y="0" class="label">B1R</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
 <text class="note" x="139.7" y="213.4">B1 · tile 2/2 · 1x2</text>
   </g>
@@ -767,8 +756,7 @@
   </g>
   <g transform="translate(5788 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s14-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s14-1)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#A1-outline" transform="translate(54.675146 4) scale(-1 1) translate(-168.00104 -86.602003)"/>
 <use href="feathers-elongated%20copy.svg#A1-outline" transform="translate(203.317289 3.961889) translate(-168.00104 -86.602003)"/>
 <g transform="translate(41.98812 121.85018)"><text x="0" y="0" class="label">A1L</text></g>
@@ -782,14 +770,13 @@
 <g transform="translate(38.96469 199.836515)"><text x="0" y="0" class="label">A3L</text></g>
 <g transform="translate(178.192221 198.925654)"><text x="0" y="0" class="label">A3R</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
 <text class="note" x="139.7" y="213.4">A1/A2/A3 · tile 1/2 · 1x2</text>
   </g>
   <g transform="translate(6077.4 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s14-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s14-2)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#A1-outline" transform="translate(54.675146 4) scale(-1 1) translate(-168.00104 -86.602003)"/>
 <use href="feathers-elongated%20copy.svg#A1-outline" transform="translate(203.317289 3.961889) translate(-168.00104 -86.602003)"/>
 <g transform="translate(41.98812 121.85018)"><text x="0" y="0" class="label">A1L</text></g>
@@ -803,14 +790,13 @@
 <g transform="translate(38.96469 199.836515)"><text x="0" y="0" class="label">A3L</text></g>
 <g transform="translate(178.192221 198.925654)"><text x="0" y="0" class="label">A3R</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
 <text class="note" x="139.7" y="213.4">A1/A2/A3 · tile 2/2 · 1x2</text>
   </g>
   <g transform="translate(6366.8 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s15-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s15-1)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#PC1-outline" transform="translate(62.76447 4) scale(-1 1) translate(-154.838596 -172.606335)"/>
 <use href="feathers-elongated%20copy.svg#PC1-outline" transform="translate(187.100496 -0.716375) translate(-154.838596 -172.606335)"/>
 <g transform="translate(25.684222 121.314372)"><text x="0" y="0" class="label">PC1L</text></g>
@@ -820,14 +806,13 @@
 <g transform="translate(91.090845 107.848667)"><text x="0" y="0" class="label">PC2L</text></g>
 <g transform="translate(161.980817 107.033246)"><text x="0" y="0" class="label">PC2R</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
 <text class="note" x="139.7" y="213.4">PC1/PC2 · tile 1/2 · 1x2</text>
   </g>
   <g transform="translate(6656.2 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s15-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s15-2)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#PC1-outline" transform="translate(62.76447 4) scale(-1 1) translate(-154.838596 -172.606335)"/>
 <use href="feathers-elongated%20copy.svg#PC1-outline" transform="translate(187.100496 -0.716375) translate(-154.838596 -172.606335)"/>
 <g transform="translate(25.684222 121.314372)"><text x="0" y="0" class="label">PC1L</text></g>
@@ -837,14 +822,13 @@
 <g transform="translate(91.090845 107.848667)"><text x="0" y="0" class="label">PC2L</text></g>
 <g transform="translate(161.980817 107.033246)"><text x="0" y="0" class="label">PC2R</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
 <text class="note" x="139.7" y="213.4">PC1/PC2 · tile 2/2 · 1x2</text>
   </g>
   <g transform="translate(6945.6 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s16-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s16-1)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#SC1-outline" transform="translate(52.29216 4) scale(-1 1) translate(-67.006304 -101.221942)"/>
 <use href="feathers-elongated%20copy.svg#SC1-outline" transform="translate(62.29216 4) translate(-67.006304 -101.221942)"/>
 <g transform="translate(28.64616 81.898)"><text x="0" y="0" class="label">SC1L</text></g>
@@ -854,14 +838,13 @@
 <g transform="translate(142.29516 79.429)"><text x="0" y="0" class="label">SC2L</text></g>
 <g transform="translate(201.71616 79.429)"><text x="0" y="0" class="label">SC2R</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
 <text class="note" x="139.7" y="213.4">SC1/SC2 · tile 1/2 · 1x2</text>
   </g>
   <g transform="translate(7235 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s16-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s16-2)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#SC1-outline" transform="translate(52.29216 4) scale(-1 1) translate(-67.006304 -101.221942)"/>
 <use href="feathers-elongated%20copy.svg#SC1-outline" transform="translate(62.29216 4) translate(-67.006304 -101.221942)"/>
 <g transform="translate(28.64616 81.898)"><text x="0" y="0" class="label">SC1L</text></g>
@@ -871,7 +854,7 @@
 <g transform="translate(142.29516 79.429)"><text x="0" y="0" class="label">SC2L</text></g>
 <g transform="translate(201.71616 79.429)"><text x="0" y="0" class="label">SC2R</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
 <text class="note" x="139.7" y="213.4">SC1/SC2 · tile 2/2 · 1x2</text>
   </g>
@@ -948,45 +931,41 @@
   </g>
   <g transform="translate(10129 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s26-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s26-1)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#P-align" transform="translate(5 5) translate(2005.5713 1365.4415)"/>
 <g transform="translate(96.083 8)"><text x="0" y="0" class="label">P  Right</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
 <text class="note" x="139.7" y="213.4">Alignment P Right · tile 1/2 · 1x2</text>
   </g>
   <g transform="translate(10418.4 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s26-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s26-2)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#P-align" transform="translate(5 5) translate(2005.5713 1365.4415)"/>
 <g transform="translate(96.083 8)"><text x="0" y="0" class="label">P  Right</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
 <text class="note" x="139.7" y="213.4">Alignment P Right · tile 2/2 · 1x2</text>
   </g>
   <g transform="translate(10707.8 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s27-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s27-1)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#P-align" transform="translate(187.165219 5) scale(-1 1) translate(2005.5713 1365.4415)"/>
 <g transform="translate(96.083219 8)"><text x="0" y="0" class="label">P Left</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
 <text class="note" x="139.7" y="213.4">Alignment P Left · tile 1/2 · 1x2</text>
   </g>
   <g transform="translate(10997.2 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s27-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s27-2)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#P-align" transform="translate(187.165219 5) scale(-1 1) translate(2005.5713 1365.4415)"/>
 <g transform="translate(96.083219 8)"><text x="0" y="0" class="label">P Left</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
 <text class="note" x="139.7" y="213.4">Alignment P Left · tile 2/2 · 1x2</text>
   </g>
@@ -1030,45 +1009,41 @@
   </g>
   <g transform="translate(13023 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s34-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s34-1)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#S-align" transform="translate(5 5) translate(1395.3477 41.310377)"/>
 <g transform="translate(94.687 8)"><text x="0" y="0" class="label">S-align</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
 <text class="note" x="139.7" y="213.4">Alignment S left · tile 1/2 · 1x2</text>
   </g>
   <g transform="translate(13312.4 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s34-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s34-2)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#S-align" transform="translate(5 5) translate(1395.3477 41.310377)"/>
 <g transform="translate(94.687 8)"><text x="0" y="0" class="label">S-align</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
 <text class="note" x="139.7" y="213.4">Alignment S left · tile 2/2 · 1x2</text>
   </g>
   <g transform="translate(13601.8 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s35-1"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s35-1)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 5)"><use href="feathers-elongated%20copy.svg#S-align" transform="translate(184.37301 5) scale(-1 1) translate(1395.3477 41.310377)"/>
 <g transform="translate(94.68701 8)"><text x="0" y="0" class="label">S-align</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
 <text class="note" x="139.7" y="213.4">Alignment S right · tile 1/2 · 1x2</text>
   </g>
   <g transform="translate(13891.2 0)">
     <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
-<defs><clipPath id="clip-s35-2"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath></defs>
-<g clip-path="url(#clip-s35-2)">
+<g clip-path="url(#clip)">
 <g transform="translate(5 -188.9)"><use href="feathers-elongated%20copy.svg#S-align" transform="translate(184.37301 5) scale(-1 1) translate(1395.3477 41.310377)"/>
 <g transform="translate(94.68701 8)"><text x="0" y="0" class="label">S-align</text></g></g>
 </g>
-<g><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+<use href="#crop-ticks"/>
 <g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
 <text class="note" x="139.7" y="213.4">Alignment S right · tile 2/2 · 1x2</text>
   </g>

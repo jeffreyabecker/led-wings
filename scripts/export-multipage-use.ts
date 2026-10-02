@@ -13,6 +13,7 @@ import {
   emitMultipageSvg,
   esc,
   flatten,
+  fmt,
   parseSvg,
   tile,
   type EnginePage,
@@ -60,18 +61,38 @@ if (!paper) {
 const sourceStyle = doc.querySelector('style')?.textContent ?? '';
 const styleCss = `${sourceStyle}\n${cssToText(project.styles)}`;
 
+const marginX = (paper.trim.width - paper.safeArea.width) / 2;
+const marginY = (paper.trim.height - paper.safeArea.height) / 2;
+
 const pages: EnginePage[] = [];
 let n = 0;
 let sheetIdx = 0;
+let hasClip = false;
+let cropTicks: string | null = null;
+
 for (const sheet of sheets) {
   sheetIdx += 1;
   const result = tile(sheet.title, sheet.width, sheet.height, assembleUseBody(sheet), paper, `clip-s${sheetIdx}`);
   for (const page of result.pages) {
     n += 1;
+    let body = page.body;
+    // Don't emit the per-page clipPath def (identical on every tiled page):
+    // reference a single shared `#clip` defined once below.
+    if (body.includes('<clipPath')) {
+      hasClip = true;
+      body = body
+        .replace(/<defs><clipPath id="clip-[^"]+"><rect [^>]*\/><\/clipPath><\/defs>\n?/, '')
+        .replace(/clip-path="url\(#clip-[^)]*\)"/, 'clip-path="url(#clip)"');
+    }
+    // Same for the per-page corner-crop ticks: reference a shared `#crop-ticks`.
+    body = body.replace(/<g>((?:<line class="crop" [^>]*\/>)+)<\/g>/, (_m, inner: string) => {
+      cropTicks = cropTicks ?? inner;
+      return '<use href="#crop-ticks"/>';
+    });
     pages.push({
       fileName: `sheet-${String(n).padStart(3, '0')}.svg`,
       svg: '', // not used by emitMultipageSvg (only .body + page metadata are)
-      body: page.body,
+      body,
       sheetId: sheet.id,
       sheetTitle: sheet.title,
       tileIndex: page.tileIndex,
@@ -82,6 +103,21 @@ for (const sheet of sheets) {
   }
 }
 
+// Shared defs emitted once (instead of once per tiled page).
+const defs: string[] = [];
+if (hasClip) {
+  defs.push(
+    `      <clipPath id="clip"><rect x="${fmt(marginX)}" y="${fmt(marginY)}" width="${fmt(paper.safeArea.width)}" height="${fmt(paper.safeArea.height)}"/></clipPath>`,
+  );
+}
+if (cropTicks) {
+  defs.push(`      <g id="crop-ticks">${cropTicks}</g>`);
+}
+
 const outPath = pathResolve(root, 'templates/multipage-use.svg');
-writeFileSync(outPath, emitMultipageSvg(pages, paper.trim, styleCss), 'utf8');
+let svg = emitMultipageSvg(pages, paper.trim, styleCss);
+if (defs.length) {
+  svg = svg.replace('<defs\n     id="defs1" />', `<defs\n     id="defs1">\n${defs.join('\n')}\n    </defs>`);
+}
+writeFileSync(outPath, svg, 'utf8');
 console.log(`wrote ${outPath} — ${pages.length} pages from ${sheets.length} sheets`);
