@@ -8,7 +8,7 @@
    version="1.1"
    id="svg1"
    inkscape:version="1.4 (86a8ad7, 2024-10-11)"
-   sodipodi:docname="multipage-use - Copy.svg"
+   sodipodi:docname="sheets-home-print.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -24,15 +24,15 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showborder="true"
-     inkscape:zoom="0.77905867"
-     inkscape:cx="3541.4534"
-     inkscape:cy="18231.618"
+     inkscape:zoom="0.19476467"
+     inkscape:cx="-2900.9368"
+     inkscape:cy="4207.642"
      inkscape:window-width="3840"
      inkscape:window-height="2054"
      inkscape:window-x="3829"
      inkscape:window-y="-11"
      inkscape:window-maximized="1"
-     inkscape:current-layer="sheet-MC-align-Alignment-LC-right" />
+     inkscape:current-layer="sheets" />
   <defs
      id="defs1">
     <clipPath
@@ -188,11 +188,12 @@
         <rect
            x="0"
            y="0"
-           width="260"
-           height="200"
+           width="269"
+           height="210"
            fill="#ffffff"
            stroke="none"
-           id="rect8" />
+           id="rect8"
+           style="stroke-width:1.04228" />
         <g
            transform="translate(137.01617,24.617312)"
            id="g8">
