@@ -24,15 +24,15 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showborder="true"
-     inkscape:zoom="0.19476467"
-     inkscape:cx="-2900.9368"
-     inkscape:cy="4207.642"
+     inkscape:zoom="0.55087768"
+     inkscape:cx="-206.03485"
+     inkscape:cy="16750.543"
      inkscape:window-width="3840"
      inkscape:window-height="2054"
-     inkscape:window-x="3829"
+     inkscape:window-x="-11"
      inkscape:window-y="-11"
      inkscape:window-maximized="1"
-     inkscape:current-layer="sheets" />
+     inkscape:current-layer="Alignment-B-left-container" />
   <defs
      id="defs1">
     <clipPath
@@ -184,7 +184,9 @@
        id="cover-container"
        transform="translate(-65.320007,-1400.1543)">
       <g
-         id="sheet-cover">
+         id="sheet-cover"
+         data-sort-order="0"
+         class="sheet">
         <rect
            x="0"
            y="0"
@@ -249,12 +251,14 @@
        id="P1-container"
        transform="translate(779.50594,-1427.0508)">
       <g
-         id="sheet-P1">
+         id="sheet-P1"
+         data-sort-order="1"
+         class="sheet">
         <rect
            x="0"
            y="0"
            width="210"
-           height="538"
+           height="526.80"
            fill="#ffffff"
            stroke="none"
            id="rect12"
@@ -291,12 +295,14 @@
        id="P2-container"
        transform="translate(1033.8546,-1436.6567)">
       <g
-         id="sheet-P2">
+         id="sheet-P2"
+         data-sort-order="2"
+         class="sheet">
         <rect
            x="3.8423533"
            y="9.6058836"
            width="210"
-           height="538"
+           height="526.80"
            fill="#ffffff"
            stroke="none"
            id="rect14"
@@ -333,12 +339,14 @@
        id="P3-container"
        transform="translate(1295.8881,-1427.0508)">
       <g
-         id="sheet-P3">
+         id="sheet-P3"
+         data-sort-order="3"
+         class="sheet">
         <rect
            x="0"
            y="0"
            width="210"
-           height="538"
+           height="526.80"
            fill="#ffffff"
            stroke="none"
            id="rect16"
@@ -375,12 +383,14 @@
        id="P4-container"
        transform="translate(1799.9897,-1463.5532)">
       <g
-         id="sheet-P4">
+         id="sheet-P4"
+         data-sort-order="4"
+         class="sheet">
         <rect
            x="-245.91061"
            y="36.502357"
            width="210"
-           height="538"
+           height="526.80"
            fill="#ffffff"
            stroke="none"
            id="rect18"
@@ -417,12 +427,14 @@
        id="P5-container"
        transform="translate(1813.4709,-1427.5311)">
       <g
-         id="sheet-P5">
+         id="sheet-P5"
+         data-sort-order="5"
+         class="sheet">
         <rect
            x="-1.2007354"
            y="0.48029417"
            width="210"
-           height="538"
+           height="526.80"
            fill="#ffffff"
            stroke="none"
            id="rect20"
@@ -467,12 +479,14 @@
        transform="translate(777.8931,-744.73773)">
       <g
          id="sheet-S1"
-         transform="translate(15.622486,1.3584771)">
+         transform="translate(15.622486,1.3584771)"
+         data-sort-order="6"
+         class="sheet">
         <rect
            x="0"
            y="0.0001219"
            width="210"
-           height="538"
+           height="526.80"
            fill="#ffffff"
            stroke="none"
            id="rect22"
@@ -550,12 +564,14 @@
        id="S2-container"
        transform="translate(1016.442,-744.61835)">
       <g
-         id="sheet-S2">
+         id="sheet-S2"
+         data-sort-order="7"
+         class="sheet">
         <rect
            x="0"
            y="0"
            width="210"
-           height="538"
+           height="526.80"
            fill="#ffffff"
            stroke="none"
            id="rect24"
@@ -628,12 +644,14 @@
        id="S3-container"
        transform="translate(1249.6957,-742.58064)">
       <g
-         id="sheet-S3">
+         id="sheet-S3"
+         data-sort-order="8"
+         class="sheet">
         <rect
            x="0"
            y="0"
            width="210"
-           height="538"
+           height="526.80"
            fill="#ffffff"
            stroke="none"
            id="rect26"
@@ -696,12 +714,14 @@
        id="B1-container"
        transform="translate(1730.7801,-731.60939)">
       <g
-         id="sheet-B1">
+         id="sheet-B1"
+         data-sort-order="9"
+         class="sheet">
         <rect
            x="0"
            y="0"
            width="269"
-           height="420"
+           height="399.8"
            fill="#ffffff"
            stroke="none"
            id="rect30"
@@ -786,12 +806,14 @@
        id="B2-container"
        transform="translate(2046.908,-731.60939)">
       <g
-         id="sheet-B2">
+         id="sheet-B2"
+         data-sort-order="10"
+         class="sheet">
         <rect
            x="0"
            y="0"
            width="210"
-           height="538"
+           height="526.80"
            fill="#ffffff"
            stroke="none"
            id="rect32"
@@ -876,12 +898,14 @@
        id="B3-container"
        transform="translate(2304.0358,-731.60939)">
       <g
-         id="sheet-B3">
+         id="sheet-B3"
+         data-sort-order="11"
+         class="sheet">
         <rect
            x="0"
            y="0"
            width="210"
-           height="538"
+           height="526.80"
            fill="#ffffff"
            stroke="none"
            id="rect34"
@@ -967,19 +991,21 @@
        inkscape:label="sheet-SC-All-container">
       <g
          id="sheet-SC1-SC2"
-         inkscape:label="sheet-SC-All">
+         inkscape:label="sheet-SC-All"
+         data-sort-order="12"
+         class="sheet">
         <rect
            x="-0.12007354"
            y="0.12007354"
            width="269"
-           height="420"
+           height="399.8"
            fill="#ffffff"
            stroke="none"
            id="rect46"
            style="stroke-width:1.43848" />
         <g
            id="g112"
-           transform="rotate(-43.882086,120.64386,-126.92909)">
+           transform="rotate(-43.882086,110.38501,-128.98299)">
           <use
              href="feathers-elongated.svg#SC1-outline"
              transform="matrix(-1,0,0,1,119.29846,-97.221942)"
@@ -996,7 +1022,7 @@
         </g>
         <g
            id="g114"
-           transform="rotate(42.678798,132.75713,223.06227)">
+           transform="rotate(42.678798,141.87183,217.37583)">
           <use
              href="feathers-elongated.svg#SC1-outline"
              transform="translate(-4.714144,-97.221942)"
@@ -1014,7 +1040,7 @@
         </g>
         <g
            id="g113"
-           transform="rotate(-47.373003,107.32222,155.41645)">
+           transform="rotate(-47.373003,97.843048,153.21636)">
           <use
              href="feathers-elongated.svg#SC2-outline"
              transform="matrix(-1,0,0,1,239.80612,-67.442507)"
@@ -1031,7 +1057,7 @@
         </g>
         <g
            id="g121"
-           transform="rotate(50.225638,140.90381,-60.466575)">
+           transform="rotate(50.225638,148.38114,-65.84601)">
           <use
              href="feathers-elongated.svg#SC2-outline"
              transform="translate(104.2042,-67.442507)"
@@ -1048,7 +1074,7 @@
         </g>
         <g
            id="g123"
-           transform="rotate(-50.362609,321.23644,163.48853)">
+           transform="rotate(-50.362609,304.49923,150.00615)">
           <use
              href="feathers-elongated.svg#SC3-outline"
              transform="matrix(-1,0,0,1,146.11388,-39.870805)"
@@ -1065,7 +1091,7 @@
         </g>
         <g
            id="g135"
-           transform="translate(14.0942,7.6414335)">
+           transform="translate(18.416847,-10.129451)">
           <use
              href="feathers-elongated.svg#SC3-outline"
              transform="rotate(53.987091,-102.44135,186.05475)"
@@ -1082,7 +1108,7 @@
         </g>
         <g
            id="g125"
-           transform="rotate(-46.694524,409.87378,-22.801792)"
+           transform="rotate(-46.694524,402.34895,-35.950008)"
            inkscape:label="SC4L">
           <use
              href="feathers-elongated.svg#SC4-outline"
@@ -1100,7 +1126,7 @@
         </g>
         <g
            id="g126"
-           transform="rotate(-32.82716,386.37782,216.68482)"
+           transform="rotate(-32.82716,380.26038,165.26805)"
            inkscape:label="SC4R">
           <use
              href="feathers-elongated.svg#SC4-outline"
@@ -1122,12 +1148,14 @@
        id="MC1-MC2-container"
        transform="translate(1739.6551,216.56957)">
       <g
-         id="sheet-MC1-MC2">
+         id="sheet-MC1-MC2"
+         data-sort-order="13"
+         class="sheet">
         <rect
            x="-303.61963"
            y="-122.29207"
            width="269"
-           height="420"
+           height="399.8"
            fill="#ffffff"
            stroke="none"
            id="rect54"
@@ -1278,7 +1306,9 @@
       <g
          id="sheet-LC-All"
          transform="translate(-309.73277,-923.2841)"
-         inkscape:label="sheet-LC-All">
+         inkscape:label="sheet-LC-All"
+         data-sort-order="14"
+         class="sheet">
         <rect
            x="0"
            y="0"
@@ -1396,22 +1426,25 @@
        id="assembly-template-right-container"
        transform="translate(571.50331,872.64858)">
       <g
-         id="sheet-assembly-template-right">
+         id="sheet-assembly-template-right"
+         data-sort-order="15"
+         class="sheet"
+         transform="translate(0.33961926,-0.67923852)">
         <rect
            x="0"
-           y="0"
+           y="-4.5474735e-13"
            width="269"
-           height="252"
+           height="399.8"
            fill="#ffffff"
            stroke="none"
            id="rect68"
-           style="stroke-width:1.1898" />
+           style="stroke-width:1.53603" />
         <use
            href="feathers-elongated.svg#assembly-template"
-           transform="translate(5.686376,4.864957)"
+           transform="translate(32.855917,115.24122)"
            id="use68" />
         <g
-           transform="translate(132.525,8)"
+           transform="translate(121.31756,92.904815)"
            id="g69">
           <text
              x="0"
@@ -1425,22 +1458,24 @@
        id="assembly-template-left-container"
        transform="translate(1155.4175,845.47904)">
       <g
-         id="sheet-assembly-template-left">
+         id="sheet-assembly-template-left"
+         data-sort-order="16"
+         class="sheet">
         <rect
            x="0"
            y="0"
-           width="296"
-           height="252"
+           width="269"
+           height="399.8"
            fill="#ffffff"
            stroke="none"
            id="rect69"
-           style="stroke-width:1.2481" />
+           style="stroke-width:1.53605" />
         <use
            href="feathers-elongated.svg#assembly-template"
-           transform="matrix(-1,0,0,1,259.36281,4.864957)"
+           transform="matrix(-1,0,0,1,232.87251,108.10921)"
            id="use69" />
         <g
-           transform="translate(132.52519,8)"
+           transform="translate(123.01585,83.395476)"
            id="g70">
           <text
              x="0"
@@ -1455,16 +1490,18 @@
        transform="translate(95.757789,2185.2242)">
       <g
          id="sheet-Alignment-B-left"
-         transform="translate(21.132943,-261.76032)">
+         transform="translate(21.132943,-261.76032)"
+         data-sort-order="17"
+         class="sheet">
         <rect
            x="0"
            y="0"
            width="269"
-           height="400"
+           height="399.79999"
            fill="#ffffff"
            stroke="none"
            id="rect70"
-           style="stroke-width:1.79588" />
+           style="stroke-width:1.79543" />
         <use
            href="feathers-elongated.svg#B-align"
            transform="translate(785.4149,-306.00358)"
@@ -1488,12 +1525,14 @@
        id="Alignment-P-Right-container"
        transform="translate(267.91109,2454.0524)">
       <g
-         id="sheet-Alignment-P-Right">
+         id="sheet-Alignment-P-Right"
+         data-sort-order="18"
+         class="sheet">
         <rect
            x="0"
            y="0"
            width="210"
-           height="538"
+           height="526.80"
            fill="#ffffff"
            stroke="none"
            id="rect72"
@@ -1520,12 +1559,14 @@
        id="Alignment-P-Left-container"
        transform="translate(598.78821,2463.7648)">
       <g
-         id="sheet-Alignment-P-Left">
+         id="sheet-Alignment-P-Left"
+         data-sort-order="19"
+         class="sheet">
         <rect
            x="0"
            y="0"
            width="210"
-           height="538"
+           height="526.80"
            fill="#ffffff"
            stroke="none"
            id="rect73"
@@ -1549,7 +1590,9 @@
        id="PC-align-Alignment-A-left-container"
        transform="translate(458.81859,1967.9947)">
       <g
-         id="sheet-PC-align-Alignment-A-left">
+         id="sheet-PC-align-Alignment-A-left"
+         data-sort-order="20"
+         class="sheet">
         <rect
            x="0"
            y="0"
@@ -1600,7 +1643,9 @@
        transform="translate(1117.0565,2009.0649)">
       <g
          id="sheet-Alignment-SC-left"
-         transform="translate(13.448237,-3.3620591)">
+         transform="translate(13.448237,-3.3620591)"
+         data-sort-order="21"
+         class="sheet">
         <rect
            x="0"
            y="0"
@@ -1629,7 +1674,9 @@
        id="Alignment-SC-right-container"
        transform="translate(1615.5644,1995.6167)">
       <g
-         id="sheet-Alignment-SC-right">
+         id="sheet-Alignment-SC-right"
+         data-sort-order="22"
+         class="sheet">
         <rect
            x="0"
            y="-0.00044"
@@ -1658,7 +1705,9 @@
        id="MC-align-Alignment-LC-left-container"
        transform="translate(1238.2152,2416.5577)">
       <g
-         id="sheet-MC-align-Alignment-LC-left">
+         id="sheet-MC-align-Alignment-LC-left"
+         data-sort-order="23"
+         class="sheet">
         <rect
            x="-8.1508627"
            y="-13.584771"
@@ -1707,7 +1756,9 @@
        id="MC-align-Alignment-LC-right-container"
        transform="translate(1270.0603,2658.3666)">
       <g
-         id="sheet-MC-align-Alignment-LC-right">
+         id="sheet-MC-align-Alignment-LC-right"
+         data-sort-order="24"
+         class="sheet">
         <rect
            x="0"
            y="0"
@@ -1756,12 +1807,14 @@
        id="Alignment-S-left-container"
        transform="translate(1786.8819,2351.3508)">
       <g
-         id="sheet-Alignment-S-left">
+         id="sheet-Alignment-S-left"
+         data-sort-order="25"
+         class="sheet">
         <rect
            x="0"
            y="0"
            width="210"
-           height="538"
+           height="526.80"
            fill="#ffffff"
            stroke="none"
            id="rect84"
@@ -1789,12 +1842,14 @@
        id="Alignment-S-right-container"
        transform="translate(2138.2158,2467.5006)">
       <g
-         id="sheet-Alignment-S-right">
+         id="sheet-Alignment-S-right"
+         data-sort-order="26"
+         class="sheet">
         <rect
            x="-7.4716239"
            y="-92.376442"
            width="210"
-           height="538"
+           height="526.80"
            fill="#ffffff"
            stroke="none"
            id="rect85"
