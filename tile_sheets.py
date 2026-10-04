@@ -25,7 +25,9 @@ Every ``<g>`` whose ``class`` contains "sheet" -- and that carries a direct
 becomes one or more physical pages, referenced by ``<use>`` so the output never
 duplicates the artwork. Pages are laid out side by side in a single Inkscape
 multipage document (portrait and landscape pages may be mixed), with crop ticks
-and overlap marks.
+and overlap marks. The root element is sized to the first page rather than to the
+whole strip -- see :func:`emit_multipage_svg` for why Inkscape's PDF export needs
+that.
 """
 
 import math
@@ -436,9 +438,20 @@ def emit_multipage_svg(
 
     Each page carries its own trim size, so portrait and landscape pages can share
     one document: pages are placed left to right by accumulating their widths, and
-    the document is as tall as the tallest page.
+    the drawing is as tall as the tallest page.
+
+    The root element's own size is the *first* page's trim, not the whole strip:
+    Inkscape's multipage PDF export takes page 1's size from the root element and
+    ignores that page's ``<inkscape:page>``, so a root spanning the strip would
+    export page 1 as the entire strip and drop the real first page. Note that this
+    makes page 1 the only page a plain SVG viewer (a browser, say) shows, since it
+    clips to the root viewport; Inkscape itself shows every page either way.
     """
-    total_h = max(page.paper.trim.height for page in pages)
+    if not pages:
+        raise ValueError('no pages to emit')
+
+    root_w = pages[0].paper.trim.width
+    root_h = pages[0].paper.trim.height
 
     page_defs: list[str] = []
     page_groups: list[str] = []
@@ -466,8 +479,6 @@ def emit_multipage_svg(
         )
         x += trim.width + gap
 
-    total_w = x - gap  # n widths plus n-1 gaps
-
     if doc_name is None:
         doc_name = 'sheets-multipage.svg'
 
@@ -479,9 +490,9 @@ def emit_multipage_svg(
         '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n'
         '<!-- Created with Inkscape (http://www.inkscape.org/) -->\n\n'
         '<svg\n'
-        f'   width="{fmt(total_w)}mm"\n'
-        f'   height="{fmt(total_h)}mm"\n'
-        f'   viewBox="0 0 {fmt(total_w)} {fmt(total_h)}"\n'
+        f'   width="{fmt(root_w)}mm"\n'
+        f'   height="{fmt(root_h)}mm"\n'
+        f'   viewBox="0 0 {fmt(root_w)} {fmt(root_h)}"\n'
         '   version="1.1"\n'
         '   id="svg1"\n'
         f'   inkscape:version="{INKSCAPE_VERSION}"\n'
