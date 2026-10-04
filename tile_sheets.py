@@ -23,11 +23,13 @@ usage: python tile_sheets.py <sheets.svg> [trimWxH] [safeWxH] [overlap] [gap]
 Every ``<g>`` whose ``class`` contains "sheet" -- and that carries a direct
 ``<rect>`` child giving its bounds, plus an ``id`` for ``<use>`` to reference --
 becomes one or more physical pages, referenced by ``<use>`` so the output never
-duplicates the artwork. Pages are laid out side by side in a single Inkscape
-multipage document (portrait and landscape pages may be mixed), with crop ticks
-and overlap marks. The root element is sized to the first page rather than to the
-whole strip -- see :func:`emit_multipage_svg` for why Inkscape's PDF export needs
-that.
+duplicates the artwork. That rect is taken as both a size and a position: it may
+sit anywhere inside its group, and the group may carry a ``transform``, so the
+offset is cancelled before the sheet is placed on a page. Pages are laid out side
+by side in a single Inkscape multipage document (portrait and landscape pages may
+be mixed), with crop ticks and overlap marks. The root element is sized to the
+first page rather than to the whole strip -- see :func:`emit_multipage_svg` for why
+Inkscape's PDF export needs that.
 """
 
 import math
@@ -80,11 +82,18 @@ class Paper:
 
 @dataclass(frozen=True)
 class SheetDef:
-    """A sheet found in the input: its id and logical size in source units."""
+    """A sheet found in the input: its id, logical size, and bounds offset.
+
+    ``offset`` is where the bounds ``<rect>`` corner sits inside the referenced
+    group's *own* coordinate system -- ``(0, 0)`` for a well-formed sheet. The
+    group's ``transform`` counts, because ``<use>`` reproduces it, and so does a
+    ``transform`` on the rect itself.
+    """
 
     id: str
     width: float
     height: float
+    offset: tuple[float, float]
 
 
 @dataclass(frozen=True)
@@ -191,6 +200,98 @@ def parse_svg(markup: bytes) -> ET.Element:
         return ET.fromstring(markup)
     except ET.ParseError as exc:
         raise ValueError('source SVG failed to parse') from exc
+
+
+# --- SVG transforms ---------------------------------------------------------
+
+Matrix = tuple[float, float, float, float, float, float]
+IDENTITY: Matrix = (1.0, 0.0, 0.0, 1.0, 0.0, 0.0)
+
+_TRANSFORM_RE = re.compile(r'(matrix|translate|scale|rotate|skewX|skewY)\s*\(([^)]*)\)')
+_NUMBER_RE = re.compile(r'[-+]?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?')
+
+
+def matrix_multiply(m: Matrix, n: Matrix) -> Matrix:
+    """The matrix ``m`` followed by ``n`` (i.e. ``n * m`` in SVG terms)."""
+    a1, b1, c1, d1, e1, f1 = m
+    a2, b2, c2, d2, e2, f2 = n
+    return (
+        a1 * a2 + c1 * b2, b1 * a2 + d1 * b2,
+        a1 * c2 + c1 * d2, b1 * c2 + d1 * d2,
+        a1 * e2 + c1 * f2 + e1, b1 * e2 + d1 * f2 + f1,
+    )
+
+
+def parse_transform(text: str | None) -> Matrix:
+    """Parse a ``transform`` attribute into a 2x3 matrix (identity when absent).
+
+    Handles the whole transform-list grammar, including ``rotate(a cx cy)``, so a
+    sheet whose group carries any transform can still be measured. A function whose
+    arguments do not parse is skipped rather than aborting the whole attribute.
+    """
+    m = IDENTITY
+    if not text:
+        return m
+    for name, args in _TRANSFORM_RE.findall(text):
+        vals = [float(v) for v in _NUMBER_RE.findall(args)]
+        if name == 'matrix' and len(vals) == 6:
+            step: Matrix = (vals[0], vals[1], vals[2], vals[3], vals[4], vals[5])
+        elif name == 'translate' and vals:
+            step = (1.0, 0.0, 0.0, 1.0, vals[0], vals[1] if len(vals) > 1 else 0.0)
+        elif name == 'scale' and vals:
+            sy = vals[1] if len(vals) > 1 else vals[0]
+            step = (vals[0], 0.0, 0.0, sy, 0.0, 0.0)
+        elif name == 'rotate' and vals:
+            angle = math.radians(vals[0])
+            cos, sin = math.cos(angle), math.sin(angle)
+            step = (cos, sin, -sin, cos, 0.0, 0.0)
+            if len(vals) == 3:
+                cx, cy = vals[1], vals[2]
+                step = matrix_multiply(
+                    matrix_multiply((1.0, 0.0, 0.0, 1.0, cx, cy), step),
+                    (1.0, 0.0, 0.0, 1.0, -cx, -cy),
+                )
+        elif name == 'skewX' and vals:
+            step = (1.0, 0.0, math.tan(math.radians(vals[0])), 1.0, 0.0, 0.0)
+        elif name == 'skewY' and vals:
+            step = (1.0, math.tan(math.radians(vals[0])), 0.0, 1.0, 0.0, 0.0)
+        else:
+            continue
+        m = matrix_multiply(m, step)
+    return m
+
+
+def is_translation(m: Matrix) -> bool:
+    """True when ``m`` only moves things: no rotation, skew or scale."""
+    a, b, c, d = m[:4]
+    return (
+        abs(a - 1.0) < 1e-9 and abs(b) < 1e-9
+        and abs(c) < 1e-9 and abs(d - 1.0) < 1e-9
+    )
+
+
+def transform_point(m: Matrix, x: float, y: float) -> tuple[float, float]:
+    """Apply ``m`` to a point, rounding away -0.0 so it formats as ``0``."""
+    a, b, c, d, e, f = m
+    px = round6(a * x + c * y + e)
+    py = round6(b * x + d * y + f)
+    return (0.0 if px == 0 else px, 0.0 if py == 0 else py)
+
+
+def bounds_offset(group: ET.Element, rect: ET.Element) -> tuple[float, float]:
+    """Where a sheet's bounds rect corner lands in the group's own coordinates.
+
+    ``<use>`` reproduces the referenced group *including* its ``transform``, so an
+    offset here shows up verbatim on the page: the tiler cancels it to put the
+    bounds -- and with them the artwork -- where the page geometry expects.
+    """
+    m = matrix_multiply(
+        parse_transform(group.get('transform')),
+        parse_transform(rect.get('transform')),
+    )
+    x = js_number(rect.get('x'))
+    y = js_number(rect.get('y'))
+    return transform_point(m, x if math.isfinite(x) else 0.0, y if math.isfinite(y) else 0.0)
 
 
 # ---------------------------------------------------------------------------
@@ -544,6 +645,13 @@ def find_sheets(root: ET.Element) -> list[SheetDef]:
     nest their rect one level deeper and are skipped, as are class-marked groups
     with no ``id`` (the emitted ``<use>`` needs one; a warning is printed).
 
+    The rect's position is recorded as well as its size: the bounds may sit
+    anywhere inside the group (or the group may carry a ``translate``), and since
+    ``<use>`` reproduces both, the tiler has to cancel that offset or the page
+    shows empty space where the artwork should be. A group that also rotates or
+    scales its content is reported, because the tiler then still treats the sheet
+    as an axis-aligned rectangle of the rect's own size.
+
     Sheets are ordered by their ``data-sort-order`` attribute (ascending); sheets
     without one come last in document order."""
     raw: list[dict[str, object]] = []
@@ -567,18 +675,34 @@ def find_sheets(root: ET.Element) -> list[SheetDef]:
         h = js_number(rect.get('height'))
         if not (math.isfinite(w) and math.isfinite(h)):
             continue
+        combined = matrix_multiply(
+            parse_transform(el.get('transform')),
+            parse_transform(rect.get('transform')),
+        )
+        if not is_translation(combined):
+            print(
+                f'warning: <g id="{el_id}"> is rotated, skewed or scaled; the tiler'
+                ' places it by its bounds rect corner and tiles the rect size as-is',
+                file=sys.stderr,
+            )
         order_attr = el.get('data-sort-order')
         parsed = float('inf') if order_attr is None else js_number(order_attr)
         raw.append({
             'id': el_id,
             'width': w,
             'height': h,
+            'offset': bounds_offset(el, rect),
             'order': parsed if math.isfinite(parsed) else float('inf'),
             'index': len(raw),
         })
     raw.sort(key=lambda r: (r['order'], r['index']))
     return [
-        SheetDef(id=str(r['id']), width=float(r['width']), height=float(r['height']))
+        SheetDef(
+            id=str(r['id']),
+            width=float(r['width']),
+            height=float(r['height']),
+            offset=r['offset'],  # type: ignore[arg-type]
+        )
         for r in raw
     ]
 
@@ -788,6 +912,13 @@ def run(positional: list[str], flags: dict[str, str | None]) -> int:
     for sheet in sheets:
         title = sheet.id.removeprefix('sheet-')
         use_ref = f'<use href="{esc(f"{href}#{sheet.id}")}"/>'
+        # The sheet's bounds rect need not sit at its group's origin, and the group
+        # itself may be translated; <use> copies that faithfully, so cancel it here
+        # or the page would show whatever happens to lie at the group origin --
+        # often nothing at all.
+        ox, oy = sheet.offset
+        if ox or oy:
+            use_ref = f'<g transform="translate({fmt(-ox)} {fmt(-oy)})">{use_ref}</g>'
         layout = choose_layout(title, sheet, use_ref, portrait, landscape)
         planned.append(PlannedSheet(
             sheet_id=sheet.id,

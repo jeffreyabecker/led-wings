@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="279.4mm"
+   height="215.9mm"
+   viewBox="0 0 279.4 215.9"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   sodipodi:docname="sheets-multipage.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="false"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showborder="true">
+    <inkscape:page
+       x="0"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page1"
+       margin="5"
+       bleed="0"
+       inkscape:label="assembly-template-right · tile 1/2" />
+    <inkscape:page
+       x="289.4"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page2"
+       margin="5"
+       bleed="0"
+       inkscape:label="assembly-template-right · tile 2/2" />
+    <inkscape:page
+       x="578.8"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page3"
+       margin="5"
+       bleed="0"
+       inkscape:label="assembly-template-left · tile 1/2" />
+    <inkscape:page
+       x="868.2"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page4"
+       margin="5"
+       bleed="0"
+       inkscape:label="assembly-template-left · tile 2/2" />
+    <inkscape:page
+       x="1157.6"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page5"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment-B · tile 1/2" />
+    <inkscape:page
+       x="1447"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page6"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment-B · tile 2/2" />
+    <inkscape:page
+       x="1736.4"
+       y="0"
+       width="215.9"
+       height="279.4"
+       id="page7"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment-P-Right · tile 1/2" />
+    <inkscape:page
+       x="1962.3"
+       y="0"
+       width="215.9"
+       height="279.4"
+       id="page8"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment-P-Right · tile 2/2" />
+    <inkscape:page
+       x="2188.2"
+       y="0"
+       width="215.9"
+       height="279.4"
+       id="page9"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment-P-Left · tile 1/2" />
+    <inkscape:page
+       x="2414.1"
+       y="0"
+       width="215.9"
+       height="279.4"
+       id="page10"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment-P-Left · tile 2/2" />
+    <inkscape:page
+       x="2640"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page11"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment-PC-A" />
+    <inkscape:page
+       x="2929.4"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page12"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment-SC-right" />
+    <inkscape:page
+       x="3218.8"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page13"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment-SC-left" />
+    <inkscape:page
+       x="3508.2"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page14"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment-MC-LC-right" />
+    <inkscape:page
+       x="3797.6"
+       y="0"
+       width="279.4"
+       height="215.9"
+       id="page15"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment-MC-LC-left" />
+    <inkscape:page
+       x="4087"
+       y="0"
+       width="215.9"
+       height="279.4"
+       id="page16"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment-S-right · tile 1/2" />
+    <inkscape:page
+       x="4312.9"
+       y="0"
+       width="215.9"
+       height="279.4"
+       id="page17"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment-S-right · tile 2/2" />
+    <inkscape:page
+       x="4538.8"
+       y="0"
+       width="215.9"
+       height="279.4"
+       id="page18"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment-S-left · tile 1/2" />
+    <inkscape:page
+       x="4764.7"
+       y="0"
+       width="215.9"
+       height="279.4"
+       id="page19"
+       margin="5"
+       bleed="0"
+       inkscape:label="Alignment-S-left · tile 2/2" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1">
+      <clipPath id="clip"><rect x="5" y="5" width="269.4" height="205.9"/></clipPath>
+      <clipPath id="clip-shared-2"><rect x="5" y="5" width="205.9" height="269.4"/></clipPath>
+      <g id="crop-ticks"><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="205.9" x2="15" y2="205.9"/><line class="crop" x1="10" y1="205.9" x2="10" y2="200.9"/><line class="crop" x1="269.4" y1="10" x2="264.4" y2="10"/><line class="crop" x1="269.4" y1="10" x2="269.4" y2="15"/><line class="crop" x1="269.4" y1="205.9" x2="264.4" y2="205.9"/><line class="crop" x1="269.4" y1="205.9" x2="269.4" y2="200.9"/></g>
+      <g id="crop-ticks-shared-2"><line class="crop" x1="10" y1="10" x2="15" y2="10"/><line class="crop" x1="10" y1="10" x2="10" y2="15"/><line class="crop" x1="10" y1="269.4" x2="15" y2="269.4"/><line class="crop" x1="10" y1="269.4" x2="10" y2="264.4"/><line class="crop" x1="205.9" y1="10" x2="200.9" y2="10"/><line class="crop" x1="205.9" y1="10" x2="205.9" y2="15"/><line class="crop" x1="205.9" y1="269.4" x2="200.9" y2="269.4"/><line class="crop" x1="205.9" y1="269.4" x2="205.9" y2="264.4"/></g>
+    </defs>
+  <style type="text/css">/* As-built feather catalog. Presentation lives here; elements carry classes only. */
+.outline { 
+   stroke: #000000; 
+   stroke-width: 0.25;
+   stroke-dasharray: 2.5, 2.5;
+}
+
+/* a guide line and an overlay origin arrow are the same kind of stroke */
+.guide,
+.arrow {
+  fill: none;
+  stroke: #000000;
+  stroke-width: 0.264583;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+}
+.divider{
+   fill:none;
+   stroke:#000000;
+   stroke-width:0.264583;
+   stroke-linecap:butt;
+   stroke-linejoin:miter;
+   stroke-opacity:1;
+}
+
+
+
+.align .outline { fill: none; stroke: #000000; }
+
+/* one marker, not twenty-eight; the head takes the path's stroke colour */
+
+
+
+.mark { fill: #000000; stroke: none; }
+
+/* the diagnostic overlay: hidden, read by nothing */
+.align { opacity: 0.5; }
+
+/* one colour per family, keyed on a class rather than an ancestor id */
+.b .outline { fill: #8c564b; }
+.p .outline { fill: #1f77b4; }
+.pc .outline { fill: #d62728; }
+.a .outline { fill: #2ca02c; }
+.sc .outline { fill: #9467bd; }
+.mc .outline { fill: #17becf; }
+.lc .outline { fill: #bcbd22; }
+.s .outline { fill: #ff7f0e; }
+
+.cal     { stroke: #000000; stroke-width: 0.5; }
+.minor   { stroke: #000000; stroke-width: 0.15; }
+.major   { stroke: #000000; stroke-width: 0.5; }
+.num     { font-family: sans-serif; fill: #000000; font-size: 3.5; text-anchor: middle; }
+.caltext { font-family: sans-serif; fill: #000000; font-size: 6; text-anchor: middle; font-weight: bold; }
+
+
+.outline { stroke: #000000; stroke-width: 0.5; fill: none; }
+.guide { stroke: #000000; stroke-width: 0.264583; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.arrow { stroke: #000000; stroke-width: 0.264583; fill: none; stroke-linecap: butt; stroke-linejoin: miter; }
+.mark { fill: #000000; stroke: none; }
+.label { font-family: sans-serif; fill: #000000; text-anchor: middle; dominant-baseline: middle; font-size: 5; }
+.title { font-family: sans-serif; fill: #000000; font-size: 9; text-anchor: middle; font-weight: bold; }
+.note { font-family: sans-serif; fill: #555555; font-size: 4; text-anchor: middle; }
+.cal { stroke: #000000; stroke-width: 0.5; }
+.minor { stroke: #000000; stroke-width: 0.15; }
+.major { stroke: #000000; stroke-width: 0.5; }
+.num { font-family: sans-serif; fill: #000000; font-size: 3.5; text-anchor: middle; }
+.caltext { font-family: sans-serif; fill: #000000; font-size: 6; text-anchor: middle; font-weight: bold; }
+.crop { stroke: #999999; stroke-width: 0.25; }
+.overlap { stroke: #999999; stroke-width: 0.15; stroke-dasharray: 2 2; fill: none; }
+.note { font-family: sans-serif; fill: #555555; font-size: 4; text-anchor: middle; }
+
+.sheet-bounds { fill: #ffffff; stroke: none; }
+
+.crop { stroke: #999999; stroke-width: 0.25; }
+.overlap { stroke: #999999; stroke-width: 0.15; stroke-dasharray: 2 2; fill: none; }
+.note { font-family: sans-serif; fill: #555555; font-size: 4; text-anchor: middle; }
+</style>
+  <g id="pages">
+    <g id="page-assembly-template-right-tile-1" transform="translate(0 0)">
+      <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+  <g clip-path="url(#clip)">
+  <g transform="translate(5 5)"><g transform="translate(-0.339619 0.679239)"><use href="sheets-home-alignment.svg#sheet-assembly-template-right"/></g></g>
+  </g>
+  <use href="#crop-ticks"/>
+  <g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
+  <text class="note" x="139.7" y="213.4">assembly-template-right · tile 1/2 · 1x2</text>
+    </g>
+    <g id="page-assembly-template-right-tile-2" transform="translate(289.4 0)">
+      <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+  <g clip-path="url(#clip)">
+  <g transform="translate(5 -188.9)"><g transform="translate(-0.339619 0.679239)"><use href="sheets-home-alignment.svg#sheet-assembly-template-right"/></g></g>
+  </g>
+  <use href="#crop-ticks"/>
+  <g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
+  <text class="note" x="139.7" y="213.4">assembly-template-right · tile 2/2 · 1x2</text>
+    </g>
+    <g id="page-assembly-template-left-tile-1" transform="translate(578.8 0)">
+      <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+  <g clip-path="url(#clip)">
+  <g transform="translate(5 5)"><use href="sheets-home-alignment.svg#sheet-assembly-template-left"/></g>
+  </g>
+  <use href="#crop-ticks"/>
+  <g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
+  <text class="note" x="139.7" y="213.4">assembly-template-left · tile 1/2 · 1x2</text>
+    </g>
+    <g id="page-assembly-template-left-tile-2" transform="translate(868.2 0)">
+      <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+  <g clip-path="url(#clip)">
+  <g transform="translate(5 -188.9)"><use href="sheets-home-alignment.svg#sheet-assembly-template-left"/></g>
+  </g>
+  <use href="#crop-ticks"/>
+  <g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
+  <text class="note" x="139.7" y="213.4">assembly-template-left · tile 2/2 · 1x2</text>
+    </g>
+    <g id="page-Alignment-B-tile-1" transform="translate(1157.6 0)">
+      <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+  <g clip-path="url(#clip)">
+  <g transform="translate(5 5)"><g transform="translate(-21.132943 261.76032)"><use href="sheets-home-alignment.svg#sheet-Alignment-B"/></g></g>
+  </g>
+  <use href="#crop-ticks"/>
+  <g><line class="overlap" x1="5" y1="198.9" x2="274.4" y2="198.9"/></g>
+  <text class="note" x="139.7" y="213.4">Alignment-B · tile 1/2 · 1x2</text>
+    </g>
+    <g id="page-Alignment-B-tile-2" transform="translate(1447 0)">
+      <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+  <g clip-path="url(#clip)">
+  <g transform="translate(5 -188.9)"><g transform="translate(-21.132943 261.76032)"><use href="sheets-home-alignment.svg#sheet-Alignment-B"/></g></g>
+  </g>
+  <use href="#crop-ticks"/>
+  <g><line class="overlap" x1="5" y1="17" x2="274.4" y2="17"/></g>
+  <text class="note" x="139.7" y="213.4">Alignment-B · tile 2/2 · 1x2</text>
+    </g>
+    <g id="page-Alignment-P-Right-tile-1" transform="translate(1736.4 0)">
+      <rect x="0" y="0" width="215.9" height="279.4" fill="#ffffff"/>
+  <g clip-path="url(#clip-shared-2)">
+  <g transform="translate(5 5)"><use href="sheets-home-alignment.svg#sheet-Alignment-P-Right"/></g>
+  </g>
+  <use href="#crop-ticks-shared-2"/>
+  <g><line class="overlap" x1="5" y1="262.4" x2="210.9" y2="262.4"/></g>
+  <text class="note" x="107.95" y="276.9">Alignment-P-Right · tile 1/2 · 1x2</text>
+    </g>
+    <g id="page-Alignment-P-Right-tile-2" transform="translate(1962.3 0)">
+      <rect x="0" y="0" width="215.9" height="279.4" fill="#ffffff"/>
+  <g clip-path="url(#clip-shared-2)">
+  <g transform="translate(5 -252.4)"><use href="sheets-home-alignment.svg#sheet-Alignment-P-Right"/></g>
+  </g>
+  <use href="#crop-ticks-shared-2"/>
+  <g><line class="overlap" x1="5" y1="17" x2="210.9" y2="17"/></g>
+  <text class="note" x="107.95" y="276.9">Alignment-P-Right · tile 2/2 · 1x2</text>
+    </g>
+    <g id="page-Alignment-P-Left-tile-1" transform="translate(2188.2 0)">
+      <rect x="0" y="0" width="215.9" height="279.4" fill="#ffffff"/>
+  <g clip-path="url(#clip-shared-2)">
+  <g transform="translate(5 5)"><use href="sheets-home-alignment.svg#sheet-Alignment-P-Left"/></g>
+  </g>
+  <use href="#crop-ticks-shared-2"/>
+  <g><line class="overlap" x1="5" y1="262.4" x2="210.9" y2="262.4"/></g>
+  <text class="note" x="107.95" y="276.9">Alignment-P-Left · tile 1/2 · 1x2</text>
+    </g>
+    <g id="page-Alignment-P-Left-tile-2" transform="translate(2414.1 0)">
+      <rect x="0" y="0" width="215.9" height="279.4" fill="#ffffff"/>
+  <g clip-path="url(#clip-shared-2)">
+  <g transform="translate(5 -252.4)"><use href="sheets-home-alignment.svg#sheet-Alignment-P-Left"/></g>
+  </g>
+  <use href="#crop-ticks-shared-2"/>
+  <g><line class="overlap" x1="5" y1="17" x2="210.9" y2="17"/></g>
+  <text class="note" x="107.95" y="276.9">Alignment-P-Left · tile 2/2 · 1x2</text>
+    </g>
+    <g id="page-Alignment-PC-A" transform="translate(2640 0)">
+      <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+  <g transform="translate(5.2 2.95)"><use href="sheets-home-alignment.svg#sheet-Alignment-PC-A"/></g>
+    </g>
+    <g id="page-Alignment-SC-right" transform="translate(2929.4 0)">
+      <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+  <g transform="translate(5.2 2.95)"><g transform="translate(-13.448237 3.362059)"><use href="sheets-home-alignment.svg#sheet-Alignment-SC-right"/></g></g>
+    </g>
+    <g id="page-Alignment-SC-left" transform="translate(3218.8 0)">
+      <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+  <g transform="translate(5.2 2.95)"><g transform="translate(-0 0.00044)"><use href="sheets-home-alignment.svg#sheet-Alignment-SC-left"/></g></g>
+    </g>
+    <g id="page-Alignment-MC-LC-right" transform="translate(3508.2 0)">
+      <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+  <g transform="translate(5.2 2.95)"><g transform="translate(8.150863 13.584771)"><use href="sheets-home-alignment.svg#sheet-Alignment-MC-LC-right"/></g></g>
+    </g>
+    <g id="page-Alignment-MC-LC-left" transform="translate(3797.6 0)">
+      <rect x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+  <g transform="translate(5.2 2.95)"><use href="sheets-home-alignment.svg#sheet-Alignment-MC-LC-left"/></g>
+    </g>
+    <g id="page-Alignment-S-right-tile-1" transform="translate(4087 0)">
+      <rect x="0" y="0" width="215.9" height="279.4" fill="#ffffff"/>
+  <g clip-path="url(#clip-shared-2)">
+  <g transform="translate(5 5)"><use href="sheets-home-alignment.svg#sheet-Alignment-S-right"/></g>
+  </g>
+  <use href="#crop-ticks-shared-2"/>
+  <g><line class="overlap" x1="5" y1="262.4" x2="210.9" y2="262.4"/></g>
+  <text class="note" x="107.95" y="276.9">Alignment-S-right · tile 1/2 · 1x2</text>
+    </g>
+    <g id="page-Alignment-S-right-tile-2" transform="translate(4312.9 0)">
+      <rect x="0" y="0" width="215.9" height="279.4" fill="#ffffff"/>
+  <g clip-path="url(#clip-shared-2)">
+  <g transform="translate(5 -252.4)"><use href="sheets-home-alignment.svg#sheet-Alignment-S-right"/></g>
+  </g>
+  <use href="#crop-ticks-shared-2"/>
+  <g><line class="overlap" x1="5" y1="17" x2="210.9" y2="17"/></g>
+  <text class="note" x="107.95" y="276.9">Alignment-S-right · tile 2/2 · 1x2</text>
+    </g>
+    <g id="page-Alignment-S-left-tile-1" transform="translate(4538.8 0)">
+      <rect x="0" y="0" width="215.9" height="279.4" fill="#ffffff"/>
+  <g clip-path="url(#clip-shared-2)">
+  <g transform="translate(5 5)"><g transform="translate(7.471624 92.376442)"><use href="sheets-home-alignment.svg#sheet-Alignment-S-left"/></g></g>
+  </g>
+  <use href="#crop-ticks-shared-2"/>
+  <g><line class="overlap" x1="5" y1="262.4" x2="210.9" y2="262.4"/></g>
+  <text class="note" x="107.95" y="276.9">Alignment-S-left · tile 1/2 · 1x2</text>
+    </g>
+    <g id="page-Alignment-S-left-tile-2" transform="translate(4764.7 0)">
+      <rect x="0" y="0" width="215.9" height="279.4" fill="#ffffff"/>
+  <g clip-path="url(#clip-shared-2)">
+  <g transform="translate(5 -252.4)"><g transform="translate(7.471624 92.376442)"><use href="sheets-home-alignment.svg#sheet-Alignment-S-left"/></g></g>
+  </g>
+  <use href="#crop-ticks-shared-2"/>
+  <g><line class="overlap" x1="5" y1="17" x2="210.9" y2="17"/></g>
+  <text class="note" x="107.95" y="276.9">Alignment-S-left · tile 2/2 · 1x2</text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Hand-authored reference: one 200 x 400 mm sheet tiled onto two portrait pages.
+     Wholly self contained, and structured the way the tiler should emit it:
+
+       defs/sheet-example   the ONE sheet group: a direct <rect> giving its
+                            bounds (0,0 200x400) plus the geometry to be spanned
+       defs/clip            the printable window, 5,5 205.9x269.4
+       page-example-tile-1  <use> + translate(5 5)      -> sheet y    0.0 .. 269.4
+       page-example-tile-2  <use> + translate(5 -252.4) -> sheet y  257.4 .. 400
+
+     The two page transforms differ by the 257.4 mm stride (269.4 safe height - 12
+     overlap), so the band sheet y 257.4 .. 269.4 prints on both pages. The yellow
+     JOIN bar sits in that band: it must appear at the bottom of page 1 and at the
+     top of page 2.
+
+     Marking convention: the only lines worth marking are the join lines, so the
+     crop marks sit ON those lines, not at the safe-area corners. Both pages mark
+     the SAME sheet line (y = 257.4, the first line printed twice): page 1 cuts on
+     it, page 2 aligns to that cut.
+
+       page 1   cut at 262.4 mm from its top edge (17.0 mm from its bottom edge)
+       page 2   put the marked line, 5.0 mm below its top edge, on that cut
+
+     Everything below page 1's cut is duplicated on page 2, so cutting anywhere in
+     the 12 mm band (262.4 .. 274.4 mm on page 1) is also safe.
+
+     The master sheet lives in <defs> so it does not itself print; edit it with
+     Inkscape's XML editor (Ctrl+Shift+X). Pages sit 225.9 mm apart (215.9 + 10). -->
+<svg
+   width="215.9mm"
+   height="279.4mm"
+   viewBox="0 0 215.9 279.4"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   sodipodi:docname="one-sheet-two-pages.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="false"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showborder="true">
+    <inkscape:page
+       x="0"
+       y="0"
+       width="215.9"
+       height="279.4"
+       id="page1"
+       margin="5"
+       bleed="0"
+       inkscape:label="example &#183; tile 1/2" />
+    <inkscape:page
+       x="225.9"
+       y="0"
+       width="215.9"
+       height="279.4"
+       id="page2"
+       margin="5"
+       bleed="0"
+       inkscape:label="example &#183; tile 2/2" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1">
+    <!-- the one sheet: 200 x 400 mm of geometry, bounds rect at its own origin -->
+    <g
+       id="sheet-example"
+       class="sheet"
+       data-sort-order="0">
+      <rect
+         class="bounds"
+         id="bounds-rect"
+         x="0"
+         y="0"
+         width="200"
+         height="400" />
+      <path
+         class="grid"
+         id="grid"
+         d="M50 0 V400 M100 0 V400 M150 0 V400 M0 50 H200 M0 100 H200 M0 150 H200 M0 200 H200 M0 250 H200 M0 300 H200 M0 350 H200" />
+      <path
+         class="diagonal"
+         id="diagonals"
+         d="M0 0 L200 400 M200 0 L0 400" />
+      <path
+         class="ruler-minor"
+         id="ruler-minor"
+         d="M192 10 H200 M192 20 H200 M192 30 H200 M192 40 H200 M192 60 H200 M192 70 H200 M192 80 H200 M192 90 H200 M192 110 H200 M192 120 H200 M192 130 H200 M192 140 H200 M192 160 H200 M192 170 H200 M192 180 H200 M192 190 H200 M192 210 H200 M192 220 H200 M192 230 H200 M192 240 H200 M192 260 H200 M192 270 H200 M192 280 H200 M192 290 H200 M192 310 H200 M192 320 H200 M192 330 H200 M192 340 H200 M192 360 H200 M192 370 H200 M192 380 H200 M192 390 H200" />
+      <path
+         class="ruler-major"
+         id="ruler-major"
+         d="M186 0 H200 M186 50 H200 M186 100 H200 M186 150 H200 M186 200 H200 M186 250 H200 M186 300 H200 M186 350 H200 M186 400 H200" />
+      <g
+         class="ruler-label"
+         id="ruler-labels">
+        <text id="ruler-0" x="183" y="2">y=0</text>
+        <text id="ruler-50" x="183" y="52">50</text>
+        <text id="ruler-100" x="183" y="102">100</text>
+        <text id="ruler-150" x="183" y="152">150</text>
+        <text id="ruler-200" x="183" y="202">200</text>
+        <text id="ruler-250" x="183" y="252">250</text>
+        <text id="ruler-300" x="183" y="302">300</text>
+        <text id="ruler-350" x="183" y="352">350</text>
+        <text id="ruler-400" x="183" y="398">400</text>
+      </g>
+      <rect
+         class="join"
+         id="join-bar"
+         x="0"
+         y="260"
+         width="200"
+         height="6" />
+      <text
+         class="sheet-note"
+         id="join-note"
+         x="100"
+         y="240">JOIN bar: this 12 mm band is printed on both pages</text>
+      <g
+         class="big"
+         id="quadrants">
+        <text id="quad-A" x="50" y="120">A</text>
+        <text id="quad-B" x="150" y="120">B</text>
+        <text id="quad-C" x="50" y="330">C</text>
+        <text id="quad-D" x="150" y="330">D</text>
+      </g>
+      <text
+         class="title"
+         id="title-text"
+         x="100"
+         y="14">one sheet, two pages</text>
+      <text
+         class="sheet-note"
+         id="title-note"
+         x="100"
+         y="24">200 x 400 mm &#183; tile 1 = A B &#183; tile 2 = C D</text>
+      <text
+         class="sheet-note"
+         id="end-note"
+         x="100"
+         y="392">sheet ends at y=400</text>
+    </g>
+
+    <clipPath
+       id="clip">
+      <rect
+         x="5"
+         y="5"
+         width="205.9"
+         height="269.4" />
+    </clipPath>
+  </defs>
+  <style
+     type="text/css"
+     id="style1">
+    .bounds       { fill: #ffffff; stroke: #000000; stroke-width: 0.8; }
+    .grid         { stroke: #d0d0d0; stroke-width: 0.2; fill: none; }
+    .diagonal     { stroke: #9ecae1; stroke-width: 0.4; fill: none; }
+    .join         { fill: #ffd42a; stroke: #b38f00; stroke-width: 0.4; }
+    .big          { font-family: sans-serif; font-size: 60; fill: #f0f0f0; text-anchor: middle; }
+    .title        { font-family: sans-serif; font-size: 9; fill: #000000; text-anchor: middle; }
+    .sheet-note   { font-family: sans-serif; font-size: 5.5; fill: #444444; text-anchor: middle; }
+    .ruler-label  { font-family: sans-serif; font-size: 5; fill: #666666; text-anchor: end; }
+    .ruler-minor  { stroke: #999999; stroke-width: 0.2; fill: none; }
+    .ruler-major  { stroke: #666666; stroke-width: 0.4; fill: none; }
+    .cut-line     { stroke: #e6007e; stroke-width: 0.2; stroke-dasharray: 1 1; fill: none; }
+    .cut-mark     { stroke: #e6007e; stroke-width: 0.4; fill: none; }
+    .cut-label    { font-family: sans-serif; font-size: 5; fill: #e6007e; }
+    .overlap      { stroke: #999999; stroke-width: 0.15; stroke-dasharray: 2 2; fill: none; }
+    .note         { font-family: sans-serif; fill: #555555; font-size: 4; text-anchor: middle; }
+  </style>
+
+  <g
+     id="pages">
+    <!-- page 1: sheet origin at (5, 5), so it shows sheet y 0 .. 269.4.
+         The join line (sheet y 257.4) lands 262.4 mm below the top edge. -->
+    <g
+       id="page-example-tile-1"
+       transform="translate(0 0)">
+      <rect
+         x="0"
+         y="0"
+         width="215.9"
+         height="279.4"
+         fill="#ffffff" />
+      <g
+         clip-path="url(#clip)">
+        <g
+           transform="translate(5 5)">
+          <use
+             href="#sheet-example" />
+        </g>
+      </g>
+      <line
+         class="cut-line"
+         x1="5"
+         y1="262.4"
+         x2="210.9"
+         y2="262.4" />
+      <path
+         class="cut-mark"
+         d="M5 262.4 H11 M204.9 262.4 H210.9" />
+      <text
+         class="cut-label"
+         x="203"
+         y="261.2"
+         text-anchor="end">CUT here &#183; page 1 of 2 (sheet y=257.4)</text>
+      <text
+         class="note"
+         x="107.95"
+         y="276.9">example &#183; tile 1/2 &#183; 1x2</text>
+    </g>
+
+    <!-- page 2: sheet origin at (5, -252.4), so it shows sheet y 257.4 .. 400.
+         The same join line now lands 5.0 mm below the top edge. -->
+    <g
+       id="page-example-tile-2"
+       transform="translate(225.9 0)">
+      <rect
+         x="0"
+         y="0"
+         width="215.9"
+         height="279.4"
+         fill="#ffffff" />
+      <g
+         clip-path="url(#clip)">
+        <g
+           transform="translate(5 -252.4)">
+          <use
+             href="#sheet-example" />
+        </g>
+      </g>
+      <line
+         class="cut-line"
+         x1="5"
+         y1="5"
+         x2="210.9"
+         y2="5" />
+      <path
+         class="cut-mark"
+         d="M5 5 H11 M204.9 5 H210.9" />
+      <line
+         class="overlap"
+         x1="5"
+         y1="17"
+         x2="210.9"
+         y2="17" />
+      <text
+         class="cut-label"
+         x="203"
+         y="21.5"
+         text-anchor="end">page 2 of 2: put this line on page 1's cut</text>
+      <text
+         class="note"
+         x="107.95"
+         y="276.9">example &#183; tile 2/2 &#183; 1x2</text>
+    </g>
+  </g>
+</svg>

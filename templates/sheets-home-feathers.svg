@@ -1,0 +1,2238 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="10mm"
+   height="10mm"
+   viewBox="-495.664 751.564 9.9999996 10"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   sodipodi:docname="sheets-home-feathers.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="false"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showborder="true"
+     inkscape:zoom="1.5581174"
+     inkscape:cx="3931.9888"
+     inkscape:cy="6179.573"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="sheet-SC1-SC2-half" />
+  <defs
+     id="defs1">
+    <clipPath
+       id="sheet-clip">
+      <rect
+         x="5"
+         y="5"
+         width="269.39999"
+         height="205.89999"
+         id="sheet-clip-bounds" />
+    </clipPath>
+    <g
+       id="crop-ticks">
+      <line
+         class="crop"
+         x1="10"
+         y1="10"
+         x2="15"
+         y2="10"
+         id="crop-tick-1" />
+      <line
+         class="crop"
+         x1="10"
+         y1="10"
+         x2="10"
+         y2="15"
+         id="crop-tick-2" />
+      <line
+         class="crop"
+         x1="10"
+         y1="205.89999"
+         x2="15"
+         y2="205.89999"
+         id="crop-tick-3" />
+      <line
+         class="crop"
+         x1="10"
+         y1="205.89999"
+         x2="10"
+         y2="200.89999"
+         id="crop-tick-4" />
+      <line
+         class="crop"
+         x1="269.39999"
+         y1="10"
+         x2="264.39999"
+         y2="10"
+         id="crop-tick-5" />
+      <line
+         class="crop"
+         x1="269.39999"
+         y1="10"
+         x2="269.39999"
+         y2="15"
+         id="crop-tick-6" />
+      <line
+         class="crop"
+         x1="269.39999"
+         y1="205.89999"
+         x2="264.39999"
+         y2="205.89999"
+         id="crop-tick-7" />
+      <line
+         class="crop"
+         x1="269.39999"
+         y1="205.89999"
+         x2="269.39999"
+         y2="200.89999"
+         id="crop-tick-8" />
+    </g>
+  </defs>
+  <style
+     type="text/css"
+     id="sheets-style">/* As-built feather catalog. Presentation lives here; elements carry classes only. */
+.outline { 
+   stroke: #000000; 
+   stroke-width: 0.25;
+   stroke-dasharray: 2.5, 2.5;
+}
+
+/* a guide line and an overlay origin arrow are the same kind of stroke */
+.guide,
+.arrow {
+  fill: none;
+  stroke: #000000;
+  stroke-width: 0.264583;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+}
+.divider{
+   fill:none;
+   stroke:#000000;
+   stroke-width:0.264583;
+   stroke-linecap:butt;
+   stroke-linejoin:miter;
+   stroke-opacity:1;
+}
+
+
+
+.align .outline { fill: none; stroke: #000000; }
+
+/* one marker, not twenty-eight; the head takes the path's stroke colour */
+
+
+
+.mark { fill: #000000; stroke: none; }
+
+/* the diagnostic overlay: hidden, read by nothing */
+.align { opacity: 0.5; }
+
+/* one colour per family, keyed on a class rather than an ancestor id */
+.b .outline { fill: #8c564b; }
+.p .outline { fill: #1f77b4; }
+.pc .outline { fill: #d62728; }
+.a .outline { fill: #2ca02c; }
+.sc .outline { fill: #9467bd; }
+.mc .outline { fill: #17becf; }
+.lc .outline { fill: #bcbd22; }
+.s .outline { fill: #ff7f0e; }
+
+.cal     { stroke: #000000; stroke-width: 0.5; }
+.minor   { stroke: #000000; stroke-width: 0.15; }
+.major   { stroke: #000000; stroke-width: 0.5; }
+.num     { font-family: sans-serif; fill: #000000; font-size: 3.5; text-anchor: middle; }
+.caltext { font-family: sans-serif; fill: #000000; font-size: 6; text-anchor: middle; font-weight: bold; }
+
+
+.outline { stroke: #000000; stroke-width: 0.5; fill: none; }
+.guide { stroke: #000000; stroke-width: 0.264583; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.arrow { stroke: #000000; stroke-width: 0.264583; fill: none; stroke-linecap: butt; stroke-linejoin: miter; }
+.mark { fill: #000000; stroke: none; }
+.label { font-family: sans-serif; fill: #000000; text-anchor: middle; dominant-baseline: middle; font-size: 5; }
+.title { font-family: sans-serif; fill: #000000; font-size: 9; text-anchor: middle; font-weight: bold; }
+.note { font-family: sans-serif; fill: #555555; font-size: 4; text-anchor: middle; }
+.cal { stroke: #000000; stroke-width: 0.5; }
+.minor { stroke: #000000; stroke-width: 0.15; }
+.major { stroke: #000000; stroke-width: 0.5; }
+.num { font-family: sans-serif; fill: #000000; font-size: 3.5; text-anchor: middle; }
+.caltext { font-family: sans-serif; fill: #000000; font-size: 6; text-anchor: middle; font-weight: bold; }
+.crop { stroke: #999999; stroke-width: 0.25; }
+.overlap { stroke: #999999; stroke-width: 0.15; stroke-dasharray: 2 2; fill: none; }
+.note { font-family: sans-serif; fill: #555555; font-size: 4; text-anchor: middle; }
+
+.sheet-bounds { fill: #ffffff; stroke: none; }
+
+.reg { fill: none; stroke: #000000; stroke-width: 0.25; }
+.reg-hole { stroke-width: 0.5; }
+.reg-axis { stroke-width: 0.25; }
+.reg-key { fill: #000000; stroke: none; }
+</style>
+  <g
+     id="sheets"
+     transform="translate(-430.34358,2178.6144)">
+    <g
+       id="sheet-cover-container"
+       transform="translate(-65.320007,-1400.1543)">
+      <g
+         id="sheet-cover"
+         data-sort-order="0"
+         class="sheet">
+        <rect
+           x="0"
+           y="0"
+           width="269"
+           height="210"
+           fill="#ffffff"
+           stroke="none"
+           id="sheet-cover-bounds"
+           style="stroke-width:1.04228"
+           class="sheet-bounds" />
+        <g
+           id="sheet-cover-half"
+           data-side="right">
+          <g
+             transform="translate(137.01617,24.617312)"
+             id="cover-title">
+            <text
+               x="0"
+               y="0"
+               class="title"
+               id="cover-title-text">Feather templates</text>
+          </g>
+          <g
+             transform="translate(136.43057,55.966601)"
+             id="cover-note-1">
+            <text
+               x="0"
+               y="0"
+               class="note"
+               id="cover-note-1-text">Print at 100% / actual size.</text>
+          </g>
+          <g
+             id="cover-calibration">
+            <use
+               href="feathers-elongated.svg#calibration"
+               transform="translate(-374.94146,118.53711)"
+               id="cover-calibration-ref"
+               class="calibration" />
+          </g>
+          <g
+             transform="translate(135.65427,72.117614)"
+             id="cover-note-2">
+            <text
+               x="0"
+               y="0"
+               class="note"
+               id="cover-note-2-text">Do not fit or scale.</text>
+          </g>
+          <g
+             transform="translate(130.82313,96.273239)"
+             id="cover-calibration-note-1" />
+          <g
+             transform="translate(131.11594,114.8658)"
+             id="cover-calibration-note-2" />
+        </g>
+        <g
+           id="sheet-cover-reg"
+           class="reg"
+           data-flip-axis="134.5">
+          <circle
+             id="sheet-cover-reg-hole-axis"
+             class="reg reg-hole reg-through"
+             data-role="axis"
+             cx="134.5"
+             cy="10"
+             r="3" />
+          <circle
+             id="sheet-cover-reg-hole-twin-a"
+             class="reg reg-hole reg-through"
+             data-role="twin-a"
+             cx="114.5"
+             cy="200"
+             r="3" />
+          <circle
+             id="sheet-cover-reg-hole-twin-b"
+             class="reg reg-hole reg-through"
+             data-role="twin-b"
+             cx="154.5"
+             cy="200"
+             r="3" />
+          <line
+             id="sheet-cover-reg-axis-top"
+             class="reg reg-axis"
+             x1="134.5"
+             y1="2"
+             x2="134.5"
+             y2="8" />
+          <line
+             id="sheet-cover-reg-axis-bottom"
+             class="reg reg-axis"
+             x1="134.5"
+             y1="202"
+             x2="134.5"
+             y2="208" />
+          <path
+             id="sheet-cover-reg-key"
+             class="reg reg-key"
+             data-corner="top-left"
+             d="M 4,4 L 14,4 L 4,10 Z" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="sheet-P1-container"
+       transform="translate(779.50594,-1427.0508)">
+      <g
+         id="sheet-P1"
+         data-sort-order="1"
+         class="sheet">
+        <rect
+           x="0"
+           y="0"
+           width="210"
+           height="526.79999"
+           fill="#ffffff"
+           stroke="none"
+           id="sheet-P1-bounds"
+           style="stroke-width:1.16299"
+           class="sheet-bounds" />
+        <g
+           id="sheet-P1-half"
+           data-side="right">
+          <g
+             id="feather-P1-right">
+            <use
+               href="feathers-elongated.svg#P1-outline"
+               transform="rotate(-4.0415212,-2276.4602,237.48561)"
+               id="feather-P1-right-ref"
+               class="feather right" />
+          </g>
+        </g>
+        <use
+           id="sheet-P1-mirror"
+           class="mirror"
+           href="#sheet-P1-half"
+           transform="matrix(-1,0,0,1,210,0)"
+           data-flip-axis="105" />
+        <g
+           id="sheet-P1-half-labels">
+          <g
+             transform="translate(158.45155,29.905179)"
+             id="feather-P1-right-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-P1-right-label-text">P1R</text>
+          </g>
+        </g>
+        <g
+           id="sheet-P1-mirror-labels"
+           data-generated="mirror">
+          <g
+             transform="matrix(-1,0,0,1,51.5485,29.9052)"
+             id="feather-P1-left-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-P1-left-label-text"
+               transform="matrix(-1,0,0,1,0,0)">P1L</text>
+          </g>
+        </g>
+        <g
+           id="sheet-P1-reg"
+           class="reg"
+           data-flip-axis="105">
+          <circle
+             id="sheet-P1-reg-hole-axis"
+             class="reg reg-hole reg-through"
+             data-role="axis"
+             cx="105"
+             cy="10"
+             r="3" />
+          <circle
+             id="sheet-P1-reg-hole-twin-a"
+             class="reg reg-hole reg-through"
+             data-role="twin-a"
+             cx="85"
+             cy="516.8"
+             r="3" />
+          <circle
+             id="sheet-P1-reg-hole-twin-b"
+             class="reg reg-hole reg-through"
+             data-role="twin-b"
+             cx="125"
+             cy="516.8"
+             r="3" />
+          <line
+             id="sheet-P1-reg-axis-top"
+             class="reg reg-axis"
+             x1="105"
+             y1="2"
+             x2="105"
+             y2="8" />
+          <line
+             id="sheet-P1-reg-axis-bottom"
+             class="reg reg-axis"
+             x1="105"
+             y1="518.8"
+             x2="105"
+             y2="524.8" />
+          <path
+             id="sheet-P1-reg-key"
+             class="reg reg-key"
+             data-corner="top-left"
+             d="M 4,4 L 14,4 L 4,10 Z" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="sheet-P2-container"
+       transform="translate(1033.8546,-1436.6567)">
+      <g
+         id="sheet-P2"
+         data-sort-order="2"
+         class="sheet">
+        <rect
+           x="3.8423533"
+           y="9.6058836"
+           width="210"
+           height="526.79999"
+           fill="#ffffff"
+           stroke="none"
+           id="sheet-P2-bounds"
+           style="stroke-width:1.37665"
+           class="sheet-bounds" />
+        <g
+           id="sheet-P2-half"
+           data-side="right">
+          <g
+             id="feather-P2-right">
+            <use
+               href="feathers-elongated.svg#P2-outline"
+               transform="translate(35.575758,-180.06553)"
+               id="feather-P2-right-ref"
+               class="feather right" />
+          </g>
+        </g>
+        <use
+           id="sheet-P2-mirror"
+           class="mirror"
+           href="#sheet-P2-half"
+           transform="matrix(-1,0,0,1,217.684,0)"
+           data-flip-axis="108.842" />
+        <g
+           id="sheet-P2-half-labels">
+          <g
+             transform="translate(173.90458,26.101272)"
+             id="feather-P2-right-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-P2-right-label-text">P2R</text>
+          </g>
+        </g>
+        <g
+           id="sheet-P2-mirror-labels"
+           data-generated="mirror">
+          <g
+             transform="matrix(-1,0,0,1,43.7794,26.1013)"
+             id="feather-P2-left-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-P2-left-label-text"
+               transform="matrix(-1,0,0,1,0,0)">P2L</text>
+          </g>
+        </g>
+        <g
+           id="sheet-P2-reg"
+           class="reg"
+           data-flip-axis="108.842">
+          <circle
+             id="sheet-P2-reg-hole-axis"
+             class="reg reg-hole reg-through"
+             data-role="axis"
+             cx="108.842"
+             cy="19.6059"
+             r="3" />
+          <circle
+             id="sheet-P2-reg-hole-twin-a"
+             class="reg reg-hole reg-through"
+             data-role="twin-a"
+             cx="88.8423"
+             cy="526.406"
+             r="3" />
+          <circle
+             id="sheet-P2-reg-hole-twin-b"
+             class="reg reg-hole reg-through"
+             data-role="twin-b"
+             cx="128.842"
+             cy="526.406"
+             r="3" />
+          <line
+             id="sheet-P2-reg-axis-top"
+             class="reg reg-axis"
+             x1="108.842"
+             y1="11.6059"
+             x2="108.842"
+             y2="17.6059" />
+          <line
+             id="sheet-P2-reg-axis-bottom"
+             class="reg reg-axis"
+             x1="108.842"
+             y1="528.406"
+             x2="108.842"
+             y2="534.406" />
+          <path
+             id="sheet-P2-reg-key"
+             class="reg reg-key"
+             data-corner="top-left"
+             d="M 7.84235,13.6059 L 17.8423,13.6059 L 7.84235,19.6059 Z" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="sheet-P3-container"
+       transform="translate(1295.8881,-1427.0508)">
+      <g
+         id="sheet-P3"
+         data-sort-order="3"
+         class="sheet">
+        <rect
+           x="0"
+           y="0"
+           width="210"
+           height="526.79999"
+           fill="#ffffff"
+           stroke="none"
+           id="sheet-P3-bounds"
+           style="stroke-width:1.36745"
+           class="sheet-bounds" />
+        <g
+           id="sheet-P3-half"
+           data-side="right">
+          <g
+             id="feather-P3-right">
+            <use
+               href="feathers-elongated.svg#P3-outline"
+               transform="translate(50.330445,-176.76872)"
+               id="feather-P3-right-ref"
+               class="feather right" />
+          </g>
+        </g>
+        <use
+           id="sheet-P3-mirror"
+           class="mirror"
+           href="#sheet-P3-half"
+           transform="matrix(-1,0,0,1,210,0)"
+           data-flip-axis="105" />
+        <g
+           id="sheet-P3-half-labels">
+          <g
+             transform="translate(162.11291,44.818918)"
+             id="feather-P3-right-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-P3-right-label-text">P3R</text>
+          </g>
+        </g>
+        <g
+           id="sheet-P3-mirror-labels"
+           data-generated="mirror">
+          <g
+             transform="matrix(-1,0,0,1,47.8871,44.8189)"
+             id="feather-P3-left-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-P3-left-label-text"
+               transform="matrix(-1,0,0,1,0,0)">P3L</text>
+          </g>
+        </g>
+        <g
+           id="sheet-P3-reg"
+           class="reg"
+           data-flip-axis="105">
+          <circle
+             id="sheet-P3-reg-hole-axis"
+             class="reg reg-hole reg-through"
+             data-role="axis"
+             cx="105"
+             cy="10"
+             r="3" />
+          <circle
+             id="sheet-P3-reg-hole-twin-a"
+             class="reg reg-hole reg-through"
+             data-role="twin-a"
+             cx="85"
+             cy="516.8"
+             r="3" />
+          <circle
+             id="sheet-P3-reg-hole-twin-b"
+             class="reg reg-hole reg-through"
+             data-role="twin-b"
+             cx="125"
+             cy="516.8"
+             r="3" />
+          <line
+             id="sheet-P3-reg-axis-top"
+             class="reg reg-axis"
+             x1="105"
+             y1="2"
+             x2="105"
+             y2="8" />
+          <line
+             id="sheet-P3-reg-axis-bottom"
+             class="reg reg-axis"
+             x1="105"
+             y1="518.8"
+             x2="105"
+             y2="524.8" />
+          <path
+             id="sheet-P3-reg-key"
+             class="reg reg-key"
+             data-corner="top-left"
+             d="M 4,4 L 14,4 L 4,10 Z" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="sheet-P4-container"
+       transform="translate(1799.9897,-1463.5532)">
+      <g
+         id="sheet-P4"
+         data-sort-order="4"
+         class="sheet">
+        <rect
+           x="-245.91061"
+           y="36.502357"
+           width="210"
+           height="526.79999"
+           fill="#ffffff"
+           stroke="none"
+           id="sheet-P4-bounds"
+           style="stroke-width:1.45285"
+           class="sheet-bounds" />
+        <g
+           id="sheet-P4-half"
+           data-side="right">
+          <g
+             id="feather-P4-right">
+            <use
+               href="feathers-elongated.svg#P4-outline"
+               transform="translate(-185.98806,-138.83411)"
+               id="feather-P4-right-ref"
+               class="feather right" />
+          </g>
+        </g>
+        <use
+           id="sheet-P4-mirror"
+           class="mirror"
+           href="#sheet-P4-half"
+           transform="matrix(-1,0,0,1,-281.822,0)"
+           data-flip-axis="-140.911" />
+        <g
+           id="sheet-P4-half-labels">
+          <g
+             transform="translate(-101.32589,78.660646)"
+             id="feather-P4-right-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-P4-right-label-text">P4R</text>
+          </g>
+        </g>
+        <g
+           id="sheet-P4-mirror-labels"
+           data-generated="mirror">
+          <g
+             transform="matrix(-1,0,0,1,-180.496,78.6606)"
+             id="feather-P4-left-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-P4-left-label-text"
+               transform="matrix(-1,0,0,1,0,0)">P4L</text>
+          </g>
+        </g>
+        <g
+           id="sheet-P4-reg"
+           class="reg"
+           data-flip-axis="-140.911">
+          <circle
+             id="sheet-P4-reg-hole-axis"
+             class="reg reg-hole reg-through"
+             data-role="axis"
+             cx="-140.911"
+             cy="46.5024"
+             r="3" />
+          <circle
+             id="sheet-P4-reg-hole-twin-a"
+             class="reg reg-hole reg-through"
+             data-role="twin-a"
+             cx="-160.911"
+             cy="553.302"
+             r="3" />
+          <circle
+             id="sheet-P4-reg-hole-twin-b"
+             class="reg reg-hole reg-through"
+             data-role="twin-b"
+             cx="-120.911"
+             cy="553.302"
+             r="3" />
+          <line
+             id="sheet-P4-reg-axis-top"
+             class="reg reg-axis"
+             x1="-140.911"
+             y1="38.5024"
+             x2="-140.911"
+             y2="44.5024" />
+          <line
+             id="sheet-P4-reg-axis-bottom"
+             class="reg reg-axis"
+             x1="-140.911"
+             y1="555.302"
+             x2="-140.911"
+             y2="561.302" />
+          <path
+             id="sheet-P4-reg-key"
+             class="reg reg-key"
+             data-corner="top-left"
+             d="M -241.911,40.5024 L -231.911,40.5024 L -241.911,46.5024 Z" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="sheet-P5-container"
+       transform="translate(1813.4709,-1427.5311)">
+      <g
+         id="sheet-P5"
+         data-sort-order="5"
+         class="sheet">
+        <rect
+           x="-1.2007354"
+           y="0.48029417"
+           width="210"
+           height="526.79999"
+           fill="#ffffff"
+           stroke="none"
+           id="sheet-P5-bounds"
+           style="stroke-width:1.46337"
+           class="sheet-bounds" />
+        <g
+           id="sheet-P5-half"
+           data-side="right">
+          <g
+             id="feather-P5-right"
+             transform="translate(-4.7546697,-4.7546697)">
+            <use
+               href="feathers-elongated.svg#P5-outline"
+               transform="rotate(6.0041037,1009.1725,947.10148)"
+               id="feather-P5-right-ref"
+               class="feather right" />
+          </g>
+        </g>
+        <use
+           id="sheet-P5-mirror"
+           class="mirror"
+           href="#sheet-P5-half"
+           transform="matrix(-1,0,0,1,207.598,0)"
+           data-flip-axis="103.799" />
+        <g
+           id="sheet-P5-half-labels">
+          <g
+             transform="translate(140.24682,127.94507)"
+             id="feather-P5-right-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-P5-right-label-text">P5R</text>
+          </g>
+        </g>
+        <g
+           id="sheet-P5-mirror-labels"
+           data-generated="mirror">
+          <g
+             transform="matrix(-1,0,0,1,67.3512,127.945)"
+             id="feather-P5-left-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-P5-left-label-text"
+               transform="matrix(-1,0,0,1,0,0)">P5L</text>
+          </g>
+        </g>
+        <g
+           id="sheet-P5-reg"
+           class="reg"
+           data-flip-axis="103.799">
+          <circle
+             id="sheet-P5-reg-hole-axis"
+             class="reg reg-hole reg-through"
+             data-role="axis"
+             cx="103.799"
+             cy="10.4803"
+             r="3" />
+          <circle
+             id="sheet-P5-reg-hole-twin-a"
+             class="reg reg-hole reg-through"
+             data-role="twin-a"
+             cx="83.7993"
+             cy="517.28"
+             r="3" />
+          <circle
+             id="sheet-P5-reg-hole-twin-b"
+             class="reg reg-hole reg-through"
+             data-role="twin-b"
+             cx="123.799"
+             cy="517.28"
+             r="3" />
+          <line
+             id="sheet-P5-reg-axis-top"
+             class="reg reg-axis"
+             x1="103.799"
+             y1="2.48029"
+             x2="103.799"
+             y2="8.48029" />
+          <line
+             id="sheet-P5-reg-axis-bottom"
+             class="reg reg-axis"
+             x1="103.799"
+             y1="519.28"
+             x2="103.799"
+             y2="525.28" />
+          <path
+             id="sheet-P5-reg-key"
+             class="reg reg-key"
+             data-corner="top-left"
+             d="M 2.79926,4.48029 L 12.7993,4.48029 L 2.79926,10.4803 Z" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="sheet-S1-container"
+       transform="translate(777.8931,-744.73773)">
+      <g
+         id="sheet-S1"
+         transform="translate(15.622486,1.3584771)"
+         data-sort-order="6"
+         class="sheet">
+        <rect
+           x="0"
+           y="0.0001219"
+           width="210"
+           height="526.79999"
+           fill="#ffffff"
+           stroke="none"
+           id="sheet-S1-bounds"
+           style="stroke-width:1.50574"
+           class="sheet-bounds" />
+        <g
+           id="sheet-S1-half"
+           data-side="right">
+          <g
+             id="feather-S1-right"
+             transform="translate(7.9660565,-67.30945)">
+            <use
+               href="feathers-elongated.svg#S1-outline"
+               transform="translate(-1.0238655,-37.735789)"
+               id="feather-S1-right-ref"
+               class="feather right" />
+          </g>
+          <g
+             id="feather-PC2-right"
+             transform="rotate(110.14559,-142.98553,354.62733)">
+            <use
+               href="feathers-elongated.svg#PC2-outline"
+               transform="translate(-313.8699,-137.17989)"
+               id="feather-PC2-right-ref"
+               class="feather right" />
+          </g>
+        </g>
+        <use
+           id="sheet-S1-mirror"
+           class="mirror"
+           href="#sheet-S1-half"
+           transform="matrix(-1,0,0,1,210,0)"
+           data-flip-axis="105" />
+        <g
+           id="sheet-S1-half-labels">
+          <g
+             transform="translate(151.97506,21.149424)"
+             id="feather-S1-right-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-S1-right-label-text">S1R</text>
+          </g>
+          <g
+             transform="translate(-172.30392,58.043248)"
+             id="feather-PC2-right-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-PC2-right-label-text">PC2R</text>
+          </g>
+        </g>
+        <g
+           id="sheet-S1-mirror-labels"
+           data-generated="mirror">
+          <g
+             transform="matrix(-1,0,0,1,56.584017,19.948693)"
+             id="feather-S1-left-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-S1-left-label-text"
+               transform="scale(-1,1)">S1L</text>
+          </g>
+          <g
+             transform="matrix(-1,0,0,1,382.304,58.0432)"
+             id="feather-PC2-left-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-PC2-left-label-text"
+               transform="matrix(-1,0,0,1,0,0)">PC2L</text>
+          </g>
+        </g>
+        <g
+           id="sheet-S1-reg"
+           class="reg"
+           data-flip-axis="105">
+          <circle
+             id="sheet-S1-reg-hole-axis"
+             class="reg reg-hole reg-through"
+             data-role="axis"
+             cx="105"
+             cy="10.0001"
+             r="3" />
+          <circle
+             id="sheet-S1-reg-hole-twin-a"
+             class="reg reg-hole reg-through"
+             data-role="twin-a"
+             cx="85"
+             cy="516.8"
+             r="3" />
+          <circle
+             id="sheet-S1-reg-hole-twin-b"
+             class="reg reg-hole reg-through"
+             data-role="twin-b"
+             cx="125"
+             cy="516.8"
+             r="3" />
+          <line
+             id="sheet-S1-reg-axis-top"
+             class="reg reg-axis"
+             x1="105"
+             y1="2.00012"
+             x2="105"
+             y2="8.00012" />
+          <line
+             id="sheet-S1-reg-axis-bottom"
+             class="reg reg-axis"
+             x1="105"
+             y1="518.8"
+             x2="105"
+             y2="524.8" />
+          <path
+             id="sheet-S1-reg-key"
+             class="reg reg-key"
+             data-corner="top-left"
+             d="M 4,4.00012 L 14,4.00012 L 4,10.0001 Z" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="sheet-S2-container"
+       transform="translate(1016.442,-744.61835)">
+      <g
+         id="sheet-S2"
+         data-sort-order="7"
+         class="sheet">
+        <rect
+           x="0"
+           y="0"
+           width="210"
+           height="526.79999"
+           fill="#ffffff"
+           stroke="none"
+           id="sheet-S2-bounds"
+           style="stroke-width:1.53847"
+           class="sheet-bounds" />
+        <g
+           id="sheet-S2-half"
+           data-side="right">
+          <g
+             id="feather-S2-right"
+             transform="translate(-6.7923853,75.395477)">
+            <use
+               href="feathers-elongated.svg#S2-outline"
+               transform="translate(18.399485,-9.3606456)"
+               id="feather-S2-right-ref"
+               class="feather right" />
+          </g>
+          <g
+             id="feather-PC1-right"
+             transform="rotate(14.431305,95.443496,-138.15741)">
+            <use
+               href="feathers-elongated.svg#PC1-outline"
+               transform="translate(32.2619,-173.32271)"
+               id="feather-PC1-right-ref"
+               class="feather right" />
+          </g>
+        </g>
+        <use
+           id="sheet-S2-mirror"
+           class="mirror"
+           href="#sheet-S2-half"
+           transform="matrix(-1,0,0,1,210,0)"
+           data-flip-axis="105" />
+        <g
+           id="sheet-S2-half-labels"
+           transform="translate(0,11.046766)">
+          <g
+             transform="translate(130.70811,181.23317)"
+             id="feather-S2-right-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-S2-right-label-text">S2R</text>
+          </g>
+          <g
+             id="feather-PC1-right-label"
+             transform="rotate(5.1755118,61.699019,-433.17362)">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-PC1-right-label-text"
+               transform="translate(202.15452,13.399501)">PC1R</text>
+          </g>
+        </g>
+        <g
+           id="sheet-S2-mirror-labels"
+           data-generated="mirror">
+          <g
+             transform="matrix(-1,0,0,1,80.012342,194.20071)"
+             id="feather-S2-left-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-S2-left-label-text"
+               transform="scale(-1,1)">S2L</text>
+          </g>
+          <g
+             id="feather-PC1-left-label"
+             transform="matrix(-0.99931445,0.03703328,0.03703328,0.99931445,250.34384,10.115879)">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-PC1-left-label-text"
+               transform="matrix(-1,0,0,1,202.155,13.3995)">PC1L</text>
+          </g>
+        </g>
+        <g
+           id="sheet-S2-reg"
+           class="reg"
+           data-flip-axis="105">
+          <circle
+             id="sheet-S2-reg-hole-axis"
+             class="reg reg-hole reg-through"
+             data-role="axis"
+             cx="105"
+             cy="10"
+             r="3" />
+          <circle
+             id="sheet-S2-reg-hole-twin-a"
+             class="reg reg-hole reg-through"
+             data-role="twin-a"
+             cx="85"
+             cy="516.8"
+             r="3" />
+          <circle
+             id="sheet-S2-reg-hole-twin-b"
+             class="reg reg-hole reg-through"
+             data-role="twin-b"
+             cx="125"
+             cy="516.8"
+             r="3" />
+          <line
+             id="sheet-S2-reg-axis-top"
+             class="reg reg-axis"
+             x1="105"
+             y1="2"
+             x2="105"
+             y2="8" />
+          <line
+             id="sheet-S2-reg-axis-bottom"
+             class="reg reg-axis"
+             x1="105"
+             y1="518.8"
+             x2="105"
+             y2="524.8" />
+          <path
+             id="sheet-S2-reg-key"
+             class="reg reg-key"
+             data-corner="top-left"
+             d="M 4,4 L 14,4 L 4,10 Z" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="sheet-S3-container"
+       transform="translate(1249.6957,-742.58064)">
+      <g
+         id="sheet-S3"
+         data-sort-order="8"
+         class="sheet">
+        <rect
+           x="0"
+           y="0"
+           width="210"
+           height="526.79999"
+           fill="#ffffff"
+           stroke="none"
+           id="sheet-S3-bounds"
+           style="stroke-width:1.70826"
+           class="sheet-bounds" />
+        <g
+           id="sheet-S3-half"
+           data-side="right">
+          <g
+             id="feather-S3-right"
+             transform="translate(26.490302,1.6980963)">
+            <use
+               href="feathers-elongated.svg#S3-outline"
+               transform="translate(34.220492,-118.52389)"
+               id="feather-S3-right-ref"
+               class="feather right" />
+          </g>
+          <g
+             id="feather-S4-right">
+            <use
+               href="feathers-elongated.svg#S4-outline"
+               transform="translate(90.912281,188.18114)"
+               id="feather-S4-right-ref"
+               class="feather right" />
+          </g>
+        </g>
+        <use
+           id="sheet-S3-mirror"
+           class="mirror"
+           href="#sheet-S3-half"
+           transform="matrix(-1,0,0,1,210,0)"
+           data-flip-axis="105" />
+        <g
+           id="sheet-S3-half-labels">
+          <g
+             transform="translate(147.88893,12.979799)"
+             id="feather-S3-right-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-S3-right-label-text">S3R</text>
+          </g>
+          <g
+             transform="translate(140.76935,324.4531)"
+             id="feather-S4-right-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-S4-right-label-text">S4R</text>
+          </g>
+        </g>
+        <g
+           id="sheet-S3-mirror-labels"
+           data-generated="mirror">
+          <g
+             transform="matrix(-1.0530265,0,0,1,59.29667,11.276705)"
+             id="feather-S3-left-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-S3-left-label-text"
+               transform="scale(-1,1)">S3L</text>
+          </g>
+          <g
+             transform="matrix(-1,0,0,1,73.072961,319.64988)"
+             id="feather-S4-left-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-S4-left-label-text"
+               transform="scale(-1,1)">S4L</text>
+          </g>
+        </g>
+        <g
+           id="sheet-S3-reg"
+           class="reg"
+           data-flip-axis="105">
+          <circle
+             id="sheet-S3-reg-hole-axis"
+             class="reg reg-hole reg-through"
+             data-role="axis"
+             cx="105"
+             cy="10"
+             r="3" />
+          <circle
+             id="sheet-S3-reg-hole-twin-a"
+             class="reg reg-hole reg-through"
+             data-role="twin-a"
+             cx="85"
+             cy="516.8"
+             r="3" />
+          <circle
+             id="sheet-S3-reg-hole-twin-b"
+             class="reg reg-hole reg-through"
+             data-role="twin-b"
+             cx="125"
+             cy="516.8"
+             r="3" />
+          <line
+             id="sheet-S3-reg-axis-top"
+             class="reg reg-axis"
+             x1="105"
+             y1="2"
+             x2="105"
+             y2="8" />
+          <line
+             id="sheet-S3-reg-axis-bottom"
+             class="reg reg-axis"
+             x1="105"
+             y1="518.8"
+             x2="105"
+             y2="524.8" />
+          <path
+             id="sheet-S3-reg-key"
+             class="reg reg-key"
+             data-corner="top-left"
+             d="M 4,4 L 14,4 L 4,10 Z" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="sheet-B1-container"
+       transform="translate(1730.7801,-731.60939)">
+      <g
+         id="sheet-B1"
+         data-sort-order="9"
+         class="sheet">
+        <rect
+           x="0"
+           y="0"
+           width="269"
+           height="399.79999"
+           fill="#ffffff"
+           stroke="none"
+           id="sheet-B1-bounds"
+           style="stroke-width:1.67055"
+           class="sheet-bounds" />
+        <g
+           id="sheet-B1-half"
+           data-side="right">
+          <g
+             id="feather-B1-right"
+             transform="rotate(-90,171.98855,12.482918)">
+            <use
+               href="feathers-elongated.svg#B1-outline"
+               transform="rotate(90,176.59808,168.15686)"
+               id="feather-B1-right-ref"
+               class="feather right" />
+          </g>
+          <g
+             id="feather-A2-right"
+             inkscape:label="A2R"
+             transform="rotate(-11.249041,1355.231,146.45259)">
+            <use
+               href="feathers-elongated.svg#A2-outline"
+               transform="rotate(9.3337324,816.76315,4.1444266)"
+               id="feather-A2-right-ref"
+               class="feather right" />
+          </g>
+        </g>
+        <use
+           id="sheet-B1-mirror"
+           class="mirror"
+           href="#sheet-B1-half"
+           transform="matrix(-1,0,0,1,269,0)"
+           data-flip-axis="134.5" />
+        <g
+           id="sheet-B1-half-labels">
+          <g
+             transform="rotate(66.403744,80.119587,190.84455)"
+             id="feather-B1-right-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-B1-right-label-text">B1R</text>
+          </g>
+          <g
+             transform="rotate(85.392149,-73.132559,241.02333)"
+             id="feather-A2-right-label"
+             inkscape:transform-center-x="2.8867638"
+             inkscape:transform-center-y="44.829744">
+            <text
+               x="-34.77475"
+               y="0.26377857"
+               class="label"
+               id="feather-A2-right-label-text">A2R</text>
+          </g>
+        </g>
+        <g
+           id="sheet-B1-mirror-labels"
+           data-generated="mirror">
+          <g
+             transform="matrix(0,1,1,0,47.544331,42.478718)"
+             id="feather-B1-left-label">
+            <text
+               x="-1.252012"
+               y="-3.0711401"
+               class="label"
+               id="feather-B1-left-label-text"
+               transform="matrix(-0.89022307,0.45552485,0.45552485,0.89022307,0,0)">B1L</text>
+          </g>
+          <g
+             transform="matrix(-0.080336,0.996768,0.996768,0.080336,99.069569,257.87791)"
+             id="feather-A2-left-label"
+             inkscape:transform-center-x="2.8867638"
+             inkscape:transform-center-y="44.829744">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-A2-left-label-text"
+               transform="scale(-1,1)">A2L</text>
+          </g>
+        </g>
+        <g
+           id="sheet-B1-reg"
+           class="reg"
+           data-flip-axis="134.5">
+          <circle
+             id="sheet-B1-reg-hole-axis"
+             class="reg reg-hole reg-through"
+             data-role="axis"
+             cx="134.5"
+             cy="10"
+             r="3" />
+          <circle
+             id="sheet-B1-reg-hole-twin-a"
+             class="reg reg-hole reg-through"
+             data-role="twin-a"
+             cx="114.5"
+             cy="389.8"
+             r="3" />
+          <circle
+             id="sheet-B1-reg-hole-twin-b"
+             class="reg reg-hole reg-through"
+             data-role="twin-b"
+             cx="154.5"
+             cy="389.8"
+             r="3" />
+          <line
+             id="sheet-B1-reg-axis-top"
+             class="reg reg-axis"
+             x1="134.5"
+             y1="2"
+             x2="134.5"
+             y2="8" />
+          <line
+             id="sheet-B1-reg-axis-bottom"
+             class="reg reg-axis"
+             x1="134.5"
+             y1="391.8"
+             x2="134.5"
+             y2="397.8" />
+          <path
+             id="sheet-B1-reg-key"
+             class="reg reg-key"
+             data-corner="top-left"
+             d="M 4,4 L 14,4 L 4,10 Z" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="sheet-B2-container"
+       transform="translate(2046.908,-731.60939)">
+      <g
+         id="sheet-B2"
+         data-sort-order="10"
+         class="sheet">
+        <rect
+           x="0"
+           y="0"
+           width="210"
+           height="526.79999"
+           fill="#ffffff"
+           stroke="none"
+           id="sheet-B2-bounds"
+           style="stroke-width:1.74829"
+           class="sheet-bounds" />
+        <g
+           id="sheet-B2-half"
+           data-side="right">
+          <g
+             id="feather-B2-right"
+             transform="translate(128.7157,-78.452051)"
+             inkscape:label="B2R">
+            <use
+               href="feathers-elongated.svg#B2-outline"
+               transform="translate(-14.371071,-46.050443)"
+               id="feather-B2-right-ref"
+               class="feather right" />
+          </g>
+          <g
+             id="feather-A1-right"
+             transform="translate(-79.21194,330.83552)"
+             inkscape:label="A1R">
+            <use
+               href="feathers-elongated.svg#A1-outline"
+               transform="translate(35.316249,-82.640114)"
+               id="feather-A1-right-ref"
+               class="feather right" />
+          </g>
+        </g>
+        <use
+           id="sheet-B2-mirror"
+           class="mirror"
+           href="#sheet-B2-half"
+           transform="matrix(-1,0,0,1,210,0)"
+           data-flip-axis="105" />
+        <g
+           id="sheet-B2-half-labels">
+          <g
+             transform="translate(164.93943,53.092057)"
+             id="feather-B2-right-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-B2-right-label-text">B2R</text>
+          </g>
+          <g
+             transform="rotate(-66.033842,366.01609,86.746315)"
+             id="feather-A1-right-label"
+             inkscape:transform-center-x="-2.0377156"
+             inkscape:transform-center-y="-9.8489589">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-A1-right-label-text">A1R</text>
+          </g>
+        </g>
+        <g
+           id="sheet-B2-mirror-labels"
+           data-generated="mirror">
+          <g
+             transform="matrix(-1,0,0,1,52.532015,33.734189)"
+             id="feather-B2-left-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-B2-left-label-text"
+               transform="scale(-1,1)">B2L</text>
+          </g>
+          <g
+             transform="matrix(-0.406197,-0.913786,-0.913786,0.406197,69.888349,385.63081)"
+             id="feather-A1-left-label"
+             inkscape:transform-center-x="-2.0377156"
+             inkscape:transform-center-y="-9.8489589">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-A1-left-label-text"
+               transform="scale(-1,1)">A1L</text>
+          </g>
+        </g>
+        <g
+           id="sheet-B2-reg"
+           class="reg"
+           data-flip-axis="105">
+          <circle
+             id="sheet-B2-reg-hole-axis"
+             class="reg reg-hole reg-through"
+             data-role="axis"
+             cx="105"
+             cy="10"
+             r="3" />
+          <circle
+             id="sheet-B2-reg-hole-twin-a"
+             class="reg reg-hole reg-through"
+             data-role="twin-a"
+             cx="85"
+             cy="516.8"
+             r="3" />
+          <circle
+             id="sheet-B2-reg-hole-twin-b"
+             class="reg reg-hole reg-through"
+             data-role="twin-b"
+             cx="125"
+             cy="516.8"
+             r="3" />
+          <line
+             id="sheet-B2-reg-axis-top"
+             class="reg reg-axis"
+             x1="105"
+             y1="2"
+             x2="105"
+             y2="8" />
+          <line
+             id="sheet-B2-reg-axis-bottom"
+             class="reg reg-axis"
+             x1="105"
+             y1="518.8"
+             x2="105"
+             y2="524.8" />
+          <path
+             id="sheet-B2-reg-key"
+             class="reg reg-key"
+             data-corner="top-left"
+             d="M 4,4 L 14,4 L 4,10 Z" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="sheet-B3-container"
+       transform="translate(2304.0358,-731.60939)">
+      <g
+         id="sheet-B3"
+         data-sort-order="11"
+         class="sheet">
+        <rect
+           x="0"
+           y="0"
+           width="210"
+           height="526.79999"
+           fill="#ffffff"
+           stroke="none"
+           id="sheet-B3-bounds"
+           style="stroke-width:1.76228"
+           class="sheet-bounds" />
+        <g
+           id="sheet-B3-half"
+           data-side="right">
+          <g
+             id="feather-B3-right"
+             transform="translate(123.28179,-69.961564)"
+             inkscape:label="B3R">
+            <use
+               href="feathers-elongated.svg#B3-outline"
+               transform="translate(10.403484,-8.507929)"
+               id="feather-B3-right-ref"
+               class="feather right" />
+          </g>
+          <g
+             id="feather-A3-right"
+             inkscape:label="A3R"
+             transform="translate(-44.662808,246.77476)">
+            <use
+               href="feathers-elongated.svg#A3-outline"
+               transform="translate(4.077783,9.512167)"
+               id="feather-A3-right-ref"
+               class="feather right" />
+          </g>
+        </g>
+        <use
+           id="sheet-B3-mirror"
+           class="mirror"
+           href="#sheet-B3-half"
+           transform="matrix(-1,0,0,1,210,0)"
+           data-flip-axis="105" />
+        <g
+           id="sheet-B3-half-labels">
+          <g
+             transform="translate(157.00861,36.779523)"
+             id="feather-B3-right-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-B3-right-label-text">B3R</text>
+          </g>
+          <g
+             transform="translate(132.004,438.69685)"
+             id="feather-A3-right-label">
+            <text
+               x="10.475486"
+               y="-6.6312222"
+               class="label"
+               id="feather-A3-right-label-text"
+               transform="rotate(-56.611471)">A3R</text>
+          </g>
+        </g>
+        <g
+           id="sheet-B3-mirror-labels"
+           data-generated="mirror">
+          <g
+             transform="matrix(-1,0,0,1,52.991731,40.515625)"
+             id="feather-B3-left-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-B3-left-label-text"
+               transform="scale(-1,1)">B3L</text>
+          </g>
+          <g
+             transform="matrix(-1,0,0,1,67.807442,428.169)"
+             id="feather-A3-left-label">
+            <text
+               x="10.475486"
+               y="-6.6312222"
+               class="label"
+               id="feather-A3-left-label-text"
+               transform="matrix(-0.550314,0.834958,0.834958,0.550314,0,0)">A3L</text>
+          </g>
+        </g>
+        <g
+           id="sheet-B3-reg"
+           class="reg"
+           data-flip-axis="105">
+          <circle
+             id="sheet-B3-reg-hole-axis"
+             class="reg reg-hole reg-through"
+             data-role="axis"
+             cx="105"
+             cy="10"
+             r="3" />
+          <circle
+             id="sheet-B3-reg-hole-twin-a"
+             class="reg reg-hole reg-through"
+             data-role="twin-a"
+             cx="85"
+             cy="516.8"
+             r="3" />
+          <circle
+             id="sheet-B3-reg-hole-twin-b"
+             class="reg reg-hole reg-through"
+             data-role="twin-b"
+             cx="125"
+             cy="516.8"
+             r="3" />
+          <line
+             id="sheet-B3-reg-axis-top"
+             class="reg reg-axis"
+             x1="105"
+             y1="2"
+             x2="105"
+             y2="8" />
+          <line
+             id="sheet-B3-reg-axis-bottom"
+             class="reg reg-axis"
+             x1="105"
+             y1="518.8"
+             x2="105"
+             y2="524.8" />
+          <path
+             id="sheet-B3-reg-key"
+             class="reg reg-key"
+             data-corner="top-left"
+             d="M 4,4 L 14,4 L 4,10 Z" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="sheet-SC1-SC2-container"
+       transform="translate(772.34017,97.101575)"
+       inkscape:label="sheet-SC-All-container">
+      <g
+         id="sheet-SC1-SC2"
+         inkscape:label="sheet-SC-All"
+         data-sort-order="12"
+         class="sheet">
+        <rect
+           x="-0.12007354"
+           y="0.12007354"
+           width="269"
+           height="399.79999"
+           fill="#ffffff"
+           stroke="none"
+           id="sheet-SC1-SC2-bounds"
+           style="stroke-width:1.43848"
+           class="sheet-bounds" />
+        <g
+           id="sheet-SC1-SC2-half"
+           data-side="right">
+          <g
+             id="feather-SC1-right"
+             transform="rotate(42.678798,150.21205,220.12946)">
+            <use
+               href="feathers-elongated.svg#SC1-outline"
+               transform="translate(-4.714144,-97.221942)"
+               id="feather-SC1-right-ref"
+               class="feather right" />
+          </g>
+          <g
+             id="feather-SC2-right"
+             transform="rotate(50.225638,138.57355,24.476507)">
+            <use
+               href="feathers-elongated.svg#SC2-outline"
+               transform="translate(104.2042,-67.442507)"
+               id="feather-SC2-right-ref"
+               class="feather right" />
+          </g>
+          <g
+             id="feather-SC3-right"
+             transform="translate(63.586209,-9.4502125)">
+            <use
+               href="feathers-elongated.svg#SC3-outline"
+               transform="rotate(53.987091,-102.44135,186.05475)"
+               id="feather-SC3-right-ref"
+               class="feather right" />
+          </g>
+          <g
+             id="feather-SC4-right"
+             transform="rotate(40.582114,-55.672099,264.55659)"
+             inkscape:label="SC4R">
+            <use
+               href="feathers-elongated.svg#SC4-outline"
+               transform="translate(-5.8281641,-13.481445)"
+               id="feather-SC4-right-ref"
+               class="feather right" />
+          </g>
+        </g>
+        <use
+           id="sheet-SC1-SC2-mirror"
+           class="mirror"
+           href="#sheet-SC1-SC2-half"
+           transform="matrix(-1,0,0,1,268.76,0)"
+           data-flip-axis="134.38" />
+        <g
+           id="sheet-SC1-SC2-half-labels">
+          <g
+             transform="translate(71.529335,18.979464)"
+             id="feather-SC1-right-label">
+            <text
+               x="2.1255443"
+               y="-2.2884667"
+               class="label"
+               id="feather-SC1-right-label-text"
+               transform="rotate(-73.716803)">SC1R</text>
+          </g>
+          <g
+             transform="rotate(-67.911895,109.52471,-127.92606)"
+             id="feather-SC2-right-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-SC2-right-label-text">SC2R</text>
+          </g>
+          <g
+             transform="rotate(0.98276407,-15730.595,6673.2953)"
+             id="feather-SC3-right-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-SC3-right-label-text">SC3R</text>
+          </g>
+          <g
+             transform="rotate(-70.450073,54.523509,-59.442576)"
+             id="feather-SC4-right-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-SC4-right-label-text">SC4R</text>
+          </g>
+        </g>
+        <g
+           id="sheet-SC1-SC2-mirror-labels"
+           data-generated="mirror">
+          <g
+             transform="matrix(-1,0,0,1,197.231,18.9795)"
+             id="feather-SC1-left-label">
+            <text
+               x="2.1255443"
+               y="-2.2884667"
+               class="label"
+               id="feather-SC1-left-label-text"
+               transform="matrix(-0.280385,0.959888,0.959888,0.280385,0,0)">SC1L</text>
+          </g>
+          <g
+             transform="matrix(-0.376032,-0.926607,-0.926607,0.376032,81.8829,21.6646)"
+             id="feather-SC2-left-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-SC2-left-label-text"
+               transform="matrix(-1,0,0,1,0,0)">SC2L</text>
+          </g>
+          <g
+             transform="matrix(-0.999853,0.017152,0.017152,0.999853,156.616,270.787)"
+             id="feather-SC3-left-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-SC3-left-label-text"
+               transform="matrix(-1,0,0,1,0,0)">SC3L</text>
+          </g>
+          <g
+             transform="matrix(-0.334628,-0.94235,-0.94235,0.334628,176.466,11.8288)"
+             id="feather-SC4-left-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-SC4-left-label-text"
+               transform="matrix(-1,0,0,1,0,0)">SC4L</text>
+          </g>
+        </g>
+        <g
+           id="sheet-SC1-SC2-reg"
+           class="reg"
+           data-flip-axis="134.38">
+          <circle
+             id="sheet-SC1-SC2-reg-hole-axis"
+             class="reg reg-hole reg-through"
+             data-role="axis"
+             cx="134.38"
+             cy="10.1201"
+             r="3" />
+          <circle
+             id="sheet-SC1-SC2-reg-hole-twin-a"
+             class="reg reg-hole reg-through"
+             data-role="twin-a"
+             cx="114.38"
+             cy="389.92"
+             r="3" />
+          <circle
+             id="sheet-SC1-SC2-reg-hole-twin-b"
+             class="reg reg-hole reg-through"
+             data-role="twin-b"
+             cx="154.38"
+             cy="389.92"
+             r="3" />
+          <line
+             id="sheet-SC1-SC2-reg-axis-top"
+             class="reg reg-axis"
+             x1="134.38"
+             y1="2.12007"
+             x2="134.38"
+             y2="8.12007" />
+          <line
+             id="sheet-SC1-SC2-reg-axis-bottom"
+             class="reg reg-axis"
+             x1="134.38"
+             y1="391.92"
+             x2="134.38"
+             y2="397.92" />
+          <path
+             id="sheet-SC1-SC2-reg-key"
+             class="reg reg-key"
+             data-corner="top-left"
+             d="M 3.87993,4.12007 L 13.8799,4.12007 L 3.87993,10.1201 Z" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="sheet-MC1-MC2-container"
+       transform="translate(1739.6551,216.56957)">
+      <g
+         id="sheet-MC1-MC2"
+         data-sort-order="13"
+         class="sheet">
+        <rect
+           x="-303.61963"
+           y="-122.29207"
+           width="269"
+           height="399.79999"
+           fill="#ffffff"
+           stroke="none"
+           id="sheet-MC1-MC2-bounds"
+           style="stroke-width:1.79581"
+           class="sheet-bounds" />
+        <g
+           id="sheet-MC1-MC2-half"
+           data-side="right">
+          <g
+             id="feather-MC1-right"
+             transform="rotate(103.24064,-55.914125,-54.394331)">
+            <use
+               href="feathers-elongated.svg#MC1-outline"
+               transform="translate(18.18669,-67.625948)"
+               id="feather-MC1-right-ref"
+               class="feather right" />
+          </g>
+          <g
+             id="feather-MC2-right"
+             transform="rotate(-163.94396,55.22554,25.958084)">
+            <use
+               href="feathers-elongated.svg#MC2-outline"
+               transform="translate(148.78447,-5.247125)"
+               id="feather-MC2-right-ref"
+               class="feather right" />
+          </g>
+          <g
+             id="feather-MC3-right"
+             transform="rotate(103.01685,-96.280878,10.540957)">
+            <use
+               href="feathers-elongated.svg#MC3-outline"
+               transform="translate(38.314382,-15.625195)"
+               id="feather-MC3-right-ref"
+               class="feather right" />
+          </g>
+          <g
+             id="feather-MC4-right"
+             transform="rotate(103.44942,-0.82032385,-3.2057092)">
+            <use
+               href="feathers-elongated.svg#MC4-outline"
+               transform="translate(162.49925,3.915213)"
+               id="feather-MC4-right-ref"
+               class="feather right" />
+          </g>
+        </g>
+        <use
+           id="sheet-MC1-MC2-mirror"
+           class="mirror"
+           href="#sheet-MC1-MC2-half"
+           transform="matrix(-1,0,0,1,-338.24,0)"
+           data-flip-axis="-169.12" />
+        <g
+           id="sheet-MC1-MC2-half-labels">
+          <g
+             transform="translate(82.24014,62.128)"
+             id="feather-MC1-right-label">
+            <text
+               x="15.172967"
+               y="-11.383015"
+               class="label"
+               id="feather-MC1-right-label-text"
+               transform="rotate(-105.96289)">MC1R</text>
+          </g>
+          <g
+             transform="rotate(-103.64387,132.64894,-30.209441)"
+             id="feather-MC2-right-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-MC2-right-label-text">MC2R</text>
+          </g>
+          <g
+             transform="rotate(-103.8868,60.508806,-1.1407136)"
+             id="feather-MC3-right-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-MC3-right-label-text">MC3R</text>
+          </g>
+          <g
+             transform="rotate(-109.48634,115.47476,-43.867822)"
+             id="feather-MC4-right-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-MC4-right-label-text">MC4R</text>
+          </g>
+        </g>
+        <g
+           id="sheet-MC1-MC2-mirror-labels"
+           data-generated="mirror">
+          <g
+             transform="matrix(-1,0,0,1,-420.48,62.128)"
+             id="feather-MC1-left-label">
+            <text
+               x="15.172967"
+               y="-11.383015"
+               class="label"
+               id="feather-MC1-left-label-text"
+               transform="matrix(0.275015,0.96144,0.96144,-0.275015,0,0)">MC1L</text>
+          </g>
+          <g
+             transform="matrix(0.235886,-0.971781,-0.971781,-0.235886,-531.536,91.5702)"
+             id="feather-MC2-left-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-MC2-left-label-text"
+               transform="matrix(-1,0,0,1,0,0)">MC2L</text>
+          </g>
+          <g
+             transform="matrix(0.240004,-0.970772,-0.970772,-0.240004,-414.379,57.3258)"
+             id="feather-MC3-left-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-MC3-left-label-text"
+               transform="matrix(-1,0,0,1,0,0)">MC3L</text>
+          </g>
+          <g
+             transform="matrix(0.333582,-0.942721,-0.942721,-0.333582,-533.59,50.3591)"
+             id="feather-MC4-left-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-MC4-left-label-text"
+               transform="matrix(-1,0,0,1,0,0)">MC4L</text>
+          </g>
+        </g>
+        <g
+           id="sheet-MC1-MC2-reg"
+           class="reg"
+           data-flip-axis="-169.12">
+          <circle
+             id="sheet-MC1-MC2-reg-hole-axis"
+             class="reg reg-hole reg-through"
+             data-role="axis"
+             cx="-169.12"
+             cy="-112.292"
+             r="3" />
+          <circle
+             id="sheet-MC1-MC2-reg-hole-twin-a"
+             class="reg reg-hole reg-through"
+             data-role="twin-a"
+             cx="-189.12"
+             cy="267.508"
+             r="3" />
+          <circle
+             id="sheet-MC1-MC2-reg-hole-twin-b"
+             class="reg reg-hole reg-through"
+             data-role="twin-b"
+             cx="-149.12"
+             cy="267.508"
+             r="3" />
+          <line
+             id="sheet-MC1-MC2-reg-axis-top"
+             class="reg reg-axis"
+             x1="-169.12"
+             y1="-120.292"
+             x2="-169.12"
+             y2="-114.292" />
+          <line
+             id="sheet-MC1-MC2-reg-axis-bottom"
+             class="reg reg-axis"
+             x1="-169.12"
+             y1="269.508"
+             x2="-169.12"
+             y2="275.508" />
+          <path
+             id="sheet-MC1-MC2-reg-key"
+             class="reg reg-key"
+             data-corner="top-left"
+             d="M -299.62,-118.292 L -289.62,-118.292 L -299.62,-112.292 Z" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="sheet-LC-All-container"
+       transform="translate(1399.558,1066.6366)"
+       inkscape:label="sheet-LC-All-container">
+      <g
+         id="sheet-LC-All"
+         transform="translate(-309.73277,-923.2841)"
+         inkscape:label="sheet-LC-All"
+         data-sort-order="14"
+         class="sheet">
+        <rect
+           x="0"
+           y="0"
+           width="269"
+           height="210"
+           fill="#ffffff"
+           stroke="none"
+           id="sheet-LC-All-bounds"
+           style="stroke-width:1.26092"
+           class="sheet-bounds" />
+        <g
+           id="sheet-LC-All-half"
+           data-side="right">
+          <g
+             id="feather-LC1-right"
+             transform="rotate(-152.18752,157.87631,34.171646)">
+            <use
+               href="feathers-elongated.svg#LC1-outline"
+               transform="translate(46.732871,-19.642734)"
+               id="feather-LC1-right-ref"
+               class="feather right" />
+          </g>
+          <g
+             id="feather-LC2-right"
+             transform="rotate(-136.19622,135.8097,64.999158)">
+            <use
+               href="feathers-elongated.svg#LC2-outline"
+               transform="translate(142.66906,-48.879963)"
+               id="feather-LC2-right-ref"
+               class="feather right" />
+          </g>
+          <g
+             id="feather-LC3-right"
+             transform="rotate(90,155.5135,182.98037)">
+            <use
+               href="feathers-elongated.svg#LC3-outline"
+               transform="translate(96.917202,18.457518)"
+               id="feather-LC3-right-ref"
+               class="feather right" />
+          </g>
+        </g>
+        <use
+           id="sheet-LC-All-mirror"
+           class="mirror"
+           href="#sheet-LC-All-half"
+           transform="matrix(-1,0,0,1,269,0)"
+           data-flip-axis="134.5" />
+        <g
+           id="sheet-LC-All-half-labels">
+          <g
+             transform="translate(75.81344,47.414)"
+             id="feather-LC1-right-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-LC1-right-label-text">LC1R</text>
+          </g>
+          <g
+             transform="translate(164.89473,45.306)"
+             id="feather-LC2-right-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-LC2-right-label-text">LC2R</text>
+          </g>
+          <g
+             transform="translate(117.21644,142.327)"
+             id="feather-LC3-right-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-LC3-right-label-text">LC3R</text>
+          </g>
+        </g>
+        <g
+           id="sheet-LC-All-mirror-labels"
+           data-generated="mirror">
+          <g
+             transform="matrix(-1,0,0,1,193.187,47.414)"
+             id="feather-LC1-left-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-LC1-left-label-text"
+               transform="matrix(-1,0,0,1,0,0)">LC1L</text>
+          </g>
+          <g
+             transform="matrix(-1,0,0,1,104.105,45.306)"
+             id="feather-LC2-left-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-LC2-left-label-text"
+               transform="matrix(-1,0,0,1,0,0)">LC2L</text>
+          </g>
+          <g
+             transform="matrix(-1,0,0,1,151.784,142.327)"
+             id="feather-LC3-left-label">
+            <text
+               x="0"
+               y="0"
+               class="label"
+               id="feather-LC3-left-label-text"
+               transform="matrix(-1,0,0,1,0,0)">LC3L</text>
+          </g>
+        </g>
+        <g
+           id="sheet-LC-All-reg"
+           class="reg"
+           data-flip-axis="134.5">
+          <circle
+             id="sheet-LC-All-reg-hole-axis"
+             class="reg reg-hole reg-through"
+             data-role="axis"
+             cx="134.5"
+             cy="10"
+             r="3" />
+          <circle
+             id="sheet-LC-All-reg-hole-twin-a"
+             class="reg reg-hole reg-through"
+             data-role="twin-a"
+             cx="114.5"
+             cy="200"
+             r="3" />
+          <circle
+             id="sheet-LC-All-reg-hole-twin-b"
+             class="reg reg-hole reg-through"
+             data-role="twin-b"
+             cx="154.5"
+             cy="200"
+             r="3" />
+          <line
+             id="sheet-LC-All-reg-axis-top"
+             class="reg reg-axis"
+             x1="134.5"
+             y1="2"
+             x2="134.5"
+             y2="8" />
+          <line
+             id="sheet-LC-All-reg-axis-bottom"
+             class="reg reg-axis"
+             x1="134.5"
+             y1="202"
+             x2="134.5"
+             y2="208" />
+          <path
+             id="sheet-LC-All-reg-key"
+             class="reg reg-key"
+             data-corner="top-left"
+             d="M 4,4 L 14,4 L 4,10 Z" />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
