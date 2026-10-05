@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" width="2223.85mm" height="1664.18mm" viewBox="-313.453 3504.99 2223.85 1664.18" version="1.1" id="svg1" inkscape:version="1.4 (86a8ad7, 2024-10-11)" sodipodi:docname="sheets-home-print.svg">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" width="2223.85mm" height="1664.18mm" viewBox="-313.453 3504.99 2223.85 1664.18" version="1.1" id="svg1" inkscape:version="1.4 (86a8ad7, 2024-10-11)" sodipodi:docname="sheets.svg">
   <sodipodi:namedview id="namedview1" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:showpageshadow="2" inkscape:pageopacity="0.0" inkscape:pagecheckerboard="false" inkscape:deskcolor="#d1d1d1" inkscape:document-units="mm" showborder="true" inkscape:zoom="0.19476467" inkscape:cx="2872.6976" inkscape:cy="6245.9993" inkscape:window-width="3840" inkscape:window-height="2054" inkscape:window-x="3829" inkscape:window-y="-11" inkscape:window-maximized="1" inkscape:current-layer="sheet-assembly-template-right" />
   <defs id="defs1">
     <clipPath id="sheet-clip">
@@ -96,7 +96,7 @@
       <g id="sheet-assembly-template-right" data-sort-order="15" class="sheet" transform="translate(0.33961926,-0.67923852)">
         <rect x="0" y="-4.5474735e-13" width="269" height="399.79999" fill="#ffffff" stroke="none" id="sheet-assembly-template-right-bounds" style="stroke-width:1.53603" class="sheet-bounds" />
         <g id="feather-assembly-template-right">
-          <use href="feathers-elongated.svg#assembly-template" transform="translate(32.855917,115.24122)" id="feather-assembly-template-right-ref" class="feather right" />
+          <use href="../../../feathers-elongated.svg#assembly-template" transform="translate(32.855917,115.24122)" id="feather-assembly-template-right-ref" class="feather right" />
         </g>
         <g transform="translate(121.31756,92.904815)" id="feather-assembly-template-right-label">
           <text x="0" y="0" class="label" id="feather-assembly-template-right-label-text">assembly-template right</text>
@@ -107,7 +107,7 @@
       <g id="sheet-assembly-template-left" data-sort-order="16" class="sheet">
         <rect x="0" y="0" width="269" height="399.79999" fill="#ffffff" stroke="none" id="sheet-assembly-template-left-bounds" style="stroke-width:1.53605" class="sheet-bounds" />
         <g id="feather-assembly-template-left">
-          <use href="feathers-elongated.svg#assembly-template" transform="matrix(-1,0,0,1,232.87251,108.10921)" id="feather-assembly-template-left-ref" class="feather left" />
+          <use href="../../../feathers-elongated.svg#assembly-template" transform="matrix(-1,0,0,1,232.87251,108.10921)" id="feather-assembly-template-left-ref" class="feather left" />
         </g>
         <g transform="translate(123.01585,83.395476)" id="feather-assembly-template-left-label">
           <text x="0" y="0" class="label" id="feather-assembly-template-left-label-text">assembly-template left</text>
@@ -118,10 +118,10 @@
       <g id="sheet-Alignment-B" transform="translate(21.132943,-261.76032)" data-sort-order="17" class="sheet">
         <rect x="0" y="0" width="269" height="399.79999" fill="#ffffff" stroke="none" id="sheet-Alignment-B-bounds" style="stroke-width:1.79543" class="sheet-bounds" />
         <g id="feather-B-align-right">
-          <use href="feathers-elongated.svg#B-align" transform="translate(785.4149,-306.00358)" id="feather-B-align-right-ref" class="feather right" />
+          <use href="../../../feathers-elongated.svg#B-align" transform="translate(785.4149,-306.00358)" id="feather-B-align-right-ref" class="feather right" />
         </g>
         <g id="feather-B-align-left">
-          <use href="feathers-elongated.svg#B-align" transform="matrix(-1,0,0,1,-513.32603,-310.2377)" id="feather-B-align-left-ref" class="feather left" />
+          <use href="../../../feathers-elongated.svg#B-align" transform="matrix(-1,0,0,1,-513.32603,-310.2377)" id="feather-B-align-left-ref" class="feather left" />
         </g>
         <g transform="translate(128.7334,8)" id="feather-B-align-label">
           <text x="0" y="0" class="label" id="feather-B-align-label-text">B-align</text>
@@ -132,7 +132,7 @@
       <g id="sheet-Alignment-P-Right" data-sort-order="18" class="sheet">
         <rect x="0" y="0" width="210" height="526.80" fill="#ffffff" stroke="none" id="sheet-Alignment-P-Right-bounds" style="stroke-width:1.27263" class="sheet-bounds" />
         <g id="feather-P-align-right">
-          <use href="feathers-elongated.svg#P-align" transform="translate(2025.1749,1375.8895)" id="feather-P-align-right-ref" class="feather right" />
+          <use href="../../../feathers-elongated.svg#P-align" transform="translate(2025.1749,1375.8895)" id="feather-P-align-right-ref" class="feather right" />
           <g transform="translate(96.083,8)" id="feather-P-align-right-label">
             <text x="0" y="0" class="label" id="feather-P-align-right-label-text">P Right</text>
           </g>
@@ -143,7 +143,7 @@
       <g id="sheet-Alignment-P-Left" data-sort-order="19" class="sheet">
         <rect x="0" y="0" width="210" height="526.80" fill="#ffffff" stroke="none" id="sheet-Alignment-P-Left-bounds" style="stroke-width:1.27263" class="sheet-bounds" />
         <g id="feather-P-align-left">
-          <use href="feathers-elongated.svg#P-align" transform="matrix(-1,0,0,1,-1831.9909,1366.3661)" id="feather-P-align-left-ref" class="feather left" />
+          <use href="../../../feathers-elongated.svg#P-align" transform="matrix(-1,0,0,1,-1831.9909,1366.3661)" id="feather-P-align-left-ref" class="feather left" />
         </g>
         <g transform="translate(96.083219,8)" id="feather-P-align-left-label">
           <text x="0" y="0" class="label" id="feather-P-align-left-label-text">P Left</text>
@@ -154,22 +154,22 @@
       <g id="sheet-Alignment-PC-A" data-sort-order="20" class="sheet">
         <rect x="0" y="0" width="269" height="210" fill="#ffffff" stroke="none" id="sheet-Alignment-PC-A-bounds" style="stroke-width:1.54058" class="sheet-bounds" />
         <g id="feather-PC-align-right">
-          <use href="feathers-elongated.svg#PC-align" transform="rotate(17.626245,-4431.8986,7268.9304)" id="feather-PC-align-right-ref" class="feather right" />
+          <use href="../../../feathers-elongated.svg#PC-align" transform="rotate(17.626245,-4431.8986,7268.9304)" id="feather-PC-align-right-ref" class="feather right" />
         </g>
         <g transform="translate(43.427,8)" id="feather-PC-align-label">
           <text x="0" y="0" class="label" id="feather-PC-align-label-text">PC-align</text>
         </g>
         <g id="feather-A-align-right">
-          <use href="feathers-elongated.svg#A-align" transform="translate(2558.0339,1050.9479)" id="feather-A-align-right-ref" class="feather right" />
+          <use href="../../../feathers-elongated.svg#A-align" transform="translate(2558.0339,1050.9479)" id="feather-A-align-right-ref" class="feather right" />
         </g>
         <g transform="translate(124.633,8)" id="feather-A-align-label">
           <text x="0" y="0" class="label" id="feather-A-align-label-text">A-align</text>
         </g>
         <g id="feather-PC-align-left">
-          <use href="feathers-elongated.svg#PC-align" transform="matrix(-0.95625247,0.29254266,0.29254266,0.95625247,-1801.0251,1673.6003)" id="feather-PC-align-left-ref" class="feather left" />
+          <use href="../../../feathers-elongated.svg#PC-align" transform="matrix(-0.95625247,0.29254266,0.29254266,0.95625247,-1801.0251,1673.6003)" id="feather-PC-align-left-ref" class="feather left" />
         </g>
         <g id="feather-A-align-left">
-          <use href="feathers-elongated.svg#A-align" transform="matrix(-1,0,0,1,-2231.5391,1051.6685)" id="feather-A-align-left-ref" class="feather left" />
+          <use href="../../../feathers-elongated.svg#A-align" transform="matrix(-1,0,0,1,-2231.5391,1051.6685)" id="feather-A-align-left-ref" class="feather left" />
         </g>
       </g>
     </g>
@@ -177,7 +177,7 @@
       <g id="sheet-Alignment-SC-right" transform="translate(13.448237,-3.3620591)" data-sort-order="21" class="sheet">
         <rect x="0" y="0" width="269" height="210" fill="#ffffff" stroke="none" id="sheet-Alignment-SC-right-bounds" style="stroke-width:1.36487" class="sheet-bounds" />
         <g id="feather-SC-align-right">
-          <use href="feathers-elongated.svg#SC-align" transform="translate(4384.6465,1580.3625)" id="feather-SC-align-right-ref" class="feather right" />
+          <use href="../../../feathers-elongated.svg#SC-align" transform="translate(4384.6465,1580.3625)" id="feather-SC-align-right-ref" class="feather right" />
         </g>
         <g transform="translate(76.674,8)" id="feather-SC-align-right-label">
           <text x="0" y="0" class="label" id="feather-SC-align-right-label-text">SC-align</text>
@@ -188,7 +188,7 @@
       <g id="sheet-Alignment-SC-left" data-sort-order="22" class="sheet">
         <rect x="0" y="-0.00044" width="269" height="210" fill="#ffffff" stroke="none" id="sheet-Alignment-SC-left-bounds" style="stroke-width:1.36487" class="sheet-bounds" />
         <g id="feather-SC-align-left">
-          <use href="feathers-elongated.svg#SC-align" transform="matrix(-1,0,0,1,-4105.9409,1572.6778)" id="feather-SC-align-left-ref" class="feather left" />
+          <use href="../../../feathers-elongated.svg#SC-align" transform="matrix(-1,0,0,1,-4105.9409,1572.6778)" id="feather-SC-align-left-ref" class="feather left" />
         </g>
         <g transform="translate(76.673804,8)" id="feather-SC-align-left-label">
           <text x="0" y="0" class="label" id="feather-SC-align-left-label-text">SC-align</text>
@@ -199,13 +199,13 @@
       <g id="sheet-Alignment-MC-LC-right" data-sort-order="23" class="sheet">
         <rect x="-8.1508627" y="-13.584771" width="269" height="210" fill="#ffffff" stroke="none" id="sheet-Alignment-MC-LC-right-bounds" style="stroke-width:1.35578" class="sheet-bounds" />
         <g id="feather-MC-align-right">
-          <use href="feathers-elongated.svg#MC-align" transform="translate(4110.5447,1602.378)" id="feather-MC-align-right-ref" class="feather right" />
+          <use href="../../../feathers-elongated.svg#MC-align" transform="translate(4110.5447,1602.378)" id="feather-MC-align-right-ref" class="feather right" />
           <g transform="translate(70.146,8)" id="feather-MC-align-right-label">
             <text x="0" y="0" class="label" id="feather-MC-align-right-label-text">MC-align</text>
           </g>
         </g>
         <g id="feather-LC-align-right" transform="translate(-31.924211,106.64045)">
-          <use href="feathers-elongated.svg#LC-align" transform="translate(2152.897,599.9331)" id="feather-LC-align-right-ref" class="feather right" />
+          <use href="../../../feathers-elongated.svg#LC-align" transform="translate(2152.897,599.9331)" id="feather-LC-align-right-ref" class="feather right" />
           <g transform="translate(193.577,8)" id="feather-LC-align-right-label">
             <text x="0" y="0" class="label" id="feather-LC-align-right-label-text">LC-align</text>
           </g>
@@ -216,13 +216,13 @@
       <g id="sheet-Alignment-MC-LC-left" data-sort-order="24" class="sheet">
         <rect x="0" y="0" width="269" height="210" fill="#ffffff" stroke="none" id="sheet-Alignment-MC-LC-left-bounds" style="stroke-width:1.35578" class="sheet-bounds" />
         <g id="feather-MC-align-left">
-          <use href="feathers-elongated.svg#MC-align" transform="matrix(-1,0,0,1,-3970.2527,1602.378)" id="feather-MC-align-left-ref" class="feather left" />
+          <use href="../../../feathers-elongated.svg#MC-align" transform="matrix(-1,0,0,1,-3970.2527,1602.378)" id="feather-MC-align-left-ref" class="feather left" />
           <g transform="translate(70.145962,8)" id="feather-MC-align-left-label">
             <text x="0" y="0" class="label" id="feather-MC-align-left-label-text">MC-align</text>
           </g>
         </g>
         <g id="feather-LC-align-left" transform="translate(18.339441,123.96103)">
-          <use href="feathers-elongated.svg#LC-align" transform="matrix(-1,0,0,1,-1765.743,599.9331)" id="feather-LC-align-left-ref" class="feather left" />
+          <use href="../../../feathers-elongated.svg#LC-align" transform="matrix(-1,0,0,1,-1765.743,599.9331)" id="feather-LC-align-left-ref" class="feather left" />
           <g transform="translate(193.57696,8)" id="feather-LC-align-left-label">
             <text x="0" y="0" class="label" id="feather-LC-align-left-label-text">LC-align</text>
           </g>
@@ -233,7 +233,7 @@
       <g id="sheet-Alignment-S-right" data-sort-order="25" class="sheet">
         <rect x="0" y="0" width="210" height="526.80" fill="#ffffff" stroke="none" id="sheet-Alignment-S-right-bounds" style="stroke-width:1.47773" class="sheet-bounds" />
         <g id="feather-S-align-right" transform="translate(11.547055,91.017963)">
-          <use href="feathers-elongated.svg#S-align" transform="translate(1400.3477,46.310377)" id="feather-S-align-right-ref" class="feather right" />
+          <use href="../../../feathers-elongated.svg#S-align" transform="translate(1400.3477,46.310377)" id="feather-S-align-right-ref" class="feather right" />
           <g transform="translate(94.687,8)" id="feather-S-align-right-label">
             <text x="0" y="0" class="label" id="feather-S-align-right-label-text">S-align</text>
           </g>
@@ -244,7 +244,7 @@
       <g id="sheet-Alignment-S-left" data-sort-order="26" class="sheet">
         <rect x="-7.4716239" y="-92.376442" width="210" height="526.80" fill="#ffffff" stroke="none" id="sheet-Alignment-S-left-bounds" style="stroke-width:1.47773" class="sheet-bounds" />
         <g id="feather-S-align-left">
-          <use href="feathers-elongated.svg#S-align" transform="matrix(-1,0,0,1,-1210.9747,46.310377)" id="feather-S-align-left-ref" class="feather left" />
+          <use href="../../../feathers-elongated.svg#S-align" transform="matrix(-1,0,0,1,-1210.9747,46.310377)" id="feather-S-align-left-ref" class="feather left" />
           <g transform="translate(94.68701,8)" id="feather-S-align-left-label">
             <text x="0" y="0" class="label" id="feather-S-align-left-label-text">S-align</text>
           </g>

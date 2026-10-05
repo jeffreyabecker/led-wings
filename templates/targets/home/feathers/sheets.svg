@@ -8,7 +8,7 @@
    version="1.1"
    id="svg1"
    inkscape:version="1.4 (86a8ad7, 2024-10-11)"
-   sodipodi:docname="sheets-home-feathers.svg"
+   sodipodi:docname="sheets.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -25,14 +25,14 @@
      inkscape:document-units="mm"
      showborder="true"
      inkscape:zoom="1.1017554"
-     inkscape:cx="5221.2134"
-     inkscape:cy="6295.8622"
+     inkscape:cx="6972.9633"
+     inkscape:cy="3327.8711"
      inkscape:window-width="3840"
      inkscape:window-height="2054"
      inkscape:window-x="-11"
      inkscape:window-y="-11"
      inkscape:window-maximized="1"
-     inkscape:current-layer="sheet-LC-All" />
+     inkscape:current-layer="sheet-B1-half" />
   <defs
      id="defs1">
     <clipPath
@@ -228,7 +228,7 @@
           <g
              id="cover-calibration">
             <use
-               href="feathers-elongated.svg#calibration"
+               href="../../../feathers-elongated.svg#calibration"
                transform="translate(-374.94146,118.53711)"
                id="cover-calibration-ref"
                class="calibration" />
@@ -320,7 +320,7 @@
              id="P1R"
              class="feather right">
             <use
-               href="feathers-elongated.svg#P1-outline"
+               href="../../../feathers-elongated.svg#P1-outline"
                transform="rotate(-4.0415212,-2276.4602,237.48561)"
                id="P1R-use"
                class="feather right" />
@@ -426,7 +426,7 @@
              id="P2R"
              class="feather right">
             <use
-               href="feathers-elongated.svg#P2-outline"
+               href="../../../feathers-elongated.svg#P2-outline"
                transform="translate(35.575758,-180.06553)"
                id="P2R-use"
                class="feather right" />
@@ -532,7 +532,7 @@
              id="P3R"
              class="feather right">
             <use
-               href="feathers-elongated.svg#P3-outline"
+               href="../../../feathers-elongated.svg#P3-outline"
                transform="translate(50.330445,-176.76872)"
                id="P3R-use"
                class="feather right" />
@@ -638,7 +638,7 @@
              id="P4R"
              class="feather right">
             <use
-               href="feathers-elongated.svg#P4-outline"
+               href="../../../feathers-elongated.svg#P4-outline"
                transform="translate(-185.98806,-138.83411)"
                id="P4R-use"
                class="feather right" />
@@ -745,7 +745,7 @@
              transform="translate(-4.7546697,-4.7546697)"
              class="feather right">
             <use
-               href="feathers-elongated.svg#P5-outline"
+               href="../../../feathers-elongated.svg#P5-outline"
                transform="rotate(6.0041037,1009.1725,947.10148)"
                id="P5R-use"
                class="feather right" />
@@ -853,7 +853,7 @@
              transform="translate(7.9660565,-67.30945)"
              class="feather right">
             <use
-               href="feathers-elongated.svg#S1-outline"
+               href="../../../feathers-elongated.svg#S1-outline"
                transform="translate(-1.0238655,-37.735789)"
                id="S1R-use"
                class="feather right" />
@@ -863,7 +863,7 @@
              transform="rotate(20.756246,-951.89951,1140.5788)"
              class="feather right">
             <use
-               href="feathers-elongated.svg#PC2-outline"
+               href="../../../feathers-elongated.svg#PC2-outline"
                transform="translate(-313.8699,-137.17989)"
                id="PC2R-use"
                class="feather right" />
@@ -989,7 +989,7 @@
              transform="translate(-6.7923853,75.395477)"
              class="feather right">
             <use
-               href="feathers-elongated.svg#S2-outline"
+               href="../../../feathers-elongated.svg#S2-outline"
                transform="translate(18.399485,-9.3606456)"
                id="S2R-use"
                class="feather right" />
@@ -999,7 +999,7 @@
              transform="rotate(14.431305,95.443496,-138.15741)"
              class="feather right">
             <use
-               href="feathers-elongated.svg#PC1-outline"
+               href="../../../feathers-elongated.svg#PC1-outline"
                transform="translate(32.2619,-173.32271)"
                id="PC1R-use"
                class="feather right" />
@@ -1126,7 +1126,7 @@
              transform="translate(26.490302,1.6980963)"
              class="feather right">
             <use
-               href="feathers-elongated.svg#S3-outline"
+               href="../../../feathers-elongated.svg#S3-outline"
                transform="translate(34.220492,-118.52389)"
                id="S3R-use"
                class="feather right" />
@@ -1135,7 +1135,7 @@
              id="S4R"
              class="feather right">
             <use
-               href="feathers-elongated.svg#S4-outline"
+               href="../../../feathers-elongated.svg#S4-outline"
                transform="translate(90.912281,188.18114)"
                id="S4R-use"
                class="feather right" />
@@ -1247,11 +1247,11 @@
            x="0"
            y="0"
            width="269"
-           height="399.79999"
+           height="388"
            fill="#ffffff"
            stroke="none"
            id="sheet-B1-bounds"
-           style="stroke-width:1.67055"
+           style="stroke-width:1.64571"
            class="sheet-bounds" />
         <g
            id="sheet-B1-half"
@@ -1261,7 +1261,7 @@
              transform="rotate(-90,171.98855,12.482918)"
              class="feather right">
             <use
-               href="feathers-elongated.svg#B1-outline"
+               href="../../../feathers-elongated.svg#B1-outline"
                transform="rotate(90,176.59808,168.15686)"
                id="B1R-use"
                class="feather right" />
@@ -1269,10 +1269,10 @@
           <g
              id="A2R"
              inkscape:label="A2R"
-             transform="rotate(-11.249041,1355.231,146.45259)"
+             transform="rotate(-11.249041,1295.3222,140.55259)"
              class="feather right">
             <use
-               href="feathers-elongated.svg#A2-outline"
+               href="../../../feathers-elongated.svg#A2-outline"
                transform="rotate(9.3337324,816.76315,4.1444266)"
                id="A2R-use"
                class="feather right" />
@@ -1346,14 +1346,14 @@
              class="reg reg-hole reg-through"
              data-role="twin-a"
              cx="114.5"
-             cy="389.8"
+             cy="378"
              r="3" />
           <circle
              id="sheet-B1-reg-hole-twin-b"
              class="reg reg-hole reg-through"
              data-role="twin-b"
              cx="154.5"
-             cy="389.8"
+             cy="378"
              r="3" />
           <line
              id="sheet-B1-reg-axis-top"
@@ -1366,9 +1366,9 @@
              id="sheet-B1-reg-axis-bottom"
              class="reg reg-axis"
              x1="134.5"
-             y1="391.8"
+             y1="380"
              x2="134.5"
-             y2="397.8" />
+             y2="386" />
           <path
              id="sheet-B1-reg-key"
              class="reg reg-key"
@@ -1403,7 +1403,7 @@
              inkscape:label="B2R"
              class="feather right">
             <use
-               href="feathers-elongated.svg#B2-outline"
+               href="../../../feathers-elongated.svg#B2-outline"
                transform="translate(-14.371071,-46.050443)"
                id="B2R-use"
                class="feather right" />
@@ -1414,7 +1414,7 @@
              inkscape:label="A1R"
              class="feather right">
             <use
-               href="feathers-elongated.svg#A1-outline"
+               href="../../../feathers-elongated.svg#A1-outline"
                transform="translate(35.316249,-82.640114)"
                id="A1R-use"
                class="feather right" />
@@ -1545,7 +1545,7 @@
              inkscape:label="B3R"
              class="feather right">
             <use
-               href="feathers-elongated.svg#B3-outline"
+               href="../../../feathers-elongated.svg#B3-outline"
                transform="translate(10.403484,-8.507929)"
                id="B3R-use"
                class="feather right" />
@@ -1556,7 +1556,7 @@
              transform="translate(-44.662808,246.77476)"
              class="feather right">
             <use
-               href="feathers-elongated.svg#A3-outline"
+               href="../../../feathers-elongated.svg#A3-outline"
                transform="translate(4.077783,9.512167)"
                id="A3R-use"
                class="feather right" />
@@ -1671,11 +1671,11 @@
            x="-0.12007354"
            y="0.12007354"
            width="269"
-           height="399.79999"
+           height="388"
            fill="#ffffff"
            stroke="none"
            id="sheet-SC1-SC2-bounds"
-           style="stroke-width:1.43848"
+           style="stroke-width:1.41709"
            class="sheet-bounds" />
         <g
            id="sheet-SC1-SC2-half"
@@ -1685,27 +1685,27 @@
              transform="rotate(42.678798,150.21205,220.12946)"
              class="feather right">
             <use
-               href="feathers-elongated.svg#SC1-outline"
+               href="../../../feathers-elongated.svg#SC1-outline"
                transform="translate(-4.714144,-97.221942)"
                id="SC1R-use"
                class="feather right" />
           </g>
           <g
              id="SC2R"
-             transform="rotate(50.225638,138.57355,24.476507)"
+             transform="rotate(50.225638,151.16137,18.576507)"
              class="feather right">
             <use
-               href="feathers-elongated.svg#SC2-outline"
+               href="../../../feathers-elongated.svg#SC2-outline"
                transform="translate(104.2042,-67.442507)"
                id="SC2R-use"
                class="feather right" />
           </g>
           <g
              id="SC3R"
-             transform="translate(63.586209,-9.4502125)"
+             transform="translate(63.586209,-21.250213)"
              class="feather right">
             <use
-               href="feathers-elongated.svg#SC3-outline"
+               href="../../../feathers-elongated.svg#SC3-outline"
                transform="rotate(53.987091,-102.44135,186.05475)"
                id="SC3R-use"
                class="feather right" />
@@ -1716,7 +1716,7 @@
              inkscape:label="SC4R"
              class="feather right">
             <use
-               href="feathers-elongated.svg#SC4-outline"
+               href="../../../feathers-elongated.svg#SC4-outline"
                transform="translate(-5.8281641,-13.481445)"
                id="SC4R-use"
                class="feather right" />
@@ -1825,14 +1825,14 @@
              class="reg reg-hole reg-through"
              data-role="twin-a"
              cx="114.38"
-             cy="389.92"
+             cy="378.12003"
              r="3" />
           <circle
              id="sheet-SC1-SC2-reg-hole-twin-b"
              class="reg reg-hole reg-through"
              data-role="twin-b"
              cx="154.38"
-             cy="389.92"
+             cy="378.12003"
              r="3" />
           <line
              id="sheet-SC1-SC2-reg-axis-top"
@@ -1845,9 +1845,9 @@
              id="sheet-SC1-SC2-reg-axis-bottom"
              class="reg reg-axis"
              x1="134.38"
-             y1="391.92"
+             y1="380.12003"
              x2="134.38"
-             y2="397.92" />
+             y2="386.12003" />
           <path
              id="sheet-SC1-SC2-reg-key"
              class="reg reg-key"
@@ -1867,11 +1867,11 @@
            x="-303.61963"
            y="-122.29207"
            width="269"
-           height="399.79999"
+           height="388"
            fill="#ffffff"
            stroke="none"
            id="sheet-MC1-MC2-bounds"
-           style="stroke-width:1.79581"
+           style="stroke-width:1.76911"
            class="sheet-bounds" />
         <g
            id="sheet-MC1-MC2-half"
@@ -1881,7 +1881,7 @@
              transform="rotate(-160.16235,-7.5805753,-4.5537642)"
              class="feather right">
             <use
-               href="feathers-elongated.svg#MC1-outline"
+               href="../../../feathers-elongated.svg#MC1-outline"
                transform="translate(18.18669,-67.625948)"
                id="MC1R-use"
                class="feather right" />
@@ -1891,7 +1891,7 @@
              transform="rotate(-163.94396,61.319611,63.026643)"
              class="feather right">
             <use
-               href="feathers-elongated.svg#MC2-outline"
+               href="../../../feathers-elongated.svg#MC2-outline"
                transform="translate(148.78447,-5.247125)"
                id="MC2R-use"
                class="feather right" />
@@ -1901,7 +1901,7 @@
              transform="rotate(-154.59656,17.193025,95.702707)"
              class="feather right">
             <use
-               href="feathers-elongated.svg#MC3-outline"
+               href="../../../feathers-elongated.svg#MC3-outline"
                transform="translate(38.314382,-15.625195)"
                id="MC3R-use"
                class="feather right" />
@@ -1911,7 +1911,7 @@
              transform="rotate(-164.31457,73.299065,130.01609)"
              class="feather right">
             <use
-               href="feathers-elongated.svg#MC4-outline"
+               href="../../../feathers-elongated.svg#MC4-outline"
                transform="translate(162.49925,3.915213)"
                id="MC4R-use"
                class="feather right" />
@@ -2020,14 +2020,14 @@
              class="reg reg-hole reg-through"
              data-role="twin-a"
              cx="-189.12"
-             cy="267.508"
+             cy="255.70799"
              r="3" />
           <circle
              id="sheet-MC1-MC2-reg-hole-twin-b"
              class="reg reg-hole reg-through"
              data-role="twin-b"
              cx="-149.12"
-             cy="267.508"
+             cy="255.70799"
              r="3" />
           <line
              id="sheet-MC1-MC2-reg-axis-top"
@@ -2040,9 +2040,9 @@
              id="sheet-MC1-MC2-reg-axis-bottom"
              class="reg reg-axis"
              x1="-169.12"
-             y1="269.508"
+             y1="257.70801"
              x2="-169.12"
-             y2="275.508" />
+             y2="263.70801" />
           <path
              id="sheet-MC1-MC2-reg-key"
              class="reg reg-key"
@@ -2079,7 +2079,7 @@
              transform="rotate(-66.846051,131.6449,-56.82259)"
              class="feather right">
             <use
-               href="feathers-elongated.svg#LC1-outline"
+               href="../../../feathers-elongated.svg#LC1-outline"
                transform="translate(46.732871,-19.642734)"
                id="LC1R-use"
                class="feather right" />
@@ -2089,7 +2089,7 @@
              transform="rotate(-58.083438,227.83581,32.124131)"
              class="feather right">
             <use
-               href="feathers-elongated.svg#LC2-outline"
+               href="../../../feathers-elongated.svg#LC2-outline"
                transform="translate(142.66906,-48.879963)"
                id="LC2R-use"
                class="feather right" />
@@ -2099,7 +2099,7 @@
              transform="rotate(115.02113,165.20525,173.28224)"
              class="feather right">
             <use
-               href="feathers-elongated.svg#LC3-outline"
+               href="../../../feathers-elongated.svg#LC3-outline"
                transform="translate(96.917202,18.457518)"
                id="LC3R-use"
                class="feather right" />
