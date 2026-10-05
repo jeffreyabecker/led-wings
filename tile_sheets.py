@@ -27,9 +27,31 @@ duplicates the artwork. That rect is taken as both a size and a position: it may
 sit anywhere inside its group, and the group may carry a ``transform``, so the
 offset is cancelled before the sheet is placed on a page. Pages are laid out side
 by side in a single Inkscape multipage document (portrait and landscape pages may
-be mixed), with crop ticks and overlap marks. The root element is sized to the
-first page rather than to the whole strip -- see :func:`emit_multipage_svg` for why
-Inkscape's PDF export needs that.
+be mixed). The root element is sized to the first page rather than to the whole
+strip -- see :func:`emit_multipage_svg` for why Inkscape's PDF export needs that.
+
+Reading the marks
+-----------------
+
+A join between two pages is one line of the sheet that both of them print, so both
+mark it -- a grey dotted line across the printable width, closed at each end by a
+solid 5 mm bar pointing inward along the other axis (a bottom line's bars rise, a
+top line's bars hang down). The marks carry no text, so read them by shape:
+
+* the line at the very top of a page's printed content is the one to **align**:
+  there is nothing printed above it. Lay it exactly on the neighbour's cut;
+* a line with printed content continuing below it is the one to **cut** on, and it
+  sits one overlap above the bottom of that content. Everything below it is printed
+  again by the tile that continues the sheet.
+
+The two lines are the same line on the sheet (on paper they sit ``stride`` apart,
+i.e. safe size minus overlap). A grey dashed line marks the *far* edge of the
+duplicated band -- where the neighbour's copy stops -- and is information only:
+lining that edge up with the neighbour's cut line instead of with the matching
+band edge would shift the seam by one overlap. Because the whole band is printed
+twice, a cut may fall anywhere in it, not exactly on the line. Corner ticks are
+deliberately not drawn: nothing happens at the safe-area corners, and the outer
+margin is the printer's unprintable edge, so marks there are useless or missing.
 """
 
 import math
@@ -42,12 +64,24 @@ from dataclasses import dataclass
 from urllib.parse import quote
 
 MM_PER_IN = 25.4
-CROP_INSET = 5.0
+
+# Cut/align marks: a grey dotted line across the page with a solid 5 mm bar at
+# each end, perpendicular to it and pointing inward (a line near the page bottom
+# gets bars rising from it, one near the top gets bars hanging from it), so the
+# marks stay inside the printable area. Grey and dotted keeps them distinct from
+# sheet artwork without competing with it. See "Reading the marks" in the module
+# docstring.
+MARK_COLOR = '#666666'
+MARK_BAR = 5.0
+MARK_DOT = '0.1 1.6'
+
 INKSCAPE_VERSION = '1.4 (86a8ad7, 2024-10-11)'
 
 # Physical-sheet CSS appended to the carried-over stylesheet on every page.
 CSS2 = (
-    '\n.crop { stroke: #999999; stroke-width: 0.25; }\n'
+    f'\n.join-line {{ stroke: {MARK_COLOR}; stroke-width: 0.3;'
+    f' stroke-dasharray: {MARK_DOT}; stroke-linecap: round; fill: none; }}\n'
+    f'.join-bar {{ stroke: {MARK_COLOR}; stroke-width: 0.3; fill: none; }}\n'
     '.overlap { stroke: #999999; stroke-width: 0.15; stroke-dasharray: 2 2; fill: none; }\n'
     '.note { font-family: sans-serif; fill: #555555; font-size: 4; text-anchor: middle; }\n'
 )
@@ -305,27 +339,91 @@ def overlap_pair(overlap: float | tuple[float, float]) -> tuple[float, float]:
     return (float(overlap[0]), float(overlap[1]))
 
 
-def corner_ticks(margin_x: float, margin_y: float, safe_w: float, safe_h: float) -> str:
-    """Crop ticks at the four corners of the safe area, pointing inward."""
-    length = 5.0
-    lo_x = margin_x + CROP_INSET
-    hi_x = margin_x + safe_w - CROP_INSET
-    lo_y = margin_y + CROP_INSET
-    hi_y = margin_y + safe_h - CROP_INSET
-    segs: list[str] = []
-    for cx in (lo_x, hi_x):
-        for cy in (lo_y, hi_y):
-            sx = 1.0 if cx == lo_x else -1.0
-            sy = 1.0 if cy == lo_y else -1.0
-            segs.append(
-                f'<line class="crop" x1="{fmt(cx)}" y1="{fmt(cy)}"'
-                f' x2="{fmt(cx + sx * length)}" y2="{fmt(cy)}"/>'
+def mark_geometry(paper: Paper) -> tuple[float, float, float, float, float, float]:
+    """``(margin_x, margin_y, safe_w, safe_h, overlap_x, overlap_y)`` for a page."""
+    trim_w = paper.trim.width
+    trim_h = paper.trim.height
+    safe_w = paper.safe_area.width
+    safe_h = paper.safe_area.height
+    overlap_x, overlap_y = overlap_pair(paper.overlap)
+    return (
+        (trim_w - safe_w) / 2, (trim_h - safe_h) / 2,
+        safe_w, safe_h, overlap_x, overlap_y,
+    )
+
+
+def join_marks(
+    c: int,
+    r: int,
+    cols: int,
+    rows: int,
+    margin_x: float,
+    margin_y: float,
+    safe_w: float,
+    safe_h: float,
+    overlap_x: float,
+    overlap_y: float,
+) -> str:
+    """Cut/align marks for the joins this page takes part in.
+
+    A join between two pages is one line of the sheet, printed on both of them.
+    Both pages mark that same line, and the mark says which job it is by where it
+    sits on the page rather than by any text:
+
+    * the upper page cuts on it -- everything below is printed again by the tile
+      that continues the sheet, so the cut may fall anywhere in the overlap band;
+    * the lower page lays its line on that cut -- its content starts there, so
+      nothing is printed above the mark.
+
+    So the upper page marks ``margin + safe - overlap`` (the first duplicated
+    line) and the lower page marks the margin (its own content edge): different
+    positions on paper, identical position on the sheet. Each line is drawn dotted
+    across the printable width and closed at both ends by a solid ``MARK_BAR`` mm
+    bar along the page's other axis, always pointing inward -- the bottom line's
+    bars rise, the top line's bars hang down -- which both identifies the line and
+    keeps the marks out of the unprintable margin. Nothing is marked at the
+    safe-area corners, because nothing is done there.
+    """
+    marks: list[str] = []
+
+    def horizontal(y: float, inward: float) -> None:
+        lo = margin_x
+        hi = margin_x + safe_w
+        marks.append(
+            f'<line class="join-line" x1="{fmt(lo)}" y1="{fmt(y)}"'
+            f' x2="{fmt(hi)}" y2="{fmt(y)}"/>'
+        )
+        for x in (lo, hi):
+            marks.append(
+                f'<line class="join-bar" x1="{fmt(x)}" y1="{fmt(y)}"'
+                f' x2="{fmt(x)}" y2="{fmt(y + inward * MARK_BAR)}"/>'
             )
-            segs.append(
-                f'<line class="crop" x1="{fmt(cx)}" y1="{fmt(cy)}"'
-                f' x2="{fmt(cx)}" y2="{fmt(cy + sy * length)}"/>'
+
+    def vertical(x: float, inward: float) -> None:
+        lo = margin_y
+        hi = margin_y + safe_h
+        marks.append(
+            f'<line class="join-line" x1="{fmt(x)}" y1="{fmt(lo)}"'
+            f' x2="{fmt(x)}" y2="{fmt(hi)}"/>'
+        )
+        for y in (lo, hi):
+            marks.append(
+                f'<line class="join-bar" x1="{fmt(x)}" y1="{fmt(y)}"'
+                f' x2="{fmt(x + inward * MARK_BAR)}" y2="{fmt(y)}"/>'
             )
-    return '<g>' + ''.join(segs) + '</g>'
+
+    if r < rows - 1:
+        # Near the page's bottom edge: bars rise into the page.
+        horizontal(margin_y + safe_h - overlap_y, inward=-1.0)
+    if r > 0:
+        # Near the page's top edge: bars hang down into the page.
+        horizontal(margin_y, inward=1.0)
+    if c < cols - 1:
+        vertical(margin_x + safe_w - overlap_x, inward=-1.0)
+    if c > 0:
+        vertical(margin_x, inward=1.0)
+
+    return ''.join(marks)
 
 
 def overlap_marks(
@@ -340,7 +438,14 @@ def overlap_marks(
     overlap_x: float,
     overlap_y: float,
 ) -> str:
-    """Dashed marks showing where the neighbouring tile overlaps this page."""
+    """Dashed grey line showing the far edge of the duplicated band.
+
+    This is *information*, not an alignment target: it marks where this page's
+    copy of the overlap stops being the neighbour's -- the band runs from the
+    join line (see :func:`join_marks`) to this line, and the neighbour prints the
+    same strip. Lining this edge up with the neighbour's join line instead of
+    with the matching band edge would shift the seam by the overlap.
+    """
     segs: list[str] = []
     if c < cols - 1:
         x = margin_x + safe_w - overlap_x
@@ -379,12 +484,17 @@ def tile(
     fit: Size | None = None,
 ) -> TileResult:
     """Map a sheet's logical area onto physical pages: one centered page when it
-    fits, else a cols x rows grid with overlap marks.
+    fits, else a cols x rows grid.
 
     ``fit`` bounds the single-page case and defaults to the safe area. Passing the
     page trim instead lets a sheet that overruns the safe margin still land on one
     page -- centered, so the overrun splits evenly into both margins and is *not*
     clipped away. Tiling beyond one page still strides over the safe area.
+
+    Page furniture (cut/align marks, the overlap band edge, the page note) is
+    *not* emitted here: only the clip and the content are, so that marks carrying
+    page numbers can be added once the document's page order is known. See
+    :func:`join_marks` and :func:`overlap_marks`.
     """
     trim_w = paper.trim.width
     trim_h = paper.trim.height
@@ -433,8 +543,6 @@ def tile(
                 f'<g clip-path="url(#{clip_id})">',
                 f'<g transform="{tr}">{body}</g>',
                 '</g>',
-                corner_ticks(margin_x, margin_y, safe_w, safe_h),
-                overlap_marks(c, r, cols, rows, margin_x, margin_y, safe_w, safe_h, overlap_x, overlap_y),
                 f'<text class="note" x="{fmt(trim_w / 2)}" y="{fmt(trim_h - 2.5)}">'
                 f'{esc(title)} \u00b7 tile {idx}/{cols * rows} \u00b7 {cols}x{rows}</text>',
             ]
@@ -771,11 +879,10 @@ def parse_args(argv: list[str]) -> tuple[list[str], dict[str, str | None]]:
     return positional, flags
 
 
-# Regexes for the shared-defs rewrite: the first tiled page's per-tile clip path
-# and its inline crop ticks are hoisted into document-level defs.
+# Regexes for the shared-defs rewrite: the first tiled page's per-tile clip path is
+# hoisted into document-level defs.
 _CLIP_DEFS_RE = re.compile(r'<defs><clipPath id="clip-[^"]+"><rect [^>]*/></clipPath></defs>\n?')
 _CLIP_REF_RE = re.compile(r'clip-path="url\(#clip-[^)]*\)"')
-_CROP_TICKS_RE = re.compile(r'<g>((?:<line class="crop" [^>]*/>)+)</g>')
 
 # JS encodeURI's unreserved set: whatever a file basename can legitimately hold.
 _URI_SAFE = ";/?:@&=+$,-_.!~*'()#"
@@ -807,12 +914,15 @@ def format_whatif(
     gap: float,
     svg_bytes: int,
     has_clip: bool,
-    has_crop_ticks: bool,
+    join_lines: int,
     overwrite_bytes: int | None,
 ) -> str:
     """Report what a run would generate, without generating it (``--whatif``).
 
-    Deliberately ASCII-only: this is read in a terminal of any code page.
+    Deliberately ASCII-only: this is read in a terminal of any code page. That is
+    also why the legend spells the marks out in words: these lines are the only
+    place the cut/align convention is stated where a user will actually see it
+    before printing.
     """
     pages = sum(s.pages for s in planned)
     tiled = sum(1 for s in planned if s.pages > 1)
@@ -832,8 +942,8 @@ def format_whatif(
     features = ['by-reference <use>']
     if has_clip:
         features.append('shared clip path')
-    if has_crop_ticks:
-        features.append('shared crop ticks')
+    if join_lines:
+        features.append(f'cut/align marks on {join_lines} tiled pages')
 
     lines = [
         'whatif: nothing written, no output generated',
@@ -851,6 +961,13 @@ def format_whatif(
         f'({tiled} tiled over multiple pages, {len(planned) - tiled} fitting one page), '
         f'{fmt(doc_w)} x {fmt(doc_h)} mm',
         f'content     {", ".join(features)}',
+        '',
+        'marks       every tiled page marks its join line in grey, dotted, closed by',
+        '            a solid 5 mm bar at each end pointing into the page. The line at',
+        '            the top of a page is the one to align on the neighbouring cut; a',
+        '            line with content below it is the one to cut. The cut may fall',
+        '            anywhere in the overlap band. The grey dashed line is the far edge',
+        '            of that band only - never an alignment target.',
         '',
         f'  {"sheet":<38} {"size (mm)":>18}  {"page":<9} {"content":<8} {"grid":>5} {"pages":>5}',
         f'  {"-" * 38} {"-" * 18}  {"-" * 9} {"-" * 8} {"-" * 5} {"-" * 5}',
@@ -904,10 +1021,11 @@ def run(positional: list[str], flags: dict[str, str | None]) -> int:
     pages: list[EnginePage] = []
     planned: list[PlannedSheet] = []
     n = 0
-    # Crop ticks and the safe-area clip rect depend on the page geometry, so there
-    # is one hoisted defs entry per distinct geometry (portrait and landscape).
+    # The safe-area clip rect depends on the page geometry, so there is one hoisted
+    # defs entry per distinct geometry (portrait and landscape). The cut/align marks
+    # are not hoisted: their labels name the page numbers on either side of the
+    # join, so they differ per page.
     shared_clips: dict[tuple[str, ...], str] = {}
-    shared_ticks: dict[tuple[str, ...], tuple[str, str]] = {}
 
     for sheet in sheets:
         title = sheet.id.removeprefix('sheet-')
@@ -951,15 +1069,17 @@ def run(positional: list[str], flags: dict[str, str | None]) -> int:
                     shared_clips[key] = clip_id
                 page_body = _CLIP_DEFS_RE.sub('', page_body, count=1)
                 page_body = _CLIP_REF_RE.sub(f'clip-path="url(#{clip_id})"', page_body, count=1)
-            m = _CROP_TICKS_RE.search(page_body)
-            if m:
-                tick = shared_ticks.get(key)
-                if tick is None:
-                    tick_id = ('crop-ticks' if not shared_ticks
-                               else f'crop-ticks-shared-{len(shared_ticks) + 1}')
-                    tick = (tick_id, m.group(1))
-                    shared_ticks[key] = tick
-                page_body = page_body[: m.start()] + f'<use href="#{tick[0]}"/>' + page_body[m.end():]
+            margin_x, margin_y, safe_w, safe_h, overlap_x, overlap_y = mark_geometry(layout.paper)
+            col = (page.tile_index - 1) % page.cols
+            row = (page.tile_index - 1) // page.cols
+            page_body += overlap_marks(
+                col, row, page.cols, page.rows,
+                margin_x, margin_y, safe_w, safe_h, overlap_x, overlap_y,
+            )
+            page_body += join_marks(
+                col, row, page.cols, page.rows,
+                margin_x, margin_y, safe_w, safe_h, overlap_x, overlap_y,
+            )
             pages.append(EnginePage(
                 body=page_body,
                 sheet_id=sheet.id,
@@ -979,9 +1099,6 @@ def run(positional: list[str], flags: dict[str, str | None]) -> int:
             f'      <clipPath id="{clip_id}"><rect x="{margin_x}" y="{margin_y}"'
             f' width="{safe_w}" height="{safe_h}"/></clipPath>'
         )
-    for key, (tick_id, inner) in shared_ticks.items():
-        defs.append(f'      <g id="{tick_id}">{inner}</g>')
-
     svg = emit_multipage_svg(pages, style_css, gap=gap)
     if defs:
         svg = svg.replace(
@@ -1000,7 +1117,7 @@ def run(positional: list[str], flags: dict[str, str | None]) -> int:
             gap=gap,
             svg_bytes=len(svg.encode('utf-8')),
             has_clip=bool(shared_clips),
-            has_crop_ticks=bool(shared_ticks),
+            join_lines=sum(1 for p in pages if p.cols > 1 or p.rows > 1),
             overwrite_bytes=os.path.getsize(out_path) if os.path.exists(out_path) else None,
         ))
         return 0
