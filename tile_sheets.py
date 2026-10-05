@@ -1,34 +1,51 @@
 #!/usr/bin/env python3
-"""Tile a sheets SVG onto physical pages and emit an Inkscape multipage SVG.
+"""Tile a sheets master onto physical pages and emit an Inkscape print document.
 
 Python port of the former ``scripts/tile-sheets.ts``. The Node/npm toolchain it
 needed is gone, so this version is standard-library only: XML parsing uses
 :mod:`xml.etree.ElementTree` instead of jsdom, and there is nothing to install.
 
-usage: python tile_sheets.py <sheets.svg> [trimWxH] [safeWxH] [overlap] [gap]
-                             [--out <path>] [--whatif]
-  trimWxH   e.g. "215.9x279.4" or "8.5x11in"   (default 215.9x279.4, portrait)
-  safeWxH   e.g. "205.9x269.4" or "8.1x10.6in" (default 205.9x269.4, portrait)
-  overlap   e.g. "12" or "0.5in"               (default 12)
-  gap       e.g. "10" or "0.4in"               (default 10)
-  --out     where to write (default: <input>-multipage.svg beside the input)
+usage: python tile_sheets.py <content>/sheets.svg --paper <name> --out <path>
+                             [--margin <mm>] [--safe WxH] [--overlap <dist>]
+                             [--gap <dist>] [--whatif]
+  --paper   paper name; required. One of: letter, legal, tabloid, a3, a4, a5
+            (--list-papers prints the table and exits)
+  --margin  unprintable margin per edge, in mm (default 5); the safe area is the
+            trim inset by it. --safe WxH overrides that derivation
+  --size    WxH instead of --paper, for stock not in the table ("210x297",
+            "8.5x11in"); --safe WxH still applies
+  --overlap how much neighbouring pages print twice, e.g. "12" or "0.5in"
+            (default 12)
+  --gap     space between pages inside the emitted document, e.g. "10" or "0.4in"
+            (default 10)
+  --out     where to write; required. The directory is created if needed
   --whatif  parse, tile and build the document, then report what it would
             generate and write nothing (the output file is left untouched)
   Each sheet goes on whichever page orientation -- portrait or landscape -- needs
   the fewest pages; ties prefer unrotated content, then portrait pages. A sheet
   that fits the page gets one centered page even if it overruns the safe margin;
   that overrun is not clipped (only multi-page tiles are clipped).
-  Units default to mm; "in" is converted to mm.
+  Distances and sizes default to mm; "in" is converted to mm.
 
-Every ``<g>`` whose ``class`` contains "sheet" -- and that carries a direct
+The print document is written to ``--out`` and references its master by a path
+relative to that output directory (``../../../feathers/sheets.svg#sheet-P1``), so
+the master and the print documents no longer have to sit side by side. Because
+the reference is relative, a print document stops rendering if it is moved away
+from its own tree -- the rendered PDF is the portable artefact.
+
+The paper token, the resolved trim and safe area, the overlap, the gap and the
+page count are stamped into the output as a comment beside the Inkscape header,
+so a shipped print document records how it was produced.
+
+Every ``<g>`` carrying the class token ``sheet`` -- and that has a direct
 ``<rect>`` child giving its bounds, plus an ``id`` for ``<use>`` to reference --
 becomes one or more physical pages, referenced by ``<use>`` so the output never
 duplicates the artwork. That rect is taken as both a size and a position: it may
 sit anywhere inside its group, and the group may carry a ``transform``, so the
 offset is cancelled before the sheet is placed on a page. Pages are laid out side
-by side in a single Inkscape multipage document (portrait and landscape pages may
-be mixed). The root element is sized to the first page rather than to the whole
-strip -- see :func:`emit_multipage_svg` for why Inkscape's PDF export needs that.
+by side in a single print document (portrait and landscape pages may be mixed).
+The root element is sized to the first page rather than to the whole strip -- see
+:func:`emit_multipage_svg` for why Inkscape's PDF export needs that.
 
 Reading the marks
 -----------------
@@ -77,14 +94,36 @@ MARK_DOT = '0.1 1.6'
 
 INKSCAPE_VERSION = '1.4 (86a8ad7, 2024-10-11)'
 
-# Physical-sheet CSS appended to the carried-over stylesheet on every page.
-CSS2 = (
+# Page furniture the tiler draws itself, appended to the stylesheet it carries
+# over from the sheets master. The join marks exist only in the output -- the
+# master has no join -- so their rules have no source document to live in.
+# Everything else a page needs (`.overlap`, `.note`) already comes from the
+# carried stylesheet, which is why this block is this short. See
+# :func:`require_style_rules`.
+JOIN_CSS = (
     f'\n.join-line {{ stroke: {MARK_COLOR}; stroke-width: 0.3;'
     f' stroke-dasharray: {MARK_DOT}; stroke-linecap: round; fill: none; }}\n'
     f'.join-bar {{ stroke: {MARK_COLOR}; stroke-width: 0.3; fill: none; }}\n'
-    '.overlap { stroke: #999999; stroke-width: 0.15; stroke-dasharray: 2 2; fill: none; }\n'
-    '.note { font-family: sans-serif; fill: #555555; font-size: 4; text-anchor: middle; }\n'
 )
+
+# The rules a generated page must be able to resolve: the tiler's own marks plus
+# the overlap band edge and the page note, which the master's stylesheet supplies.
+REQUIRED_PAGE_RULES = (
+    ('.join-line', 'the dotted line marking a join'),
+    ('.join-bar', 'the bar closing each end of a join line'),
+    ('.overlap', 'the dashed far edge of the duplicated band'),
+    ('.note', 'the tile caption on a multi-page sheet'),
+)
+
+# Paper names -> trim size (mm). Only the trim is tabulated: the safe area is
+# derived from --margin, or overridden with --safe for stock whose printable area
+# is not symmetric. The name is what --paper takes and what belongs in the
+# output filename, so `--paper letter --out .../print-letter.svg` agree.
+# Defined after :class:`Size`, which the table values are.
+
+DEFAULT_MARGIN = 5.0
+DEFAULT_OVERLAP = '12'
+DEFAULT_GAP = '10'
 
 NAMESPACES = '\n   '.join([
     'xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"',
@@ -92,11 +131,6 @@ NAMESPACES = '\n   '.join([
     'xmlns="http://www.w3.org/2000/svg"',
     'xmlns:svg="http://www.w3.org/2000/svg"',
 ])
-
-USAGE = (
-    'usage: python tile_sheets.py <sheets.svg> [trimWxH] [safeWxH] [overlap] [gap]'
-    ' [--out <path>] [--whatif]'
-)
 
 
 @dataclass(frozen=True)
@@ -169,6 +203,30 @@ class Layout:
     page: str  # 'portrait' or 'landscape'
     rotated: bool  # content turned 90 deg on the page
     result: TileResult
+
+
+PAPERS: dict[str, Size] = {
+    'letter': Size(width=215.9, height=279.4),
+    'legal': Size(width=215.9, height=355.6),
+    'tabloid': Size(width=279.4, height=431.8),
+    'a3': Size(width=297.0, height=420.0),
+    'a4': Size(width=210.0, height=297.0),
+    'a5': Size(width=148.0, height=210.0),
+}
+
+USAGE = (
+    'usage: python tile_sheets.py <content>/sheets.svg --paper <name> --out <path>'
+    ' [--margin <mm>] [--safe WxH] [--overlap <dist>] [--gap <dist>] [--whatif]\n'
+    '       python tile_sheets.py <content>/sheets.svg --size WxH [--safe WxH]'
+    ' --out <path> [...]\n'
+    '       python tile_sheets.py --list-papers'
+)
+
+# Which options take a value, so the parser never has to guess (see parse_args).
+VALUE_FLAGS = frozenset({
+    'paper', 'out', 'size', 'safe', 'margin', 'overlap', 'gap',
+})
+BOOLEAN_FLAGS = frozenset({'whatif', 'list-papers'})
 
 
 # ---------------------------------------------------------------------------
@@ -641,9 +699,11 @@ def emit_multipage_svg(
     gap: float = 10.0,
     label: Callable[[EnginePage, int], str] | None = None,
     doc_name: str | None = None,
+    shared_defs: list[str] | None = None,
+    provenance: str | None = None,
 ) -> str:
-    """Emit tiled pages as a single Inkscape multipage SVG document (pages laid
-    out side by side; one ``<inkscape:page>`` per physical page).
+    """Emit tiled pages as a single Inkscape print document (pages laid out side by
+    side; one ``<inkscape:page>`` per physical page).
 
     Each page carries its own trim size, so portrait and landscape pages can share
     one document: pages are placed left to right by accumulating their widths, and
@@ -655,6 +715,11 @@ def emit_multipage_svg(
     export page 1 as the entire strip and drop the real first page. Note that this
     makes page 1 the only page a plain SVG viewer (a browser, say) shows, since it
     clips to the root viewport; Inkscape itself shows every page either way.
+
+    ``shared_defs`` are rendered into the document-level ``<defs>``; an empty
+    ``<defs>`` is emitted when there are none, so callers never have to rewrite the
+    element after the fact. ``provenance`` becomes a comment before ``<svg>``, where
+    it cannot collide with the element structure.
     """
     if not pages:
         raise ValueError('no pages to emit')
@@ -689,7 +754,22 @@ def emit_multipage_svg(
         x += trim.width + gap
 
     if doc_name is None:
-        doc_name = 'sheets-multipage.svg'
+        doc_name = 'sheets-print.svg'
+
+    if shared_defs:
+        defs_block = (
+            '  <defs\n'
+            '     id="defs1">\n'
+            + '\n'.join(shared_defs) + '\n'
+            '  </defs>\n'
+        )
+    else:
+        defs_block = (
+            '  <defs\n'
+            '     id="defs1" />\n'
+        )
+
+    provenance_block = f'<!-- {provenance} -->\n' if provenance else ''
 
     indented_groups = '\n'.join(
         ('  ' + line) if line else line for line in '\n'.join(page_groups).split('\n')
@@ -697,7 +777,8 @@ def emit_multipage_svg(
 
     return (
         '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n'
-        '<!-- Created with Inkscape (http://www.inkscape.org/) -->\n\n'
+        '<!-- Created with Inkscape (http://www.inkscape.org/) -->\n'
+        + provenance_block + '\n'
         '<svg\n'
         f'   width="{fmt(root_w)}mm"\n'
         f'   height="{fmt(root_h)}mm"\n'
@@ -720,9 +801,8 @@ def emit_multipage_svg(
         '     showborder="true">\n'
         + '\n'.join(page_defs) + '\n'
         '  </sodipodi:namedview>\n'
-        '  <defs\n'
-        '     id="defs1" />\n'
-        f'  <style type="text/css">{style_css}{CSS2}</style>\n'
+        + defs_block
+        + f'  <style type="text/css">{style_css}{JOIN_CSS}</style>\n'
         '  <g id="pages">\n'
         + indented_groups + '\n'
         '  </g>\n'
@@ -736,15 +816,16 @@ def emit_multipage_svg(
 
 
 def has_sheet_class(el: ET.Element) -> bool:
-    """True when the element's ``class`` contains "sheet".
+    """True when ``sheet`` is one of the element's ``class`` tokens.
 
-    Substring match on the whole class attribute (case-sensitive, as CSS class
-    names are): ``class="sheet"``, ``class="sheet label"`` and
-    ``class="sheet-cover"`` all match. Note that this also matches
-    ``class="worksheet"`` or ``class="sheets"`` -- change to an exact token test
-    (``'sheet' in el.get('class', '').split()``) if that ever bites.
+    A token test, not a substring one (case-sensitive, as CSS class names are):
+    ``class="sheet"`` and ``class="sheet label"`` match, while ``class="worksheet"``,
+    ``class="sheets"`` and ``class="sheet-bounds"`` do not. The sheets documents
+    carry generated groups whose names merely *contain* "sheet" -- ``-half``,
+    ``-labels``, ``-mirror``, ``-reg``, the ``sheet-bounds`` rect -- so the loose
+    match this replaced was one class attribute away from tiling them by mistake.
     """
-    return 'sheet' in (el.get('class') or '')
+    return 'sheet' in (el.get('class') or '').split()
 
 
 def find_sheets(root: ET.Element) -> list[SheetDef]:
@@ -859,24 +940,151 @@ def size(text: str) -> Size:
 
 
 def parse_args(argv: list[str]) -> tuple[list[str], dict[str, str | None]]:
-    """Separate positional arguments from ``--flags`` (and their values)."""
+    """Separate positional arguments from ``--flags`` and their values.
+
+    Which flags take a value is known here, rather than guessed from the next
+    token: guessing made ``--whatif sheets.svg`` swallow the input document, and it
+    turned a typo like ``--saef`` into a value-less flag that was then ignored. An
+    unrecognised flag is now an error, and a value-taking flag given no value
+    records as present-with-no-value so :func:`run` reports it as a usage error
+    rather than misreading the rest of the command line.
+    """
     positional: list[str] = []
     flags: dict[str, str | None] = {}
     i = 0
     while i < len(argv):
         a = argv[i]
-        if a.startswith('--'):
-            name = a[2:]
-            val = argv[i + 1] if i + 1 < len(argv) else None
-            if val is not None and not val.startswith('--'):
-                flags[name] = val
-                i += 1
-            else:
-                flags[name] = None
-        else:
+        if not a.startswith('--'):
             positional.append(a)
+            i += 1
+            continue
+        name = a[2:]
+        if name in BOOLEAN_FLAGS:
+            flags[name] = None
+        elif name in VALUE_FLAGS:
+            nxt = argv[i + 1] if i + 1 < len(argv) else None
+            if nxt is None or nxt.startswith('--'):
+                flags[name] = None
+            else:
+                flags[name] = nxt
+                i += 1
+        else:
+            known = ', '.join(sorted(VALUE_FLAGS | BOOLEAN_FLAGS))
+            raise ValueError(f'unknown option --{name}; known options: {known}')
         i += 1
     return positional, flags
+
+
+def flag_value(flags: dict[str, str | None], name: str, example: str) -> str:
+    """The value of a required flag, or a usage error naming how to supply it."""
+    value = flags.get(name)
+    if value is None:
+        raise ValueError(f'--{name} needs a value ({example})')
+    return value
+
+
+def safe_area_for(trim: Size, margin: float) -> Size:
+    """The printable area: the trim inset by ``margin`` mm on every edge.
+
+    A trim that cannot hold the margin at all is a usage error rather than a
+    negative safe area that fails later inside the tiler.
+    """
+    width = round6(trim.width - 2 * margin)
+    height = round6(trim.height - 2 * margin)
+    if width <= 0 or height <= 0:
+        raise ValueError(
+            f'margin {fmt(margin)} mm leaves no printable area on a '
+            f'{fmt(trim.width)} x {fmt(trim.height)} mm sheet'
+        )
+    return Size(width=width, height=height)
+
+
+def resolve_paper(flags: dict[str, str | None]) -> tuple[str, Size, Size]:
+    """Resolve ``--paper`` (or ``--size``) plus ``--margin``/``--safe``.
+
+    Returns ``(token, trim, safe_area)``. The token is the paper's public name and
+    is what the provenance stamp and the caller's filename use; ``--size`` has no
+    name to give, so it stamps as ``custom``. Only the trim is tabulated -- the
+    safe area is derived from the margin, or given outright by ``--safe``.
+    """
+    paper_name = flags.get('paper')
+    size_spec = flags.get('size')
+    if paper_name is not None and size_spec is not None:
+        raise ValueError('give either --paper or --size, not both')
+    if size_spec is not None:
+        token = 'custom'
+        trim = size(size_spec)
+    elif paper_name is not None:
+        token = paper_name.strip().lower()
+        if token not in PAPERS:
+            names = ', '.join(PAPERS)
+            raise ValueError(
+                f'unknown --paper "{paper_name}"; choose one of {names}\n'
+                + format_paper_table()
+            )
+        trim = PAPERS[token]
+    else:
+        raise ValueError(
+            'no paper given: pass --paper <name> or --size WxH (--list-papers'
+            ' prints the table)\n' + format_paper_table()
+        )
+
+    safe_spec = flags.get('safe')
+    if safe_spec is not None:
+        safe_area = size(safe_spec)
+    elif 'margin' in flags:
+        safe_area = safe_area_for(trim, dist(flag_value(flags, 'margin', 'e.g. 5')))
+    else:
+        safe_area = safe_area_for(trim, DEFAULT_MARGIN)
+    return token, trim, safe_area
+
+
+def format_paper_table() -> str:
+    """The ``--paper`` table, one line per name (usage errors and --list-papers).
+
+    Dimensions are shown at the default margin, which is what most callers get;
+    ``--margin`` moves every safe area in step.
+    """
+    header = f'{"paper":<8} {"trim (mm)":<16} safe (mm) at margin {fmt(DEFAULT_MARGIN)}'
+    lines = [header]
+    for name, trim in PAPERS.items():
+        safe = safe_area_for(trim, DEFAULT_MARGIN)
+        lines.append(
+            f'{name:<8} {f"{fmt(trim.width)} x {fmt(trim.height)}":<16} '
+            f'{fmt(safe.width)} x {fmt(safe.height)}'
+        )
+    return '\n'.join(lines)
+
+
+# Class selectors in a stylesheet: `.join-line`, or the `.a` of `.a.b`/`.a > .b`.
+_CLASS_SELECTOR_RE = re.compile(r'\.([A-Za-z_][\w-]*)')
+
+
+def defined_classes(css: str) -> set[str]:
+    """Class names a stylesheet gives a rule to (a selector-level scan)."""
+    return set(_CLASS_SELECTOR_RE.findall(css))
+
+
+def require_style_rules(style_css: str) -> None:
+    """Fail unless the carried stylesheet styles everything a page renders.
+
+    The output document styles the sheets it references through ``<use>`` and draws
+    its own page furniture, so the style text copied from the master plus
+    :data:`JOIN_CSS` has to cover both. A missing rule is not an error any later
+    step reports -- the page simply renders unstyled -- so it is checked here,
+    where the cause is still known.
+    """
+    defined = defined_classes(style_css + JOIN_CSS)
+    missing = [
+        f'  {sel} ({what})'
+        for sel, what in REQUIRED_PAGE_RULES
+        if sel.lstrip('.') not in defined
+    ]
+    if missing:
+        raise ValueError(
+            'the source stylesheet does not style the generated pages; missing:\n'
+            + '\n'.join(missing)
+        )
 
 
 # Regexes for the shared-defs rewrite: the first tiled page's per-tile clip path is
@@ -908,16 +1116,23 @@ def format_whatif(
     *,
     in_path: str,
     out_path: str,
+    href: str,
+    paper_token: str,
     trim: Size,
     safe_area: Size,
     overlap: float,
     gap: float,
+    provenance: str,
     svg_bytes: int,
     has_clip: bool,
     join_lines: int,
     overwrite_bytes: int | None,
 ) -> str:
     """Report what a run would generate, without generating it (``--whatif``).
+
+    Prints the resolved sheet href as well as the output path: the href depends on
+    where the output goes, so a wrong ``--out`` shows up here as a reference that
+    does not resolve, before anything is written.
 
     Deliberately ASCII-only: this is read in a terminal of any code page. That is
     also why the legend spells the marks out in words: these lines are the only
@@ -949,9 +1164,10 @@ def format_whatif(
         'whatif: nothing written, no output generated',
         '',
         f'input       {in_path}',
+        f'reference   {href}',
         f'output      {out_path}',
         f'            {out_note}',
-        f'paper       trim {fmt(trim.width)} x {fmt(trim.height)} mm '
+        f'paper       {paper_token}: trim {fmt(trim.width)} x {fmt(trim.height)} mm '
         f'(landscape {fmt(trim.height)} x {fmt(trim.width)} mm), '
         f'safe {fmt(safe_area.width)} x {fmt(safe_area.height)} mm, '
         f'margins {fmt(margin_x)} x {fmt(margin_y)} mm',
@@ -961,6 +1177,7 @@ def format_whatif(
         f'({tiled} tiled over multiple pages, {len(planned) - tiled} fitting one page), '
         f'{fmt(doc_w)} x {fmt(doc_h)} mm',
         f'content     {", ".join(features)}',
+        f'provenance  {provenance}',
         '',
         'marks       every tiled page marks its join line in grey, dotted, closed by',
         '            a solid 5 mm bar at each end pointing into the page. The line at',
@@ -983,27 +1200,82 @@ def format_whatif(
     return '\n'.join(lines)
 
 
+def rel_href(in_path: str, out_path: str) -> str:
+    """The sheet reference to write, relative to the output file's directory.
+
+    The master and its print documents live in different trees, so the reference is
+    computed from where the output goes rather than assumed co-located. Separators
+    are normalised to ``/``: ``relpath`` returns backslashes on Windows, and a
+    backslash in an IRI is either an escape or a malformed reference.
+    """
+    rel = os.path.relpath(in_path, start=os.path.dirname(out_path)).replace(os.sep, '/')
+    return quote(rel, safe=_URI_SAFE)
+
+
+def provenance_comment(
+    *,
+    source: str,
+    paper_token: str,
+    trim: Size,
+    safe_area: Size,
+    overlap: float,
+    gap: float,
+    pages: int,
+) -> str:
+    """A one-comment record of the parameters this document was tiled with.
+
+    Reads back the paper's *name* as well as its resolved millimetres: the name is
+    what the caller asked for, the millimetres are what the table gave, and a
+    tabulated size that later drifts shows up as the two disagreeing. Written as
+    one XML comment, wrapped to keep the line readable in an editor.
+    """
+    return (
+        f'tiled by tile_sheets.py: source={esc(source)} paper={esc(paper_token)}'
+        f' trim={fmt(trim.width)}x{fmt(trim.height)}mm'
+        f' safe={fmt(safe_area.width)}x{fmt(safe_area.height)}mm'
+        f' overlap={fmt(overlap)}mm gap={fmt(gap)}mm'
+        f' pages={pages} orientation=per-sheet'
+    )
+
+
 def run(positional: list[str], flags: dict[str, str | None]) -> int:
+    if not positional:
+        raise ValueError('no input document given\n' + USAGE)
+    if len(positional) > 1:
+        raise ValueError(
+            f'unexpected argument "{positional[1]}"; the page size is given by'
+            ' --paper or --size, not positionally\n' + USAGE
+        )
+
     input_arg = positional[0]
     in_path = os.path.abspath(input_arg)
 
-    trim = size(positional[1] if len(positional) > 1 else '215.9x279.4')
-    safe_area = size(positional[2] if len(positional) > 2 else '205.9x269.4')
-    overlap = dist(positional[3] if len(positional) > 3 else '12')
-    gap = dist(positional[4] if len(positional) > 4 else '10')
-
     out_arg = flags.get('out')
-    if not out_arg:
-        out_arg = re.sub(r'\.svg$', '', input_arg, flags=re.IGNORECASE) + '-multipage.svg'
+    if out_arg is None:
+        raise ValueError(
+            '--out is required: the master and its print documents live in'
+            ' different trees, so the output location cannot be inferred\n' + USAGE
+        )
     out_path = os.path.abspath(out_arg)
+
+    paper_token, trim, safe_area = resolve_paper(flags)
+    overlap = (
+        dist(flag_value(flags, 'overlap', 'e.g. 12'))
+        if 'overlap' in flags else float(DEFAULT_OVERLAP)
+    )
+    gap = (
+        dist(flag_value(flags, 'gap', 'e.g. 10'))
+        if 'gap' in flags else float(DEFAULT_GAP)
+    )
 
     portrait, landscape = orientation_papers(trim, safe_area, overlap)
 
     with open(in_path, 'rb') as fh:
         doc = parse_svg(fh.read())
 
-    # Sheets are referenced relative to the output file (assumed co-located).
-    href = quote(os.path.basename(in_path), safe=_URI_SAFE)
+    # The href is relative to the output file, not to the master: the print
+    # documents sit three levels below the masters under targets/<target>/<content>/.
+    href = rel_href(in_path, out_path)
 
     sheets = find_sheets(doc)
     if not sheets:
@@ -1014,13 +1286,15 @@ def run(positional: list[str], flags: dict[str, str | None]) -> int:
         )
         return 1
 
-    # Carry the sheets' own stylesheet over so their classes resolve in the
-    # output (CSS does not cascade across an external <use> reference).
+    # Carry the sheets' own stylesheet over so their classes resolve in the output.
+    # A <use> clone takes its class names from the referencing document, so the
+    # output has to carry the rules itself to render standalone; the rules the pages
+    # need beyond that are the tiler's own (JOIN_CSS).
     style_css = first_style_text(doc)
+    require_style_rules(style_css)
 
     pages: list[EnginePage] = []
     planned: list[PlannedSheet] = []
-    n = 0
     # The safe-area clip rect depends on the page geometry, so there is one hoisted
     # defs entry per distinct geometry (portrait and landscape). The cut/align marks
     # are not hoisted: their labels name the page numbers on either side of the
@@ -1051,7 +1325,6 @@ def run(positional: list[str], flags: dict[str, str | None]) -> int:
         ))
 
         for page in layout.result.pages:
-            n += 1
             page_body = page.body
             key = (
                 fmt(layout.paper.safe_area.width),
@@ -1092,35 +1365,53 @@ def run(positional: list[str], flags: dict[str, str | None]) -> int:
             ))
 
     # --- emit ---
-    defs: list[str] = []
+    shared_defs: list[str] = []
     for key, clip_id in shared_clips.items():
         safe_w, safe_h, margin_x, margin_y = key
-        defs.append(
-            f'      <clipPath id="{clip_id}"><rect x="{margin_x}" y="{margin_y}"'
+        shared_defs.append(
+            f'    <clipPath id="{clip_id}"><rect x="{margin_x}" y="{margin_y}"'
             f' width="{safe_w}" height="{safe_h}"/></clipPath>'
         )
-    svg = emit_multipage_svg(pages, style_css, gap=gap)
-    if defs:
-        svg = svg.replace(
-            '<defs\n     id="defs1" />',
-            '<defs\n     id="defs1">\n' + '\n'.join(defs) + '\n    </defs>',
-        )
+    provenance = provenance_comment(
+        source=href,
+        paper_token=paper_token,
+        trim=trim,
+        safe_area=safe_area,
+        overlap=overlap,
+        gap=gap,
+        pages=len(pages),
+    )
+    svg = emit_multipage_svg(
+        pages,
+        style_css,
+        gap=gap,
+        doc_name=os.path.basename(out_path),
+        shared_defs=shared_defs,
+        provenance=provenance,
+    )
 
     if 'whatif' in flags:
         print(format_whatif(
             planned,
             in_path=in_path,
             out_path=out_path,
+            href=href,
+            paper_token=paper_token,
             trim=trim,
             safe_area=safe_area,
             overlap=overlap,
             gap=gap,
+            provenance=provenance,
             svg_bytes=len(svg.encode('utf-8')),
             has_clip=bool(shared_clips),
             join_lines=sum(1 for p in pages if p.cols > 1 or p.rows > 1),
             overwrite_bytes=os.path.getsize(out_path) if os.path.exists(out_path) else None,
         ))
         return 0
+
+    out_dir = os.path.dirname(out_path)
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
 
     # newline='' keeps the '\n' the emitter produced on every platform.
     with open(out_path, 'w', encoding='utf-8', newline='') as fh:
@@ -1131,11 +1422,11 @@ def run(positional: list[str], flags: dict[str, str | None]) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
-    positional, flags = parse_args(list(sys.argv[1:] if argv is None else argv))
-    if not positional:
-        print(USAGE, file=sys.stderr)
-        return 1
     try:
+        positional, flags = parse_args(list(sys.argv[1:] if argv is None else argv))
+        if 'list-papers' in flags:
+            print(format_paper_table())
+            return 0
         return run(positional, flags)
     except (ValueError, OSError) as exc:
         print(f'tile_sheets.py: error: {exc}', file=sys.stderr)

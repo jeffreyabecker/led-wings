@@ -45,7 +45,7 @@ and its print documents live in different trees), so:
 - **Create the output directory** if needed (`os.makedirs(os.path.dirname(out_path), exist_ok=True)`),
   or fail explicitly — today a missing directory surfaces as a bare `FileNotFoundError`.
 - `--whatif` should print the path it would write, as it already does, and additionally the resolved
-  href (see §6).
+  href (see §7).
 
 ## 3. `sodipodi:docname` lies
 
@@ -96,7 +96,25 @@ if defs and marker not in svg:
 Better still, have `emit_multipage_svg` accept the defs and render them itself, removing the
 string surgery.
 
-## 6. CLI: paper names instead of millimetres
+## 6. Stylesheet carry-over
+
+`run()` copies the source document's first `<style>` text into the output
+(`style_css = first_style_text(doc)`), and `emit_multipage_svg` then appends its own `CSS2` block
+declaring `.crop`, `.overlap` and `.note`. The sheets masters already define all three, so today's
+print documents carry `.crop` once, `.overlap` twice and `.note` three times.
+
+With the stylesheet consolidated under `templates/css/` (see the “CSS consolidation” section of
+[`plans/templates-reorg.md`](templates-reorg.md)), the copied style is already complete:
+
+- **Drop the `CSS2` append.** One source of truth for presentation, generated into the masters and
+  then carried into the output verbatim.
+- **Fail loudly instead of guessing.** After copying, assert the style text defines the rules the
+  generated pages rely on — `crop`, `overlap`, `note` and anything else the page furniture uses — and
+  error if one is missing. A silently unstyled page is worse than a failed run.
+- **Keep the carry-over itself.** The output references each sheet through `<use>`, so it has to
+  inline the source's style to render standalone.
+
+## 7. CLI: paper names instead of millimetres
 
 The interface should speak paper names, not dimensions. Replace the leading size positionals
 (`<trimWxH> <safeWxH>`) with a required `--paper <name>`, and turn the remaining positionals into
@@ -127,20 +145,20 @@ python tile_sheets.py <sheets.svg> --paper letter [--margin 5] [--overlap 12] [-
 - The chosen token is the paper's public name: it belongs in the provenance stamp (§4), in the
   `--whatif` echo, and in the filename the caller composes.
 
-> **Naming coupling to settle.** `plans/templates-reorg.md` currently names the outputs
-> `print-8_5x11.svg` / `print-a4.svg`. With named papers the flag value and the filename should agree,
-> so those become `print-letter.svg` / `print-a4.svg` — or the token table uses dimension names. Pick
-> one and both documents follow it.
+> **Naming coupling, settled.** The paper's public name is the token: `letter`, `legal`, `tabloid`,
+> `a3`, `a4`, `a5`. The flag value, the provenance stamp and the filename all use it, and
+> `plans/templates-reorg.md` was updated to match — its outputs are `print-letter.svg` /
+> `print-a4.svg` and its re-tile commands use `--paper <name> --out <path>`.
 
-## 7. Docstring and usage refresh
+## 8. Docstring and usage refresh
 
 Still describing the old world: the module docstring and `USAGE` say `<sheets.svg>`,
 "`--out` … (default: `<input>-multipage.svg` beside the input)", the size positionals
 `[trimWxH] [safeWxH]`, and pages laid out "side by side in a single Inkscape multipage document".
-Update to the new layout, the required `--out`, and the `--paper` grammar from §6; the `sheets.svg`
+Update to the new layout, the required `--out`, and the `--paper` grammar from §7; the `sheets.svg`
 fragment in the usage line should read `<content>/sheets.svg`.
 
-## 8. Optional robustness: sheet discovery
+## 9. Optional robustness: sheet discovery
 
 `has_sheet_class()` matches the substring `"sheet"` anywhere in the class attribute, and its own
 docstring warns that `class="worksheet"` or `class="sheets"` would match. The sheets documents now
@@ -152,8 +170,10 @@ elements or carry no class containing "sheet". Tighten to a token test anyway:
 return 'sheet' in (el.get('class') or '').split()
 ```
 
-## 9. Verification
+## 10. Verification
 
+- The carried stylesheet is complete: the print document resolves `.crop`, `.overlap` and `.note`
+  from the source stylesheet, and each rule appears exactly once.
 - `--whatif` for both masters, both papers. At `--paper letter` the page counts must match the
   committed documents: **28** for feathers, **19** for alignment.
 - An unknown `--paper` value exits non-zero and prints the table; `--paper letter` and
@@ -168,9 +188,11 @@ return 'sheet' in (el.get('class') or '').split()
   fixed.
 - Confirm the provenance comment matches the parameters in `targets/home/AGENTS.md`.
 
-## 10. Out of scope
+## 11. Out of scope
 
 - Inlining sheet content instead of `<use>` (decided against: print documents stay thin references).
 - The page-orientation policy in `choose_layout`, overlap/gap defaults, and paper sizes beyond the
-  table in §6 (add entries as needed; no other code path should hardcode a size).
+  table in §7 (add entries as needed; no other code path should hardcode a size).
 - Any change to what the sheets documents contain — the tiler reads them, it does not author them.
+- Where the stylesheet sources live and how they are generated; that is the reorg plan's
+  “CSS consolidation” section.
